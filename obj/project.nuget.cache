@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HbIASHy5RbpvgcAqMMGJnYMphZw+sS0CXaq+xKpPYVWn6ag9qm61FYoJA+JfdpaAAitEtHQPw1TFH/DvAlZEmg==",
+  "dgSpecHash": "OKxIGy0NYymlRg+UED/mOW3ORJF2PMqozbtZkZD/soDmAo8aBvPgWghg0Gj4yLijvIsN27wmCoIMB2I1tpbJVQ==",
   "success": true,
-  "projectFilePath": "D:\\Ravenloft\\Ravenloft\\Ravenloft.csproj",
+  "projectFilePath": "D:\\Ravenloft\\Ravenloft.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\STEE\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.9\\microsoft.data.sqlite.core.7.0.9.nupkg.sha512",
     "C:\\Users\\STEE\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.9\\microsoft.entityframeworkcore.7.0.9.nupkg.sha512",

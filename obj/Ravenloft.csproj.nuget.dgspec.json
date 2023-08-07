@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Ravenloft\\Ravenloft\\Ravenloft.csproj": {}
+    "D:\\Ravenloft\\Ravenloft.csproj": {}
   },
   "projects": {
-    "D:\\Ravenloft\\Ravenloft\\Ravenloft.csproj": {
+    "D:\\Ravenloft\\Ravenloft.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Ravenloft\\Ravenloft\\Ravenloft.csproj",
+        "projectUniqueName": "D:\\Ravenloft\\Ravenloft.csproj",
         "projectName": "Ravenloft",
-        "projectPath": "D:\\Ravenloft\\Ravenloft\\Ravenloft.csproj",
+        "projectPath": "D:\\Ravenloft\\Ravenloft.csproj",
         "packagesPath": "C:\\Users\\STEE\\.nuget\\packages\\",
-        "outputPath": "D:\\Ravenloft\\Ravenloft\\obj\\",
+        "outputPath": "D:\\Ravenloft\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\STEE\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ravenloft", "Ravenloft.csproj", "{017A28E4-D6A4-44D1-84F2-F6C9A6299D53}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ravenloft", "Ravenloft.csproj", "{D68B7D9E-1C89-48C9-80BE-90C6E8B4D27C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{017A28E4-D6A4-44D1-84F2-F6C9A6299D53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{017A28E4-D6A4-44D1-84F2-F6C9A6299D53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{017A28E4-D6A4-44D1-84F2-F6C9A6299D53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{017A28E4-D6A4-44D1-84F2-F6C9A6299D53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D68B7D9E-1C89-48C9-80BE-90C6E8B4D27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D68B7D9E-1C89-48C9-80BE-90C6E8B4D27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D68B7D9E-1C89-48C9-80BE-90C6E8B4D27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D68B7D9E-1C89-48C9-80BE-90C6E8B4D27C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DADE1415-85C1-42F5-8104-94FA38E382FD}
+		SolutionGuid = {49C71DB9-0AC3-4C6D-8E5B-57EC7E9A71EE}
 	EndGlobalSection
 EndGlobal
