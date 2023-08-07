@@ -5,13 +5,27 @@ namespace Ravenloft
 {
     public class RavenloftContext : DbContext
     {
+        public DbSet<Cluster> Clusters { get; set; }
         public DbSet<Domain> Domains { get; set; }
-        public RavenloftContext(DbContextOptions<RavenloftContext> opt) : base(opt) { }
+        public DbSet<Mistway> Mistways { get; set; }
+        public DbSet<Edition> Editions { get; set; }
+        public DbSet<Source> Sources { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<CreatureTrait> CreatureTraits { get; set; }
+        public DbSet<ItemTrait> ItemTraits { get; set; }
+        public DbSet<Creature> Creatures { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public string DbPath { get; }
+        public RavenloftContext()
         {
-
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            DbPath = Path.Join(path, "Ravenloft.db");
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath}");
     }
     [Flags] public enum Canon { Canon = 1, Soft = 2, Netbook = 4, NonCanon = 8, Homebrew = 16 }
 
@@ -23,7 +37,6 @@ namespace Ravenloft
         public List<Mistway> Mistways { get; set; }
         public List<Source> Sources { get; set; }
     }
-
     public class Domain
     {
         [Key] public string Name { get; set; }
@@ -37,7 +50,6 @@ namespace Ravenloft
         public List<Group> Groups { get; set; }
         public List<Source> Sources { get; set; }
     }
-
     public class Mistway
     {
         [Key] public string Name { get; set; }
@@ -45,7 +57,6 @@ namespace Ravenloft
         public List<Domain> Domains { get; set; }
         public List<Source> Sources { get; set; }
     }
-
     public class Edition
     {
         [Key] public string Name { get; set; }
@@ -56,7 +67,6 @@ namespace Ravenloft
         public List<Group> Groups { get; set; }
         public List<Source> Sources { get; set; }
     }
-
     public class Source
     {
         public enum SourceType { Comic, Module, Novel, Gamebook, Sourcebook, Magazine, Videogame, Boardgame };
@@ -85,8 +95,14 @@ namespace Ravenloft
     {
         [Key] public string Name { get; set; }
         public List<Domain> Domains { get; set; }
+        public List<ItemTrait> Traits { get; set; }
         public List<Location> Locations { get; set; }
         public List<Source> Sources { get; set; }
+    }
+    public class ItemTrait
+    {
+        [Key] public string Name { get; set; }
+        public List<Item> Items { get; set; }
     }
     public class Group
     {
@@ -101,12 +117,12 @@ namespace Ravenloft
         public List<Domain> Domains { get; set; } //Some people travel
         public List<Edition> Editions { get; set; }
         public string Aliases { get; set; }
-        public List<Trait> Traits { get; set; } //Like is he a gnome, darklord, vampire
+        public List<CreatureTrait> Traits { get; set; } //Like is he a gnome, darklord, vampire
         public List<Group> Groups { get; set; }
         public List<Location> Locations { get; set; } //Some people travel
         public List<Source> Sources { get; set; }
     }
-    public class Trait
+    public class CreatureTrait
 {
         [Key] public string Name { get; set; }
         public List<NPC>[] NPCs { get; set; }
@@ -116,6 +132,7 @@ namespace Ravenloft
         [Key] public string Name { get; set; }
         public List<Domain> Domains { get; set; }
         public List<Edition> Editions { get; set; }
+        public List<CreatureTrait> Traits { get; set; } //Like is he a gnome, darklord, vampire
         public List<Location> Locations { get; set; }
         public List<Source> Sources { get; set; }
     }

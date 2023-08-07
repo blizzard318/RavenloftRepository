@@ -1,36 +1,28 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Ravenloft;
 
+using var db = new RavenloftContext();
 
-namespace Ravenloft
+Edition e1 = new Edition() { Name="1e"};
+Edition e2 = new Edition() { Name="2e"};
+Edition e3 = new Edition() { Name="3e"};
+Edition e4 = new Edition() { Name="4e"};
+Edition e5 = new Edition() { Name="5e"};
+
+CreatureTrait Darklord = new CreatureTrait() { Name = "Darklord" };
+
+Domain Odiare = new Domain 
+{ 
+    Name = "Odiare", 
+    Canon = Canon.Canon, 
+    Darklord = new List<NPC>()
+};
+NPC Maligno = new NPC()
 {
-    internal class Program
-    {
-        int Main(string[] args)
-        {
-            using (var connection = new SqliteConnection("Data Source=ravenloft.db"))
-            {
-                connection.Open();
+    Name = "Maligno",
+    Domains = new List<Domain>() { Odiare },
+    Aliases = "Figlio",
+    Traits = ""
+};
+Odiare.Darklord.Add(Maligno);
 
-                var command = connection.CreateCommand();
-                command.CommandText =
-                @"
-                    SELECT name
-                    FROM user
-                    WHERE id = $id
-                ";
-                command.Parameters.AddWithValue("$id", 0);
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var name = reader.GetString(0);
-
-                        Console.WriteLine($"Hello, {name}!");
-                    }
-                }
-            }
-            return 0;
-        }
-    }
-}
+Console.WriteLine($"Hello World!");
