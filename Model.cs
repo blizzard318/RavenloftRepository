@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace Ravenloft
 {
@@ -28,138 +30,131 @@ namespace Ravenloft
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={DbPath}");
     }
-    public interface HasCanon
-    {
-        public Canon Canon { get; set; }
-    }
-    public class Canon
+    public class Canon : HasMany<Cluster>, HasMany<Domain>, HasMany<Mistway>, HasMany<Source>, HasMany<Location>, HasMany<Item>, HasMany<ItemTrait>, HasMany<Group>, HasMany<NPC>, HasMany<CreatureTrait>, HasMany<Creature>
     {
         [Key] public string Name { get; set; }
-        public List<Cluster> Clusters { get; set; } = new List<Cluster>();
-        public List<Domain> Domains { get; set; } = new List<Domain>();
-        public List<Mistway> Mistways { get; set; } = new List<Mistway>();
-        public List<Source> Sources { get; set; } = new List<Source>();
-        public List<Location> Locations { get; set; } = new List<Location>();
-        public List<Item> Items { get; set; } = new List<Item>();
-        public List<ItemTrait> ItemTraits { get; set; } = new List<ItemTrait>();
-        public List<Group> Groups { get; set; } = new List<Group>();
-        public List<NPC> NPCs { get; set; } = new List<NPC>();
-        public List<CreatureTrait> CreatureTraits { get; set; } = new List<CreatureTrait>();
-        public List<Creature> Creatures { get; set; } = new List<Creature>();
+        [Column("Clusters")] List<Cluster> HasMany<Cluster>.Values { get; set; }
+        [Column("Domains")] List<Domain> HasMany<Domain>.Values { get; set; }
+        [Column("Mistways")] List<Mistway> HasMany<Mistway>.Values { get; set; }
+        [Column("Locations")] List<Location> HasMany<Location>.Values { get; set; }
+        [Column("Items")] List<Item> HasMany<Item>.Values { get; set; }
+        [Column("ItemTraits")] List<ItemTrait> HasMany<ItemTrait>.Values { get; set; }
+        [Column("Groups")] List<Group> HasMany<Group>.Values { get; set; }
+        [Column("NPCs")] List<NPC> HasMany<NPC>.Values { get; set; }
+        [Column("CreatureTraits")] List<CreatureTrait> HasMany<CreatureTrait>.Values { get; set; }
+        [Column("Creatures")] List<Creature> HasMany<Creature>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
     }
-    public class Cluster : HasCanon
+    public class Cluster : HasOne<Canon>, HasMany<Domain>, HasMany<Mistway>, HasMany<Source>
     {
         [Key] public string Name { get; set; }
-        public Canon Canon { get; set; }
-        public List<Domain> Domains { get; set; } = new List<Domain>();
-        public List<Mistway> Mistways { get; set; } = new List<Mistway>();
-        public List<Source> Sources { get; set; } = new List<Source>();
+        [Column("Canon")] Canon HasOne<Canon>.Value { get; set; }
+        [Column("Domains")] List<Domain> HasMany<Domain>.Values { get; set; }
+        [Column("Mistways")] List<Mistway> HasMany<Mistway>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
     }
-    public class Domain
+    public class Domain : HasOne<Canon>, HasMany<Edition>, HasMany<Location>, HasMany<Group>, HasMany<NPC>, HasMany<Mistway>, HasMany<Source>
     {
         [Key] public string Name { get; set; }
-        public Canon Canon { get; set; }
-        public List<Edition> Editions { get; set; } = new List<Edition>();
-        public string Size { get; set; }
-        public List<Item> MistTalismans { get; set; } = new List<Item>();
+        [Column("Canon")] Canon HasOne<Canon>.Value { get; set; }
+        [Column("Editions")] List<Edition> HasMany<Edition>.Values { get; set; }
+        [Column("Locations")] List<Location> HasMany<Location>.Values { get; set; }
+        [Column("Groups")] List<Group> HasMany<Group>.Values { get; set; }
+        [Column("NPCs")] List<NPC> HasMany<NPC>.Values { get; set; }
+        [Column("Mistways")] List<Mistway> HasMany<Mistway>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
         public string ClosedBorders { get; set; }
-        public List<Location> Locations { get; set; } = new List<Location>();
-        public List<Group> Groups { get; set; } = new List<Group>();
-        public List<NPC> NPCs { get; set; } = new List<NPC>();
-        public List<Mistway> Mistways { get; set; } = new List<Mistway>();
-        public List<Source> Sources { get; set; } = new List<Source>();
+        //public string Size { get; set; }
+        //public List<Item> MistTalismans { get; set; } = new List<Item>();
+        //public List<NPC> Darklords { get; set; } = new List<NPC>();
     }
-    public class Mistway
+    public class Mistway : HasOne<Canon>, HasMany<Domain>, HasMany<Source>
     {
         [Key] public string Name { get; set; }
-        public Canon Canon { get; set; }
-        public List<Domain> Domains { get; set; } = new List<Domain>();
-        public List<Source> Sources { get; set; } = new List<Source>();
+        [Column("Canon")] Canon HasOne<Canon>.Value { get; set; }
+        [Column("Domains")] List<Domain> HasMany<Domain>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
     }
-    public class Edition
+    public class Edition : HasMany<Domain>, HasMany<Creature>, HasMany<NPC>, HasMany<Item>, HasMany<CreatureTrait>, HasMany<Source>
     {
         [Key] public string Name { get; set; }
-        public List<Domain> Domains { get; set; } = new List<Domain>();
-        public List<Creature> Creatures { get; set; } = new List<Creature>();
-        public List<NPC> NPCs { get; set; } = new List<NPC>();
-        public List<Item> Items { get; set; } = new List<Item>();
-        public List<Group> Groups { get; set; } = new List<Group>();
-        public List<Source> Sources { get; set; } = new List<Source>();
+        [Column("Domains")] List<Domain> HasMany<Domain>.Values { get; set; }
+        [Column("Creatures")] List<Creature> HasMany<Creature>.Values { get; set; }
+        [Column("NPCs")] List<NPC> HasMany<NPC>.Values { get; set; }
+        [Column("Items")] List<Item> HasMany<Item>.Values { get; set; }
+        [Column("Groups")] List<CreatureTrait> HasMany<CreatureTrait>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
     }
-    public class Source
+    public class Source : HasOne<Canon>, HasOne<Edition>, HasMany<Cluster>, HasMany<Domain>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<ItemTrait>, HasMany<NPC>, HasMany<CreatureTrait>, HasMany<Creature>
     {
         [Key] public string Name { get; set; }
-        public Canon Canon { get; set; }
-        public Edition Edition { get; set; }
+        [Column("Canon")] Canon HasOne<Canon>.Value { get; set; }
+        [Column("Edition")] Edition HasOne<Edition>.Value { get; set; }
+        [Column("Clusters")] List<Cluster> HasMany<Cluster>.Values { get; set; }
+        [Column("Domains")] List<Domain> HasMany<Domain>.Values { get; set; }
+        [Column("Mistways")] List<Mistway> HasMany<Mistway>.Values { get; set; }
+        [Column("Locations")] List<Location> HasMany<Location>.Values { get; set; }
+        [Column("Items")] List<Item> HasMany<Item>.Values { get; set; }
+        [Column("ItemTraits")] List<ItemTrait> HasMany<ItemTrait>.Values { get; set; }
+        [Column("NPCs")] List<NPC> HasMany<NPC>.Values { get; set; }
+        [Column("CreatureTraits")] List<CreatureTrait> HasMany<CreatureTrait>.Values { get; set; }
+        [Column("Creatures")] List<Creature> HasMany<Creature>.Values { get; set; }
         public enum SourceType { Comic, Module, Novel, Gamebook, Sourcebook, Magazine, Videogame, Boardgame };
         public SourceType Type { get; set; }
-        public List<Cluster> Clusters { get; set; } = new List<Cluster>();
-        public List<Domain> Domains { get; set; } = new List<Domain>();
-        public List<Mistway> Mistways { get; set; } = new List<Mistway>();
-        public List<Location> Locations { get; set; } = new List<Location>();
-        public List<Item> Items { get; set; } = new List<Item>();
-        public List<ItemTrait> ItemTraits { get; set; } = new List<ItemTrait>();
-        public List<Group> Groups { get; set; } = new List<Group>();
-        public List<NPC> NPCs { get; set; } = new List<NPC>();
-        public List<CreatureTrait> CreatureTraits { get; set; } = new List<CreatureTrait>();
-        public List<Creature> Creatures { get; set; } = new List<Creature>();
+        public string Notes { get; set; } //Like Levels
+        public string ReleaseDate { get; set; }
+        public string Contributors { get; set; }
     }
-    public class IRLPerson
+    public class Location : HasOne<Domain>, HasMany<Edition>, HasOne<Location>, HasMany<Location>, HasMany<NPC>, HasMany<Creature>, HasMany<Item>, HasMany<Source>
     {
         [Key] public string Name { get; set; }
-        public string Roles { get; set; }
-        public List<Source> Sources { get; set; } = new List<Source>();
-
-    }
-    public class Location
-    {
-        [Key] public string Name { get; set; }
-        public Domain Domain { get; set; }
-        public List<Edition> Editions { get; set; } = new List<Edition>();
+        [Column("Domain")] Domain HasOne<Domain>.Value { get; set; }
+        [Column("Editions")] List<Edition> HasMany<Edition>.Values { get; set; }
+        [Column("PartOf")] Location HasOne<Location>.Value { get; set; }
+        [Column("Contains")] List<Location> HasMany<Location>.Values { get; set; }
+        [Column("NPCs")] List<NPC> HasMany<NPC>.Values { get; set; }
+        [Column("Creatures")] List<Creature> HasMany<Creature>.Values { get; set; }
+        [Column("Items")] List<Item> HasMany<Item>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
         public string Type { get; set; } //Like is it a town/city/cave/temple
-        public Location? PartOf { get; set; }
-        public List<Location> Contains { get; set; } = new List<Location>();
         public string Population { get; set; } //Maybe a number would be better?
         public string Description { get; set; }
-        public List<NPC> NPCs { get; set; } = new List<NPC>();
-        public List<Creature> Creatures { get; set; } = new List<Creature>();
-        public List<Item> Items { get; set; } = new List<Item>();
-        public List<Source> Sources { get; set; } = new List<Source>();
     }
-    public class Item
+    public class Item : HasMany<Edition>, HasMany<Domain>, HasMany<ItemTrait>, HasMany<Location>, HasMany<Source>
     {
         [Key] public string Name { get; set; }
-        public List<Domain> Domains { get; set; } = new List<Domain>();
-        public List<ItemTrait> Traits { get; set; } = new List<ItemTrait>();
-        public List<Location> Locations { get; set; } = new List<Location>();
-        public List<Source> Sources { get; set; } = new List<Source>();
+        [Column("Editions")] List<Edition> HasMany<Edition>.Values { get; set; }
+        [Column("Domains")] List<Domain> HasMany<Domain>.Values { get; set; }
+        [Column("Traits")] List<ItemTrait> HasMany<ItemTrait>.Values { get; set; }
+        [Column("Contains")] List<Location> HasMany<Location>.Values { get; set; }
+        [Column("Sources")] List<Source> HasMany<Source>.Values { get; set; }
     }
-    public class ItemTrait
+    public class ItemTrait : HasMany<Item>
     {
         [Key] public string Name { get; set; }
-        public List<Item> Items { get; set; } = new List<Item>();
+        [Column("Items")] List<Item> HasMany<Item>.Values { get; set; }
     }
-    public class Group
+    public class Relationship
     {
         [Key] public string Name { get; set; }
-        public Group? PartOf { get; set; }
-        public List<Group> Contains { get; set; } = new List<Group>();
-        public List<Source> Sources { get; set; } = new List<Source>();
+        public NPC Primary { get; set; } //Main person, Like Father to List<NPC>
+        public List<NPC> NPCs { get; set; } //List of NPCs who belong
+        public List<CreatureTrait> CreatureTraits { get; set; } //Shared/Affiliated traits
     }
     public class NPC
     {
         [Key] public string Name { get; set; }
         public List<Domain> Domains { get; set; } = new List<Domain>();//Some people travel
         public List<Edition> Editions { get; set; } = new List<Edition>();
-        public string Aliases { get; set; }
         public List<CreatureTrait> Traits { get; set; } = new List<CreatureTrait>();//Like is he a gnome, darklord, vampire
-        public List<Group> Groups { get; set; } = new List<Group>();
         public List<Location> Locations { get; set; } = new List<Location>();//Some people travel
         public List<Source> Sources { get; set; } = new List<Source>();
+        public string Aliases { get; set; }
     }
-    public class CreatureTrait
-{
+    public class CreatureTrait : HasOne<Canon>
+    {
         [Key] public string Name { get; set; }
+        public Canon Canon { get; set; } //Al-Kathos
         public List<NPC> NPCs { get; set; } = new List<NPC>();
     }
     public class Creature

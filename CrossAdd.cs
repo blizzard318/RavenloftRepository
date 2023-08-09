@@ -1,44 +1,35 @@
 ﻿namespace Ravenloft
 {
+    public interface HasOne<T>
+    {
+        T Value { get; set; }
+    }
+    public interface HasMany<T>
+    {
+        List<T> Values { get; set; }
+    }
+
     internal static class Cross
     {
-        //Canon
-        //Cluster
-        //Domain
-        //Mistway
-        //Edition
-        //Source
-        //IRLPerson
-        //Location
-        //Item
-        //ItemTrait
-        //Group
-        //NPC
-        //Creature
-        //CreatureTrait
-        static void Add<T1, T2>(T1 t1, T2 t2)
+        public static void Add<T1, T2>(T1 t1, T2 t2)
         {
-            Add(t1, t2, false);
-
-            void Add<T1, T2>(T1 t1, T2 t2, bool looped)
+            _Add(t1, t2);
+            _Add(t2, t1);
+            static void _Add<iT1,iT2>(iT1 Adder, iT2 ToAdd)
             {
-                Type type1 = typeof(T1);
-                Type type2 = typeof(T2);
-                if (type1 is Canon)
+                Type type = typeof(iT1);
+                if (type is HasOne<iT2>)
                 {
-                    var canon = t1 as Canon;
-                    if (type2 is HasCanon)
-                    {
-                        var cluster = t2 as HasCanon;
-                        cluster.Canon = canon;
-                    }
+                    var adder = Adder as HasOne<iT2>;
+                    adder.Value = ToAdd;
                 }
-                else if (type1 is Cluster)
+                else if (type is HasMany<iT2>)
                 {
-
+                    var adder = Adder as HasMany<iT2>;
+                    if (adder.Values == null)
+                        adder.Values = new List<iT2>();
+                    adder.Values.Add(ToAdd);
                 }
-                else if (looped) return;
-                else Add(t2, t1, true);
             }
         }
     }
