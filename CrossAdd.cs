@@ -2,11 +2,11 @@
 {
     public interface HasOne<T>
     {
-        T Value { get; set; }
+        public T Value { get; set; }
     }
     public interface HasMany<T>
     {
-        List<T> Values { get; set; }
+        public List<T> Values { get; set; }
     }
 
     internal static class Cross
