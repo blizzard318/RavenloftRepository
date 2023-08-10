@@ -1,138 +1,329 @@
-﻿namespace Ravenloft
+﻿using System.Numerics;
+using System.Threading.Channels;
+
+namespace Ravenloft
 {
     internal static class AddToDatabase
     {
         public static void Add (RavenloftContext db) 
         {
-            #region Canon
-            var Canon     = db.Add(new Canon("Canon"    )).Entity;
-            var SoftCanon = db.Add(new Canon("SoftCanon")).Entity;
-            var NonCanon  = db.Add(new Canon("NonCanon" )).Entity;
-            var Homebrew  = db.Add(new Canon("Homebrew" )).Entity;
+            T Add <T> (T input) where T : Base 
+            {
+                var retval = db.Find(typeof(T), input.Name) as T;
+                if (retval == null) return db.Add(input).Entity;
+                else return retval;
+            }
+
+            #region Canons
+            var Canon     = Add(new Canon("Canon"    ));
+            var SoftCanon = Add(new Canon("SoftCanon"));
+            var NonCanon  = Add(new Canon("NonCanon" ));
+            var Homebrew  = Add(new Canon("Homebrew" ));
+            var Netbook   = Add(new Canon("Netbook"));
             #endregion
 
-            #region Edition
-            var e1      = db.Add(new Edition("1e"   )).Entity;
-            var e2      = db.Add(new Edition("2e"   )).Entity;
-            var e3      = db.Add(new Edition("3e"   )).Entity;
-            //var e3GC  = db.Add(new Edition("3eGC  )).Entity; //pre-Grand Conjuction
-            var e4      = db.Add(new Edition("4e"   )).Entity;
-            var e5      = db.Add(new Edition("5e"   )).Entity;
-            var novel   = db.Add(new Edition("Novel")).Entity;
+            #region Editions
+            var e1   = Add(new Edition("1e"    ));
+            var e2   = Add(new Edition("2e"    ));
+            var e3   = Add(new Edition("3e"    ));
+            var e3GC = Add(new Edition("3eGC"  )); //post-Grand Conjuction
+            var e4   = Add(new Edition("4e"    ));
+            var e5   = Add(new Edition("5e"    ));
+            var nDnD = Add(new Edition("NotDnD")); //Videogame & novel characters
             #endregion
 
             #region Clusters
-            var Core            = db.Add(new Cluster("Core"             )).Entity;
-            var Shadowlands     = db.Add(new Cluster("The Shadowlands"  )).Entity;
-            var AmberWastes     = db.Add(new Cluster("Amber Wastes"     )).Entity;
-            var BurningPeaks    = db.Add(new Cluster("Burning Peaks"    )).Entity;
-            var FrozenReaches   = db.Add(new Cluster("Frozen Reaches"   )).Entity;
-            var VerdurousLands  = db.Add(new Cluster("Verdurous Lands"  )).Entity;
-            var PocketDomains   = db.Add(new Cluster("Pocket Domains"   )).Entity;
-            var IslandsOfTerror = db.Add(new Cluster("Islands of Terror")).Entity;
+            var Core            = Add(new Cluster("Core"             ));
+            var Shadowlands     = Add(new Cluster("The Shadowlands"  ));
+            var AmberWastes     = Add(new Cluster("Amber Wastes"     ));
+            var BurningPeaks    = Add(new Cluster("Burning Peaks"    ));
+            var FrozenReaches   = Add(new Cluster("Frozen Reaches"   ));
+            var VerdurousLands  = Add(new Cluster("Verdurous Lands"  ));
+            var PocketDomains   = Add(new Cluster("Pocket Domains"   ));
+            var IslandsOfTerror = Add(new Cluster("Islands of Terror"));
+            var Shadowfell      = Add(new Cluster("Shadowfell"       ));
             #endregion
 
             #region Domains
-            var Barovia         = db.Add(new Domain("Barovia")).Entity;
-            var Bluetspur       = db.Add(new Domain("Bluetspur")).Entity;
-            var Borca           = db.Add(new Domain ("Borca")).Entity;
-            var LMorai          = db.Add(new Domain("L'Morai", "The Carnival")).Entity;
-            var Darkon          = db.Add(new Domain("Darkon")).Entity;
-            var Dementlieu      = db.Add(new Domain("Dementlieu")).Entity;
-            var Falkovnia       = db.Add(new Domain("Falkovnia")).Entity;
-            var HarAkir         = db.Add(new Domain("Har'Akir")).Entity;
-            var Hazlan          = db.Add(new Domain("Hazlan")).Entity;
-            var ICath           = db.Add(new Domain("I'Cath")).Entity;
-            var SriRaji         = db.Add(new Domain("Sri Raji", "Kalakeri")).Entity;
-            var Kartakass       = db.Add(new Domain("Kartakass")).Entity;
-            var Lamordia        = db.Add(new Domain("Lamordia")).Entity;
-            var Mordent         = db.Add(new Domain("Mordent")).Entity;
-            var Richemulot      = db.Add(new Domain("Richemulot")).Entity;
-            var Tepest          = db.Add(new Domain("Tepest")).Entity;
-            var Valachan        = db.Add(new Domain("Valachan")).Entity;
-            var Forlorn         = db.Add(new Domain("Forlorn")).Entity;
-            var Ghastria        = db.Add(new Domain("Ghastria")).Entity;
-            var Ghenna          = db.Add(new Domain("G'Henna")).Entity;
-            var Invidia         = db.Add(new Domain("Invidia")).Entity;
-            var Keening         = db.Add(new Domain("Keening")).Entity;
-            var Markovia        = db.Add(new Domain("Markovia")).Entity;
-            var NightmareLAnds  = db.Add(new Domain("Nightmare Lands")).Entity;
-            var NovaVaasa       = db.Add(new Domain("Nova Vaasa")).Entity;
-            var Odiare          = db.Add(new Domain("Odiare", "Odaire")).Entity;
-            var WindingRoad     = db.Add(new Domain("Winding Road", "Endless Road", "Rider's Bridge")).Entity;
-            var Risibilos       = db.Add(new Domain("Risibilos")).Entity;
-            var Scaena          = db.Add(new Domain("Scaena")).Entity;
-            var SeaOfSorrows    = db.Add(new Domain("Sea of Sorrows")).Entity;
-            var Blaustein       = db.Add(new Domain("Blaustein")).Entity;
-            var Dominia         = db.Add(new Domain("Dominia")).Entity;
-            var IsleOfTheRavens = db.Add(new Domain("Isle of the Ravens")).Entity;
-            var Lighthouse      = db.Add(new Domain("L'ile de le Tempete, The Lighthouse")).Entity;
-            var ShadowbornManor = db.Add(new Domain("Shadowborn Manor", "Shadowlands")).Entity;
-            var Souragne        = db.Add(new Domain("Souragne")).Entity;
-            var StauntonBluffs  = db.Add(new Domain("Staunton Bluffs")).Entity;
-            var Tovag           = db.Add(new Domain("Tovag")).Entity;
-            var Paridon         = db.Add(new Domain("Paridon", "Zherisia")).Entity;
-            var HouseOfLament   = db.Add(new Domain("House of Lament")).Entity;
-            var Demise          = db.Add(new Domain("Demise")).Entity;
-            var Kalidnay        = db.Add(new Domain("Kalidnay")).Entity;
-            var Sithicus        = db.Add(new Domain("Sithicus")).Entity;
-            var Cavitius        = db.Add(new Domain("Cavitius")).Entity;
-            var Aggarath        = db.Add(new Domain("Aggarath")).Entity;
-            var Avonleigh       = db.Add(new Domain("Avonleigh")).Entity;
-            var CastleIsland    = db.Add(new Domain("Castle Island")).Entity;
-            var Daglan          = db.Add(new Domain("Daglan")).Entity;
-            var Davion          = db.Add(new Domain("Davion")).Entity;
-            var Liffe           = db.Add(new Domain("Liffe")).Entity;
-            var Nebligtode      = db.Add(new Domain("Nebligtode", "Nocturnal Sea")).Entity;
-            var Necropolis      = db.Add(new Domain("Necropolis")).Entity;
-            var Nidala          = db.Add(new Domain("Nidala")).Entity;
-            var Nosos           = db.Add(new Domain("Nosos")).Entity;
-            var Pharazia        = db.Add(new Domain("Pharazia")).Entity;
-            var Rokushima       = db.Add(new Domain("Rokushima Taiyoo")).Entity;
-            var Sanguinia       = db.Add(new Domain("Sanguinia")).Entity;
-            var Saragross       = db.Add(new Domain("Saragross")).Entity;
-            var Sebua           = db.Add(new Domain("Sebua")).Entity;
-            var ShadowRift      = db.Add(new Domain("Shadow Rift")).Entity;
-            var TheEyrie        = db.Add(new Domain("The Eyrie")).Entity;
-            var TheIsle         = db.Add(new Domain("The Isle")).Entity;
-            var TheWildlands    = db.Add(new Domain("The Wildlands")).Entity;
-            var Timor           = db.Add(new Domain("Timor")).Entity;
-            var Vechor          = db.Add(new Domain("Vechor")).Entity;
-            var Verbrek         = db.Add(new Domain("Verbrek")).Entity;
-            var Vorostokov      = db.Add(new Domain("Vorostokov")).Entity;
-            var LeederiksTower  = db.Add(new Domain("Leederik's Tower")).Entity;
-            var Farelle         = db.Add(new Domain("Farelle")).Entity;
-            var RichtenHaus     = db.Add(new Domain("Richten Haus")).Entity;
-            var Graefmotte      = db.Add(new Domain("Graefmotte")).Entity;
-            var Histaven        = db.Add(new Domain("Histaven")).Entity;
-            var Monadhan        = db.Add(new Domain("Monadhan")).Entity;
-            var Sunderheart     = db.Add(new Domain("Sunderheart")).Entity;
-            var Timbergorge     = db.Add(new Domain("Timbergorge")).Entity;
-            var Bakumora        = db.Add(new Domain("Bakumora")).Entity;
-            var Cyre1313        = db.Add(new Domain("Cyre 1313", "The Mourning Rail")).Entity;
-            var Klorr           = db.Add(new Domain("Klorr")).Entity;
-            var Niranjan        = db.Add(new Domain("Niranjan")).Entity;
-            var VhageAgency     = db.Add(new Domain("Vhage Agency")).Entity;
-            var VigilantsBluff  = db.Add(new Domain("Vigilant's Bluff")).Entity;
-            var Malosia         = db.Add(new Domain ("Malosia")).Entity;
-            var MithrasCourt    = db.Add(new Domain("Mithras Court")).Entity;
-            var Riverbend       = db.Add(new Domain("Riverbend")).Entity;
-            var Darani          = db.Add(new Domain("Darani")).Entity;
-            var Kislova         = db.Add(new Domain("Kislova")).Entity;
-            var Estrangia       = db.Add(new Domain("Estrangia")).Entity;
-            var AlKathos        = db.Add(new Domain("Al-Kathos")).Entity;
-            var Maridrar        = db.Add(new Domain("Maridrar")).Entity;
-            var DonskoysLand    = db.Add(new Domain("Donskoy's Land")).Entity;
+            var Barovia         = Add(new Domain("Barovia"));
+            var Bluetspur       = Add(new Domain("Bluetspur"));
+            var Borca           = Add(new Domain("Borca"));
+            var LMorai          = Add(new Domain("L'Morai", "The Carnival"));
+            var Darkon          = Add(new Domain("Darkon"));
+            var Dementlieu      = Add(new Domain("Dementlieu"));
+            var Falkovnia       = Add(new Domain("Falkovnia"));
+            var HarAkir         = Add(new Domain("Har'Akir"));
+            var Hazlan          = Add(new Domain("Hazlan"));
+            var ICath           = Add(new Domain("I'Cath"));
+            var SriRaji         = Add(new Domain("Sri Raji", "Kalakeri"));
+            var Kartakass       = Add(new Domain("Kartakass"));
+            var Lamordia        = Add(new Domain("Lamordia"));
+            var Mordent         = Add(new Domain("Mordent"));
+            var Richemulot      = Add(new Domain("Richemulot"));
+            var Tepest          = Add(new Domain("Tepest"));
+            var Valachan        = Add(new Domain("Valachan"));
+            var Forlorn         = Add(new Domain("Forlorn"));
+            var Ghastria        = Add(new Domain("Ghastria"));
+            var Ghenna          = Add(new Domain("G'Henna"));
+            var Invidia         = Add(new Domain("Invidia"));
+            var Keening         = Add(new Domain("Keening"));
+            var Markovia        = Add(new Domain("Markovia"));
+            var NightmareLAnds  = Add(new Domain("Nightmare Lands"));
+            var NovaVaasa       = Add(new Domain("Nova Vaasa"));
+            var Odiare          = Add(new Domain("Odiare", "Odaire"));
+            var WindingRoad     = Add(new Domain("Winding Road", "Endless Road", "Rider's Bridge"));
+            var Risibilos       = Add(new Domain("Risibilos"));
+            var Scaena          = Add(new Domain("Scaena"));
+            var SeaOfSorrows    = Add(new Domain("Sea of Sorrows"));
+            var Blaustein       = Add(new Domain("Blaustein"));
+            var Dominia         = Add(new Domain("Dominia"));
+            var IsleOfTheRavens = Add(new Domain("Isle of the Ravens"));
+            var Lighthouse      = Add(new Domain("L'ile de le Tempete, The Lighthouse"));
+            var ShadowbornManor = Add(new Domain("Shadowborn Manor", "Shadowlands"));
+            var Souragne        = Add(new Domain("Souragne"));
+            var StauntonBluffs  = Add(new Domain("Staunton Bluffs"));
+            var Tovag           = Add(new Domain("Tovag"));
+            var Paridon         = Add(new Domain("Paridon", "Zherisia"));
+            var HouseOfLament   = Add(new Domain("House of Lament"));
+            var Demise          = Add(new Domain("Demise"));
+            var Kalidnay        = Add(new Domain("Kalidnay"));
+            var Sithicus        = Add(new Domain("Sithicus"));
+            var Cavitius        = Add(new Domain("Cavitius"));
+            var Aggarath        = Add(new Domain("Aggarath"));
+            var Avonleigh       = Add(new Domain("Avonleigh"));
+            var CastleIsland    = Add(new Domain("Castle Island"));
+            var Daglan          = Add(new Domain("Daglan"));
+            var Davion          = Add(new Domain("Davion"));
+            var Liffe           = Add(new Domain("Liffe"));
+            var Nebligtode      = Add(new Domain("Nebligtode", "Nocturnal Sea"));
+            var Necropolis      = Add(new Domain("Necropolis"));
+            var Nidala          = Add(new Domain("Nidala"));
+            var Nosos           = Add(new Domain("Nosos"));
+            var Pharazia        = Add(new Domain("Pharazia"));
+            var Rokushima       = Add(new Domain("Rokushima Taiyoo"));
+            var Sanguinia       = Add(new Domain("Sanguinia"));
+            var Saragross       = Add(new Domain("Saragross"));
+            var Sebua           = Add(new Domain("Sebua"));
+            var ShadowRift      = Add(new Domain("Shadow Rift"));
+            var TheEyrie        = Add(new Domain("The Eyrie"));
+            var TheIsle         = Add(new Domain("The Isle"));
+            var TheWildlands    = Add(new Domain("The Wildlands"));
+            var Timor           = Add(new Domain("Timor"));
+            var Vechor          = Add(new Domain("Vechor"));
+            var Verbrek         = Add(new Domain("Verbrek"));
+            var Vorostokov      = Add(new Domain("Vorostokov"));
+            var LeederiksTower  = Add(new Domain("Leederik's Tower"));
+            var Farelle         = Add(new Domain("Farelle"));
+            var RichtenHaus     = Add(new Domain("Richten Haus"));
+            var Graefmotte      = Add(new Domain("Graefmotte"));
+            var Histaven        = Add(new Domain("Histaven"));
+            var Monadhan        = Add(new Domain("Monadhan"));
+            var Sunderheart     = Add(new Domain("Sunderheart"));
+            var Timbergorge     = Add(new Domain("Timbergorge"));
+            var Bakumora        = Add(new Domain("Bakumora"));
+            var Cyre1313        = Add(new Domain("Cyre 1313", "The Mourning Rail"));
+            var Klorr           = Add(new Domain("Klorr"));
+            var Niranjan        = Add(new Domain("Niranjan"));
+            var VhageAgency     = Add(new Domain("Vhage Agency"));
+            var VigilantsBluff  = Add(new Domain("Vigilant's Bluff"));
+            var Malosia         = Add(new Domain("Malosia"));
+            var MithrasCourt    = Add(new Domain("Mithras Court"));
+            var Riverbend       = Add(new Domain("Riverbend"));
+            var Darani          = Add(new Domain("Darani"));
+            var Kislova         = Add(new Domain("Kislova"));
+            var Estrangia       = Add(new Domain("Estrangia"));
+            var AlKathos        = Add(new Domain("Al-Kathos"));
+            var Maridrar        = Add(new Domain("Maridrar"));
+            var DonskoysLand    = Add(new Domain("Donskoy's Land"));
+            var Arak            = Add(new Domain("Arak"));
+            var Arkandale       = Add(new Domain("Arkandale"));
+            var Dorvinia        = Add(new Domain("Dorvinia"));
+            var Gundarak        = Add(new Domain("Gundarak"));
+            #endregion
+
+            #region Mistways
+            var HereticsEgress   = Add(new Mistway("Heretic's Egress"));
+            var ShroudedWay      = Add(new Mistway("Shrouded Way"));
+            var ViaCorona        = Add(new Mistway("Via Corona"));
+            var RoadOfSecrets    = Add(new Mistway("Road of a Thousand Secrets"));
+            var ShatterPassage   = Add(new Mistway("Shattered Passage"));
+            var JackalsRuse      = Add(new Mistway("Jackal's Ruse"));
+            var WakeOfTheLoa     = Add(new Mistway("Wake of the Loa"));
+            var WayfarerPath     = Add(new Mistway("Wayfarer's Path"));
+            var CallOfTheClaw    = Add(new Mistway("Call of the Claw"));
+            var BleakRoad        = Add(new Mistway("Bleak Road"));
+            var SerpentsCoils    = Add(new Mistway("Serpent's Coils"));
+            var UrchinsPath      = Add(new Mistway("Urchin's Path"));
+            var VenomousTears    = Add(new Mistway("Way of Venomous Tears"));
+            var RoyalChannel     = Add(new Mistway("Royal Channel"));
+            var EmeraldStream    = Add(new Mistway("Emerald Stream"));
+            var LeviathanClutch  = Add(new Mistway("Leviathan's Clutches"));
+            var PathOfInnocence  = Add(new Mistway("Path of Innocence"));
+            var SomnambulistPath = Add(new Mistway("Somnambulist's Path"));
+            var SleepOfReason    = Add(new Mistway("Sleep of Reason"));
+            var OutlandersGate   = Add(new Mistway("Outlander's Gate"));
+            var OakOfScreams     = Add(new Mistway("Oak of Screams"));
+            var MtFrostAnhalla   = Add(new Mistway("Mount Frost-Anhalla"));
+            var IronWay          = Add(new Mistway("Iron Way"));
+            var TheWindingJaws   = Add(new Mistway("Way of the Winding Jaws"));
+            #endregion
+
+            #region Sources
             #endregion
 
             #region Darklords
-            var Strahd  = db.Add(new NPC("Count Strahd von Zarovich", "The Devil Strahd", "Lord Vasili von Holtz", "Strahd XI", "Vladislav")).Entity;
-            var Maligno = db.Add(new NPC("Maligno", "Figlio")).Entity;
+            var Strahd  = Add(new NPC("Count Strahd von Zarovich", "The Devil Strahd", "Lord Vasili von Holtz", "Strahd XI", "Vladislav"));
+            var Diederic = Add(new NPC("Sir Diederic de Wyndt"));
+            var Lucius = Add(new NPC("Lord Lucius Knight"));
+            var Alistair = Add(new NPC("Doctor Alistair Weldon"));
+            var Magroth = Add(new NPC("Emperor Magroth the Mad"));
+            var Ilsabet = Add(new NPC("Baroness Ilsabet Obour"));
+            var Whelm = Add(new NPC("Friar Whelm"));
+            var Malbus = Add(new NPC("Malbus"));
+            var Velkaarn = Add(new NPC("Lord Velkaarn"));
+            var Milos = Add(new NPC("Lord Milos Donskoy"));
+            var Maligno = Add(new NPC("Maligno", "Figlio"));
             #endregion
 
-            var Darklord = db.Add(new CreatureTrait("Darklord")).Entity;
+            var MistTalisman = Add(new ItemTrait("Mist Talisman"));
 
-            var MistTalisman = db.Add(new ItemTrait("Mist Talisman")).Entity;
+            #region Add Clusters Canon
+            Cross.Add(Canon, Core);
+            Cross.Add(Canon, Shadowlands);
+            Cross.Add(Canon, AmberWastes);
+            Cross.Add(Canon, BurningPeaks);
+            Cross.Add(Canon, FrozenReaches);
+            Cross.Add(Canon, VerdurousLands);
+            Cross.Add(Canon, PocketDomains);
+            Cross.Add(Canon, IslandsOfTerror);
+            Cross.Add(Canon, Shadowfell);
+            #endregion
+
+            #region Add Domains Canon
+            Cross.Add(Canon, Barovia);
+            Cross.Add(Canon, Bluetspur);
+            Cross.Add(Canon, Borca);
+            Cross.Add(Canon, LMorai);
+            Cross.Add(Canon, Darkon);
+            Cross.Add(Canon, Dementlieu);
+            Cross.Add(Canon, Falkovnia);
+            Cross.Add(Canon, HarAkir);
+            Cross.Add(Canon, Hazlan);
+            Cross.Add(Canon, ICath);
+            Cross.Add(Canon, SriRaji);
+            Cross.Add(Canon, Kartakass);
+            Cross.Add(Canon, Lamordia);
+            Cross.Add(Canon, Mordent);
+            Cross.Add(Canon, Richemulot);
+            Cross.Add(Canon, Tepest);
+            Cross.Add(Canon, Valachan);
+            Cross.Add(Canon, Forlorn);
+            Cross.Add(Canon, Ghastria);
+            Cross.Add(Canon, Ghenna);
+            Cross.Add(Canon, Invidia);
+            Cross.Add(Canon, Keening);
+            Cross.Add(Canon, Markovia);
+            Cross.Add(Canon, NightmareLAnds);
+            Cross.Add(Canon, NovaVaasa);
+            Cross.Add(Canon, Odiare);
+            Cross.Add(Canon, WindingRoad);
+            Cross.Add(Canon, Risibilos);
+            Cross.Add(Canon, Scaena);
+            Cross.Add(Canon, SeaOfSorrows);
+            Cross.Add(Canon, Blaustein);
+            Cross.Add(Canon, Dominia);
+            Cross.Add(Canon, IsleOfTheRavens);
+            Cross.Add(Canon, Lighthouse);
+            Cross.Add(Canon, ShadowbornManor);
+            Cross.Add(Canon, Souragne);
+            Cross.Add(Canon, StauntonBluffs);
+            Cross.Add(Canon, Tovag);
+            Cross.Add(Canon, Paridon);
+            Cross.Add(Canon, HouseOfLament);
+            Cross.Add(Canon, Demise);
+            Cross.Add(Canon, Kalidnay);
+            Cross.Add(Canon, Sithicus);
+            Cross.Add(Canon, Cavitius);
+            Cross.Add(Canon, Aggarath);
+            Cross.Add(Canon, Avonleigh);
+            Cross.Add(Canon, CastleIsland);
+            Cross.Add(Canon, Daglan);
+            Cross.Add(Canon, Davion);
+            Cross.Add(Canon, Liffe);
+            Cross.Add(Canon, Nebligtode);
+            Cross.Add(Canon, Necropolis);
+            Cross.Add(Canon, Nidala);
+            Cross.Add(Canon, Nosos);
+            Cross.Add(Canon, Pharazia);
+            Cross.Add(Canon, Rokushima);
+            Cross.Add(Canon, Sanguinia);
+            Cross.Add(Canon, Saragross);
+            Cross.Add(Canon, Sebua);
+            Cross.Add(Canon, ShadowRift);
+            Cross.Add(Canon, TheEyrie);
+            Cross.Add(Canon, TheIsle);
+            Cross.Add(Canon, TheWildlands);
+            Cross.Add(Canon, Timor);
+            Cross.Add(Canon, Vechor);
+            Cross.Add(Canon, Verbrek);
+            Cross.Add(Canon, Vorostokov);
+            Cross.Add(Canon, LeederiksTower);
+            Cross.Add(Canon, Farelle);
+            Cross.Add(Canon, RichtenHaus);
+            Cross.Add(Canon, Graefmotte);
+            Cross.Add(Canon, Histaven);
+            Cross.Add(Canon, Monadhan);
+            Cross.Add(Canon, Sunderheart);
+            Cross.Add(Canon, Timbergorge);
+            Cross.Add(Canon, Bakumora);
+            Cross.Add(Canon, Cyre1313);
+            Cross.Add(Canon, Klorr);
+            Cross.Add(Canon, Niranjan);
+            Cross.Add(Canon, VhageAgency);
+            Cross.Add(Canon, VigilantsBluff);
+            Cross.Add(Canon, Malosia);
+            Cross.Add(Canon, MithrasCourt);
+            Cross.Add(Canon, Riverbend);
+            Cross.Add(Canon, Darani);
+            Cross.Add(Canon, Kislova);
+            Cross.Add(Canon, Estrangia);
+            Cross.Add(Canon, AlKathos);
+            Cross.Add(Canon, Maridrar);
+            Cross.Add(Canon, DonskoysLand);
+            Cross.Add(Canon, Arak);
+            Cross.Add(Canon, Arkandale);
+            Cross.Add(Canon, Dorvinia);
+            Cross.Add(Canon, Gundarak);
+            #endregion
+
+            #region Add Mistways Canon
+            Cross.Add(Canon, EmeraldStream);
+            Cross.Add(Canon, HereticsEgress);
+            Cross.Add(Canon, JackalsRuse);
+            Cross.Add(Canon, LeviathanClutch);
+            Cross.Add(Canon, PathOfInnocence);
+            Cross.Add(Canon, RoadOfSecrets);
+            Cross.Add(Canon, ShatterPassage);
+            Cross.Add(Canon, ShroudedWay);
+            Cross.Add(Canon, ViaCorona);
+            Cross.Add(Canon, WakeOfTheLoa);
+            Cross.Add(Canon, VenomousTears);
+            Cross.Add(Canon, WayfarerPath);
+
+            Cross.Add(SoftCanon, BleakRoad);
+            Cross.Add(SoftCanon, OutlandersGate);
+            Cross.Add(SoftCanon, SerpentsCoils);
+            Cross.Add(SoftCanon, MtFrostAnhalla);
+            Cross.Add(SoftCanon, OakOfScreams);
+
+            Cross.Add(Netbook, CallOfTheClaw);
+            Cross.Add(Netbook, SomnambulistPath);
+            Cross.Add(Netbook, RoyalChannel);
+            Cross.Add(Netbook, TheWindingJaws);
+            Cross.Add(Netbook, UrchinsPath);
+            Cross.Add(Netbook, SleepOfReason);
+            Cross.Add(Canon, IronWay);
+            #endregion
 
             #region Add Darklord to Domain
             Cross.Add(Odiare, Maligno);
@@ -140,6 +331,7 @@
             #endregion
 
             #region Add Darklord trait to Darklord
+            var Darklord = Add(new CreatureTrait("Darklord"));
             Cross.Add(Strahd, Darklord);
             Cross.Add(Maligno, Darklord);
             #endregion

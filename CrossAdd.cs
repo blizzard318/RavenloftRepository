@@ -8,7 +8,6 @@
     {
         public List<T> Values { get; set; }
     }
-
     internal static class Cross
     {
         public static void Add<T1, T2>(T1 t1, T2 t2)
@@ -17,18 +16,13 @@
             _Add(t2, t1);
             static void _Add<iT1,iT2>(iT1 Adder, iT2 ToAdd)
             {
-                Type type = typeof(iT1);
-                if (type is HasOne<iT2>)
+                if (Adder is HasOne<iT2>)
                 {
-                    var adder = Adder as HasOne<iT2>;
-                    adder.Value = ToAdd;
+                    ((HasOne<iT2>)Adder).Value = ToAdd;
                 }
-                else if (type is HasMany<iT2>)
+                else if (Adder is HasMany<iT2>)
                 {
-                    var adder = Adder as HasMany<iT2>;
-                    if (adder.Values == null)
-                        adder.Values = new List<iT2>();
-                    adder.Values.Add(ToAdd);
+                    ((HasMany<iT2>)Adder).Values.Add(ToAdd);
                 }
             }
         }
