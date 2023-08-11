@@ -10,20 +10,24 @@
     }
     internal static class Cross
     {
-        public static void Add<T1, T2>(T1 t1, T2 t2)
+        public static void Add<T1, T2>(T1 Primary, params T2[] Secondary) //Borca(domain), Ivana,Ivan(darklord)
         {
-            _Add(t1, t2);
-            _Add(t2, t1);
-            static void _Add<iT1,iT2>(iT1 Adder, iT2 ToAdd)
+            if (Secondary.Length == 1 && Primary is HasOne<T2>)
             {
-                if (Adder is HasOne<iT2>)
-                {
-                    ((HasOne<iT2>)Adder).Value = ToAdd;
-                }
-                else if (Adder is HasMany<iT2>)
-                {
-                    ((HasMany<iT2>)Adder).Values.Add(ToAdd);
-                }
+                ((HasOne<T2>)Primary).Value = Secondary[0];
+            }
+            else if (Primary is HasMany<T2>)
+            {
+                ((HasMany<T2>)Primary).Values.AddRange(Secondary);
+            }
+
+            if (Secondary[0] is HasOne<T1>)
+            {
+                foreach (HasOne<T1> adder in Secondary) adder.Value = Primary;
+            }
+            else if (Secondary[0] is HasMany<T1>)
+            {
+                foreach (HasMany<T1> adder in Secondary) adder.Values.Add(Primary);
             }
         }
     }
