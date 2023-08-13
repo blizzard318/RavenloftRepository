@@ -6,7 +6,7 @@ namespace Ravenloft
 {
     public class RavenloftContext : DbContext
     {
-        public DbSet<Canon> Canons { get; set; }
+        public DbSet<Source> Sources { get; set; }
         public string DbPath { get; }
         public RavenloftContext() => DbPath = Path.Join(Directory.GetCurrentDirectory(), "Ravenloft.db");
 
@@ -18,15 +18,6 @@ namespace Ravenloft
 
             modelBuilder.Entity<NPC>().ToTable("NPCs");
             modelBuilder.Entity<Darklord>().ToTable("Darklords");
-
-            modelBuilder.Entity<Source>().Property(e => e.Type).HasConversion(
-                v => v.ToString(),
-                v => (Source.SourceType)Enum.Parse(typeof(Source.SourceType), v)
-            );
-            modelBuilder.Entity<Source>().Property(e => e.Edition).HasConversion(
-                v => v.ToString(),
-                v => (Source.EditionType)Enum.Parse(typeof(Source.EditionType), v)
-            );
         }
     }
     public abstract class Base
@@ -36,10 +27,12 @@ namespace Ravenloft
         public Base() { }
         public Base(string name) => Name = name;
     }
-    public class Canon : Base, HasMany<Cluster>, HasMany<Domain>, HasMany<Mistway>, HasMany<Source>, HasMany<Location>, HasMany<Item>, HasMany<Darklord>, HasMany<NPC>, HasMany<CreatureTrait>
+    public class Source : Base, HasMany<Cluster>, HasMany<Domain>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<Darklord>,HasMany<NPC>, HasMany<CreatureTrait>
     {
-        public Canon() { }
-        public Canon(string name) : base(name) { }
+        public Source() { }
+        public Source(string name) : base(name) { }
+        public List<string> SourceTraits { get; set; } = new();//Potential Canon, Non-Canon, Levels if Module
+        //[1e/../5e/No Edition], [Comic/Module/Novel/Gamebook/Sourcebook/Magazine/Videogame/Boardgame]
         public List<Cluster> Clusters { get; set; } = new();
         List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
 
@@ -49,14 +42,14 @@ namespace Ravenloft
         public List<Mistway> Mistways { get; set; } = new();
         List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
 
-        public List<Darklord> Darklords { get; set; } = new();
-        List<Darklord> HasMany<Darklord>.Values { get => Darklords; set => Darklords = value; }
-
         public List<Location> Locations { get; set; } = new();
         List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
 
         public List<Item> Items { get; set; } = new();
         List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
+
+        public List<Darklord> Darklords { get; set; } = new();
+        List<Darklord> HasMany<Darklord>.Values { get => Darklords; set => Darklords = value; }
 
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
@@ -64,17 +57,14 @@ namespace Ravenloft
         public List<CreatureTrait> CreatureTraits { get; set; } = new();
         List<CreatureTrait> HasMany<CreatureTrait>.Values { get => CreatureTraits; set => CreatureTraits = value; }
 
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
+        public DateTime ReleaseDate { get; set; }
+        public string Contributors { get; set; }
     }
-    public class Domain : Base, HasOne<Canon>, HasMany<Location>, HasMany<Cluster>, HasMany<Darklord>, HasMany<NPC>, HasMany<Mistway>, HasMany<Source>, HasMany<Domain.Trait>
+    public class Domain : Base, HasMany<Location>, HasMany<Cluster>, HasMany<Darklord>, HasMany<NPC>, HasMany<Mistway>, HasMany<Source>, HasMany<Domain.Trait>
     {
         public Domain() { }
         public Domain(params string[] names) : base(names[0]) => Names = string.Join('/', names);
         public string Names { get; set; }
-
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
 
         public List<Cluster> Clusters { get; set; }
         List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
@@ -108,78 +98,32 @@ namespace Ravenloft
             List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
         }
     }
-    public class Mistway : Base, HasOne<Canon>, HasMany<Domain>, HasMany<Source>
+    public class Mistway : Base, HasMany<Domain>, HasMany<Source>
     {
         public Mistway() { }
         public Mistway(string name) : base(name) { }
 
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
-
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
 
         public List<Source> Sources { get; set; } = new();
         List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
     }
-    public class Cluster : Base, HasOne<Canon>, HasMany<Domain>, HasMany<Source>
+    public class Cluster : Base, HasMany<Domain>, HasMany<Source>
     {
         public Cluster() { }
         public Cluster(string name) : base(name) { }
 
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
-
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
 
         public List<Source> Sources { get; set; } = new();
         List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
     }
-    public class Source : Base, HasOne<Canon>, HasMany<Cluster>, HasMany<Domain>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<NPC>, HasMany<CreatureTrait>
-    {
-        public Source() { }
-        public Source(string name) : base(name) { }
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
-
-        public List<Cluster> Clusters { get; set; } = new();
-        List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
-
-        public List<Domain> Domains { get; set; } = new();
-        List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-        public List<Mistway> Mistways { get; set; } = new();
-        List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
-
-        public List<Location> Locations { get; set; } = new();
-        List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
-        public List<Item> Items { get; set; } = new();
-        List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
-
-        public List<NPC> NPCs { get; set; } = new();
-        List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
-        public List<CreatureTrait> CreatureTraits { get; set; } = new();
-        List<CreatureTrait> HasMany<CreatureTrait>.Values { get => CreatureTraits; set => CreatureTraits = value; }
-
-
-        public enum EditionType { FirstEdition, SecondEdition,ThirdEdition,FourthEdition,FifthEdition, NotGame };
-        public EditionType Edition { get; set; }
-        public enum SourceType { Comic, Module, Novel, Gamebook, Sourcebook, Magazine, Videogame, Boardgame };
-        public SourceType Type { get; set; }
-        public string Notes { get; set; } //Like Levels
-        public string ReleaseDate { get; set; }
-        public string Contributors { get; set; }
-    }
-    public class Location : Base, HasOne<Canon>, HasOne<Domain>, HasMany<Location>, HasMany<NPC>, HasMany<CreatureTrait>, HasMany<Item>, HasMany<Source>, HasMany<Location.Trait>
+    public class Location : Base, HasOne<Domain>, HasMany<Location>, HasMany<NPC>, HasMany<CreatureTrait>, HasMany<Item>, HasMany<Source>, HasMany<Location.Trait>
     {
         public Location() { }
         public Location(string name) : base(name) { }
-
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
 
         public Domain Domain { get; set; }
         Domain HasOne<Domain>.Value { get => Domain; set => Domain = value; }
@@ -214,13 +158,10 @@ namespace Ravenloft
             List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
         }
     }
-    public class Item : Base, HasOne<Canon>, HasMany<Domain>, HasMany<Item.Trait>, HasMany<Location>, HasMany<NPC>, HasMany<Source>
+    public class Item : Base, HasMany<Domain>, HasMany<Item.Trait>, HasMany<Location>, HasMany<NPC>, HasMany<Source>
     {
         public Item() { }
         public Item(string name) : base(name) { }
-
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
 
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
@@ -261,16 +202,13 @@ namespace Ravenloft
         public string Curse { get; set;} = string.Empty; //What do they have to live with
         public string ClosedBorders { get; set; } = string.Empty; //When they close the borders, how does it manifest
     }
-    public class NPC : Base, HasOne<Domain>, HasOne<Canon>, HasMany<CreatureTrait>, HasMany<Location>, HasMany<Source>
+    public class NPC : Base, HasOne<Domain>, HasMany<CreatureTrait>, HasMany<Location>, HasMany<Source>
     {
         public NPC() { }
         public NPC(params string[] names) : base(names[0]) => Aliases = string.Join(',', names);
 
         public Domain Residence { get; set; }
         Domain HasOne<Domain>.Value { get => Residence; set => Residence = value; }
-
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
 
         public List<CreatureTrait> CreatureTraits { get; set; } = new();
         List<CreatureTrait> HasMany<CreatureTrait>.Values { get => CreatureTraits; set => CreatureTraits = value; }//Like is he a gnome, darklord, vampire
@@ -300,15 +238,12 @@ namespace Ravenloft
         public List<Source> Sources { get; set; } = new();
         List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
     }
-    public class Event : Base, HasOne<Canon>, HasMany<NPC>, HasMany<Darklord>, HasMany<Item>, HasMany<Domain>, HasMany<Location>, HasMany<Source>
+    public class Event : Base, HasMany<NPC>, HasMany<Darklord>, HasMany<Item>, HasMany<Domain>, HasMany<Location>, HasMany<Source>
     {
         public Event() { }
         public Event(string name) : base(name) { }
 
         public string Date {  get; set; }
-
-        public Canon Canon { get; set; }
-        Canon HasOne<Canon>.Value { get => Canon; set => Canon = value; }
 
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }

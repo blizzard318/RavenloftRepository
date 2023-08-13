@@ -11,7 +11,15 @@
                 else return retval;
             }
 
-            #region 2e
+            var I6Ravenloft = Add(new Source("I6: Ravenloft"));
+            I6Ravenloft.SourceTraits.AddRange(new[] { "1e", "Module", "Levels 5-7" });
+            I6Ravenloft.ReleaseDate = new DateTime(1983, 11, 1);
+            I6Ravenloft.Contributors = "Authors: Tracy Hickman and Laura Hickman";
+
+            var Strahd = Add(new Darklord("Count Strahd von Zarovich"));
+            var Barovia = Add(new Domain("Barovia"));
+
+            /*#region 2e
             var E2Canon = Add(new Canon("2e Canon"));
             #region Clusters
             var Core = Add(new Cluster("Core"));
@@ -508,7 +516,7 @@
             #region Add Darklord trait to Darklord
             var Darklord = Add(new CreatureTrait("Darklord"));
             Cross.Add(Darklord, Strahd, Maligno);
-            #endregion
+            #endregion*/
 
             db.SaveChanges();
         }
