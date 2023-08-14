@@ -4,20 +4,160 @@
     {
         public static void Add (RavenloftContext db) 
         {
-            T Add <T> (T input) where T : Base 
+            void Add (Appearance input)
             {
-                var retval = db.Find(typeof(T), input.Name) as T;
-                if (retval == null) return db.Add(input).Entity;
-                else return retval;
+                var retval = db.Find(typeof(Appearance), input.Id);
+                if (retval == null) db.Add(input);
             }
 
-            var I6Ravenloft = Add(new Source("I6: Ravenloft"));
-            I6Ravenloft.SourceTraits.AddRange(new[] { "1e", "Module", "Levels 5-7" });
-            I6Ravenloft.ReleaseDate = new DateTime(1983, 11, 1);
-            I6Ravenloft.Contributors = "Authors: Tracy Hickman and Laura Hickman";
+            #region Universal Traits
+            var e1  = new Trait("1st Edition"  , Trait.TraitType.Source);
+            var e2  = new Trait("2nd Edition"  , Trait.TraitType.Source);
+            var e3  = new Trait("3rd Edition"  , Trait.TraitType.Source);
+            var e35 = new Trait("3.5th Edition", Trait.TraitType.Source);
+            var e4  = new Trait("4th Edition"  , Trait.TraitType.Source);
+            var e5  = new Trait("5th Edition"  , Trait.TraitType.Source);
 
-            var Strahd = Add(new Darklord("Count Strahd von Zarovich"));
-            var Barovia = Add(new Domain("Barovia"));
+            var pc = new Trait("Potentially Canon", Trait.TraitType.Source);
+            var nc = new Trait("Not Canon", Trait.TraitType.Source);
+            nc.ExtraInfo = pc.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
+
+            var comic      = new Trait("Comic"      , Trait.TraitType.Source);
+            var module     = new Trait("Module"     , Trait.TraitType.Source);
+            var novel      = new Trait("Novel"      , Trait.TraitType.Source);
+            var gamebook   = new Trait("Gamebook"   , Trait.TraitType.Source);
+            var sourcebook = new Trait("Sourcebook" , Trait.TraitType.Source);
+            var magazine   = new Trait("Magazine"   , Trait.TraitType.Source);
+            var videogame  = new Trait("Video Game" , Trait.TraitType.Source);
+            var boardgame  = new Trait("Board Game" , Trait.TraitType.Source);
+
+            var Darklord      = new Trait("Darklord", Trait.TraitType.Creature);
+            var Priest        = new Trait("Priest", Trait.TraitType.Creature);
+            var Vistani       = new Trait("Vistani", Trait.TraitType.Creature | Trait.TraitType.Location | Trait.TraitType.Item);
+            var FortuneTeller = new Trait("Fortune Teller", Trait.TraitType.Creature | Trait.TraitType.Item);
+            var Male          = new Trait("Male", Trait.TraitType.Creature);
+            var Female        = new Trait("Female", Trait.TraitType.Creature);
+            var Agender       = new Trait("No Gender", Trait.TraitType.Creature);
+
+            var Castle          = new Trait("Castle");
+            var DarklordLair    = new Trait("Darklord Lair");
+            var Church          = new Trait("Church");
+            var Forest          = new Trait("Forest");
+            var Camp            = new Trait("Camp");
+            var Town            = new Trait("Town");
+            var Mansion         = new Trait("Mansion");
+
+            var Card           = new Trait("Card", Trait.TraitType.Item);
+            #endregion
+
+            var I6Ravenloft = new Source("I6: Ravenloft");
+            I6Ravenloft.Traits.AddRange(new[] { e1, module });
+            I6Ravenloft.ReleaseDate = new DateTime(1983, 11, 1);
+            I6Ravenloft.Contributors = "Authors: Tracy Hickman and Laura Hickman\nEditor: Curtis Smith\n";
+            I6Ravenloft.Contributors += "Graphic Designer: Debra Stubbe\nIllustrator: Clyde Caldwell";
+            I6Ravenloft.ExtraInfo = "'ModuleInfo':'An adventure for 6-8 characters of levels 5-7'";
+
+            var Barovia = new Domain("Barovia");
+            Add(new Appearance(I6Ravenloft, Barovia, 1));
+
+            var Strahd = new NPC("Count Strahd von Zarovich");
+            Add(new Appearance(I6Ravenloft, Strahd, 1));
+            Cross.Add(Strahd, Male);
+            Cross.Add(Strahd, Barovia);
+            Cross.Add(Strahd, Darklord);
+            Strahd.ExtraInfo = "'ClosedBorders': 'Deadly Fog'";
+
+            var MadamEva = new NPC("Madam Eva");
+            Add(new Appearance(I6Ravenloft, MadamEva, 1));
+            Cross.Add(MadamEva, Female);
+            Cross.Add(MadamEva, Barovia);
+            Cross.Add(MadamEva, Vistani);
+
+            var IreenaKolyana = new NPC("Ireena Kolyana");
+            Add(new Appearance(I6Ravenloft, IreenaKolyana, 1));
+            Cross.Add(IreenaKolyana, Female);
+            Cross.Add(IreenaKolyana, Barovia);
+
+            var Sergei = new NPC("Sergei von Zarovich");
+            Add(new Appearance(I6Ravenloft, Sergei, 1));
+            Cross.Add(Sergei, Male);
+            Cross.Add(Sergei, Barovia);
+
+            var VistaniCamp = new Location("Vistani Camp");
+            Add(new Appearance(I6Ravenloft, VistaniCamp, 1));
+            Cross.Add(VistaniCamp, Barovia);
+            Cross.Add(VistaniCamp, MadamEva);
+            Cross.Add(VistaniCamp, Camp);
+            Cross.Add(VistaniCamp, VistaniLocation);
+
+            var TownOfBarovia = new Location("Town of Barovia");
+            Add(new Appearance(I6Ravenloft, TownOfBarovia, 1));
+            Cross.Add(TownOfBarovia, Barovia);
+            Cross.Add(TownOfBarovia, IreenaKolyana);
+            Cross.Add(TownOfBarovia, Town);
+
+            var CastleRavenloft = new Location("Castle Ravenloft");
+            Add(new Appearance(I6Ravenloft, CastleRavenloft, 1));
+            Cross.Add(CastleRavenloft, Barovia);
+            Cross.Add(CastleRavenloft, Castle);
+            Cross.Add(CastleRavenloft, DarklordLair);
+            Cross.Add(CastleRavenloft, Strahd);
+
+            var SvalichWoods = new Location("Svalich Woods");
+            Add(new Appearance(I6Ravenloft, SvalichWoods, 1));
+            Cross.Add(SvalichWoods, Barovia);
+            Cross.Add(SvalichWoods, Forest);
+
+            var BurgomasterMansion = new Location("Burgomaster's Mansion");
+            Add(new Appearance(I6Ravenloft, BurgomasterMansion, 1));
+            Cross.Add(BurgomasterMansion, Barovia);
+            Cross.Add(BurgomasterMansion, Mansion);
+
+            var BarovianChurch = new Location("Church of Barovia");
+            Add(new Appearance(I6Ravenloft, BarovianChurch, 1));
+            Cross.Add(BarovianChurch, Barovia);
+            Cross.Add(BarovianChurch, TownOfBarovia);
+            Cross.Add(BarovianChurch, Priest);
+            Cross.Add(BarovianChurch, Church);
+
+            var Burgomaster = new Trait("Burgomaster");
+            Add(new Appearance(I6Ravenloft, Burgomaster, 1));
+            Cross.Add(Burgomaster, Barovia);
+            Cross.Add(Burgomaster, BurgomasterMansion);
+            Cross.Add(Burgomaster, TownOfBarovia);
+
+            var Wolf = new Trait("Wolf");
+            Add(new Appearance(I6Ravenloft, Wolf, 1));
+            Cross.Add(Wolf, Barovia);
+            Cross.Add(Wolf, SvalichWoods);
+
+            var Worg = new Trait("Worg");
+            Add(new Appearance(I6Ravenloft, Worg, 1));
+            Cross.Add(Worg, Barovia);
+            Cross.Add(Worg, SvalichWoods);
+
+            var Bat = new Trait("Bat");
+            Add(new Appearance(I6Ravenloft, Bat, 1));
+            Cross.Add(Bat, Barovia);
+            Cross.Add(Bat, CastleRavenloft);
+
+            var Vampire = new Trait("Vampire");
+            Add(new Appearance(I6Ravenloft, Vampire, 1));
+            Cross.Add(Vampire, Barovia);
+            Cross.Add(Vampire, Strahd);
+
+            var Tarokka = new Item("Tarokka");
+            Cross.Add(Tarokka, Barovia);
+            Cross.Add(Tarokka, Vistani);
+            Cross.Add(Tarokka, MadamEva);
+            Cross.Add(Tarokka, Card);
+            Cross.Add(Tarokka, FortuneTeller);
+            Cross.Add(Tarokka, FortuneTelling);
+            Cross.Add(Tarokka, VistaniCamp);
+            Cross.Add(Tarokka, VistaniItem);
+            Add(new Appearance(I6Ravenloft, Tarokka, 1));
+
+            db.SaveChanges();
 
             /*#region 2e
             var E2Canon = Add(new Canon("2e Canon"));
@@ -517,8 +657,6 @@
             var Darklord = Add(new CreatureTrait("Darklord"));
             Cross.Add(Darklord, Strahd, Maligno);
             #endregion*/
-
-            db.SaveChanges();
         }
     }
 }

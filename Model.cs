@@ -6,41 +6,108 @@ namespace Ravenloft
 {
     public class RavenloftContext : DbContext
     {
+        public DbSet<Appearance> Appearances { get; set; }
+        public DbSet<Domain> Domains { get; set; }
+        public DbSet<Trait> Traits { get; set; }
         public DbSet<Source> Sources { get; set; }
+        public DbSet<Mistway> Mistways { get; set; }
+        public DbSet<Cluster> Clusters { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<NPC> NPCs { get; set; }
+        public DbSet<Event> Events { get; set; }
+
         public string DbPath { get; }
         public RavenloftContext() => DbPath = Path.Join(Directory.GetCurrentDirectory(), "Ravenloft.db");
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={DbPath}");
+        {
+            options.UseSqlite($"Data Source={DbPath}");
+            options.EnableSensitiveDataLogging();
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<NPC>().ToTable("NPCs");
-            modelBuilder.Entity<Darklord>().ToTable("Darklords");
+            modelBuilder.Entity<Trait>().Property(e => e.type).HasConversion(
+                v => v.ToString(),
+                v => (Trait.TraitType)Enum.Parse(typeof(Trait.TraitType), v)
+            );
+
+            /*modelBuilder.Entity<Domain>().ToTable(nameof(Domain));
+            //modelBuilder.Entity<DomainTrait>().ToTable("Domain Trait");
+            modelBuilder.Entity<Source>().ToTable(nameof(Source));
+            modelBuilder.Entity<Mistway>().ToTable(nameof(Mistway));
+            modelBuilder.Entity<Cluster>().ToTable(nameof(Cluster));
+            modelBuilder.Entity<Location>().ToTable(nameof(Location));
+            //modelBuilder.Entity<LocationTrait>().ToTable("Location Trait");
+            modelBuilder.Entity<Item>().ToTable(nameof(Item));
+            //modelBuilder.Entity<ItemTrait>().ToTable("Item Trait");
+            modelBuilder.Entity<NPC>().ToTable(nameof(NPC));
+            modelBuilder.Entity<CreatureTrait>().ToTable(nameof(CreatureTrait));
+            modelBuilder.Entity<Event>().ToTable(nameof(Event));
+
+            modelBuilder.Entity<Base>()
+                .HasDiscriminator()
+                .HasValue<Source.Trait>("Source Trait");
+                .HasValue<Domain.Trait>("Domain Trait")
+                .HasValue<Item.Trait>("Item Trait")
+                .HasValue<Location.Trait>("Location Trait");*/
         }
     }
     public abstract class Base
     {
         [Key] public string Name { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public string ExtraInfo { get; set; } = string.Empty;
         public Base() { }
         public Base(string name) => Name = name;
     }
-    public class Source : Base, HasMany<Cluster>, HasMany<Domain>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<Darklord>,HasMany<NPC>, HasMany<CreatureTrait>
+    public class Trait : Base
+    {
+        public Trait() { }
+        public Trait(string name, TraitType type) : base(name) { this.type = type; }
+        [Flags] public enum TraitType 
+        { 
+            Item = 1,
+            Source = 2,
+            Domain = 4,
+            Creature = 8,
+            Location = 16 
+        }
+        public TraitType type { get; set; }
+    }
+    public class Appearance
+    {
+        public int Id { get; set; }
+        public Source Source { get; set; }
+        public Base Entity { get; set; }
+        public string PageNumbers { get; set; }
+
+        public Appearance() { }
+        public Appearance (Source source, Base entity, params int[] pageNumbers)
+        {
+            Cross.Add(Source = source, Entity = entity);
+            PageNumbers = string.Join(',', pageNumbers);
+        }
+    }
+    public class Source : Base, HasMany<Domain>, HasMany<NPC>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<Trait>
     {
         public Source() { }
         public Source(string name) : base(name) { }
-        public List<string> SourceTraits { get; set; } = new();//Potential Canon, Non-Canon, Levels if Module
+
+        public List<Trait> Traits { get; set; } = new();//Potential Canon, Non-Canon
+                                                              //(Module levels go into descript)
         //[1e/../5e/No Edition], [Comic/Module/Novel/Gamebook/Sourcebook/Magazine/Videogame/Boardgame]
+        List<Trait> HasMany<Trait>.Values { get => Traits; set => Traits = value; }
+
         public List<Cluster> Clusters { get; set; } = new();
         List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
 
-        public List<Domain> Domains { get; set; } = new();
-        List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
         public List<Mistway> Mistways { get; set; } = new();
         List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
+
+        public List<Domain> Domains { get; set; } = new();
+        List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
 
         public List<Location> Locations { get; set; } = new();
         List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
@@ -48,117 +115,70 @@ namespace Ravenloft
         public List<Item> Items { get; set; } = new();
         List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
 
-        public List<Darklord> Darklords { get; set; } = new();
-        List<Darklord> HasMany<Darklord>.Values { get => Darklords; set => Darklords = value; }
-
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 
-        public List<CreatureTrait> CreatureTraits { get; set; } = new();
-        List<CreatureTrait> HasMany<CreatureTrait>.Values { get => CreatureTraits; set => CreatureTraits = value; }
-
-        public DateTime ReleaseDate { get; set; }
+        [Column(TypeName= "Date")] public DateTime ReleaseDate { get; set; }
         public string Contributors { get; set; }
     }
-    public class Domain : Base, HasMany<Location>, HasMany<Cluster>, HasMany<Darklord>, HasMany<NPC>, HasMany<Mistway>, HasMany<Source>, HasMany<Domain.Trait>
+    public class Domain : Base, HasMany<NPC>, HasMany<Location>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Trait>, HasMany<Item>
     {
         public Domain() { }
-        public Domain(params string[] names) : base(names[0]) => Names = string.Join('/', names);
-        public string Names { get; set; }
+        public Domain(string name) : base(name) { }
 
         public List<Cluster> Clusters { get; set; }
         List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
 
+        public List<Mistway> Mistways { get; set; } = new();
+        List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
+
         public List<Location> Locations { get; set; } = new();
         List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
-        public List<Darklord> Darklords { get; set; } = new();
-        List<Darklord> HasMany<Darklord>.Values { get => Darklords; set => Darklords = value; }
 
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 
-        public List<Mistway> Mistways { get; set; } = new();
-        List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
+        public List<Trait> Traits { get; set; } = new();
+        List<Trait> HasMany<Trait>.Values { get => Traits; set => Traits = value; }
 
-        public List<Trait> DomainTraits { get; set; } = new();
-        List<Trait> HasMany<Trait>.Values { get => DomainTraits; set => DomainTraits = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
-        //public string Size { get; set; }
-        //public List<Item> MistTalismans { get; set; } = new List<Item>();
-        //public List<NPC> Darklords { get; set; } = new List<NPC>();
-        public class Trait : Base, HasMany<Domain>
-        {
-            public Trait() { }
-            public Trait(string name) : base(name) { }
-
-            public List<Domain> Domains { get; set; } = new();
-            List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-        }
+        public List<Item> Items { get; set; } = new();
+        List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
     }
-    public class Mistway : Base, HasMany<Domain>, HasMany<Source>
+    public class Mistway : Base, HasMany<Domain>
     {
         public Mistway() { }
         public Mistway(string name) : base(name) { }
 
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
     }
-    public class Cluster : Base, HasMany<Domain>, HasMany<Source>
+    public class Cluster : Base, HasMany<Domain>
     {
         public Cluster() { }
         public Cluster(string name) : base(name) { }
 
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
     }
-    public class Location : Base, HasOne<Domain>, HasMany<Location>, HasMany<NPC>, HasMany<CreatureTrait>, HasMany<Item>, HasMany<Source>, HasMany<Location.Trait>
+    public class Location : Base, HasMany<Domain>, HasMany<NPC>, HasMany<Item>, HasMany<Trait>
     {
         public Location() { }
         public Location(string name) : base(name) { }
 
-        public Domain Domain { get; set; }
-        Domain HasOne<Domain>.Value { get => Domain; set => Domain = value; }
-
-        public List<Location> Related { get; set; } = new();
-        List<Location> HasMany<Location>.Values { get => Related; set => Related = value; }
+        public List<Domain> Domains { get; set; } = new();//Place can get absorbed into other domains
+        List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
 
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 
-        public List<CreatureTrait> CreatureTraits { get; set; } = new();
-        List<CreatureTrait> HasMany<CreatureTrait>.Values { get => CreatureTraits; set => CreatureTraits = value; }
-
         public List<Item> Items { get; set; } = new();
         List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
 
-        public List<Trait> LocationTraits { get; set; } = new();
-        List<Trait> HasMany<Trait>.Values { get => LocationTraits; set => LocationTraits = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
-
-        public string Type { get; set; } //Like is it a town/city/cave/temple
+        public List<Trait> Traits { get; set; } = new();
+        List<Trait> HasMany<Trait>.Values { get => Traits; set => Traits = value; }
         //public string Population { get; set; } //Maybe a number would be better
-
-        public class Trait : Base, HasMany<Location>
-        {
-            public Trait() { }
-            public Trait(string name) : base(name) { }
-
-            public List<Location> Locations { get; set; } = new();
-            List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-        }
     }
-    public class Item : Base, HasMany<Domain>, HasMany<Item.Trait>, HasMany<Location>, HasMany<NPC>, HasMany<Source>
+    public class Item : Base, HasMany<Domain>, HasMany<Trait>, HasMany<Location>, HasMany<NPC>
     {
         public Item() { }
         public Item(string name) : base(name) { }
@@ -174,71 +194,25 @@ namespace Ravenloft
 
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
-
-        public class Trait : Base, HasMany<Item>
-        {
-            public Trait() { }
-            public Trait(string name) : base(name) { }
-
-            public List<Item> Items { get; set; } = new();
-            List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
-        }
     }
-    /*public class Relationship
-    {
-        [Key] public string Name { get; set; }
-        public NPC Primary { get; set; } //Main person, Like Father to List<NPC>
-        public List<NPC> NPCs { get; set; } //List of NPCs who belong
-        public List<CreatureTrait> CreatureTraits { get; set; } //Shared/Affiliated traits
-    }*/
-    public class Darklord : NPC
-    {
-        public Darklord() { }
-        public Darklord(params string[] names) : base(names) { }
-        public string Damnation { get; set; } = string.Empty; //Event that damned them to their own Domain
-        public string Curse { get; set;} = string.Empty; //What do they have to live with
-        public string ClosedBorders { get; set; } = string.Empty; //When they close the borders, how does it manifest
-    }
-    public class NPC : Base, HasOne<Domain>, HasMany<CreatureTrait>, HasMany<Location>, HasMany<Source>
+    public class NPC : Base, HasMany<Domain>, HasMany<Trait>, HasMany<Location>
     {
         public NPC() { }
-        public NPC(params string[] names) : base(names[0]) => Aliases = string.Join(',', names);
+        public NPC(string name) : base(name) { }
 
-        public Domain Residence { get; set; }
-        Domain HasOne<Domain>.Value { get => Residence; set => Residence = value; }
+        //public string Damnation; //Event that damned them to their own Domain
+        //public string Curse; //What do they have to live with
+        //public string ClosedBorders; //When they close the borders, how does it manifest
+        public List<Domain> Domains { get; set; } = new();//Place can get absorbed into other domains
+        List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
 
-        public List<CreatureTrait> CreatureTraits { get; set; } = new();
-        List<CreatureTrait> HasMany<CreatureTrait>.Values { get => CreatureTraits; set => CreatureTraits = value; }//Like is he a gnome, darklord, vampire
+        public List<Trait> CreatureTraits { get; set; } = new();
+        List<Trait> HasMany<Trait>.Values { get => CreatureTraits; set => CreatureTraits = value; }//Like is he a gnome, darklord, vampire
 
         public List<Location> Locations { get; set; } = new();
         List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; } //Some people travel
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
-
-        public string Aliases { get; set; }
     }
-    public class CreatureTrait : Base, HasMany<NPC>, HasMany<Domain>, HasMany<Location>, HasMany<Source>
-    {
-        public CreatureTrait() { }
-        public CreatureTrait(string name) : base(name) { }
-
-        public List<NPC> NPCs { get; set; } = new();
-        List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
-        public List<Domain> Domains { get; set; } = new();
-        List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-        public List<Location> Locations { get; set; } = new();
-        List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
-    }
-    public class Event : Base, HasMany<NPC>, HasMany<Darklord>, HasMany<Item>, HasMany<Domain>, HasMany<Location>, HasMany<Source>
+    public class Event : Base, HasMany<NPC>, HasMany<Item>, HasMany<Domain>, HasMany<Location>
     {
         public Event() { }
         public Event(string name) : base(name) { }
@@ -248,9 +222,6 @@ namespace Ravenloft
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 
-        public List<Darklord> Darklords { get; set; } = new();
-        List<Darklord> HasMany<Darklord>.Values { get => Darklords; set => Darklords = value; }
-
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
 
@@ -259,8 +230,5 @@ namespace Ravenloft
 
         public List<Item> Items { get; set; } = new();
         List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
-
-        public List<Source> Sources { get; set; } = new();
-        List<Source> HasMany<Source>.Values { get => Sources; set => Sources = value; }
     }
 }

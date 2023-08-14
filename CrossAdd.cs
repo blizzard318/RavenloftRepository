@@ -1,9 +1,5 @@
 ﻿namespace Ravenloft
 {
-    public interface HasOne<T>
-    {
-        public T Value { get; set; }
-    }
     public interface HasMany<T>
     {
         public List<T> Values { get; set; }
@@ -12,22 +8,33 @@
     {
         public static void Add<T1, T2>(T1 Primary, params T2[] Secondary) //Borca(domain), Ivana,Ivan(darklord)
         {
-            if (Secondary.Length == 1 && Primary is HasOne<T2>)
+            var primary = Primary as HasMany<T2>;
+            if (primary != null)
             {
-                ((HasOne<T2>)Primary).Value = Secondary[0];
-            }
-            else if (Primary is HasMany<T2>)
-            {
-                ((HasMany<T2>)Primary).Values.AddRange(Secondary);
+                if (primary.Values == null) primary.Values = new();
+                primary.Values.AddRange(Secondary);
             }
 
-            if (Secondary[0] is HasOne<T1>)
-            {
-                foreach (HasOne<T1> adder in Secondary) adder.Value = Primary;
-            }
-            else if (Secondary[0] is HasMany<T1>)
+            if (Secondary is HasMany<T1>[])
             {
                 foreach (HasMany<T1> adder in Secondary) adder.Values.Add(Primary);
+            }
+        }
+        
+        public static void Add<T1, T2>(T1[] Primary, T2[] Secondary) //Ivana,Ivan(darklord), {NPCs...}
+        {
+            if (Primary is HasMany<T2>[])
+            {
+                foreach (HasMany<T2> adder in Primary) 
+                    foreach(var ToAdd in Secondary)
+                        adder.Values.Add(ToAdd);
+            }
+
+            if (Secondary is HasMany<T1>[])
+            {
+                foreach (HasMany<T1> adder in Secondary) 
+                    foreach (var ToAdd in Primary)
+                        adder.Values.Add(ToAdd);
             }
         }
     }

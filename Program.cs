@@ -3,4 +3,6 @@
 using var db = new RavenloftContext();
 AddToDatabase.Add(db);
 
-Console.WriteLine("nothing");
+var dom = db.Domains.Find("Barovia");
+
+Console.WriteLine(dom != null);
