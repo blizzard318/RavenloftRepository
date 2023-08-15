@@ -32,20 +32,23 @@
             var boardgame  = new Trait("Board Game" , Trait.TraitType.Source);
 
             var Darklord      = new Trait("Darklord", Trait.TraitType.Creature);
-            var Priest        = new Trait("Priest", Trait.TraitType.Creature);
             var Vistani       = new Trait("Vistani", Trait.TraitType.Creature | Trait.TraitType.Location | Trait.TraitType.Item);
-            var FortuneTeller = new Trait("Fortune Teller", Trait.TraitType.Creature | Trait.TraitType.Item);
+
             var Male          = new Trait("Male", Trait.TraitType.Creature);
             var Female        = new Trait("Female", Trait.TraitType.Creature);
             var Agender       = new Trait("No Gender", Trait.TraitType.Creature);
 
-            var Castle          = new Trait("Castle");
-            var DarklordLair    = new Trait("Darklord Lair");
-            var Church          = new Trait("Church");
-            var Forest          = new Trait("Forest");
-            var Camp            = new Trait("Camp");
-            var Town            = new Trait("Town");
-            var Mansion         = new Trait("Mansion");
+            var Human = new Trait("Human", Trait.TraitType.Creature);
+
+            var Undead = new Trait("Undead", Trait.TraitType.Creature);
+
+            var Castle          = new Trait("Castle", Trait.TraitType.Location);
+            var DarklordLair    = new Trait("Darklord Lair", Trait.TraitType.Location);
+            var Church          = new Trait("Church", Trait.TraitType.Location);
+            var Forest          = new Trait("Forest", Trait.TraitType.Location);
+            var Camp            = new Trait("Camp", Trait.TraitType.Location);
+            var Town            = new Trait("Town", Trait.TraitType.Location);
+            var Mansion         = new Trait("Mansion", Trait.TraitType.Location);
 
             var Card           = new Trait("Card", Trait.TraitType.Item);
             #endregion
@@ -88,7 +91,7 @@
             Cross.Add(VistaniCamp, Barovia);
             Cross.Add(VistaniCamp, MadamEva);
             Cross.Add(VistaniCamp, Camp);
-            Cross.Add(VistaniCamp, VistaniLocation);
+            Cross.Add(VistaniCamp, Vistani);
 
             var TownOfBarovia = new Location("Town of Barovia");
             Add(new Appearance(I6Ravenloft, TownOfBarovia, 1));
@@ -117,31 +120,30 @@
             Add(new Appearance(I6Ravenloft, BarovianChurch, 1));
             Cross.Add(BarovianChurch, Barovia);
             Cross.Add(BarovianChurch, TownOfBarovia);
-            Cross.Add(BarovianChurch, Priest);
             Cross.Add(BarovianChurch, Church);
 
-            var Burgomaster = new Trait("Burgomaster");
+            var Burgomaster = new Trait("Burgomaster", Trait.TraitType.Creature);
             Add(new Appearance(I6Ravenloft, Burgomaster, 1));
             Cross.Add(Burgomaster, Barovia);
             Cross.Add(Burgomaster, BurgomasterMansion);
             Cross.Add(Burgomaster, TownOfBarovia);
 
-            var Wolf = new Trait("Wolf");
+            var Wolf = new Trait("Wolf", Trait.TraitType.Creature);
             Add(new Appearance(I6Ravenloft, Wolf, 1));
             Cross.Add(Wolf, Barovia);
             Cross.Add(Wolf, SvalichWoods);
 
-            var Worg = new Trait("Worg");
+            var Worg = new Trait("Worg", Trait.TraitType.Creature);
             Add(new Appearance(I6Ravenloft, Worg, 1));
             Cross.Add(Worg, Barovia);
             Cross.Add(Worg, SvalichWoods);
 
-            var Bat = new Trait("Bat");
+            var Bat = new Trait("Bat", Trait.TraitType.Creature);
             Add(new Appearance(I6Ravenloft, Bat, 1));
             Cross.Add(Bat, Barovia);
             Cross.Add(Bat, CastleRavenloft);
 
-            var Vampire = new Trait("Vampire");
+            var Vampire = new Trait("Vampire", Trait.TraitType.Creature);
             Add(new Appearance(I6Ravenloft, Vampire, 1));
             Cross.Add(Vampire, Barovia);
             Cross.Add(Vampire, Strahd);
@@ -151,10 +153,8 @@
             Cross.Add(Tarokka, Vistani);
             Cross.Add(Tarokka, MadamEva);
             Cross.Add(Tarokka, Card);
-            Cross.Add(Tarokka, FortuneTeller);
-            Cross.Add(Tarokka, FortuneTelling);
             Cross.Add(Tarokka, VistaniCamp);
-            Cross.Add(Tarokka, VistaniItem);
+            Cross.Add(Tarokka, Vistani);
             Add(new Appearance(I6Ravenloft, Tarokka, 1));
 
             db.SaveChanges();
