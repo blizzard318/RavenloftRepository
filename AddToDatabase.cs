@@ -1,4 +1,6 @@
-﻿namespace Ravenloft
+﻿using System.Runtime.InteropServices.JavaScript;
+
+namespace Ravenloft
 {
     internal static class AddToDatabase
     {
@@ -9,153 +11,426 @@
                 var retval = db.Find(typeof(Appearance), input.Id);
                 if (retval == null) db.Add(input);
             }
+            void AddRelationship (NPC first, NPC second, Relationship.RelationshipType type)
+            {
+                var input = new Relationship(first, second, type);
+                var retval = db.Find(typeof(Relationship), input.Id);
+                if (retval == null) db.Add(input);
+            }
 
             #region Universal Traits
-            var e1  = new Trait("1st Edition"  , Trait.TraitType.Source);
-            var e2  = new Trait("2nd Edition"  , Trait.TraitType.Source);
-            var e3  = new Trait("3rd Edition"  , Trait.TraitType.Source);
-            var e35 = new Trait("3.5th Edition", Trait.TraitType.Source);
-            var e4  = new Trait("4th Edition"  , Trait.TraitType.Source);
-            var e5  = new Trait("5th Edition"  , Trait.TraitType.Source);
+            //Editions
+            var e0  = new Trait("Editionless"  , "Edition");
+            e0.ExtraInfo = "Everything here are official products that do not belong to any edition of D&D.";
+            var e1  = new Trait("1st Edition"  , "Edition");
+            var e2  = new Trait("2nd Edition"  , "Edition");
+            var e3  = new Trait("3rd Edition"  , "Edition");
+            var e35 = new Trait("3.5th Edition", "Edition");
+            var e4  = new Trait("4th Edition"  , "Edition");
+            var e5  = new Trait("5th Edition"  , "Edition");
 
-            var pc = new Trait("Potentially Canon", Trait.TraitType.Source);
-            var nc = new Trait("Not Canon", Trait.TraitType.Source);
+            //Canonicity
+            var pc = new Trait("Potentially Canon", "Canon");
+            var nc = new Trait("Not Canon"        , "Canon");
             nc.ExtraInfo = pc.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
 
-            var comic      = new Trait("Comic"      , Trait.TraitType.Source);
-            var module     = new Trait("Module"     , Trait.TraitType.Source);
-            var novel      = new Trait("Novel"      , Trait.TraitType.Source);
-            var gamebook   = new Trait("Gamebook"   , Trait.TraitType.Source);
-            var sourcebook = new Trait("Sourcebook" , Trait.TraitType.Source);
-            var magazine   = new Trait("Magazine"   , Trait.TraitType.Source);
-            var videogame  = new Trait("Video Game" , Trait.TraitType.Source);
-            var boardgame  = new Trait("Board Game" , Trait.TraitType.Source);
+            //Source types
+            var comic      = new Trait("Comic"      , "Media Type");
+            var module     = new Trait("Module"     , "Media Type");
+            var novel      = new Trait("Novel"      , "Media Type");
+            var gamebook   = new Trait("Gamebook"   , "Media Type");
+            var sourcebook = new Trait("Sourcebook" , "Media Type");
+            var magazine   = new Trait("Magazine"   , "Media Type");
+            var videogame  = new Trait("Video Game" , "Media Type");
+            var boardgame  = new Trait("Board Game" , "Media Type");
 
-            var Darklord      = new Trait("Darklord", Trait.TraitType.Creature);
-            var Vistani       = new Trait("Vistani", Trait.TraitType.Creature | Trait.TraitType.Location | Trait.TraitType.Item);
+            //Exclusive to Ravenloft Types
+            var Darklord = new Trait("Darklord", "NPC Trait, Location");
+            Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
+            var Vistani  = new Trait("Vistani", "NPC Trait, Location, Item");
+            var Raunie   = new Trait("Raunie", "NPC Trait");
 
-            var Male          = new Trait("Male", Trait.TraitType.Creature);
-            var Female        = new Trait("Female", Trait.TraitType.Creature);
-            var Agender       = new Trait("No Gender", Trait.TraitType.Creature);
+            //Alignment
+            var LG = new Trait("Lawful Good"    , "Alignment");
+            var NG = new Trait("Neutral Good"   , "Alignment");
+            var CG = new Trait("Chaotic Good"   , "Alignment");
+            var LN = new Trait("Lawful Neutral" , "Alignment");
+            var TN = new Trait("True Neutral"   , "Alignment");
+            var CN = new Trait("Chaotic Neutral", "Alignment");
+            var LE = new Trait("Lawful Evil"    , "Alignment");
+            var NE = new Trait("Neutral Evil"   , "Alignment");
+            var CE = new Trait("Chaotic Evil"   , "Alignment");
 
-            var Human = new Trait("Human", Trait.TraitType.Creature);
+            //Item traits
+            var Mundane = new Trait("Mundane", "Item");
+            var Magical = new Trait("Magical", "Item");
+            var Melee  = new Trait("Melee", "Item");
+            var Ranged  = new Trait("Ranged", "Item");
+            var Armor   = new Trait("Armor" , "Item");
 
-            var Undead = new Trait("Undead", Trait.TraitType.Creature);
+            //Classes
+            var Cleric    = new Trait("Cleric"    , "Class");
+            var Fighter   = new Trait("Fighter"   , "Class");
+            var MagicUser = new Trait("Magic User", "Class");
+            var Thief     = new Trait("Thief"     , "Class");
 
-            var Castle          = new Trait("Castle", Trait.TraitType.Location);
-            var DarklordLair    = new Trait("Darklord Lair", Trait.TraitType.Location);
-            var Church          = new Trait("Church", Trait.TraitType.Location);
-            var Forest          = new Trait("Forest", Trait.TraitType.Location);
-            var Camp            = new Trait("Camp", Trait.TraitType.Location);
-            var Town            = new Trait("Town", Trait.TraitType.Location);
-            var Mansion         = new Trait("Mansion", Trait.TraitType.Location);
+            // ## Add these below to page count.
+            //Races
+            var Human = new Trait("Human", "Race");
 
-            var Card           = new Trait("Card", Trait.TraitType.Item);
+            //Creature Types
+            var StrahdZombie = new Trait("Strahd Zombie", "Creature");
+            var Zombie = new Trait("Zombie", "Creature");
+            var Vampire = new Trait("Vampire", "Creature");
+            var Wolf = new Trait("Wolf", "Creature");
+            var Worg = new Trait("Worg", "Creature");
+            var Bat = new Trait("Bat", "Creature");
+            var Ghost = new Trait("Ghost", "Creature");
+            var Ghoul = new Trait("Ghoul", "Creature");
+            var Wight = new Trait("Wight", "Creature");
+            var Wraith = new Trait("Wraith", "Creature");
+            var Horse = new Trait("Horse", "Creature");
+            var GreenSlime = new Trait("Green Slime", "Creature");
+            var GiantSpider = new Trait("Giant Spider", "Creature");
+            var Gargoyles = new Trait("Gargoyles", "Creature");
+            var RustMonster = new Trait("Rust Monster", "Creature");
+            var Spectre = new Trait("Spectre", "Creature");
+            var KeeningSpirit = new Trait("Keening Spirit", "Creature");
+            KeeningSpirit.ExtraInfo = "Also known as 'Groaning Spirit'";
+            var RedDragon = new Trait("Red Dragon", "Creature");
+
+            //Item Types
+            var Tarokka = new Item("Tarokka");
+            Cross.Add(Tarokka, Mundane);
+            Cross.Add(Tarokka, Vistani);
+            var Sunsword = new Item("Sunsword");
+            Cross.Add(Sunsword, Magical);
+            Cross.Add(Sunsword, Melee);
+            var LongSword = new Item("Longsword");
+            Cross.Add(LongSword, Mundane);
+            Cross.Add(LongSword, Melee);
+            var PlateMail = new Item("Plate Mail");
+            Cross.Add(PlateMail, Mundane);
+            Cross.Add(PlateMail, Armor);
+            var IconOfRavenloft = new Item("Icon of Ravenloft");
+            Cross.Add(IconOfRavenloft, Magical);
+            Cross.Add(IconOfRavenloft, LG);
+            var Halberd = new Item("Halberd");
+            Cross.Add(Halberd, Mundane);
+            Cross.Add(Halberd, Melee);
             #endregion
 
-            var I6Ravenloft = new Source("I6: Ravenloft");
-            I6Ravenloft.Traits.AddRange(new[] { e1, module });
-            I6Ravenloft.ReleaseDate = new DateTime(1983, 11, 1);
-            I6Ravenloft.Contributors = "Authors: Tracy Hickman and Laura Hickman\nEditor: Curtis Smith\n";
-            I6Ravenloft.Contributors += "Graphic Designer: Debra Stubbe\nIllustrator: Clyde Caldwell";
-            I6Ravenloft.ExtraInfo = "'ModuleInfo':'An adventure for 6-8 characters of levels 5-7'";
+            AddI6Ravenloft();
+            void AddI6Ravenloft()
+            {
+                var I6Ravenloft = new Source("I6: Ravenloft");
+                I6Ravenloft.Traits.AddRange(new List<Trait> { e1, module });
+                I6Ravenloft.ReleaseDate = new DateTime(1983, 11, 1);
+                I6Ravenloft.Contributors = "Authors: Tracy Hickman and Laura Hickman\nEditor: Curtis Smith\n";
+                I6Ravenloft.Contributors += "Graphic Designer: Debra Stubbe\nIllustrator: Clyde Caldwell";
+                I6Ravenloft.ExtraInfo = "'ModuleInfo':'An adventure for 6-8 characters of levels 5-7'";
 
-            var Barovia = new Domain("Barovia");
-            Add(new Appearance(I6Ravenloft, Barovia, 1));
+                var Barovia = new Domain("Barovia");
+                Add(new Appearance(I6Ravenloft, Barovia));
+                Add(new Appearance(I6Ravenloft, Vampire));
+                Add(new Appearance(I6Ravenloft, Human));
+                Cross.Add(Barovia, Vampire);
 
-            var Strahd = new NPC("Count Strahd von Zarovich");
-            Add(new Appearance(I6Ravenloft, Strahd, 1));
-            Cross.Add(Strahd, Male);
-            Cross.Add(Strahd, Barovia);
-            Cross.Add(Strahd, Darklord);
-            Strahd.ExtraInfo = "'ClosedBorders': 'Deadly Fog'";
+                var Strahd = new NPC("Count Strahd von Zarovich");
+                Add(new Appearance(I6Ravenloft, Strahd));
+                Cross.Add(Strahd, CE);
+                Cross.Add(Strahd, Human);
+                Cross.Add(Strahd, MagicUser);
+                Cross.Add(Strahd, Barovia);
+                Cross.Add(Strahd, Darklord);
+                Cross.Add(Strahd, Vampire);
+                Strahd.ExtraInfo = "'ClosedBorders':'No one has left Barovia for centuries. This is because of the trapping fog that exists everywhere in Barovia. Once it is breathed, it infuses itself around a character's vital organs as a neutralized poison. The fog does not taste or smell any different than normal fog. It does not harm characters as long as they continue to breathe the air in Barovia. However, when they leave Barovia, the poison becomes active. Characters must save vs. poison or start to choke. Unless choking characters reenter Barovia within 24 hours, they die. The choking stops as soon as they breathe the fog again.  The fog is magically produced by Strahd and disappears entirely upon his destruction.'";
 
-            var MadamEva = new NPC("Madam Eva");
-            Add(new Appearance(I6Ravenloft, MadamEva, 1));
-            Cross.Add(MadamEva, Female);
-            Cross.Add(MadamEva, Barovia);
-            Cross.Add(MadamEva, Vistani);
+                var MadamEva = new NPC("Madam Eva");
+                Add(new Appearance(I6Ravenloft, MadamEva, 1, 6));
+                Cross.Add(MadamEva, CN);
+                Cross.Add(MadamEva, Human);
+                Cross.Add(MadamEva, Barovia);
+                Cross.Add(MadamEva, Cleric);
+                Cross.Add(MadamEva, Raunie);
+                Cross.Add(MadamEva, Vistani);
 
-            var IreenaKolyana = new NPC("Ireena Kolyana");
-            Add(new Appearance(I6Ravenloft, IreenaKolyana, 1));
-            Cross.Add(IreenaKolyana, Female);
-            Cross.Add(IreenaKolyana, Barovia);
+                var KolyanIndirovich = new NPC("Kolyan Indirovich");
+                Add(new Appearance(I6Ravenloft, KolyanIndirovich, 7, 8, 9));
+                Cross.Add(KolyanIndirovich, Human);
+                Cross.Add(KolyanIndirovich, Barovia);
+                Cross.Add(KolyanIndirovich, Fighter);
 
-            var Sergei = new NPC("Sergei von Zarovich");
-            Add(new Appearance(I6Ravenloft, Sergei, 1));
-            Cross.Add(Sergei, Male);
-            Cross.Add(Sergei, Barovia);
+                var IreenaKolyana = new NPC("Ireena Kolyana");
+                Add(new Appearance(I6Ravenloft, IreenaKolyana));
+                Cross.Add(IreenaKolyana, Human);
+                Cross.Add(IreenaKolyana, Barovia);
+                Cross.Add(IreenaKolyana, Fighter);
 
-            var VistaniCamp = new Location("Vistani Camp");
-            Add(new Appearance(I6Ravenloft, VistaniCamp, 1));
-            Cross.Add(VistaniCamp, Barovia);
-            Cross.Add(VistaniCamp, MadamEva);
-            Cross.Add(VistaniCamp, Camp);
-            Cross.Add(VistaniCamp, Vistani);
+                var Bildrath = new NPC("Bildrath");
+                Add(new Appearance(I6Ravenloft, Bildrath, 8));
+                Cross.Add(Bildrath, LN);
+                Cross.Add(Bildrath, Human);
+                Cross.Add(Bildrath, Barovia);
+                Cross.Add(Bildrath, Fighter);
 
-            var TownOfBarovia = new Location("Town of Barovia");
-            Add(new Appearance(I6Ravenloft, TownOfBarovia, 1));
-            Cross.Add(TownOfBarovia, Barovia);
-            Cross.Add(TownOfBarovia, IreenaKolyana);
-            Cross.Add(TownOfBarovia, Town);
+                var Parriwimple = new NPC("Parriwimple");
+                Add(new Appearance(I6Ravenloft, Parriwimple, 8));
+                Cross.Add(Bildrath, LN);
+                Cross.Add(Parriwimple, Human);
+                Cross.Add(Parriwimple, Barovia);
+                Cross.Add(Parriwimple, Fighter);
 
-            var CastleRavenloft = new Location("Castle Ravenloft");
-            Add(new Appearance(I6Ravenloft, CastleRavenloft, 1));
-            Cross.Add(CastleRavenloft, Barovia);
-            Cross.Add(CastleRavenloft, Castle);
-            Cross.Add(CastleRavenloft, DarklordLair);
-            Cross.Add(CastleRavenloft, Strahd);
+                var Arik = new NPC("Arik");
+                Add(new Appearance(I6Ravenloft, Arik, 8));
+                Cross.Add(Arik, CN);
+                Cross.Add(Arik, Human);
+                Cross.Add(Arik, Barovia);
+                Cross.Add(Arik, Fighter);
 
-            var SvalichWoods = new Location("Svalich Woods");
-            Add(new Appearance(I6Ravenloft, SvalichWoods, 1));
-            Cross.Add(SvalichWoods, Barovia);
-            Cross.Add(SvalichWoods, Forest);
+                var Ismark = new NPC("Ismark the Lesser");
+                Add(new Appearance(I6Ravenloft, Arik, 8, 9));
+                Cross.Add(Ismark, LG);
+                Cross.Add(Ismark, Human);
+                Cross.Add(Ismark, Barovia);
 
-            var BurgomasterMansion = new Location("Burgomaster's Mansion");
-            Add(new Appearance(I6Ravenloft, BurgomasterMansion, 1));
-            Cross.Add(BurgomasterMansion, Barovia);
-            Cross.Add(BurgomasterMansion, Mansion);
+                var Sergei = new NPC("Sergei von Zarovich");
+                Add(new Appearance(I6Ravenloft, Sergei, 1, 4));
+                Cross.Add(Sergei, Human);
+                Cross.Add(Sergei, Barovia);
 
-            var BarovianChurch = new Location("Church of Barovia");
-            Add(new Appearance(I6Ravenloft, BarovianChurch, 1));
-            Cross.Add(BarovianChurch, Barovia);
-            Cross.Add(BarovianChurch, TownOfBarovia);
-            Cross.Add(BarovianChurch, Church);
+                var Ravenovia = new NPC("Queen Ravenovia");
+                Add(new Appearance(I6Ravenloft, Ravenovia, 5));
+                Cross.Add(Sergei, Human);
+                Cross.Add(Sergei, Barovia);
 
-            var Burgomaster = new Trait("Burgomaster", Trait.TraitType.Creature);
-            Add(new Appearance(I6Ravenloft, Burgomaster, 1));
-            Cross.Add(Burgomaster, Barovia);
-            Cross.Add(Burgomaster, BurgomasterMansion);
-            Cross.Add(Burgomaster, TownOfBarovia);
+                var MadMary = new NPC("Mad Mary");
+                Add(new Appearance(I6Ravenloft, MadMary, 9));
+                Cross.Add(MadMary, Human);
+                Cross.Add(MadMary, Barovia);
+                Cross.Add(MadMary, Fighter);
 
-            var Wolf = new Trait("Wolf", Trait.TraitType.Creature);
-            Add(new Appearance(I6Ravenloft, Wolf, 1));
-            Cross.Add(Wolf, Barovia);
-            Cross.Add(Wolf, SvalichWoods);
+                var Gertruda = new NPC("Gertruda");
+                Add(new Appearance(I6Ravenloft, Gertruda, 9));
+                Cross.Add(Gertruda, Human);
+                Cross.Add(Gertruda, Barovia);
 
-            var Worg = new Trait("Worg", Trait.TraitType.Creature);
-            Add(new Appearance(I6Ravenloft, Worg, 1));
-            Cross.Add(Worg, Barovia);
-            Cross.Add(Worg, SvalichWoods);
+                var Donavich = new NPC("Donavich");
+                Add(new Appearance(I6Ravenloft, Donavich, 9));
+                Cross.Add(Donavich, Human);
+                Cross.Add(Donavich, Barovia);
+                Cross.Add(Donavich, Cleric);
 
-            var Bat = new Trait("Bat", Trait.TraitType.Creature);
-            Add(new Appearance(I6Ravenloft, Bat, 1));
-            Cross.Add(Bat, Barovia);
-            Cross.Add(Bat, CastleRavenloft);
+                var GuardianOfSorrow = new NPC("Guardian of Sorrow");
+                Add(new Appearance(I6Ravenloft, GuardianOfSorrow, 16));
+                Cross.Add(GuardianOfSorrow, Barovia);
+                Cross.Add(GuardianOfSorrow, NE);
+                Cross.Add(GuardianOfSorrow, Halberd);
 
-            var Vampire = new Trait("Vampire", Trait.TraitType.Creature);
-            Add(new Appearance(I6Ravenloft, Vampire, 1));
-            Cross.Add(Vampire, Barovia);
-            Cross.Add(Vampire, Strahd);
+                var BildrathParents = new NPC(string.Empty);
+                var BildrathSibling = new NPC(string.Empty);
+                AddRelationship(BildrathParents, Bildrath, Relationship.RelationshipType.Parent);
+                AddRelationship(BildrathParents, BildrathSibling, Relationship.RelationshipType.Parent);
+                AddRelationship(BildrathSibling, Parriwimple, Relationship.RelationshipType.Parent);
 
-            var Tarokka = new Item("Tarokka");
-            Cross.Add(Tarokka, Barovia);
-            Cross.Add(Tarokka, Vistani);
-            Cross.Add(Tarokka, MadamEva);
-            Cross.Add(Tarokka, Card);
-            Cross.Add(Tarokka, VistaniCamp);
-            Cross.Add(Tarokka, Vistani);
-            Add(new Appearance(I6Ravenloft, Tarokka, 1));
+                AddRelationship(MadMary, Gertruda, Relationship.RelationshipType.Parent);
+
+                AddRelationship(KolyanIndirovich, IreenaKolyana, Relationship.RelationshipType.Parent);
+                AddRelationship(KolyanIndirovich, Ismark, Relationship.RelationshipType.Parent);
+
+                AddRelationship(Ravenovia, Strahd, Relationship.RelationshipType.Parent);
+                AddRelationship(Ravenovia, Sergei, Relationship.RelationshipType.Parent);
+
+                var OldSvalichRoad = new Location("The Old Svalich Road");
+                Add(new Appearance(I6Ravenloft, OldSvalichRoad, 7));
+                Cross.Add(OldSvalichRoad, Barovia);
+
+                var GatesOfBarovia = new Location("The Gates of Barovia");
+                Add(new Appearance(I6Ravenloft, GatesOfBarovia, 7));
+                Cross.Add(GatesOfBarovia, Barovia);
+
+                var SvalichWoods = new Location("The Svalich Woods");
+                Add(new Appearance(I6Ravenloft, SvalichWoods, 1, 6, 7, 8));
+                Cross.Add(SvalichWoods, Barovia);
+
+                var RiverIvlis = new Location("The River Ivlis");
+                Add(new Appearance(I6Ravenloft, RiverIvlis, 8));
+                Cross.Add(RiverIvlis, Barovia);
+
+                var VillageOfBarovia = new Location("Village of Barovia");
+                Add(new Appearance(I6Ravenloft, VillageOfBarovia, 1, 6, 7));
+                Cross.Add(VillageOfBarovia, Barovia);
+                Cross.Add(VillageOfBarovia, IreenaKolyana);
+                Cross.Add(VillageOfBarovia, KolyanIndirovich);
+                Cross.Add(VillageOfBarovia, Bildrath);
+
+                var BildrathsMercantile = new Location("Bildrath's Mercantile");
+                Add(new Appearance(I6Ravenloft, BildrathsMercantile, 8));
+                Cross.Add(BildrathsMercantile, Barovia);
+                Cross.Add(BildrathsMercantile, VillageOfBarovia);
+                Cross.Add(BildrathsMercantile, Bildrath);
+                Cross.Add(BildrathsMercantile, Parriwimple);
+
+                var BloodOfTheVineTavern = new Location("Blood of the Vine Tavern");
+                BloodOfTheVineTavern.ExtraInfo = "Also known as Blood on the Vine";
+                Add(new Appearance(I6Ravenloft, BloodOfTheVineTavern, 8, 9));
+                Cross.Add(BloodOfTheVineTavern, Barovia);
+                Cross.Add(BloodOfTheVineTavern, VillageOfBarovia);
+                Cross.Add(BloodOfTheVineTavern, Arik);
+                Cross.Add(BloodOfTheVineTavern, Ismark);
+
+                var MadMaryTownhouse = new Location("Mad Mary's Townhouse");
+                Add(new Appearance(I6Ravenloft, MadMaryTownhouse, 9));
+                Cross.Add(MadMaryTownhouse, Barovia);
+                Cross.Add(MadMaryTownhouse, VillageOfBarovia);
+                Cross.Add(MadMaryTownhouse, MadMary);
+                Cross.Add(MadMaryTownhouse, Gertruda);
+
+                var BurgomasterHome = new Location("Burgomaster's Home");
+                Add(new Appearance(I6Ravenloft, BurgomasterHome, 1, 9));
+                Cross.Add(BurgomasterHome, Barovia);
+                Cross.Add(BurgomasterHome, VillageOfBarovia);
+                Cross.Add(BurgomasterHome, KolyanIndirovich);
+                Cross.Add(BurgomasterHome, IreenaKolyana);
+
+                var GuestHouse = new Location("Burgomaster's Guest House");
+                Add(new Appearance(I6Ravenloft, GuestHouse, 9));
+                Cross.Add(GuestHouse, Barovia);
+                Cross.Add(GuestHouse, VillageOfBarovia);
+
+                var BarovianChurch = new Location("Church of Barovia");
+                Add(new Appearance(I6Ravenloft, BarovianChurch, 9, 10));
+                Cross.Add(BarovianChurch, Barovia);
+                Cross.Add(BarovianChurch, VillageOfBarovia);
+                Cross.Add(BarovianChurch, Donavich);
+
+                var BarovianCemetery = new Location("Cemetery of Barovia");
+                Add(new Appearance(I6Ravenloft, BarovianCemetery, 9, 11));
+                Cross.Add(BarovianCemetery, Barovia);
+                Cross.Add(BarovianCemetery, VillageOfBarovia);
+                Cross.Add(BarovianCemetery, Ghost);
+
+                var RoadJunction = new Location("Road Junction");
+                Add(new Appearance(I6Ravenloft, BarovianCemetery, 11));
+                Cross.Add(BarovianCemetery, Barovia);
+                Cross.Add(BarovianCemetery, VillageOfBarovia);
+
+                var TserPoolEncampment = new Location("Tser Pool Encampment");
+                Add(new Appearance(I6Ravenloft, TserPoolEncampment, 1));
+                Cross.Add(TserPoolEncampment, Barovia);
+                Cross.Add(TserPoolEncampment, Vistani);
+
+                var MadamEvaTent = new Location("Madam Eva's Tent");
+                Add(new Appearance(I6Ravenloft, MadamEvaTent, 1));
+                Cross.Add(MadamEvaTent, Barovia);
+                Cross.Add(MadamEvaTent, Vistani);
+                Cross.Add(MadamEvaTent, MadamEva);
+
+                var TserFalls = new Location("Tser Falls");
+                Add(new Appearance(I6Ravenloft, TserFalls, 1));
+                Cross.Add(TserFalls, Barovia);
+
+                var GatesOfRavenloft = new Location("The Gates of Ravenloft");
+                Add(new Appearance(I6Ravenloft, GatesOfRavenloft, 11, 12));
+                Cross.Add(GatesOfRavenloft, Barovia);
+
+                var CastleRavenloft = new Location("Castle Ravenloft");
+                Add(new Appearance(I6Ravenloft, CastleRavenloft, 1));
+                Cross.Add(CastleRavenloft, Barovia);
+                Cross.Add(CastleRavenloft, Darklord);
+                Cross.Add(CastleRavenloft, Strahd);
+                Cross.Add(CastleRavenloft, GuardianOfSorrow);
+
+                Cross.Add(Vistani, SvalichWoods);
+                Cross.Add(Vistani, VillageOfBarovia);
+
+                Add(new Appearance(I6Ravenloft, RedDragon, 13));
+                Cross.Add(RedDragon, Barovia);
+                Cross.Add(RedDragon, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, GiantSpider, 12));
+                Cross.Add(GiantSpider, Barovia);
+                Cross.Add(GiantSpider, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, KeeningSpirit, 12));
+                Cross.Add(KeeningSpirit, Barovia);
+                Cross.Add(KeeningSpirit, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, Gargoyles, 12, 13));
+                Cross.Add(Gargoyles, Barovia);
+                Cross.Add(Gargoyles, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, RustMonster, 12));
+                Cross.Add(RustMonster, Barovia);
+                Cross.Add(RustMonster, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, Spectre, 12));
+                Cross.Add(Spectre, Barovia);
+                Cross.Add(Spectre, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, GreenSlime, 12));
+                Cross.Add(GreenSlime, Barovia);
+                Cross.Add(GreenSlime, GatesOfRavenloft);
+
+                Add(new Appearance(I6Ravenloft, Horse, 11));
+                Cross.Add(Horse, Strahd);
+                Cross.Add(Horse, Barovia);
+
+                Add(new Appearance(I6Ravenloft, Wight, 6));
+                Cross.Add(Wight, Barovia);
+
+                Add(new Appearance(I6Ravenloft, Wraith, 6, 12));
+                Cross.Add(Wraith, Barovia);
+                Cross.Add(Wraith, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, Ghost, 6));
+                Cross.Add(Ghost, Barovia);
+                
+                Add(new Appearance(I6Ravenloft, Ghoul, 6));
+                Cross.Add(Ghoul, Barovia);
+
+                Add(new Appearance(I6Ravenloft, Worg, 1, 3, 6, 8));
+                Cross.Add(Worg, Barovia);
+                Cross.Add(Zombie, Strahd);
+
+                Add(new Appearance(I6Ravenloft, Bat, 1, 3, 6, 12));
+                Cross.Add(Bat, Barovia);
+                Cross.Add(Bat, Strahd);
+                Cross.Add(Bat, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, Zombie, 6));
+                Cross.Add(Zombie, Barovia);
+                Cross.Add(Zombie, Strahd);
+
+                Add(new Appearance(I6Ravenloft, StrahdZombie, 3, 12));
+                Cross.Add(StrahdZombie, Barovia);
+                Cross.Add(StrahdZombie, Strahd);
+                Cross.Add(StrahdZombie, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, Tarokka, 1, 4, 5));
+                Cross.Add(Tarokka, Barovia);
+                Cross.Add(Tarokka, MadamEva);
+                Cross.Add(Tarokka, MadamEvaTent);
+
+                Add(new Appearance(I6Ravenloft, Sunsword, 5));
+                Cross.Add(Sunsword, Barovia);
+
+                Add(new Appearance(I6Ravenloft, LongSword, 8));
+                Cross.Add(LongSword, Barovia);
+                Cross.Add(LongSword, Ismark);
+
+                Add(new Appearance(I6Ravenloft, Halberd, 16));
+                Cross.Add(LongSword, Barovia);
+                Cross.Add(LongSword, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, PlateMail, 13));
+                Cross.Add(LongSword, Barovia);
+                Cross.Add(LongSword, CastleRavenloft);
+
+                Add(new Appearance(I6Ravenloft, IconOfRavenloft, 14));
+                Cross.Add(IconOfRavenloft, Barovia);
+                Cross.Add(IconOfRavenloft, CastleRavenloft);
+            }
 
             db.SaveChanges();
 

@@ -15,8 +15,8 @@ namespace Ravenloft
         public DbSet<Location> Locations { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<NPC> NPCs { get; set; }
-        public DbSet<Event> Events { get; set; }
-
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Relationship> Relationships { get; set; }
         public string DbPath { get; }
         public RavenloftContext() => DbPath = Path.Join(Directory.GetCurrentDirectory(), "Ravenloft.db");
 
@@ -29,11 +29,10 @@ namespace Ravenloft
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Trait>().Property(e => e.type).HasConversion(
+            modelBuilder.Entity<Relationship>().Property(e => e.Type).HasConversion(
                 v => v.ToString(),
-                v => (Trait.TraitType)Enum.Parse(typeof(Trait.TraitType), v)
+                v => (Relationship.RelationshipType)Enum.Parse(typeof(Relationship.RelationshipType), v)
             );
-
             /*modelBuilder.Entity<Domain>().ToTable(nameof(Domain));
             //modelBuilder.Entity<DomainTrait>().ToTable("Domain Trait");
             modelBuilder.Entity<Source>().ToTable(nameof(Source));
@@ -57,7 +56,8 @@ namespace Ravenloft
     }
     public abstract class Base
     {
-        [Key] public string Name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string ExtraInfo { get; set; } = string.Empty;
         public Base() { }
         public Base(string name) => Name = name;
@@ -65,16 +65,8 @@ namespace Ravenloft
     public class Trait : Base
     {
         public Trait() { }
-        public Trait(string name, TraitType type) : base(name) { this.type = type; }
-        [Flags] public enum TraitType 
-        { 
-            Item = 1,
-            Source = 2,
-            Domain = 4,
-            Creature = 8,
-            Location = 16 
-        }
-        public TraitType type { get; set; }
+        public Trait(string name, string type) : base(name) { this.type = type; }
+        public string type { get; set; }
     }
     public class Appearance
     {
@@ -87,10 +79,11 @@ namespace Ravenloft
         public Appearance (Source source, Base entity, params int[] pageNumbers)
         {
             Cross.Add(Source = source, Entity = entity);
-            PageNumbers = string.Join(',', pageNumbers);
+            if (pageNumbers.Length == 0) PageNumbers = "Throughout";
+            else PageNumbers = string.Join(',', pageNumbers);
         }
     }
-    public class Source : Base, HasMany<Domain>, HasMany<NPC>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<Trait>
+    public class Source : Base, HasMany<Domain>, HasMany<NPC>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<Trait>, HasMany<Language>
     {
         public Source() { }
         public Source(string name) : base(name) { }
@@ -118,10 +111,14 @@ namespace Ravenloft
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 
+        public List<Language> Languages { get; set; } = new();
+        List<Language> HasMany<Language>.Values { get => Languages; set => Languages = value; }
+
+
         [Column(TypeName= "Date")] public DateTime ReleaseDate { get; set; }
         public string Contributors { get; set; }
     }
-    public class Domain : Base, HasMany<NPC>, HasMany<Location>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Trait>, HasMany<Item>
+    public class Domain : Base, HasMany<NPC>, HasMany<Location>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Trait>, HasMany<Item>, HasMany<Language>
     {
         public Domain() { }
         public Domain(string name) : base(name) { }
@@ -143,6 +140,9 @@ namespace Ravenloft
 
         public List<Item> Items { get; set; } = new();
         List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
+
+        public List<Language> Languages { get; set; } = new();
+        List<Language> HasMany<Language>.Values { get => Languages; set => Languages = value; }
     }
     public class Mistway : Base, HasMany<Domain>
     {
@@ -195,7 +195,7 @@ namespace Ravenloft
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
     }
-    public class NPC : Base, HasMany<Domain>, HasMany<Trait>, HasMany<Location>
+    public class NPC : Base, HasMany<Domain>, HasMany<Trait>, HasMany<Location>, HasMany<Language>
     {
         public NPC() { }
         public NPC(string name) : base(name) { }
@@ -211,24 +211,35 @@ namespace Ravenloft
 
         public List<Location> Locations { get; set; } = new();
         List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; } //Some people travel
-    }
-    public class Event : Base, HasMany<NPC>, HasMany<Item>, HasMany<Domain>, HasMany<Location>
-    {
-        public Event() { }
-        public Event(string name) : base(name) { }
 
-        public string Date {  get; set; }
+        public List<Language> Languages { get; set; } = new();
+        List<Language> HasMany<Language>.Values { get => Languages; set => Languages = value; }
+    }
+    public class Language : Base, HasMany<NPC>, HasMany<Domain>
+    {
+        public Language() { }
+        public Language(string name) : base(name) { }
 
         public List<NPC> NPCs { get; set; } = new();
         List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 
         public List<Domain> Domains { get; set; } = new();
         List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
+    }
+    public class Relationship //Notice this does not have a Base. This is a seperate entity sorta.
+    {
+        public int Id { get; set; }
+        public NPC First { get; set; }
+        public NPC Second { get; set; }
+        public enum RelationshipType { Parent, Child, Spouse }
+        public RelationshipType Type { get; set; }
 
-        public List<Location> Locations { get; set; } = new();
-        List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
-        public List<Item> Items { get; set; } = new();
-        List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
+        public Relationship() { }
+        public Relationship(NPC first, NPC second, RelationshipType type) 
+        {
+            First = first;
+            Second = second;
+            Type = type;
+        }
     }
 }
