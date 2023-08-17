@@ -1,41 +1,43 @@
-﻿namespace Ravenloft
+﻿public interface HasOne<T>
 {
-    public interface HasMany<T>
+    public T Value { get; set; }
+}
+public interface HasMany<T>
+{
+    public List<T> Values { get; set; }
+}
+internal static class Cross
+{
+    public static void Add<T1, T2>(T1 Primary, params T2[] Secondary) //Borca(domain), Ivana,Ivan(darklord)
     {
-        public List<T> Values { get; set; }
-    }
-    internal static class Cross
-    {
-        public static void Add<T1, T2>(T1 Primary, params T2[] Secondary) //Borca(domain), Ivana,Ivan(darklord)
+        if (Secondary.Length == 1 && Primary is HasOne<T2>)
         {
-            var primary = Primary as HasMany<T2>;
-            if (primary != null)
-            {
-                if (primary.Values == null) primary.Values = new();
-                primary.Values.AddRange(Secondary);
-            }
-
-            if (Secondary is HasMany<T1>[])
-            {
-                foreach (HasMany<T1> adder in Secondary) adder.Values.Add(Primary);
-            }
+            ((HasOne<T2>)Primary).Value = Secondary[0];
         }
-        
-        public static void Add<T1, T2>(T1[] Primary, T2[] Secondary) //Ivana,Ivan(darklord), {NPCs...}
+        else if (Primary is HasMany<T2>)
         {
-            if (Primary is HasMany<T2>[])
-            {
-                foreach (HasMany<T2> adder in Primary) 
-                    foreach(var ToAdd in Secondary)
-                        adder.Values.Add(ToAdd);
-            }
+            ((HasMany<T2>)Primary).Values.AddRange(Secondary);
+        }
 
-            if (Secondary is HasMany<T1>[])
-            {
-                foreach (HasMany<T1> adder in Secondary) 
-                    foreach (var ToAdd in Primary)
-                        adder.Values.Add(ToAdd);
-            }
+        if (Secondary[0] is HasOne<T1>)
+        {
+            foreach (HasOne<T1> adder in Secondary) adder.Value = Primary;
+        }
+        else if (Secondary[0] is HasMany<T1>)
+        {
+            foreach (HasMany<T1> adder in Secondary) adder.Values.Add(Primary);
+        }
+    }
+        
+    public static void Add<T1, T2>(T1[] Primary, T2[] Secondary) //Ivana,Ivan(darklord), {NPCs...}
+    {
+        if (Primary is HasMany<T2>[])
+        {
+            foreach (HasMany<T2> adder in   Primary) adder.Values.AddRange(Secondary);
+        }
+        if (Secondary is HasMany<T1>[])
+        {
+            foreach (HasMany<T1> adder in Secondary) adder.Values.AddRange(Primary);
         }
     }
 }
