@@ -155,6 +155,7 @@ internal static class AddToDatabase
             Add(new Appearance(I6Ravenloft, Human));
             Cross.Add(Barovia, Vampire);
 
+
             var Strahd = Add(new NPC("Count Strahd von Zarovich"));
             Add(new Appearance(I6Ravenloft, Strahd));
             Cross.Add(Strahd, CE);

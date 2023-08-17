@@ -68,7 +68,7 @@ public class Trait : Base
     public Trait(string name, string type) : base(name) { this.type = type; }
     public string type { get; set; }
 }
-public class Appearance //This doesn't have a base.
+public class Appearance<T> where T : Base //This doesn't have a base.
 {
     public int Id { get; set; }
     public Source Source { get; set; }
@@ -76,9 +76,11 @@ public class Appearance //This doesn't have a base.
     public string PageNumbers { get; set; }
 
     public Appearance() { }
-    public Appearance (Source source, Base entity, params int[] pageNumbers)
+    public Appearance(Source source, Trait entity, params int[] pageNumbers) : this(pageNumbers) => Cross.Add(Source = source, Entity = entity);
+    public Appearance(Source source, Domain entity, params int[] pageNumbers) : this(pageNumbers) => Cross.Add(Source = source, Entity = entity);
+    public Appearance (Source source, T entity, params int[] pageNumbers) : this(pageNumbers) => Cross.Add(Source = source, Entity = entity);
+    private Appearance (params int[] pageNumbers)
     {
-        Cross.Add(Source = source, Entity = entity);
         if (pageNumbers.Length == 0) PageNumbers = "Throughout";
         else PageNumbers = string.Join(',', pageNumbers);
     }

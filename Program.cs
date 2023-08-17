@@ -20,7 +20,8 @@ foreach (var source in db.Sources)
         sb.AppendLine("<details>");
         sb.AppendLine($"<summary><b>{source.Name}</b></summary>");
         sb.Append("Domains: ");
-        foreach (var domain in source.Domains) sb.Append(domain.Name);
+        foreach (var domain in source.Domains) sb.Append("From Source:" + domain.Name);
+        foreach (var domain in db.Domains) sb.Append("From db: " + domain.Name);
     sb.AppendLine("</details>");
     sb.AppendLine("</body>");
     sb.AppendLine("</html>");
