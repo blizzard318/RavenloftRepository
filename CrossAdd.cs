@@ -1,43 +1,47 @@
-﻿public interface HasOne<T>
+﻿internal static class Cross  
 {
-    public T Value { get; set; }
-}
-public interface HasMany<T>
-{
-    public List<T> Values { get; set; }
-}
-internal static class Cross
-{
-    public static void Add<T1, T2>(T1 Primary, params T2[] Secondary) //Borca(domain), Ivana,Ivan(darklord)
+    public static void Add(Trait[] traits = null, Location[] locations = null, NPC[] npcs = null, Domain[] domains = null, Item[] items = null)
     {
-        if (Secondary.Length == 1 && Primary is HasOne<T2>)
-        {
-            ((HasOne<T2>)Primary).Value = Secondary[0];
-        }
-        else if (Primary is HasMany<T2>)
-        {
-            ((HasMany<T2>)Primary).Values.AddRange(Secondary);
-        }
+        traits ??= new Trait[0];
+        locations ??= new Location[0];
+        npcs ??= new NPC[0];
+        domains ??= new Domain[0];
+        items ??= new Item[0];
 
-        if (Secondary[0] is HasOne<T1>)
+        foreach (var trait in traits)
         {
-            foreach (HasOne<T1> adder in Secondary) adder.Value = Primary;
+            trait.Locations.AddRange(locations);
+            trait.NPCs.AddRange(npcs);
+            trait.Domains.AddRange(domains);
+            trait.Items.AddRange(items);
         }
-        else if (Secondary[0] is HasMany<T1>)
+        foreach (var location in locations)
         {
-            foreach (HasMany<T1> adder in Secondary) adder.Values.Add(Primary);
+            location.Traits.AddRange(traits);
+            location.NPCs.AddRange(npcs);
+            location.Domain = domains[0];
+            location.Items.AddRange(items);
         }
-    }
-        
-    public static void Add<T1, T2>(T1[] Primary, T2[] Secondary) //Ivana,Ivan(darklord), {NPCs...}
-    {
-        if (Primary is HasMany<T2>[])
+        foreach (var npc in npcs)
         {
-            foreach (HasMany<T2> adder in   Primary) adder.Values.AddRange(Secondary);
+            npc.Locations.AddRange(locations);
+            npc.Traits.AddRange(traits);
+            npc.Domains.AddRange(domains);
+            npc.Items.AddRange(items);
         }
-        if (Secondary is HasMany<T1>[])
+        foreach (var domain in domains)
         {
-            foreach (HasMany<T1> adder in Secondary) adder.Values.AddRange(Primary);
+            domain.Locations.AddRange(locations);
+            domain.NPCs.AddRange(npcs);
+            domain.Traits.AddRange(traits);
+            domain.Items.AddRange(items);
+        }
+        foreach (var item in items)
+        {
+            item.Locations.AddRange(locations);
+            item.NPCs.AddRange(npcs);
+            item.Domains.AddRange(domains);
+            item.Traits.AddRange(traits);
         }
     }
 }

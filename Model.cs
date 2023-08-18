@@ -4,17 +4,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class RavenloftContext : DbContext
 {
-    public DbSet<Appearance> Appearances { get; set; }
-    public DbSet<Domain> Domains { get; set; }
-    public DbSet<Trait> Traits { get; set; }
-    public DbSet<Source> Sources { get; set; }
-    public DbSet<Mistway> Mistways { get; set; }
-    public DbSet<Cluster> Clusters { get; set; }
-    public DbSet<Location> Locations { get; set; }
-    public DbSet<Item> Items { get; set; }
-    public DbSet<NPC> NPCs { get; set; }
-    public DbSet<Language> Languages { get; set; }
+    public DbSet<TraitAppearance> traitAppearances { get; set; }
+    public DbSet<LocationAppearance> locationAppearances { get; set; }
+    public DbSet<NPCAppearance> npcAppearance { get; set; }
+    public DbSet<DomainAppearance> domainAppearance { get; set; }
+    public DbSet<ItemAppearance> itemAppearance { get; set; }
+    
     public DbSet<Relationship> Relationships { get; set; }
+
+    public DbSet<Source> Sources { get; set; }
+    public DbSet<SourceTrait> SourceTraits { get; set; }
+
+    public DbSet<Trait> Traits { get; set; }
+
+    public DbSet<Item> Items { get; set; }
+    public DbSet<Domain> Domains { get; set; }
+    public DbSet<NPC> NPCs { get; set; }
+    public DbSet<Location> Locations { get; set; }
+
     public string DbPath { get; }
     public RavenloftContext() => DbPath = Path.Join(Directory.GetCurrentDirectory(), "Ravenloft.db");
 
@@ -25,227 +32,191 @@ public class RavenloftContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-
         modelBuilder.Entity<Relationship>().Property(e => e.Type).HasConversion(
             v => v.ToString(),
             v => (Relationship.RelationshipType)Enum.Parse(typeof(Relationship.RelationshipType), v)
         );
-        /*modelBuilder.Entity<Domain>().ToTable(nameof(Domain));
-        //modelBuilder.Entity<DomainTrait>().ToTable("Domain Trait");
-        modelBuilder.Entity<Source>().ToTable(nameof(Source));
-        modelBuilder.Entity<Mistway>().ToTable(nameof(Mistway));
-        modelBuilder.Entity<Cluster>().ToTable(nameof(Cluster));
-        modelBuilder.Entity<Location>().ToTable(nameof(Location));
-        //modelBuilder.Entity<LocationTrait>().ToTable("Location Trait");
-        modelBuilder.Entity<Item>().ToTable(nameof(Item));
-        //modelBuilder.Entity<ItemTrait>().ToTable("Item Trait");
-        modelBuilder.Entity<NPC>().ToTable(nameof(NPC));
-        modelBuilder.Entity<CreatureTrait>().ToTable(nameof(CreatureTrait));
-        modelBuilder.Entity<Event>().ToTable(nameof(Event));
 
-        modelBuilder.Entity<Base>()
-            .HasDiscriminator()
-            .HasValue<Source.Trait>("Source Trait");
-            .HasValue<Domain.Trait>("Domain Trait")
-            .HasValue<Item.Trait>("Item Trait")
-            .HasValue<Location.Trait>("Location Trait");*/
+        modelBuilder.Entity<Relationship>()
+            .HasOne(r => r.Primary)
+            .WithMany(u => u.PrimaryRelationships)
+            .HasForeignKey(r => r.PrimaryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Relationship>()
+            .HasOne(r => r.Other)
+            .WithMany(u => u.OtherRelationships)
+            .HasForeignKey(r => r.OtherId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        /*modelBuilder.Entity<Appearance>().ToTable("Appearances");
+        modelBuilder.Entity<TraitAppearance   >().Property(a => a.Entity).HasColumnName("Trait");
+        modelBuilder.Entity<LocationAppearance>().Property(a => a.Entity).HasColumnName("Location");
+        modelBuilder.Entity<NPCAppearance     >().Property(a => a.Entity).HasColumnName("NPC");
+        modelBuilder.Entity<DomainAppearance  >().Property(a => a.Entity).HasColumnName("Domain");
+        modelBuilder.Entity<ItemAppearance    >().Property(a => a.Entity).HasColumnName("Item");*/
+        base.OnModelCreating(modelBuilder);
     }
 }
-public abstract class Base
+public abstract class UseId
 {
     public int Id { get; set; }
-    public string Name { get; set; }
-    public string URL => string.Concat(Name.Where(c => c != ':' && !char.IsWhiteSpace(c)));
+    public string Name { get; set; } //Not a key
     public string ExtraInfo { get; set; } = string.Empty;
     public string ExternalLinks { get; set; } = string.Empty;
-    public Base() { }
-    public Base(string name) => Name = name;
 }
-public class Trait : Base
+public abstract class UseName
 {
-    public Trait() { }
-    public Trait(string name, string type) : base(name) { this.type = type; }
-    public string type { get; set; }
+    [Key] public string Name { get; set; }
+    public string ExtraInfo { get; set; } = string.Empty;
+    public string ExternalLinks { get; set; } = string.Empty;
 }
-public class Appearance<T> where T : Base //This doesn't have a base.
-{
-    public int Id { get; set; }
-    public Source Source { get; set; }
-    public Base Entity { get; set; }
-    public string PageNumbers { get; set; }
-
-    public Appearance() { }
-    public Appearance(Source source, Trait entity, params int[] pageNumbers) : this(pageNumbers) => Cross.Add(Source = source, Entity = entity);
-    public Appearance(Source source, Domain entity, params int[] pageNumbers) : this(pageNumbers) => Cross.Add(Source = source, Entity = entity);
-    public Appearance (Source source, T entity, params int[] pageNumbers) : this(pageNumbers) => Cross.Add(Source = source, Entity = entity);
-    private Appearance (params int[] pageNumbers)
-    {
-        if (pageNumbers.Length == 0) PageNumbers = "Throughout";
-        else PageNumbers = string.Join(',', pageNumbers);
-    }
-}
-public class Source : Base, HasMany<Domain>, HasMany<NPC>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Location>, HasMany<Item>, HasMany<Trait>, HasMany<Language>, HasMany<Relationship>
+public class Source : UseName
 {
     public Source() { }
-    public Source(string name) : base(name) { }
+    public Source(string name, SourceTrait[] traits) 
+    { 
+        Name = name;
+        Traits.AddRange(traits);
+        foreach (var trait in traits) trait.Sources.Add(this);
+    }
 
-    public List<Trait> Traits { get; set; } = new();//Potential Canon, Non-Canon
-                                                            //(Module levels go into descript)
-    //[1e/../5e/No Edition], [Comic/Module/Novel/Gamebook/Sourcebook/Magazine/Videogame/Boardgame]
-    List<Trait> HasMany<Trait>.Values { get => Traits; set => Traits = value; }
+    public List<SourceTrait> Traits { get; set; } = new();
 
-    public List<Cluster> Clusters { get; set; } = new();
-    List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
-
-    public List<Mistway> Mistways { get; set; } = new();
-    List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
-
-    public List<Domain> Domains { get; set; } = new();
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-    public List<Location> Locations { get; set; } = new();
-    List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
-    public List<Item> Items { get; set; } = new();
-    List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
-
-    public List<NPC> NPCs { get; set; } = new();
-    List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
-    public List<Language> Languages { get; set; } = new();
-    List<Language> HasMany<Language>.Values { get => Languages; set => Languages = value; }
-
-    public List<Relationship> Relationships { get; set; } = new();
-    List<Relationship> HasMany<Relationship>.Values { get => Relationships; set => Relationships = value; }
-
-    [Column(TypeName= "Date")] public DateTime ReleaseDate { get; set; }
+    [Column(TypeName = "Date")] public DateTime ReleaseDate { get; set; }
     public string Contributors { get; set; }
 }
-public class Domain : Base, HasMany<NPC>, HasMany<Location>, HasMany<Cluster>, HasMany<Mistway>, HasMany<Trait>, HasMany<Item>, HasMany<Language>
+public class SourceTrait : UseName
+{
+    public string Type { get; set; }
+    public SourceTrait() { }
+    public SourceTrait(string name, string type) { Name = name; Type = type; }
+    public List<Source> Sources { get; set; } = new();
+}
+public class Trait : UseName
+{
+    public string Type { get; set; }
+    public Trait() { }
+    public Trait(string name, string type) { Name = name; Type = type; }
+
+    public List<Domain> Domains { get; set; } = new();
+    public List<Location> Locations { get; set; } = new();
+    public List<Item> Items { get; set; } = new();
+    public List<NPC> NPCs { get; set; } = new();
+}
+public class Domain : UseId
 {
     public Domain() { }
-    public Domain(string name) : base(name) { }
-
-    public List<Cluster> Clusters { get; set; }
-    List<Cluster> HasMany<Cluster>.Values { get => Clusters; set => Clusters = value; }
-
-    public List<Mistway> Mistways { get; set; } = new();
-    List<Mistway> HasMany<Mistway>.Values { get => Mistways; set => Mistways = value; }
+    public Domain(string name) => Name = name;
 
     public List<Location> Locations { get; set; } = new();
-    List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
     public List<NPC> NPCs { get; set; } = new();
-    List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
     public List<Trait> Traits { get; set; } = new();
-    List<Trait> HasMany<Trait>.Values { get => Traits; set => Traits = value; }
-
     public List<Item> Items { get; set; } = new();
-    List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
 
-    public List<Language> Languages { get; set; } = new();
-    List<Language> HasMany<Language>.Values { get => Languages; set => Languages = value; }
 }
-public class Mistway : Base, HasMany<Domain>
-{
-    public Mistway() { }
-    public Mistway(string name) : base(name) { }
-
-    public List<Domain> Domains { get; set; } = new();
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-}
-public class Cluster : Base, HasMany<Domain>
-{
-    public Cluster() { }
-    public Cluster(string name) : base(name) { }
-
-    public List<Domain> Domains { get; set; } = new();
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-}
-public class Location : Base, HasMany<Domain>, HasMany<NPC>, HasMany<Item>, HasMany<Trait>
+public class Location : UseId
 {
     public Location() { }
-    public Location(string name) : base(name) { }
+    public Location(string name) => Name = name;
 
-    public List<Domain> Domains { get; set; } = new();//Place can get absorbed into other domains
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
+    public Domain Domain { get; set; }
     public List<NPC> NPCs { get; set; } = new();
-    List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
     public List<Item> Items { get; set; } = new();
-    List<Item> HasMany<Item>.Values { get => Items; set => Items = value; }
-
     public List<Trait> Traits { get; set; } = new();
-    List<Trait> HasMany<Trait>.Values { get => Traits; set => Traits = value; }
     //public string Population { get; set; } //Maybe a number would be better
 }
-public class Item : Base, HasMany<Domain>, HasMany<Trait>, HasMany<Location>, HasMany<NPC>
+public class Item : UseId
 {
     public Item() { }
-    public Item(string name) : base(name) { }
+    public Item(string name) => Name = name;
 
     public List<Domain> Domains { get; set; } = new();
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-    public List<Trait> ItemTraits { get; set; } = new();
-    List<Trait> HasMany<Trait>.Values { get => ItemTraits; set => ItemTraits = value; }
-
+    public List<Trait> Traits { get; set; } = new();
     public List<Location> Locations { get; set; } = new();
-    List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; }
-
     public List<NPC> NPCs { get; set; } = new();
-    List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
 }
-public class NPC : Base, HasMany<Domain>, HasMany<Trait>, HasMany<Location>, HasMany<Language>
+public class NPC : UseId
 {
     public NPC() { }
-    public NPC(string name) : base(name) { }
+    public NPC(string name) => Name = name;
 
     //public string Damnation; //Event that damned them to their own Domain
     //public string Curse; //What do they have to live with
     //public string ClosedBorders; //When they close the borders, how does it manifest
-    public List<Domain> Domains { get; set; } = new();//Place can get absorbed into other domains
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
-
-    public List<Trait> CreatureTraits { get; set; } = new();
-    List<Trait> HasMany<Trait>.Values { get => CreatureTraits; set => CreatureTraits = value; }//Like is he a gnome, darklord, vampire
-
-    public List<Location> Locations { get; set; } = new();
-    List<Location> HasMany<Location>.Values { get => Locations; set => Locations = value; } //Some people travel
-
-    public List<Language> Languages { get; set; } = new();
-    List<Language> HasMany<Language>.Values { get => Languages; set => Languages = value; }
-}
-public class Language : Base, HasMany<NPC>, HasMany<Domain>
-{
-    public Language() { }
-    public Language(string name) : base(name) { }
-
-    public List<NPC> NPCs { get; set; } = new();
-    List<NPC> HasMany<NPC>.Values { get => NPCs; set => NPCs = value; }
-
     public List<Domain> Domains { get; set; } = new();
-    List<Domain> HasMany<Domain>.Values { get => Domains; set => Domains = value; }
+    public List<Trait> Traits { get; set; } = new();
+    public List<Item> Items { get; set; } = new();
+    public List<Location> Locations { get; set; } = new();
+    public List<Relationship> PrimaryRelationships { get; set; } = new ();
+    public List<Relationship> OtherRelationships { get; set; } = new ();
 }
-public class Relationship : HasOne<Source>
+public class Relationship
 {
     public int Id { get; set; }
-    public NPC First { get; set; }
-    public NPC Second { get; set; }
-    public enum RelationshipType { Parent, Child, Spouse }
+    public int PrimaryId { get; set; }
+    public NPC Primary { get; set; }
+    public int OtherId { get; set; }
+    public NPC Other { get; set; } = new();
+    public enum RelationshipType { Parent, Spouse }
     public RelationshipType Type { get; set; }
-
-    public Source Source { get; set; }
-    Source HasOne<Source>.Value { get => Source; set => Source = value; }
+    public string ExtraInfo { get; set; } = string.Empty;
 
     public Relationship() { }
-    public Relationship(NPC first, NPC second, RelationshipType type) 
+    public Relationship(NPC primary, RelationshipType type,NPC other)
     {
-        First = first;
-        Second = second;
-        Type = type;
+        Primary = primary; Other = other; Type = type;
+        Primary.PrimaryRelationships.Add(this);
+        Other.OtherRelationships.Add(this);
     }
+}
+public interface HasEntity<T>
+{
+    public T Entity { get; set; }
+}
+public abstract class Appearance
+{
+    public Source Source { get; set; }
+    public string PageNumbers { get; set; }
+    public Appearance() { }
+    public Appearance(Source source, params int[] pageNumbers)
+    {
+        Source = source;
+        PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers);
+    }
+}
+public class TraitAppearance : Appearance, HasEntity<Trait>
+{
+    public Trait Entity { get; set; }
+    public TraitAppearance() { }
+    public TraitAppearance(Source source, Trait entity, params int[] pageNumbers)
+        : base(source, pageNumbers) => Entity = entity;
+}
+public class LocationAppearance : Appearance, HasEntity<Location>
+{
+    public Location Entity { get; set; }
+    public LocationAppearance() { }
+    public LocationAppearance(Source source, Location entity, params int[] pageNumbers)
+        : base(source, pageNumbers) => Entity = entity;
+}
+public class NPCAppearance : Appearance, HasEntity<NPC>
+{
+    public NPC Entity { get; set; }
+    public NPCAppearance() { }
+    public NPCAppearance(Source source, NPC entity, params int[] pageNumbers)
+        : base(source, pageNumbers) => Entity = entity;
+}
+public class DomainAppearance : Appearance, HasEntity<Domain>
+{
+    public Domain Entity { get; set; }
+    public DomainAppearance() { }
+    public DomainAppearance(Source source, Domain entity, params int[] pageNumbers)
+        : base(source, pageNumbers) => Entity = entity;
+}
+public class ItemAppearance : Appearance, HasEntity<Item>
+{
+    public Item Entity { get; set; }
+    public ItemAppearance() { }
+    public ItemAppearance(Source source, Item entity, params int[] pageNumbers)
+        : base(source, pageNumbers) => Entity = entity;
 }
