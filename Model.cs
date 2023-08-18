@@ -37,24 +37,29 @@ public class RavenloftContext : DbContext
             v => (Relationship.RelationshipType)Enum.Parse(typeof(Relationship.RelationshipType), v)
         );
 
-        modelBuilder.Entity<Relationship>()
-            .HasOne(r => r.Primary)
-            .WithMany(u => u.PrimaryRelationships)
-            .HasForeignKey(r => r.PrimaryId)
-            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<NPC>()
+            .HasMany(n => n.Relationships)
+            .WithOne(r => r.Primary);
 
         modelBuilder.Entity<Relationship>()
             .HasOne(r => r.Other)
-            .WithMany(u => u.OtherRelationships)
-            .HasForeignKey(r => r.OtherId)
+            .WithOne(n => n.IgnoreThis)
+            .HasForeignKey<Relationship>(r => r.OtherId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        /*modelBuilder.Entity<Appearance>().ToTable("Appearances");
-        modelBuilder.Entity<TraitAppearance   >().Property(a => a.Entity).HasColumnName("Trait");
-        modelBuilder.Entity<LocationAppearance>().Property(a => a.Entity).HasColumnName("Location");
-        modelBuilder.Entity<NPCAppearance     >().Property(a => a.Entity).HasColumnName("NPC");
-        modelBuilder.Entity<DomainAppearance  >().Property(a => a.Entity).HasColumnName("Domain");
-        modelBuilder.Entity<ItemAppearance    >().Property(a => a.Entity).HasColumnName("Item");*/
+        /*modelBuilder.Entity<Relationship>()
+            .HasOne(r => r.Other)
+            .WithMany(u => u.Relationships)
+            .HasForeignKey(r => r.OtherId)
+            .OnDelete(DeleteBehavior.Restrict);*/
+
+        modelBuilder.Entity<Appearance>().ToTable("Appearances");
+        modelBuilder.Entity<TraitAppearance   >().Property(a => a.EntityName).HasColumnName("Trait");
+        modelBuilder.Entity<LocationAppearance>().Property(a => a.EntityId).HasColumnName("Location");
+        modelBuilder.Entity<NPCAppearance     >().Property(a => a.EntityId).HasColumnName("NPC");
+        modelBuilder.Entity<DomainAppearance  >().Property(a => a.EntityId).HasColumnName("Domain");
+        modelBuilder.Entity<ItemAppearance    >().Property(a => a.EntityId).HasColumnName("Item");
+
         base.OnModelCreating(modelBuilder);
     }
 }
@@ -148,8 +153,8 @@ public class NPC : UseId
     public List<Trait> Traits { get; set; } = new();
     public List<Item> Items { get; set; } = new();
     public List<Location> Locations { get; set; } = new();
-    public List<Relationship> PrimaryRelationships { get; set; } = new ();
-    public List<Relationship> OtherRelationships { get; set; } = new ();
+    public List<Relationship> Relationships { get; set; } = new ();
+    public Relationship IgnoreThis { get; set; }
 }
 public class Relationship
 {
@@ -166,8 +171,8 @@ public class Relationship
     public Relationship(NPC primary, RelationshipType type,NPC other)
     {
         Primary = primary; Other = other; Type = type;
-        Primary.PrimaryRelationships.Add(this);
-        Other.OtherRelationships.Add(this);
+        Primary.Relationships.Add(this);
+        Other.Relationships.Add(this);
     }
 }
 public interface HasEntity<T>
@@ -176,6 +181,7 @@ public interface HasEntity<T>
 }
 public abstract class Appearance
 {
+    public int Id { get; set; }
     public Source Source { get; set; }
     public string PageNumbers { get; set; }
     public Appearance() { }
@@ -188,6 +194,7 @@ public abstract class Appearance
 public class TraitAppearance : Appearance, HasEntity<Trait>
 {
     public Trait Entity { get; set; }
+    public string EntityName { get; set; }
     public TraitAppearance() { }
     public TraitAppearance(Source source, Trait entity, params int[] pageNumbers)
         : base(source, pageNumbers) => Entity = entity;
@@ -195,6 +202,7 @@ public class TraitAppearance : Appearance, HasEntity<Trait>
 public class LocationAppearance : Appearance, HasEntity<Location>
 {
     public Location Entity { get; set; }
+    public int EntityId { get; set; }
     public LocationAppearance() { }
     public LocationAppearance(Source source, Location entity, params int[] pageNumbers)
         : base(source, pageNumbers) => Entity = entity;
@@ -202,6 +210,7 @@ public class LocationAppearance : Appearance, HasEntity<Location>
 public class NPCAppearance : Appearance, HasEntity<NPC>
 {
     public NPC Entity { get; set; }
+    public int EntityId { get; set; }
     public NPCAppearance() { }
     public NPCAppearance(Source source, NPC entity, params int[] pageNumbers)
         : base(source, pageNumbers) => Entity = entity;
@@ -209,6 +218,7 @@ public class NPCAppearance : Appearance, HasEntity<NPC>
 public class DomainAppearance : Appearance, HasEntity<Domain>
 {
     public Domain Entity { get; set; }
+    public int EntityId { get; set; }
     public DomainAppearance() { }
     public DomainAppearance(Source source, Domain entity, params int[] pageNumbers)
         : base(source, pageNumbers) => Entity = entity;
@@ -216,6 +226,7 @@ public class DomainAppearance : Appearance, HasEntity<Domain>
 public class ItemAppearance : Appearance, HasEntity<Item>
 {
     public Item Entity { get; set; }
+    public int EntityId { get; set; }
     public ItemAppearance() { }
     public ItemAppearance(Source source, Item entity, params int[] pageNumbers)
         : base(source, pageNumbers) => Entity = entity;
