@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Text;
 using System.Xml.Linq;
 
 using var db = new RavenloftContext();
-AddToDatabase.Add(db);
+//AddToDatabase.Add(db);
 
 string URL (string input) => string.Concat(input.Where(c => c != ':' && !char.IsWhiteSpace(c)));
 
@@ -24,12 +25,7 @@ foreach (var source in db.Sources)
         //sb.AppendLine($"<summary><b>{source.Name}</b></summary>");
         sb.AppendLine($"<h1>{source.Name}</h1>");
         sb.Append("Domains: ");
-        /*foreach (var appearance in db.Appearances)
-        {
-            Console.WriteLine(appearance.Source.Name);
-            //Console.WriteLine(appearance.Entity?.Name ?? "Null");
-            //Console.WriteLine(appearance.Entity?.GetType().Name ?? "Null");
-        }*/
+
         //var apperances = db.Appearances.Where(a => a.Source == source && a.Entity.Discriminator == "Domain");
         /*foreach (var appearance in apperances)
         {
@@ -45,6 +41,7 @@ foreach (var source in db.Sources)
     File.WriteAllText(filepath, sb.ToString());
     Console.WriteLine(source.Name);
     Console.WriteLine(db.Domains.Count());
+    Console.WriteLine(db.NPCs.Count());
 }
 
 /*var dom = db.Domains.Find("Barovia");
