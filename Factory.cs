@@ -1,131 +1,145 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+﻿using System;
 using static Relationship;
 
-internal static class ctx
+internal class Factory : IDisposable
 {
-    private static RavenloftContext db;
-    private static Source Source;
+    public readonly static RavenloftContext db = new RavenloftContext();
 
-    public static IIncludableQueryable<TraitAppearance, Trait> TraitAppearances;
-    public static IIncludableQueryable<NPCAppearance, NPC> NPCAppearances;
-    public static IIncludableQueryable<LocationAppearance, Location> LocationAppearances;
-    public static IIncludableQueryable<DomainAppearance, Domain> DomainAppearances;
-    public static IIncludableQueryable<ItemAppearance, Item> ItemAppearances;
+    private readonly Source Source;
+    private readonly List<Domain> domains = new(); //For trait distribution
 
-    public static NPC GetNPC (string name) => NPCAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
+    /*public static NPC GetNPC (string name) => NPCAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
     public static Location GetLocation (string name) => LocationAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
     public static Domain GetDomain(string name) => DomainAppearances.Single(a => a.Source == Source && a.Entity.Search == name).Entity;
-    public static Item GetItem(string name) => ItemAppearances.Single(a => a.Source == Source && a.Entity.Search == name).Entity;
+    public static Item GetItem(string name) => ItemAppearances.Single(a => a.Source == Source && a.Entity.Search == name).Entity;*/
 
-    static ctx()
+    public void Dispose ()
     {
-        db = new RavenloftContext();
-        TraitAppearances    = db.traitAppearances   .Include(a => a.Entity);
-        NPCAppearances      = db.npcAppearances     .Include(a => a.Entity);
-        LocationAppearances = db.locationAppearances.Include(a => a.Entity);
-        DomainAppearances   = db.domainAppearances  .Include(a => a.Entity);
-        ItemAppearances     = db.itemAppearances    .Include(a => a.Entity);
-    }
-
-    public static bool CreateSource(string name, DateTime releaseDate, string extraInfo, params SourceTrait[] traits)
-    {
-        Source = db.Sources.Find(name);
-        if (Source != null) return false; //If it exists, say failed to create
-
-        Source = new Source();
-        Source.Name = name;
-        Source.Traits = new(traits);
-        Source.ReleaseDate = releaseDate;
-        Source.ExtraInfo = extraInfo;
-        foreach (var trait in traits) trait.Sources.Add(Source);
-        db.Add(Source);
-        return true;
-    }
-    public static void AddTraitApperance(Trait trait, params int[] pageNumbers) =>
-        db.Add(new TraitAppearance()
+        foreach (var domain in domains)
         {
-            Source = Source,
-            Entity = trait,
-            PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
-        });
+            foreach (var location in domain.Locations)
+            {
+                foreach (var npc in location.NPCs) domain.NPCs.Add(npc);
+                foreach (var trait in location.Traits) domain.Traits.Add(trait);
+            }
+            foreach (var item in domain.Items)
+            {
+                foreach (var trait in item.Traits) domain.Traits.Add(trait);
+            }
+            foreach (var npc in domain.NPCs)
+            {
+                foreach (var trait in npc.Traits) domain.Traits.Add(trait);
+            }
+        }
+    }
 
-    public static Domain CreateDomain(string name, params int[] pageNumbers) => CreateDomain(name, name, pageNumbers);
-    public static Domain CreateDomain(string name, string search, params int[] pageNumbers)
+    public static Factory? CreateSource(string name, DateTime releaseDate, string extraInfo, params Source.Trait[] traits)
+        => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
+    private Factory(string name, DateTime releaseDate, string extraInfo, params Source.Trait[] traits)
     {
-        var retval = new Domain();
-        retval.Name = name;
-        retval.Search = search;
+        Source = db.Sources.Add(new Source()
+        {
+            Key = name,
+            Traits = new(traits),
+            ReleaseDate = releaseDate,
+            ExtraInfo = extraInfo
+        }).Entity;
+        foreach (var trait in traits) trait.Sources.Add(Source);
+    }
 
-        db.Add(new DomainAppearance()
+    public Domain CreateDomain(string name, params int[] pageNumbers) => CreateDomain(name, name, pageNumbers);
+    public Domain CreateDomain(string name, string originalName, params int[] pageNumbers)
+    {
+        var retval = db.Domains.Add(new Domain()
+        {
+            Key = Source.Key + "/" + name,
+            Name = name,
+            OriginalName = originalName
+        }).Entity;
+
+        domains.Add(retval); //Important for trait distribution
+
+        db.domainAppearances.Add(new DomainAppearance()
         { 
             Source = Source,
             Entity = retval,
             PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
         });
-        return db.Add(retval).Entity;
+        return retval;
     }
 
-    public static Location CreateLocation(string name, params int[] pageNumbers) => CreateLocation(name, name, pageNumbers);
-    public static Location CreateLocation(string name, string search, params int[] pageNumbers)
+    public Location CreateLocation(string name, params int[] pageNumbers) => CreateLocation(name, name, pageNumbers);
+    public Location CreateLocation(string name, string originalName, params int[] pageNumbers)
     {
-        var retval = new Location();
-        retval.Name = name;
-        retval.Search = search;
-        db.Add(new LocationAppearance()
+        var retval = db.Locations.Add(new Location()
+        {
+            Key = Source.Key + "/" + name,
+            Name = name,
+            OriginalName = originalName
+        }).Entity;
+
+        db.locationAppearances.Add(new LocationAppearance()
         {
             Source = Source,
             Entity = retval,
             PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
         });
-        return db.Add(retval).Entity;
+        return retval;
     }
 
-    public static NPC CreateNPC(string name, params int[] pageNumbers) => CreateNPC(name, name, pageNumbers);
-    public static NPC CreateNPC(string name, string search, params int[] pageNumbers)
+    public NPC CreateNPC(string name, params int[] pageNumbers) => CreateNPC(name, name, pageNumbers);
+    public NPC CreateNPC(string name, string originalName, params int[] pageNumbers)
     {
-        var retval = new NPC();
-        retval.Name = name;
-        retval.Search = search;
-        db.Add(new NPCAppearance()
+        var retval = db.NPCs.Add(new NPC()
+        {
+            Key = Source.Key + "/" + name,
+            Name = name,
+            OriginalName = originalName
+        }).Entity;
+
+        db.npcAppearances.Add(new NPCAppearance()
         {
             Source = Source,
             Entity = retval,
             PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
         });
-        return db.Add(retval).Entity;
+        return retval;
     }
 
-    public static Item CreateItem(string name, params int[] pageNumbers) => CreateItem(name, name, pageNumbers);
-    public static Item CreateItem(string name, string search , params int[] pageNumbers)
+    public Item CreateItem(string name, params int[] pageNumbers) => CreateItem(name, name, pageNumbers);
+    public Item CreateItem(string name, string originalName, params int[] pageNumbers)
     {
-        var retval = new Item();
-        retval.Name = name;
-        retval.Search = search;
-        db.Add(new ItemAppearance()
+        var retval = db.Items.Add(new Item()
+        {
+            Key = Source.Key + "/" + name,
+            Name = name,
+            OriginalName = originalName
+        }).Entity;
+
+        db.itemAppearances.Add(new ItemAppearance()
         {
             Source = Source,
             Entity = retval,
             PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
         });
-        return db.Add(retval).Entity;
+        return retval;
     }
 
-    public static void CreateRelationship(NPC primary, RelationshipType type, NPC other)
+    public void CreateRelationship(NPC primary, RelationshipType type, NPC other)
     {
         var relationship = new Relationship()
         {
             Primary = primary,
             Type = type,
-            Other = other
+            Other = other,
         };
         primary.Relationships.Add(relationship);
-        other.Relationships.Add(relationship);
+        other.IgnoreThis.Add(relationship);
     }
 
-    public static SourceTrait CreateSourceTrait(string name, string type) =>
-        db.SourceTraits.Find(name) ?? db.SourceTraits.Add(new SourceTrait() { Name = name, Type = type }).Entity;
+    public static Source.Trait CreateSourceTrait(string name, string type) =>
+        db.SourceTraits.Find(name) ?? db.SourceTraits.Add(new Source.Trait() { Key = name, Type = type }).Entity;
 
     public static Trait CreateTrait(string name, string type) =>
-        db.Traits.Find(name) ?? db.Traits.Add(new Trait() { Name = name, Type = type }).Entity;
+        db.Traits.Find(name) ?? db.Traits.Add(new Trait() { Key = name, Type = type }).Entity;
 }

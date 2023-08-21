@@ -1,9 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Text;
-using System.Xml.Linq;
 
-using var db = new RavenloftContext();
-//AddToDatabase.Add(db);
+AddToDatabase.Add();
+var db = Factory.db;
+
+IIncludableQueryable<NPCAppearance, NPC> NPCAppearances = db.npcAppearances.Include(a => a.Entity);
+IIncludableQueryable<LocationAppearance, Location> LocationAppearances = db.locationAppearances.Include(a => a.Entity);
+IIncludableQueryable<DomainAppearance, Domain> DomainAppearances = db.domainAppearances.Include(a => a.Entity);
+IIncludableQueryable<ItemAppearance, Item> ItemAppearances = db.itemAppearances.Include(a => a.Entity);
 
 string URL (string input) => string.Concat(input.Where(c => c != ':' && !char.IsWhiteSpace(c)));
 
@@ -23,7 +28,7 @@ foreach (var source in db.Sources)
     sb.AppendLine("<body>");
     //sb.AppendLine("<details>");
         //sb.AppendLine($"<summary><b>{source.Name}</b></summary>");
-        sb.AppendLine($"<h1>{source.Name}</h1>");
+        sb.AppendLine($"<h1>{source.Key}</h1>");
         sb.Append("Domains: ");
 
         //var apperances = db.Appearances.Where(a => a.Source == source && a.Entity.Discriminator == "Domain");
@@ -37,9 +42,9 @@ foreach (var source in db.Sources)
         sb.AppendLine("</body>");
     sb.AppendLine("</html>");
 
-    string filepath = Path.Join(Directory.GetCurrentDirectory(), $"{URL(source.Name)}.html");
+    string filepath = Path.Join(Directory.GetCurrentDirectory(), $"{URL(source.Key)}.html");
     File.WriteAllText(filepath, sb.ToString());
-    Console.WriteLine(source.Name);
+    Console.WriteLine(source.Key);
     Console.WriteLine(db.Domains.Count());
     Console.WriteLine(db.NPCs.Count());
 }

@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class RavenloftContext : DbContext
 {
-    public DbSet<TraitAppearance> traitAppearances { get; set; }
     public DbSet<LocationAppearance> locationAppearances { get; set; }
     public DbSet<NPCAppearance> npcAppearances { get; set; }
     public DbSet<DomainAppearance> domainAppearances { get; set; }
@@ -13,7 +12,7 @@ public class RavenloftContext : DbContext
     public DbSet<Relationship> Relationships { get; set; }
 
     public DbSet<Source> Sources { get; set; }
-    public DbSet<SourceTrait> SourceTraits { get; set; }
+    public DbSet<Source.Trait> SourceTraits { get; set; }
 
     public DbSet<Trait> Traits { get; set; }
 
@@ -37,101 +36,85 @@ public class RavenloftContext : DbContext
             v => (Relationship.RelationshipType)Enum.Parse(typeof(Relationship.RelationshipType), v)
         );
 
-        modelBuilder.Entity<NPC>()
-            .HasMany(n => n.Relationships)
-            .WithOne(r => r.Primary);
+        modelBuilder.Entity<Relationship>()
+            .HasOne(r => r.Primary)
+            .WithMany(n => n.Relationships)
+            .HasForeignKey(r => r.PrimaryName)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Relationship>()
             .HasOne(r => r.Other)
-            .WithOne(n => n.IgnoreThis)
-            .HasForeignKey<Relationship>(r => r.OtherId)
+            .WithMany(n => n.IgnoreThis)
+            .HasForeignKey(r => r.OtherName)
             .OnDelete(DeleteBehavior.Restrict);
-
-        /*modelBuilder.Entity<Relationship>()
-            .HasOne(r => r.Other)
-            .WithMany(u => u.Relationships)
-            .HasForeignKey(r => r.OtherId)
-            .OnDelete(DeleteBehavior.Restrict);*/
                    
         modelBuilder.Entity<Appearance>().ToTable("Appearances");
-        modelBuilder.Entity<TraitAppearance   >().Property(a => a.EntityName).HasColumnName("Trait");
-        modelBuilder.Entity<LocationAppearance>().Property(a => a.EntityId).HasColumnName("Location");
-        modelBuilder.Entity<NPCAppearance     >().Property(a => a.EntityId).HasColumnName("NPC");
-        modelBuilder.Entity<DomainAppearance  >().Property(a => a.EntityId).HasColumnName("Domain");
-        modelBuilder.Entity<ItemAppearance    >().Property(a => a.EntityId).HasColumnName("Item");
 
         base.OnModelCreating(modelBuilder);
     }
 }
-public abstract class UseId
+public abstract class UseVariableName : UseName
 {
-    public int Id { get; set; }
     public string Name { get; set; } //Can be different in different sources
-    public string Search { get; set; } //This will be fixed for searching.
-    public string ExtraInfo { get; set; } = string.Empty;
+    public string OriginalName { get; set; } //For searching purposes
+    public HashSet<Trait> Traits { get; set; } = new();
 }
 public abstract class UseName
 {
-    [Key] public string Name { get; set; }
+    [Key] public string Key { get; set; } //Key
     public string ExtraInfo { get; set; } = string.Empty; //external links
 }
 public class Source : UseName
 {
-    public List<SourceTrait> Traits { get; set; }
+    public List<Trait> Traits { get; set; }
     [Column(TypeName = "Date")] public DateTime ReleaseDate { get; set; }
     //Levels, contributors, release date
-}
-public class SourceTrait : UseName
-{
-    public string Type { get; set; }
-    public List<Source> Sources { get; set; } = new();
+    public class Trait : UseName
+    {
+        public string Type { get; set; }
+        public HashSet<Source> Sources { get; set; } = new();
+    }
 }
 public class Trait : UseName
 {
     public string Type { get; set; }
-    public List<Domain> Domains { get; set; } = new();
-    public List<Location> Locations { get; set; } = new();
-    public List<Item> Items { get; set; } = new();
-    public List<NPC> NPCs { get; set; } = new();
+    public HashSet<Domain> Domains { get; set; } = new();
+    public HashSet<Location> Locations { get; set; } = new();
+    public HashSet<Item> Items { get; set; } = new();
+    public HashSet<NPC> NPCs { get; set; } = new();
 }
-public class Domain : UseId
+public class Domain : UseVariableName
 {
-    public List<Location> Locations { get; set; } = new();
-    public List<NPC> NPCs { get; set; } = new();
-    public List<Trait> Traits { get; set; } = new();
-    public List<Item> Items { get; set; } = new();
+    public HashSet<Location> Locations { get; set; } = new();
+    public HashSet<NPC> NPCs { get; set; } = new();
+    public HashSet<Item> Items { get; set; } = new();
     //Recommended related media, recorded sessions
 }
-public class Location : UseId
+public class Location : UseVariableName
 {
-    public List<Domain> Domains { get; set; } = new();
-    public List<NPC> NPCs { get; set; } = new();
-    public List<Trait> Traits { get; set; } = new();
-    //public string Population { get; set; } //Maybe a number would be better
+    public HashSet<Domain> Domains { get; set; } = new();
+    public HashSet<NPC> NPCs { get; set; } = new();
 }
-public class Item : UseId
+public class Item : UseVariableName
 {
-    public List<Domain> Domains { get; set; } = new();
-    public List<Trait> Traits { get; set; } = new();
+    public HashSet<Domain> Domains { get; set; } = new();
 }
-public class NPC : UseId
+public class NPC : UseVariableName
 {
-
-    //public string Damnation; //Event that damned them to their own Domain
-    //public string Curse; //What do they have to live with
-    //public string ClosedBorders; //When they close the borders, how does it manifest
-    public List<Domain> Domains { get; set; } = new();
-    public List<Location> Locations { get; set; } = new();
-    public List<Trait> Traits { get; set; } = new();
-    public List<Relationship> Relationships { get; set; } = new ();
-    public Relationship IgnoreThis { get; set; }
+    public HashSet<Domain> Domains { get; set; } = new();
+    public HashSet<Location> Locations { get; set; } = new();
+    public HashSet<Relationship> Relationships { get; set; } = new ();
+    public HashSet<Relationship> IgnoreThis { get; set; } = new ();
+    //string Damnation; //Event that damned them to their own Domain
+    //string Curse; //What do they have to live with
+    //string ClosedBorders; //When they close the borders, how does it manifest
 }
 public class Relationship
 {
     public int Id { get; set; }
-    public int PrimaryId { get; set; }
+    public string PrimaryName { get; set; }
     public NPC Primary { get; set; }
-    public int OtherId { get; set; }
+    public string OtherName { get; set; }
     public NPC Other { get; set; } = new();
     public enum RelationshipType { Parent, Adopted, Spouse }
     public RelationshipType Type { get; set; }
@@ -141,30 +124,26 @@ public abstract class Appearance
 {
     public int Id { get; set; }
     public Source Source { get; set; }
+    [Column("Source")] public string SourceKey { get; set; }
     public string PageNumbers { get; set; }
-}
-public class TraitAppearance : Appearance
-{
-    public Trait Entity { get; set; }
-    public int EntityName { get; set; }
 }
 public class LocationAppearance : Appearance
 {
     public Location Entity { get; set; }
-    public int EntityId { get; set; }
+    [Column("Location")] public string EntityId { get; set; }
 }
 public class NPCAppearance : Appearance
 {
     public NPC Entity { get; set; }
-    public int EntityId { get; set; }
+    [Column("NPC")] public string EntityId { get; set; }
 }
 public class DomainAppearance : Appearance
 {
     public Domain Entity { get; set; }
-    public int EntityId { get; set; }
+    [Column("Domain")] public string EntityId { get; set; }
 }
 public class ItemAppearance : Appearance
 {
     public Item Entity { get; set; }
-    public int EntityId { get; set; }
+    [Column("Item")] public string EntityId { get; set; }
 }
