@@ -1,4 +1,6 @@
-﻿internal static class Cross
+﻿using System.Text;
+
+internal static class Cross
 {
     public static Location AddTraits (this Location location, params Trait[] traits)
     {
@@ -32,7 +34,7 @@
         location.ExtraInfo = ExtraInfo;
         return location;
     }
-    
+
 
 
     public static NPC AddTraits (this NPC npc, params Trait[] traits)
@@ -139,8 +141,15 @@
     }
 
 
-
-    public static Trait AddDomains (this Trait trait, params Domain[] domains)
+    public static StringBuilder GetPageNumbers(this LocationAppearance app) =>
+        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
+    public static StringBuilder GetPageNumbers(this NPCAppearance app) =>
+        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
+    public static StringBuilder GetPageNumbers(this DomainAppearance app) =>
+        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
+    public static StringBuilder GetPageNumbers(this ItemAppearance app) =>
+        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
+    /*public static Trait AddDomains (this Trait trait, params Domain[] domains)
     {
         foreach (var domain in domains)
         {
@@ -175,5 +184,5 @@
             npc.Traits.Add(trait);
         }
         return trait;
-    }
+    }*/
 }

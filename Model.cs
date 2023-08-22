@@ -49,7 +49,7 @@ public class RavenloftContext : DbContext
             .OnDelete(DeleteBehavior.Restrict);
                    
         modelBuilder.Entity<Appearance>().ToTable("Appearances");
-
+        
         base.OnModelCreating(modelBuilder);
     }
 }
