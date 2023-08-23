@@ -140,15 +140,6 @@ internal static class Cross
         return item;
     }
 
-
-    public static StringBuilder GetPageNumbers(this LocationAppearance app) =>
-        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
-    public static StringBuilder GetPageNumbers(this NPCAppearance app) =>
-        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
-    public static StringBuilder GetPageNumbers(this DomainAppearance app) =>
-        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
-    public static StringBuilder GetPageNumbers(this ItemAppearance app) =>
-        new StringBuilder(app.Entity.Name).Append(" (").Append(app.PageNumbers).Append(")");
     /*public static Trait AddDomains (this Trait trait, params Domain[] domains)
     {
         foreach (var domain in domains)

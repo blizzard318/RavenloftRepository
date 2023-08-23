@@ -47,8 +47,8 @@ internal class Factory : IDisposable
         foreach (var trait in traits) trait.Sources.Add(Source);
     }
 
-    public Domain CreateDomain(string name, params int[] pageNumbers) => CreateDomain(name, name, pageNumbers);
-    public Domain CreateDomain(string name, string originalName, params int[] pageNumbers)
+    public Domain CreateDomain(string name, string? pageNumbers = null) => CreateDomain(name, name, pageNumbers);
+    public Domain CreateDomain(string name, string originalName, string? pageNumbers = null)
     {
         var retval = db.Domains.Add(new Domain()
         {
@@ -63,13 +63,13 @@ internal class Factory : IDisposable
         { 
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
         });
         return retval;
     }
 
-    public Location CreateLocation(string name, params int[] pageNumbers) => CreateLocation(name, name, pageNumbers);
-    public Location CreateLocation(string name, string originalName, params int[] pageNumbers)
+    public Location CreateLocation(string name, string? pageNumbers = null) => CreateLocation(name, name, pageNumbers);
+    public Location CreateLocation(string name, string originalName, string? pageNumbers = null)
     {
         var retval = db.Locations.Add(new Location()
         {
@@ -82,13 +82,13 @@ internal class Factory : IDisposable
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
         });
         return retval;
     }
 
-    public NPC CreateNPC(string name, params int[] pageNumbers) => CreateNPC(name, name, pageNumbers);
-    public NPC CreateNPC(string name, string originalName, params int[] pageNumbers)
+    public NPC CreateNPC(string name, string? pageNumbers = null) => CreateNPC(name, name, pageNumbers);
+    public NPC CreateNPC(string name, string originalName, string? pageNumbers = null)
     {
         var retval = db.NPCs.Add(new NPC()
         {
@@ -101,13 +101,13 @@ internal class Factory : IDisposable
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
         });
         return retval;
     }
 
-    public Item CreateItem(string name, params int[] pageNumbers) => CreateItem(name, name, pageNumbers);
-    public Item CreateItem(string name, string originalName, params int[] pageNumbers)
+    public Item CreateItem(string name, string? pageNumbers = null) => CreateItem(name, name, pageNumbers);
+    public Item CreateItem(string name, string originalName, string? pageNumbers = null)
     {
         var retval = db.Items.Add(new Item()
         {
@@ -120,7 +120,7 @@ internal class Factory : IDisposable
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers.Length == 0 ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
         });
         return retval;
     }
@@ -138,8 +138,10 @@ internal class Factory : IDisposable
     }
 
     public static Source.Trait CreateSourceTrait(string name, string type) =>
-        db.SourceTraits.Find(name) ?? db.SourceTraits.Add(new Source.Trait() { Key = name, Type = type }).Entity;
+        db.SourceTraits.Find(name) ??
+        db.SourceTraits.Add(new Source.Trait() { Key = name, Type = type }).Entity;
 
-    public static Trait CreateTrait(string name, string type) =>
-        db.Traits.Find(name) ?? db.Traits.Add(new Trait() { Key = name, Type = type }).Entity;
+    public static Trait CreateTrait(string name, params string[] types) =>
+        db.Traits.Find(name) ??
+        db.Traits.Add(new Trait() { Key = name, Type = string.Join(',', types) }).Entity;
 }
