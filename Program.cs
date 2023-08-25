@@ -3,7 +3,7 @@ using System.Text;
 
 string URL(string input) => string.Concat(input.Where(c => c != ':' && !char.IsWhiteSpace(c)));
 
-//AddToDatabase.Add();
+AddToDatabase.Add();
 var db = Factory.db;
 
 var Sources = db.Sources.Include(s => s.Traits).ToArray();
@@ -24,7 +24,8 @@ foreach (var source in Sources)
     sb.Append("<meta name='theme-color' content=''black'>");
     sb.Append("<meta name='viewport' content=''width=1050px, initial-scale=1''>");
     sb.Append("<meta name='description' content=''Ravenloft Repository'>");
-    sb.Append("<link rel='shortcut icon'' href='favicon.ico''>");
+    sb.Append("<link rel='stylesheet' href='styles.css'>");
+    sb.Append("<link rel='shortcut icon' href='favicon.ico'>");
     sb.Append("</head>");
     sb.Append("<body>");
 
@@ -38,44 +39,57 @@ foreach (var source in Sources)
     sb.Append("<b>Media Type</b>: ").Append(source.Traits.Single(t => t.Type == nameof(Traits.Media)).Key);
     sb.Append("<br/><u>Extra Information</u>:").Append(source.ExtraInfo);
 
-    sb.Append("<br/><br/><b>Domains</b>:");
-
-    var domains   = DomainAppearances  .Where(a => a.Source == source).ToArray();
+    var domains = DomainAppearances.Where(a => a.Source == source).ToArray();
     var locations = LocationAppearances.Where(a => a.Source == source).ToHashSet();
-    var npcs      = NPCAppearances     .Where(a => a.Source == source).ToHashSet();
-    var items     = ItemAppearances    .Where(a => a.Source == source).ToHashSet();
+    var npcs = NPCAppearances.Where(a => a.Source == source).ToHashSet();
+    var items = ItemAppearances.Where(a => a.Source == source).ToHashSet();
 
+    var clusters = locations.Where(a => a.Entity.Traits.Contains(Traits.Location.Cluster)).ToArray();
+    if (clusters.Count() > 0)
+    {
+        sb.Append("<br/><br/><b>Clusters</b>:");
+        foreach (var cluster in clusters)
+        {
+            locations.Remove(cluster);
+            sb.Append("<br/>&emsp;<b><a href='").Append("").Append("'>").Append(cluster.Entity.Name).Append("</a></b>");
+            sb.Append(" (").Append(cluster.PageNumbers).Append(")");
+        }
+    }
+
+    sb.Append("<br/><br/><b>Domains</b>:");
     foreach (var domain in domains)
     {
         DomainAppearances.Remove(domain);
-
         sb.Append("<br/>&emsp;<b><a href='").Append("").Append("'>").Append(domain.Entity.Name).Append("</a></b>");
         sb.Append(" (").Append(domain.PageNumbers).Append(")");
-        sb.Append("<br/>&emsp;&emsp;<b>Settlements</b>: ");
 
         var locations_in_domain = locations.Where(a => a.Entity.Domains.Contains(domain.Entity)).ToHashSet();
         if (locations_in_domain.Count() > 0)
         {
             var settlements = locations_in_domain.Where(a => a.Entity.Traits.Contains(Traits.Location.Settlement)).ToArray();
-            foreach (var settlement in settlements)
+            if (settlements.Count() > 0)
             {
-                locations.Remove(settlement);
-                locations_in_domain.Remove(settlement);
-
-                var trait = settlement.Entity.Traits.Single(t => t.Type.Contains(nameof(Traits.Settlement)));
-                sb.Append("<br/>&emsp;&emsp;&emsp;<u><a href='").Append("").Append("'>").Append(settlement.Entity.Name).Append("</a></u>");
-                sb.Append(" (").Append(settlement.PageNumbers).Append("):");
-                sb.Append("<br/>&emsp;&emsp;&emsp;&emsp;");
-
-                var residences = locations_in_domain.Where(a => a.Entity.Traits.Contains(trait)).ToArray();
-                foreach (var residence in residences)
+                sb.Append("<br/>&emsp;&emsp;<b>Settlements</b>: ");
+                foreach (var settlement in settlements)
                 {
-                    locations.Remove(residence);
-                    locations_in_domain.Remove(residence);
-                    sb.Append("<a href='").Append("").Append("'>").Append(residence.Entity.Name).Append("</a>");
-                    sb.Append(" (").Append(residence.PageNumbers).Append("), ");
+                    locations.Remove(settlement);
+                    locations_in_domain.Remove(settlement);
+
+                    var trait = settlement.Entity.Traits.Single(t => t.Type.Contains(nameof(Traits.Settlement)));
+                    sb.Append("<br/>&emsp;&emsp;&emsp;<u><a href='").Append("").Append("'>").Append(settlement.Entity.Name).Append("</a></u>");
+                    sb.Append(" (").Append(settlement.PageNumbers).Append("):");
+                    sb.Append("<br/>&emsp;&emsp;&emsp;&emsp;");
+
+                    var residences = locations_in_domain.Where(a => a.Entity.Traits.Contains(trait)).ToArray();
+                    foreach (var residence in residences)
+                    {
+                        locations.Remove(residence);
+                        locations_in_domain.Remove(residence);
+                        sb.Append("<a href='").Append("").Append("'>").Append(residence.Entity.Name).Append("</a>");
+                        sb.Append(" (").Append(residence.PageNumbers).Append("), ");
+                    }
+                    sb.Remove(sb.Length - 2, 2);
                 }
-                sb.Remove(sb.Length - 2, 2);
             }
             if (locations_in_domain.Count() > 0)
             {
@@ -139,6 +153,16 @@ foreach (var source in Sources)
             sb.Append("<br/>&emsp;&emsp;&emsp;");
             foreach (var creature in creatures)
                 sb.Append("<a href='").Append("").Append("'>").Append(creature.Key).Append("</a>, ");
+            sb.Remove(sb.Length - 2, 2);
+        }
+
+        var groups = domain.Entity.Traits.Where(t => t.Type.Contains(nameof(Traits.Group)));
+        if (groups.Count() > 0)
+        {
+            sb.Append("<br/>&emsp;&emsp;<b>Groups</b>: ");
+            sb.Append("<br/>&emsp;&emsp;&emsp;");
+            foreach (var group in groups)
+                sb.Append("<a href='").Append("").Append("'>").Append(group.Key).Append("</a>, ");
             sb.Remove(sb.Length - 2, 2);
         }
     }

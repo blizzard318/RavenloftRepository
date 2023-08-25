@@ -144,7 +144,7 @@ internal static class AddToDatabase
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, SashaIvliskova);
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, PatrinaVelikovna);
 
-            var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased);
+            var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Status.Tatyana);
             ctx.CreateRelationship(Sergei, RelationshipType.Spouse, Tatyana);
 
 
