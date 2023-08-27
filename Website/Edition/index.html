@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Editions</title>
+	<meta name="theme-color" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ravenloft Repository">
+	<link rel="stylesheet" href="../styles.css">
+	<link rel="shortcut icon" href="../favicon.ico">
+	<script src="../sort.js" charset="utf-8"></script>
+	<script src="../constructTable.js" charset="utf-8"></script>
+	<style>h2{font-size:1.5em;text-align:center;margin-top:0px;}</style>
+</head>
+
+<body>
+	<h1 style="text-align:center;"><a href="../index.html">Homebrew Mainpage</a> | <a href="https://www.aonprd.com/">Archives of Nethys</a></h1><hr />
+	
+	<h2><a href="../Weapon">Weapons</a> | 
+	<a href="../Armor">Armor</a> | 
+	<a href="../Miscellaneous">Miscellaneous</a></h2><hr />
+	
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
+		<caption>List of Weapons</caption>
+		<tr style="color:White;background-color:Black;font-weight:bold;">
+			<th scope="col" onclick="sortTable(0)" style="cursor:pointer">
+				Name
+			</th>
+			<th scope="col" onclick="sortTable(1)" style="cursor:pointer">
+				Cost
+			</th>
+			<th scope="col" onclick="sortTable(2)" style="cursor:pointer">
+				Dmg (S)
+			</th>
+			<th scope="col" onclick="sortTable(3)" style="cursor:pointer">
+				Dmg (M)
+			</th>
+			<th scope="col" onclick="sortTable(4)" style="cursor:pointer">
+				Crit
+			</th>
+			<th scope="col" onclick="sortTable(5)" style="cursor:pointer">
+				Range
+			</th>
+			<th scope="col" onclick="sortTable(6)" style="cursor:pointer">
+				Weight
+			</th>
+			<th scope="col" onclick="sortTable(7)" style="cursor:pointer">
+				Type
+			</th>
+			<th scope="col">
+				Special
+			</th>
+			<th scope="col">
+				Proficiency
+			</th>
+			<th scope="col" onclick="sortTable(10)" style="cursor:pointer">
+				Source
+			</th>
+		</tr>
+	</table>
+	<script>ConstructTable(0)</script>
+</body>
+</html>

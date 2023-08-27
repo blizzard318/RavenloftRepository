@@ -7,7 +7,13 @@
     internal static class Edition
     {
         static Edition() => e0.ExtraInfo = "Everything here are official products that do not belong to any edition of D&D.";
-        private static Source.Trait CreateEdition(string name) => Factory.CreateSourceTrait(name, nameof(Edition));
+        public static List<Source.Trait> Editions = new List<Source.Trait>();
+        private static Source.Trait CreateEdition(string name)
+        {
+            var retval = Factory.CreateSourceTrait(name, nameof(Edition));
+            Editions.Add(retval);
+            return retval;
+        }
         public static Source.Trait e0  = CreateEdition("Editionless"  );
         public static Source.Trait e1  = CreateEdition("1st Edition"  );
         public static Source.Trait e2  = CreateEdition("2nd Edition"  );

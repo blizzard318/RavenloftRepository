@@ -1,17 +1,56 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Text;
+using System.Text.Json;
 
 string URL(string input) => string.Concat(input.Where(c => c != ':' && !char.IsWhiteSpace(c)));
 
 AddToDatabase.Add();
 var db = Factory.db;
 
+void CreateEditions()
+{
+    var Sources = db.Sources.Include(s => s.Traits).ToHashSet();
+    var editions = new List<JsonEdition>();
+    foreach (var edition in Traits.Edition.Editions)
+    {
+        string link = $"&lt;a href='{edition.Key}'&gt;{edition.Key}&lt;/a&gt;";
+
+        var SourcesByEdition = Sources.Where(s => s.Traits.Contains(edition)).ToArray();
+        var sources = new List<JsonEdition.Source>();
+        foreach (var source in SourcesByEdition)
+        {
+            Sources.Remove(source);
+            sources.Add(new JsonEdition.Source()
+            {
+                Name = source.Key,
+                ReleaseDate = source.ReleaseDate.ToString(),
+                MediaType = source.Traits.Single(s => s.Type == nameof(Traits.Media)).Key
+            });
+        }
+
+        editions.Add(new JsonEdition() 
+        { 
+            Name = link,  
+            ExtraInfo = edition.ExtraInfo,
+            Sources = sources
+        });
+        Console.WriteLine(JsonSerializer.Serialize(editions[editions.Count() - 1]));
+    }
+
+    var dir = Directory.CreateDirectory(nameof(Traits.Edition)).ToString();
+    string filepath = Path.Join(dir, "data.json");
+    File.WriteAllText(filepath, JsonSerializer.Serialize(editions));
+}
+CreateEditions();
+return;
+
 var Sources = db.Sources.Include(s => s.Traits).ToArray();
-var DomainAppearances   = db.domainAppearances  .Include(a => a.Entity.Traits).ToHashSet();
+var DomainAppearances = db.domainAppearances.Include(a => a.Entity.Traits).ToHashSet();
 var LocationAppearances = db.locationAppearances.Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
-var NPCAppearances      = db.npcAppearances     .Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
+var NPCAppearances = db.npcAppearances.Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
 NPCAppearances.RemoveWhere(a => a.Entity.Traits.Contains(Traits.NoLink));
-var ItemAppearances     = db.itemAppearances    .Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
+var ItemAppearances = db.itemAppearances.Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
+
 
 foreach (var source in Sources)
 {
