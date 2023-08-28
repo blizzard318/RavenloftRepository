@@ -1,4 +1,6 @@
-﻿internal static class Traits
+﻿using System.Xml.Linq;
+
+internal static class Traits
 {
     //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
@@ -6,8 +8,8 @@
     #region Universal Traits
     internal static class Edition
     {
-        static Edition() => e0.ExtraInfo = "Everything here are official products that do not belong to any edition of D&D.";
-        public static List<Source.Trait> Editions = new List<Source.Trait>();
+        static Edition() => e0.ExtraInfo = "Everything here are official products that do not belong to any edition of Dungeons and Dragons.";
+        public static List<Source.Trait> Editions = new List<Source.Trait>(7);
         private static Source.Trait CreateEdition(string name)
         {
             var retval = Factory.CreateSourceTrait(name, nameof(Edition));
@@ -26,7 +28,13 @@
     internal static class Canon
     {
         static Canon() => nc.ExtraInfo = pc.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
-        private static Source.Trait CreateCanon(string name) => Factory.CreateSourceTrait(name, nameof(Canon));
+        public static List<Source.Trait> Canons = new List<Source.Trait>(2);
+        private static Source.Trait CreateCanon(string name)
+        {
+            var retval = Factory.CreateSourceTrait(name, nameof(Canon));
+            Canons.Add(retval);
+            return retval;
+        }
         public static Source.Trait pc = CreateCanon("Potentially Canon");
         public static Source.Trait nc = CreateCanon("Not Canon"        );
     }

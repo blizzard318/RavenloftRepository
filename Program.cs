@@ -1,8 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 string URL(string input) => string.Concat(input.Where(c => c != ':' && !char.IsWhiteSpace(c)));
+
+var opt = new JsonSerializerOptions
+{
+    Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin),
+    WriteIndented = true
+};
 
 AddToDatabase.Add();
 var db = Factory.db;
@@ -13,8 +21,6 @@ void CreateEditions()
     var editions = new List<JsonEdition>();
     foreach (var edition in Traits.Edition.Editions)
     {
-        string link = $"&lt;a href='{edition.Key}'&gt;{edition.Key}&lt;/a&gt;";
-
         var SourcesByEdition = Sources.Where(s => s.Traits.Contains(edition)).ToArray();
         var sources = new List<JsonEdition.Source>();
         foreach (var source in SourcesByEdition)
@@ -30,7 +36,7 @@ void CreateEditions()
 
         editions.Add(new JsonEdition() 
         { 
-            Name = link,  
+            Name = edition.Key,  
             ExtraInfo = edition.ExtraInfo,
             Sources = sources
         });
@@ -39,9 +45,11 @@ void CreateEditions()
 
     var dir = Directory.CreateDirectory(nameof(Traits.Edition)).ToString();
     string filepath = Path.Join(dir, "data.json");
-    File.WriteAllText(filepath, JsonSerializer.Serialize(editions));
+    File.WriteAllText(filepath, JsonSerializer.Serialize(editions, opt));
 }
 CreateEditions();
+
+
 return;
 
 var Sources = db.Sources.Include(s => s.Traits).ToArray();

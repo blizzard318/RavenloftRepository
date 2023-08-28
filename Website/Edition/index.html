@@ -10,55 +10,58 @@
 	<link rel="stylesheet" href="../styles.css">
 	<link rel="shortcut icon" href="../favicon.ico">
 	<script src="../sort.js" charset="utf-8"></script>
-	<script src="../constructTable.js" charset="utf-8"></script>
 	<style>h2{font-size:1.5em;text-align:center;margin-top:0px;}</style>
 </head>
 
 <body>
-	<h1 style="text-align:center;"><a href="../index.html">Homebrew Mainpage</a> | <a href="https://www.aonprd.com/">Archives of Nethys</a></h1><hr />
+	<h1 style="text-align:center;"><a href="..">Homepage</a></h1><hr />
 	
-	<h2><a href="../Weapon">Weapons</a> | 
-	<a href="../Armor">Armor</a> | 
-	<a href="../Miscellaneous">Miscellaneous</a></h2><hr />
+	<h2><a href="../Source">Sources</a> | 
+	<h2><a href="../Domain">Domains</a> | 
+	<a href="../Location">Location</a> | 
+	<a href="../Character">Characters</a> | 
+	<a href="../Item">Items</a></h2><hr />
 	
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
-		<caption>List of Weapons</caption>
+		<caption>List of Editions</caption>
 		<tr style="color:White;background-color:Black;font-weight:bold;">
-			<th scope="col" onclick="sortTable(0)" style="cursor:pointer">
+			<th scope="col">
 				Name
 			</th>
-			<th scope="col" onclick="sortTable(1)" style="cursor:pointer">
-				Cost
-			</th>
-			<th scope="col" onclick="sortTable(2)" style="cursor:pointer">
-				Dmg (S)
-			</th>
-			<th scope="col" onclick="sortTable(3)" style="cursor:pointer">
-				Dmg (M)
-			</th>
-			<th scope="col" onclick="sortTable(4)" style="cursor:pointer">
-				Crit
-			</th>
-			<th scope="col" onclick="sortTable(5)" style="cursor:pointer">
-				Range
-			</th>
-			<th scope="col" onclick="sortTable(6)" style="cursor:pointer">
-				Weight
-			</th>
-			<th scope="col" onclick="sortTable(7)" style="cursor:pointer">
-				Type
-			</th>
 			<th scope="col">
-				Special
-			</th>
-			<th scope="col">
-				Proficiency
-			</th>
-			<th scope="col" onclick="sortTable(10)" style="cursor:pointer">
-				Source
+				Source Materials
 			</th>
 		</tr>
 	</table>
-	<script>ConstructTable(0)</script>
+	
+	<script>
+	fetch("data.json")
+	  .then(value => value.json())
+	  .then(data => {
+		const Editions = JSON.parse(JSON.stringify(data));
+		
+		let cols = [];
+		for (let i = 0; i < Editions.length; i++) {
+			for (let k in Editions[i]) {
+				if (cols.indexOf(k) === -1) { //Prevents duplication somehow
+					cols.push(k);
+				}
+			}
+		}
+		
+		for (let i = 0; i < Editions.length; i++) { // Adding the data to the table
+			trow = document.getElementById("MainTable").insertRow(-1); // Create a new row
+			
+			let cell = trow.insertCell(-1);
+				const a = document.createElement("a");
+				a.setAttribute("href","#Table" + i);
+				a.innerHTML = Editions[i].Name;
+			cell.innerHTML = a.outerHTML;
+			
+			cell = trow.insertCell(-1);
+			cell.innerHTML = Editions[i].Sources.length; // Inserting the cell at particular place
+		}
+	});
+	</script>
 </body>
 </html>
