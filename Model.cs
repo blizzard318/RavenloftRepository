@@ -67,7 +67,7 @@ public abstract class UseName
 public class Source : UseName
 {
     public List<Trait> Traits { get; set; }
-    [Column(TypeName = "Date")] public DateTime ReleaseDate { get; set; }
+    public string ReleaseDate { get; set; }
     //Levels, contributors, release date
     public class Trait : UseName
     {

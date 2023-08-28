@@ -1,6 +1,6 @@
-function colorCode(name) {
+function colorCode(table) {
   let flipflop = true;
-  const rows = document.getElementById(name).rows;
+  const rows = table.rows;
   for (var i = 1; i < rows.length; i++) {
 	if (rows[i].style.display == "none") continue;
     rows[i].style.background = flipflop ? "#323232" : "#626262";
@@ -8,10 +8,10 @@ function colorCode(name) {
   }
 }
 
-function sortTable(name, n) {
+function sortTable(table, n) {
   // Set the sorting direction to ascending:
   let shouldSwitch, switching, switchcount = 0, dir = "asc";
-  const rows = document.getElementById(name).rows;
+  const rows = table.rows;
   /* Make a loop that will continue until
   no switching has been done: */
   do {
@@ -59,5 +59,5 @@ function sortTable(name, n) {
     }
   } while (switching);
 
-  colorCode(name);
+  colorCode(table);
 }

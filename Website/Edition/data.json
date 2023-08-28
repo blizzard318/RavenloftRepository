@@ -1,16 +1,11 @@
 [
   {
-    "Name": "Editionless",
-    "ExtraInfo": "Everything here are official products that do not belong to any edition of Dungeons and Dragons.",
-    "Sources": []
-  },
-  {
     "Name": "1st Edition",
     "ExtraInfo": "",
     "Sources": [
       {
         "Name": "I6: Ravenloft",
-        "ReleaseDate": "1/11/1983 12:00:00 am",
+        "ReleaseDate": 1256714062051.2695,
         "MediaType": "Module"
       }
     ]
@@ -38,6 +33,11 @@
   {
     "Name": "5th Edition",
     "ExtraInfo": "",
+    "Sources": []
+  },
+  {
+    "Name": "Editionless",
+    "ExtraInfo": "Everything here are official products that do not belong to any edition of Dungeons and Dragons.",
     "Sources": []
   }
 ]

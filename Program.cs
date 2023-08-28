@@ -29,7 +29,7 @@ void CreateEditions()
             sources.Add(new JsonEdition.Source()
             {
                 Name = source.Key,
-                ReleaseDate = source.ReleaseDate.ToString(),
+                ReleaseDate = source.ReleaseDate,
                 MediaType = source.Traits.Single(s => s.Type == nameof(Traits.Media)).Key
             });
         }

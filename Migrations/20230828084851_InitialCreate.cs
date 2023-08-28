@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -72,7 +71,7 @@ namespace Ravenloft.Migrations
                 columns: table => new
                 {
                     Key = table.Column<string>(type: "TEXT", nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "Date", nullable: false),
+                    ReleaseDate = table.Column<string>(type: "TEXT", nullable: false),
                     ExtraInfo = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>

@@ -1,5 +1,6 @@
 ﻿using System;
 using static Relationship;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 internal class Factory : IDisposable
 {
@@ -33,9 +34,9 @@ internal class Factory : IDisposable
         }
     }
 
-    public static Factory? CreateSource(string name, DateTime releaseDate, string extraInfo, params Source.Trait[] traits)
+    public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
         => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
-    private Factory(string name, DateTime releaseDate, string extraInfo, params Source.Trait[] traits)
+    private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
     {
         Source = db.Sources.Add(new Source()
         {

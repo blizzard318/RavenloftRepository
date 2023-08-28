@@ -22,8 +22,8 @@
 	<a href="../Character">	Characters</a> | 
 	<a href="../Item">		Items	  </a></h2><hr />
 	
+	<b style="font-size:25px">List of Editions</b>
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
-		<caption>List of Editions</caption>
 		<tr style="color:White;background-color:Black;font-weight:bold;">
 			<th scope="col">
 				Name
@@ -49,19 +49,60 @@
 			}
 		}
 		
+		const MainTable = document.getElementById("MainTable");
 		for (let i = 0; i < Editions.length; i++) { // Adding the data to the table
-			trow = document.getElementById("MainTable").insertRow(-1); // Create a new row
+			let row = MainTable.insertRow(-1); // Create a new row
 			
-			let cell = trow.insertCell(-1);
+			let cell = row.insertCell(-1);
 				const a = document.createElement("a");
 				a.setAttribute("href","#Table" + i);
 				a.innerHTML = Editions[i].Name;
 			cell.innerHTML = a.outerHTML;
 			
-			cell = trow.insertCell(-1);
-			cell.innerHTML = Editions[i].Sources.length; // Inserting the cell at particular place
+			cell = row.insertCell(-1);
+			cell.innerHTML = Editions[i].Sources.length;
+			
+			const b = document.createElement("b");
+				b.style.fontSize = "25px";
+			document.append(b);
+			
+			const table = document.createElement("table").createCaption();
+				table.id = "#Table" + i;
+				if (Editions[i].ExtraInfo)
+					table.innerHTML  = "<b>" + Editions[i].Name + "</b>";
+				
+				row = table.insertRow(-1);
+					cell = document.createElement("th");
+					cell.innerHTML = "Name";
+				row.appendChild(cell);
+				
+					cell = document.createElement("th");
+					cell.innerHTML = "Release Date";
+				row.appendChild(cell);
+				
+					cell = document.createElement("th");
+					cell.innerHTML = "Media Type";
+				row.appendChild(cell);
+				
+				for (const source in Editions[i].Sources) {
+					row = table.insertRow(-1);
+					
+					cell = row.insertCell(-1);
+						const a = document.createElement("a");
+						a.setAttribute("href","../Source/" + source.Name);
+						a.innerHTML = source.Name;
+					cell.innerHTML = a.outerHTML;
+					
+					cell = row.insertCell(-1);
+					cell.innerHTML = new Date(source.ReleaseDate);
+					
+					cell = row.insertCell(-1);
+					cell.innerHTML = source.MediaType;
+				}
+			document.append(table);
+			colorCode(table);
 		}
-		colorCode("MainTable");
+		colorCode(MainTable);
 	});
 	</script>
 </body>
