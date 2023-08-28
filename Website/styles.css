@@ -12,3 +12,7 @@ body {
     color: #EAEAEA;
     line-height: 1.5;
 }
+
+a {
+    white-space: nowrap;
+}
