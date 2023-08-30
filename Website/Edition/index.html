@@ -58,7 +58,7 @@
 		
 		const AfterTable = document.getElementById("after");
 		const MainTable = document.getElementById("MainTable");
-		for (const edition in Editions)
+		for (const edition of Editions) {
 			AfterTable.append(document.createElement("br"));
 			
 			let row = MainTable.insertRow(-1); // Create a new row
@@ -105,7 +105,7 @@
 					cell.innerHTML = "Media Type";
 				row.appendChild(cell);
 				
-				for (const source in edition.Sources) {
+				for (const source of edition.Sources) {
 					row = table.insertRow(-1);
 					
 					cell = row.insertCell(-1);
