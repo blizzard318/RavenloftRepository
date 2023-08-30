@@ -9,7 +9,7 @@ internal static class AddToDatabase
         AddI6Ravenloft();
         void AddI6Ravenloft()
         {
-            var releaseDate = "1983-11-01";
+            var releaseDate = "01/11/1983";
             string ExtraInfo = "<br/>&emsp;Authors: Tracy Hickman and Laura Hickman";
             ExtraInfo += "<br/>&emsp;Editor: Curtis Smith";
             ExtraInfo += "<br/>&emsp;Graphic Designer: Debra Stubbe";
