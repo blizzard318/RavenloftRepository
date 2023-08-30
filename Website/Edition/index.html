@@ -95,17 +95,17 @@
 				
 					cell = document.createElement("th");
 					cell.scope = "col";
-					cell.cursor = "pointer";
+					cell.style.cursor = "pointer";
 					cell.innerHTML = "<b>Release Date</b>";
 					cell.title = "DD/MM/YYYY";
-					cell.setAttribute('onclick', 'sortTable(1)');
+					cell.setAttribute('onclick', 'sortTable(' + edition.Name + ', 1)');
 				row.appendChild(cell);
 				
 					cell = document.createElement("th");
 					cell.scope = "col";
-					cell.cursor = "pointer";
+					cell.style.cursor = "pointer";
 					cell.innerHTML = "<b>Media Type</b>";
-					cell.setAttribute('onclick', 'sortDate(2)');
+					cell.setAttribute('onclick', 'sortDate(' + edition.Name + ', 2)');
 				row.appendChild(cell);
 				
 				for (const source of edition.Sources) {
@@ -113,7 +113,7 @@
 					
 					cell = row.insertCell(-1);
 						a = document.createElement("a");
-						a.setAttribute("href","../Source/" + source.Name);
+						a.setAttribute("href","../Source/" + source.Name.replace(":","");
 						a.innerHTML = source.Name;
 					cell.innerHTML = a.outerHTML;
 					
@@ -129,7 +129,7 @@
 			AfterTable.append(table);
 			colorCode(table);
 		}
-		colorCode(MainTable);
+		colorCode("MainTable");
 	});
 	</script>
 </body>

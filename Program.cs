@@ -4,8 +4,6 @@ using System.Text.Json;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
-string URL(string input) => string.Concat(input.Where(c => c != ':' && !char.IsWhiteSpace(c)));
-
 var opt = new JsonSerializerOptions
 {
     Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin),

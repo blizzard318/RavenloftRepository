@@ -1,6 +1,6 @@
-function colorCode(table) {
+function colorCode(tableName) {
   let flipflop = true;
-  const rows = table.rows;
+  const rows = document.getElementById(tableName).rows;
   for (var i = 1; i < rows.length; i++) {
 	if (rows[i].style.display == "none") continue;
     rows[i].style.background = flipflop ? "#323232" : "#626262";
@@ -8,13 +8,13 @@ function colorCode(table) {
   }
 }
 
-function sortDate (table, n) {
+function sortDate (tableName, n) {
 	function convertDate(d) {
 	  const p = d.split("/");
 	  return +(p[2]+p[1]+p[0]);
 	}
   let shouldSwitch, switching, switchcount = 0, dir = "asc";
-  const rows = table.rows;
+  const rows = document.getElementById(tableName).rows;
   /* Make a loop that will continue until
   no switching has been done: */
   do {
@@ -65,10 +65,10 @@ function sortDate (table, n) {
   colorCode(table);
 }
 
-function sortTable(table, n) {
+function sortDate (tableName, n) {
   // Set the sorting direction to ascending:
   let shouldSwitch, switching, switchcount = 0, dir = "asc";
-  const rows = table.rows;
+  const rows = document.getElementById(tableName).rows;
   /* Make a loop that will continue until
   no switching has been done: */
   do {
