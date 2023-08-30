@@ -84,7 +84,7 @@
 				table.cellpadding = "3";
 				table.id = edition.Name;
 				if (edition.ExtraInfo)
-					table.createCaption().textContent  = "<b>" + edition.Name + "</b>";
+					table.createCaption().textContent  = edition.ExtraInfo;
 				
 				row = table.insertRow(-1);
 				row.style.backgroundColor  = "black";

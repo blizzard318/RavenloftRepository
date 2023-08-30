@@ -84,7 +84,7 @@
 				table.cellpadding = "3";
 				table.id = media.Name;
 				if (media.ExtraInfo)
-					table.createCaption().textContent  = "<b>" + media.Name + "</b>";
+					table.createCaption().textContent  = media.ExtraInfo;
 				
 				row = table.insertRow(-1);
 				row.style.backgroundColor  = "black";
