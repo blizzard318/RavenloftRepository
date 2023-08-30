@@ -60,7 +60,7 @@
 			
 			let cell = row.insertCell(-1);
 				const a = document.createElement("a");
-				a.setAttribute("href","#Table" + i);
+				a.setAttribute("href","#" + Editions[i].Name);
 				a.innerHTML = Editions[i].Name;
 			cell.innerHTML = a.outerHTML;
 			
