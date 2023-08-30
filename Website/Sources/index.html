@@ -27,14 +27,20 @@
 		<a href="../Item">		Items	  </a>
 	</h2><hr />
 	
-	<b style="font-size:25px">List of Editions</b>
+	<b style="font-size:25px">List of Medias</b>
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
 		<tr style="background-color:Black">
 			<th scope="col">
 				<b>Name</b>
 			</th>
-			<th scope="col">
-				<b>Source Materials</b>
+			<th scope="col" onclick="SortTable('MainTable',1)" style="cursor:pointer">
+				<b>Edition</b>
+			</th>
+			<th scope="col" onclick="SortTable('MainTable',2)" style="cursor:pointer">
+				<b>Release Date</b>
+			</th>
+			<th scope="col" onclick="SortTable('MainTable',3)" style="cursor:pointer">
+				<b>Media Type</b>
 			</th>
 		</tr>
 	</table>
@@ -45,36 +51,33 @@
 	fetch("data.json")
 	  .then(value => value.json())
 	  .then(data => {
-		const Editions = JSON.parse(JSON.stringify(data));
+		const Sources = JSON.parse(JSON.stringify(data));
 		
 		let cols = [];
-		for (let i = 0; i < Editions.length; i++) {
-			for (let k in Editions[i]) {
+		for (let i = 0; i < Sources.length; i++) {
+			for (let k in Sources[i]) {
 				if (cols.indexOf(k) === -1) { //Prevents duplication somehow
 					cols.push(k);
 				}
 			}
 		}
 		
-		const AfterTable = document.getElementById("after");
 		const MainTable = document.getElementById("MainTable");
-		for (const edition of Editions) {
-			AfterTable.append(document.createElement("br"));
-			
+		for (const source of Sources) {
 			let row = MainTable.insertRow(-1); // Create a new row
 			
 			let cell = row.insertCell(-1);
 				let a = document.createElement("a");
-				a.setAttribute("href","#" + edition.Name);
-				a.innerHTML = edition.Name;
+				a.setAttribute("href","#" + source.Name);
+				a.innerHTML = source.Name;
 			cell.innerHTML = a.outerHTML;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = edition.Sources.length;
+			cell.innerHTML = media.Sources.length;
 			
 			const b = document.createElement("b");
 				b.style.fontSize = "25px";
-				b.innerHTML = edition.Name;
+				b.innerHTML = media.Name;
 			AfterTable.append(b);
 			
 			const table = document.createElement("table");
@@ -82,7 +85,7 @@
 				table.rules = "cols";
 				table.cellspacing = "0";
 				table.cellpadding = "3";
-				table.id = edition.Name;
+				table.id = media.Name;
 				
 				row = table.insertRow(-1);
 				row.style.backgroundColor  = "black";
@@ -96,17 +99,17 @@
 					cell.style.cursor = "pointer";
 					cell.innerHTML = "<b>Release Date</b>";
 					cell.title = "DD/MM/YYYY";
-					cell.setAttribute('onclick', 'sortTable(' + edition.Name + ', 1)');
+					cell.setAttribute('onclick', 'sortTable(' + media.Name + ', 1)');
 				row.appendChild(cell);
 				
 					cell = document.createElement("th");
 					cell.scope = "col";
 					cell.style.cursor = "pointer";
-					cell.innerHTML = "<b>Media Type</b>";
-					cell.setAttribute('onclick', 'sortDate(' + edition.Name + ', 2)');
+					cell.innerHTML = "<b>Edition</b>";
+					cell.setAttribute('onclick', 'sortDate(' + media.Name + ', 2)');
 				row.appendChild(cell);
 				
-				for (const source of edition.Sources) {
+				for (const source of media.Sources) {
 					row = table.insertRow(-1);
 					
 					cell = row.insertCell(-1);
@@ -120,14 +123,14 @@
 					
 					cell = row.insertCell(-1);
 						a = document.createElement("a");
-						a.setAttribute("href","../Media/#" + source.MediaType);
-						a.innerHTML = source.MediaType;
+						a.setAttribute("href","../Edition/#" + source.Edition);
+						a.innerHTML = source.Edition;
 					cell.innerHTML = a.outerHTML;
 				}
 			AfterTable.append(table);
 			if (edition.ExtraInfo)
 				AfterTable.append(document.createTextNode(edition.ExtraInfo));
-			colorCode(edition.Name);
+			colorCode(media.Name);
 		}
 		colorCode("MainTable");
 	});

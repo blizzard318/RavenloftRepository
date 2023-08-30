@@ -15,6 +15,7 @@ internal static class AddToDatabase
             ExtraInfo += "<br/>&emsp;Graphic Designer: Debra Stubbe";
             ExtraInfo += "<br/>&emsp;Illustrator: Clyde Caldwell";
             ExtraInfo += "<br/>&emsp;Module Info: An adventure for 6-8 characters of levels 5-7";
+            ExtraInfo += "<br/>&emsp;Personal Notes: The term 'Vistani' had not been coined yet, instead the term 'gypsy' was used in this book. I've used 'Vistani' in its place.";
             using var ctx = Factory.CreateSource("I6: Ravenloft", releaseDate, ExtraInfo, Traits.Edition.e1, Traits.Media.module);
             if (ctx == null) return;
 

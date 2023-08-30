@@ -30,6 +30,10 @@ internal class JsonCluster
     public string Name { get; set; }
     public List<string> Domains { get; set; }
 }
+internal class JsonLocation
+{
+
+}
 internal class JsonSource
 {
     public string Name { get; set; }

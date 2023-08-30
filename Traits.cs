@@ -8,7 +8,7 @@ internal static class Traits
     #region Universal Traits
     internal static class Edition
     {
-        static Edition() => e0.ExtraInfo = "Everything here are official products that do not belong to any edition of Dungeons and Dragons.";
+        static Edition() => e0.ExtraInfo = "'Editionless' are official products that do not belong to any edition of Dungeons and Dragons.";
         public static List<Source.Trait> Editions = new List<Source.Trait>(7);
         private static Source.Trait CreateEdition(string name)
         {
@@ -25,7 +25,7 @@ internal static class Traits
         public static Source.Trait e0  = CreateEdition("Editionless");
     }
 
-    internal static class Canon
+    internal static class Canon //Annoying to create a page for this, maybe don't.
     {
         static Canon() => nc.ExtraInfo = pc.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
         public static List<Source.Trait> Canons = new List<Source.Trait>(2);
@@ -59,9 +59,16 @@ internal static class Traits
         public static Source.Trait boardgame  = CreateMedia("Board Game");
     }
 
-    internal static class Location
+    internal static class Location //Seperate them by Mistway,Cluster,Settlement,DarklordLair and else.
     {
-        private static Trait CreateLocation(string name) => Factory.CreateTrait(name, nameof(Location));
+        public static List<Trait> Locations = new List<Trait>();
+        static Location() => Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
+        private static Trait CreateLocation(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Location));
+            Locations.Add(retval);
+            return retval;
+        }
         public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   ));
         public static Trait Cluster    = CreateLocation(nameof(Traits.Cluster   ));
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
@@ -70,7 +77,6 @@ internal static class Traits
 
     internal static class Status
     {
-        static Status() => Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
         private static Trait CreateStatus(string name) => Factory.CreateTrait(name, nameof(Status));
         public static Trait Raunie   = CreateStatus("Raunie"  );
         public static Trait Deceased = CreateStatus("Deceased");
@@ -79,7 +85,7 @@ internal static class Traits
         public static Trait Darklord = Factory.CreateTrait("Darklord", nameof(Status), nameof(Location));
     }
 
-    internal static class Alignment
+    internal static class Alignment //Don't create a page for this.
     {
         private static Trait CreateAlignment(string name) => Factory.CreateTrait(name, nameof(Alignment));
         public static Trait LG = CreateAlignment("Lawful Good"    );
