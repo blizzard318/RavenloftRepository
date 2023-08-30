@@ -73,11 +73,18 @@
 			AfterTable.append(b);
 			
 			const table = document.createElement("table");
+				table.border = "1";
+				table.rules = "cols";
+				table.cellspacing = "0";
+				table.cellpadding = "3";
 				table.id = "#" + Editions[i].Name;
 				if (Editions[i].ExtraInfo)
 					table.createCaption.textContent  = "<b>" + Editions[i].Name + "</b>";
 				
 				row = table.insertRow(-1);
+				row.style.color = "white";
+				row.style.fontWeight = "bold";
+				row.style.backgroundColor  = "black";
 					cell = document.createElement("th");
 					cell.scope = "col";
 					cell.innerHTML = "Name";
