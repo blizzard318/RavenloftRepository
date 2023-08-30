@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Editions</title>
+	<meta name="theme-color" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ravenloft Repository">
+	<link rel="stylesheet" href="../styles.css">
+	<link rel="shortcut icon" href="../favicon.ico">
+	<script src="../sort.js" charset="utf-8"></script>
+	<style>h2{font-size:1.5em;text-align:center;margin-top:0px;}</style>
+</head>
+
+<body>
+	<h1>
+		<a href="..">Official</a> |
+		<a href="../3rdParty">3rd Party</a>
+	</h1><hr />
+	
+	<h2>
+		<a href="../Source">	Sources   </a> | 
+		<a href="../Domain">	Domains   </a> | 
+		<a href="../Location">	Locations </a> | 
+		<a href="../Character">	Characters</a> | 
+		<a href="../Item">		Items	  </a>
+	</h2><hr />
+	
+	<b style="font-size:25px">List of Medias</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
+		<tr style="background-color:Black">
+			<th scope="col">
+				<b>Name</b>
+			</th>
+			<th scope="col" onclick="SortTable('MainTable',1)" style="cursor:pointer">
+				<b>Edition</b>
+			</th>
+			<th scope="col" onclick="SortTable('MainTable',2)" style="cursor:pointer">
+				<b>Media Type</b>
+			</th>
+			<th scope="col" onclick="SortDate('MainTable',3)" style="cursor:pointer">
+				<b>Release Date</b>
+			</th>
+		</tr>
+	</table>
+	
+	<b style="font-size:25px">List of Editions</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="EditionTable">
+		<tr style="background-color:Black">
+			<th scope="col">
+				<b>Edition</b>
+			</th>
+			<th scope="col">
+				<b>Source Materials</b>
+			</th>
+		</tr>
+	</table>
+	
+	<b style="font-size:25px">List of Media</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MediaTable">
+		<tr style="background-color:Black">
+			<th scope="col">
+				<b>Type</b>
+			</th>
+			<th scope="col">
+				<b>Source Materials</b>
+			</th>
+		</tr>
+	</table>
+	
+	<script>
+		const Sources  = await (await fetch("data.json")).json();
+		const Editions = await (await fetch("Edition.json")).json();
+		const Medias   = await (await fetch("Media.json")).json();
+		
+		const EditionArr = {};
+		for (const edition of Editions) {
+			EditionArr[edition] = 0;
+		}
+		
+		const MediaArr = {};
+		for (const media of Medias) {
+			MediaArr[media] = 0;
+		}
+		
+		const MainTable    = document.getElementById("MainTable");
+		
+		for (const source of Sources) {
+			let row = MainTable.insertRow(-1); // Create a new row
+			
+			let cell = row.insertCell(-1);
+				let a = document.createElement("a");
+				a.setAttribute("href","#" + source.Name);
+				a.innerHTML = source.Name;
+			cell.innerHTML = a.outerHTML;
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = source.Edition;
+			EditionArr[source.Edition]++;
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = source.MediaType;
+			MediaArr[source.MediaType]++;
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = source.ReleaseDate;
+		}
+		SortDate('MainTable',3);
+		
+		const EditionTable = document.getElementById("EditionTable");
+		
+		const MediaTable   = document.getElementById("MediaTable");
+	</script>
+</body>
+</html>

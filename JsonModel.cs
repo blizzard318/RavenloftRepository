@@ -38,6 +38,6 @@ internal class JsonSource
 {
     public string Name { get; set; }
     public string Edition { get; set; }
-    public string ReleaseDate { get; set; }
     public string MediaType { get; set; }
+    public string ReleaseDate { get; set; }
 }

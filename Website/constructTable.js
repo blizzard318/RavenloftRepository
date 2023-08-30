@@ -1,10 +1,9 @@
-function ConstructTable(ColumnNumber=1) {
-	const table = document.getElementById("MainTable");
+function ConstructTable(name, ColumnNumber=1) {
+	const table = document.getElementById(name);
 
 	fetch("data.json")
 	  .then(value => value.json())
-	  .then(data => {
-		const list = JSON.parse(JSON.stringify(data));
+	  .then(list => {
 		
 		let cols = [];
 		for (let i = 0; i < list.length; i++) {
@@ -22,6 +21,6 @@ function ConstructTable(ColumnNumber=1) {
 				cell.innerHTML = list[i][cols[j]]; // Inserting the cell at particular place
 			}
 		}
-		sortTable(ColumnNumber);
+		sortTable(name, ColumnNumber);
 	});
 }
