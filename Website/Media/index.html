@@ -83,8 +83,6 @@
 				table.cellspacing = "0";
 				table.cellpadding = "3";
 				table.id = media.Name;
-				if (media.ExtraInfo)
-					table.createCaption().textContent  = media.ExtraInfo;
 				
 				row = table.insertRow(-1);
 				row.style.backgroundColor  = "black";
@@ -127,6 +125,8 @@
 					cell.innerHTML = a.outerHTML;
 				}
 			AfterTable.append(table);
+			if (edition.ExtraInfo)
+				AfterTable.append(document.createTextNode(edition.ExtraInfo));
 			colorCode(media.Name);
 		}
 		colorCode("MainTable");

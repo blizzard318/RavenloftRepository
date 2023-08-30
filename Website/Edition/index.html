@@ -83,8 +83,6 @@
 				table.cellspacing = "0";
 				table.cellpadding = "3";
 				table.id = edition.Name;
-				if (edition.ExtraInfo)
-					table.createCaption().textContent  = edition.ExtraInfo;
 				
 				row = table.insertRow(-1);
 				row.style.backgroundColor  = "black";
@@ -127,6 +125,8 @@
 					cell.innerHTML = a.outerHTML;
 				}
 			AfterTable.append(table);
+			if (edition.ExtraInfo)
+				AfterTable.append(document.createTextNode(edition.ExtraInfo));
 			colorCode(edition.Name);
 		}
 		colorCode("MainTable");
