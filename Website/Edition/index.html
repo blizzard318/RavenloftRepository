@@ -69,10 +69,10 @@
 				b.style.fontSize = "25px";
 			AfterTable.append(b);
 			
-			const table = document.createElement("table").createCaption();
-				table.id = "#Table" + i;
+			const table = document.createElement("table");
+				table.id = "#" + Editions[i].Name;
 				if (Editions[i].ExtraInfo)
-					table.innerHTML  = "<b>" + Editions[i].Name + "</b>";
+					table.createCaption.textContent  = "<b>" + Editions[i].Name + "</b>";
 				
 				row = table.insertRow(-1);
 					cell = document.createElement("th");
