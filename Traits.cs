@@ -41,14 +41,21 @@ internal static class Traits
 
     internal static class Media
     {
-        private static Source.Trait CreateMedia(string name) => Factory.CreateSourceTrait(name, nameof(Media));
-        public static Source.Trait comic      = CreateMedia("Comic"     );
+        public static List<Source.Trait> Medias = new List<Source.Trait>(9);
+        private static Source.Trait CreateMedia(string name)
+        {
+            var retval = Factory.CreateSourceTrait(name, nameof(Media));
+            Medias.Add(retval);
+            return retval;
+        }
+        public static Source.Trait sourcebook = CreateMedia("Sourcebook");
         public static Source.Trait module     = CreateMedia("Module"    );
+        public static Source.Trait magazine   = CreateMedia("Magazine"  );
         public static Source.Trait novel      = CreateMedia("Novel"     );
         public static Source.Trait gamebook   = CreateMedia("Gamebook"  );
-        public static Source.Trait sourcebook = CreateMedia("Sourcebook");
-        public static Source.Trait magazine   = CreateMedia("Magazine"  );
+        public static Source.Trait audiobook  = CreateMedia("Audiobook" );
         public static Source.Trait videogame  = CreateMedia("Video Game");
+        public static Source.Trait comic      = CreateMedia("Comic"     );
         public static Source.Trait boardgame  = CreateMedia("Board Game");
     }
 

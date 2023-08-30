@@ -34,7 +34,7 @@ void CreateEditions()
 
         editions.Add(new JsonEdition() 
         { 
-            Name = edition.Key,  
+            Name = edition.Key,
             ExtraInfo = edition.ExtraInfo,
             Sources = sources
         });
@@ -45,8 +45,40 @@ void CreateEditions()
     string filepath = Path.Join(dir, "data.json");
     File.WriteAllText(filepath, JsonSerializer.Serialize(editions, opt));
 }
-CreateEditions();
+void CreateMedias()
+{
+    var Sources = db.Sources.Include(s => s.Traits).ToHashSet();
+    var mediatypes = new List<JsonMedia>();
+    foreach (var mediaType in Traits.Media.Medias)
+    {
+        var SourcesByEdition = Sources.Where(s => s.Traits.Contains(mediaType)).ToArray();
+        var sources = new List<JsonMedia.Source>();
+        foreach (var source in SourcesByEdition)
+        {
+            Sources.Remove(source);
+            sources.Add(new JsonMedia.Source()
+            {
+                Name = source.Key,
+                Edition = source.Traits.Single(s => s.Type == nameof(Traits.Edition)).Key,
+                ReleaseDate = source.ReleaseDate,
+            });
+        }
 
+        mediatypes.Add(new JsonMedia()
+        {
+            Name = mediaType.Key,
+            Sources = sources
+        });
+        Console.WriteLine(JsonSerializer.Serialize(mediatypes[mediatypes.Count() - 1]));
+    }
+
+    var dir = Directory.CreateDirectory(nameof(Traits.Media)).ToString();
+    string filepath = Path.Join(dir, "data.json");
+    File.WriteAllText(filepath, JsonSerializer.Serialize(mediatypes, opt));
+}
+
+CreateEditions();
+CreateMedias();
 
 return;
 
@@ -220,6 +252,6 @@ foreach (var source in Sources)
     sb.Append("</body>");
     sb.Append("</html>");
 
-    string filepath = Path.Join(Directory.GetCurrentDirectory(), $"{URL(source.Key)}.html");
-    File.WriteAllTextAsync(filepath, sb.ToString());
+    //string filepath = Path.Join(Directory.GetCurrentDirectory(), $"{URL(source.Key)}.html");
+    //File.WriteAllTextAsync(filepath, sb.ToString());
 }
