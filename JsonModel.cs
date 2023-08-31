@@ -1,43 +1,26 @@
-﻿internal class JsonEdition
+﻿internal class JsonObject
 {
     public string Name { get; set; }
-    public string ExtraInfo { get; set; }
-    public List<Source> Sources { get; set; }
-
-    public class Source
-    {
-        public string Name { get; set; }
-        public string ReleaseDate { get; set; }
-        public string MediaType { get; set; }
-    }
 }
-
-internal class JsonMedia
+internal class JsonSource : JsonObject
 {
-    public string Name { get; set; }
-    public string ExtraInfo { get; set; }
-    public List<Source> Sources { get; set; }
-
-    public class Source
-    {
-        public string Name { get; set; }
-        public string Edition { get; set; }
-        public string ReleaseDate { get; set; }
-    }
-}
-internal class JsonCluster
-{
-    public string Name { get; set; }
-    public List<string> Domains { get; set; }
-}
-internal class JsonLocation
-{
-
-}
-internal class JsonSource
-{
-    public string Name { get; set; }
     public string Edition { get; set; }
     public string MediaType { get; set; }
     public string ReleaseDate { get; set; }
+}
+internal class JsonDomain : JsonObject
+{
+    public string Darklords { get; set; }
+}
+internal class JsonLocation : JsonObject
+{
+
+}
+internal class JsonItem : JsonObject
+{
+
+}
+internal class JsonCharacter : JsonObject
+{
+
 }
