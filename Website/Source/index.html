@@ -75,19 +75,14 @@
 		const Medias   = await (await fetch("Media.json")).json();
 		
 		const EditionArr = {};
-		for (const edition of Editions) {
-			EditionArr[edition] = 0;
-		}
+		Editions.forEach(e => EditionArr[e] = 0);
 		
 		const MediaArr = {};
-		for (const media of Medias) {
-			MediaArr[media] = 0;
-		}
+		Medias.forEach(m => MediaArr[m] = 0);
 		
 		const MainTable    = document.getElementById("MainTable");
-		
 		for (const source of Sources) {
-			let row = MainTable.insertRow(-1); // Create a new row
+			const row = MainTable.insertRow(-1); // Create a new row
 			
 			let cell = row.insertCell(-1);
 				let a = document.createElement("a");
@@ -109,8 +104,28 @@
 		SortDate('MainTable',3);
 		
 		const EditionTable = document.getElementById("EditionTable");
+		for (const edition of Editions) {
+			const row = EditionTable.insertRow(-1); // Create a new row
+			
+			let cell = row.insertCell(-1);
+			cell.innerHTML = edition.Name;
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = EditionArr[edition.Name];
+		}
+		colorCode("EditionTable");
 		
 		const MediaTable   = document.getElementById("MediaTable");
+		for (const media of Medias) {
+			const row = MediaTable.insertRow(-1); // Create a new row
+			
+			let cell = row.insertCell(-1);
+			cell.innerHTML = media.Name;
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = MediaArr[media.Name];
+		}
+		colorCode("MediaTable");
 	</script>
 </body>
 </html>
