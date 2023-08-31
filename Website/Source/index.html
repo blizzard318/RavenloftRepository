@@ -70,6 +70,7 @@
 	</table>
 	
 	<script>
+	async function func(){
 		const SourcesData = await fetch("data.json");
 		const Sources = await SourcesData.json();
 		
@@ -131,6 +132,8 @@
 			cell.innerHTML = MediaArr[media.Name];
 		}
 		colorCode("MediaTable");
+	}
+	func();
 	</script>
 </body>
 </html>
