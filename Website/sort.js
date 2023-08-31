@@ -62,7 +62,7 @@ function sortDate (tableName, n) {
     }
   } while (switching);
 
-  colorCode(table);
+  colorCode(tableName);
 }
 
 function sortDate (tableName, n) {
@@ -116,5 +116,5 @@ function sortDate (tableName, n) {
     }
   } while (switching);
 
-  colorCode(table);
+  colorCode(tableName);
 }
