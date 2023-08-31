@@ -71,20 +71,17 @@
 	
 	<script>
 	async function func(){
-		const SourcesData = await fetch("data.json");
+		/*const SourcesData = await fetch("data.json");
 		const Sources = await SourcesData.json();
 		
 		const EditionsData = await fetch("Edition.json");
 		const Editions = await EditionsData.json();
 		
 		const MediasData = await fetch("Media.json");
-		const Medias = await MediasData.json();
+		const Medias = await MediasData.json();*/
 		
 		const EditionArr = {};
-		Editions.forEach(e => EditionArr[e] = 0);
-		
 		const MediaArr = {};
-		Medias.forEach(m => MediaArr[m] = 0);
 		
 		const MainTable    = document.getElementById("MainTable");
 		for (const source of Sources) {
@@ -98,10 +95,12 @@
 			
 			cell = row.insertCell(-1);
 			cell.innerHTML = source.Edition;
+			EditionArr[source.Edition] ??= 0;
 			EditionArr[source.Edition]++;
 			
 			cell = row.insertCell(-1);
 			cell.innerHTML = source.MediaType;
+			MediaArr[source.MediaType] ??= 0;
 			MediaArr[source.MediaType]++;
 			
 			cell = row.insertCell(-1);
@@ -117,7 +116,7 @@
 			cell.innerHTML = edition.Name;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = EditionArr[edition.Name];
+			cell.innerHTML = EditionArr[edition.Name] ?? 0;
 		}
 		colorCode("EditionTable");
 		
@@ -129,7 +128,7 @@
 			cell.innerHTML = media.Name;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = MediaArr[media.Name];
+			cell.innerHTML = MediaArr[media.Name] ?? 0;
 		}
 		colorCode("MediaTable");
 	}
