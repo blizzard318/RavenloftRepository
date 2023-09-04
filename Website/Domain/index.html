@@ -43,7 +43,7 @@
 			<th scope="col">
 				<b>Darklord(s)</b>
 			</th>
-			<th scope="col" onclick="SortTable('MainTable',3)" style="cursor:pointer">
+			<th scope="col">
 				<b>Source(s)</b>
 			</th>
 		</tr>
@@ -56,9 +56,6 @@
 		<tr style="background-color:Black">
 			<th scope="col">
 				<b>Name</b>
-			</th>
-			<th scope="col">
-				<b>Domains</b>
 			</th>
 		</tr>
 	</table>
@@ -102,6 +99,7 @@
 		const Domains = await DomainsData.json();
 		
 		const EditionArr = {};
+		const ClusterArr = {};
 		
 		const MainTable = document.getElementById("MainTable");
 		for (const domain of Domains) {
@@ -124,31 +122,63 @@
 			}
 			cell.innerHTML = inputval.substring(0, s.length() - 2);
 			
-			cell = row.insertCell(-1);
-			cell.innerHTML = domain.Sources;
+			const Clusters = domain.Clusters.split(',');
+			for (const cluster of Clusters) {
+				ClusterArr[cluster] ??= 0;
+				ClusterArr[cluster]++;
+			}
 			
 			const Editions = domain.Editions.split(',');
 			for (const edition of Editions) {
 				EditionArr[edition] ??= 0;
 				EditionArr[edition]++;
 			}
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = domain.Sources;
 		}
 		sortDate('MainTable',0);
 		
-		const EditionsData = await fetch("../Edition.csv");
-		const Editions = await EditionsData.text();
+		const AfterEdition = document.getElementById("AfterEdition");
 		const EditionTable = document.getElementById("EditionTable");
-		for (const edition of Editions.split(',')) {
+		for (edition of Object.keys(EditionArr)) {
+			let cell = document.createElement("th");
+				cell.scope = "col";
+				cell.innerHTML = "<b>" + edition + "</b>";
+			EditionTable.rows[0].appendChild(cell);
+		}
+		
+		for (edition of Object.keys(EditionArr)) {
 			const row = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
-			cell.innerHTML = edition.Name;
+				let a = document.createElement("a");
+				a.setAttribute("href","#" + edition);
+				a.innerHTML = edition;
+			cell.innerHTML = a.outerHTML;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = EditionArr[edition.Name] ?? 0;
+			cell.innerHTML = EditionArr[edition] ?? 0;
+			
+			const b = document.createElement("b");
+				b.style.fontSize = "25px";
+				b.innerHTML = edition;
+			AfterEdition.append(b);
 		}
+		sortDate('EditionTable',0);
 		
+		const AfterCluster = document.getElementById("AfterCluster");
 		const ClusterTable = document.getElementById("ClusterTable");
+		for (cluster of Object.keys(ClusterArr)) {
+			const row = ClusterTable.insertRow(-1);
+			
+			let cell = row.insertCell(-1);
+			cell.innerHTML = cluster;
+			
+			cell = row.insertCell(-1);
+			cell.innerHTML = ClusterArr[cluster] ?? 0;
+		}
+		sortDate('ClusterTable',0);
 	}
 	func();
 	</script>
