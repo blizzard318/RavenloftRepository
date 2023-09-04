@@ -79,7 +79,7 @@
 		
 		const MainTable = document.getElementById("MainTable");
 		for (const source of Sources) {
-			const row = MainTable.insertRow(-1); // Create a new row
+			const row = MainTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
 				let a = document.createElement("a");
@@ -104,7 +104,7 @@
 		
 		const EditionTable = document.getElementById("EditionTable");
 		const ekeys = EditionArr.keys();
-		for (let i = 0; i < ekeys.length; i++)
+		for (let i = 0; i < ekeys.length; i++) {
 			const row = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
@@ -117,7 +117,7 @@
 		
 		const MediaTable   = document.getElementById("MediaTable");
 		const mkeys = MediaArr.keys();
-		for (let i = 0; i < mkeys.length; i++)
+		for (let i = 0; i < mkeys.length; i++) {
 			const row = MediaTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
