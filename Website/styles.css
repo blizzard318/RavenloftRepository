@@ -13,6 +13,10 @@ body {
     line-height: 1.5;
 }
 
+h1, h2 {
+	margin:-3px;
+}
+
 a {
     white-space: nowrap;
 	text-decoration: underline;

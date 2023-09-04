@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="../styles.css">
 	<link rel="shortcut icon" href="../favicon.ico">
 	<script src="../sort.js" charset="utf-8"></script>
-	<style>h2{font-size:1.5em;text-align:center;margin-top:0px;}</style>
 </head>
 
 <body>
@@ -103,12 +102,11 @@
 				cell.innerHTML = "<b>" + edition + "</b>";
 			EditionTable.rows[0].appendChild(cell);
 		}
-		const EditionIndex = Object.keys(Editions);
 		
 		const DomainsData = await fetch("data.json");
 		const Domains = await DomainsData.json();
 		
-		const ClusterArr = {};
+		//const ClusterArr = {};
 		
 		const MainTable = document.getElementById("MainTable");
 		for (const domain of Domains) {
@@ -132,11 +130,11 @@
 			}
 			cell.innerHTML = inputval.substring(0, s.length() - 2);
 			
-			const Clusters = domain.Clusters.split(',');
+			/*const Clusters = domain.Clusters.split(',');
 			for (const cluster of Clusters) {
 				ClusterArr[cluster] ??= 0;
 				ClusterArr[cluster]++;
-			}
+			}*/
 			
 			for (const edition of Editions) {
 				cell = erow.insertCell(-1);
@@ -148,7 +146,7 @@
 		}
 		sortDate('MainTable',0);
 		
-		const AfterCluster = document.getElementById("AfterCluster");
+		/*const AfterCluster = document.getElementById("AfterCluster");
 		const ClusterTable = document.getElementById("ClusterTable");
 		for (cluster of Object.keys(ClusterArr)) {
 			const row = ClusterTable.insertRow(-1);
@@ -159,7 +157,7 @@
 			cell = row.insertCell(-1);
 			cell.innerHTML = ClusterArr[cluster] ?? 0;
 		}
-		sortDate('ClusterTable',0);
+		sortDate('ClusterTable',0);*/
 	}
 	func();
 	</script>
