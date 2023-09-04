@@ -59,7 +59,6 @@
 			</th>
 		</tr>
 	</table>
-	<div id="AfterEdition"></div>
 	</div>
 	
 	<div id="cluster" style="display:none">
@@ -95,21 +94,32 @@
 	}
 	
 	async function func(){
+		const EditionTable = document.getElementById("EditionTable");
+		const EditionData = await fetch("../Edition.csv");
+		const Editions = (await EditionData.text()).split(',');
+		for (edition of Editions) {
+			let cell = document.createElement("th");
+				cell.scope = "col";
+				cell.innerHTML = "<b>" + edition + "</b>";
+			EditionTable.rows[0].appendChild(cell);
+		}
+		const EditionIndex = Object.keys(Editions);
+		
 		const DomainsData = await fetch("data.json");
 		const Domains = await DomainsData.json();
 		
-		const EditionArr = {};
 		const ClusterArr = {};
 		
 		const MainTable = document.getElementById("MainTable");
 		for (const domain of Domains) {
 			const row = MainTable.insertRow(-1);
+			const erow = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
 				let a = document.createElement("a");
 				a.setAttribute("href","#" + domain.Name);
 				a.innerHTML = domain.Name;
-			cell.innerHTML = a.outerHTML;
+			cell.innerHTML = erow.insertCell(-1).innerHTML = a.outerHTML;
 			
 			cell = row.insertCell(-1);
 			const Darklords = domain.Darklords.split(',');
@@ -128,44 +138,15 @@
 				ClusterArr[cluster]++;
 			}
 			
-			const Editions = domain.Editions.split(',');
 			for (const edition of Editions) {
-				EditionArr[edition] ??= 0;
-				EditionArr[edition]++;
+				cell = erow.insertCell(-1);
+				if (domain.Editions.includes(edition)) cell.innerText = 'X';
 			}
 			
 			cell = row.insertCell(-1);
 			cell.innerHTML = domain.Sources;
 		}
 		sortDate('MainTable',0);
-		
-		const AfterEdition = document.getElementById("AfterEdition");
-		const EditionTable = document.getElementById("EditionTable");
-		for (edition of Object.keys(EditionArr)) {
-			let cell = document.createElement("th");
-				cell.scope = "col";
-				cell.innerHTML = "<b>" + edition + "</b>";
-			EditionTable.rows[0].appendChild(cell);
-		}
-		
-		for (edition of Object.keys(EditionArr)) {
-			const row = EditionTable.insertRow(-1);
-			
-			let cell = row.insertCell(-1);
-				let a = document.createElement("a");
-				a.setAttribute("href","#" + edition);
-				a.innerHTML = edition;
-			cell.innerHTML = a.outerHTML;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = EditionArr[edition] ?? 0;
-			
-			const b = document.createElement("b");
-				b.style.fontSize = "25px";
-				b.innerHTML = edition;
-			AfterEdition.append(b);
-		}
-		sortDate('EditionTable',0);
 		
 		const AfterCluster = document.getElementById("AfterCluster");
 		const ClusterTable = document.getElementById("ClusterTable");
