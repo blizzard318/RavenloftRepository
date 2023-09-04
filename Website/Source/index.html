@@ -103,28 +103,26 @@
 		sortDate('MainTable',3);
 		
 		const EditionTable = document.getElementById("EditionTable");
-		const ekeys = Object.keys(EditionArr);
-		for (let i = 0; i < EditionArr.length; i++) {
+		for (edition of Object.keys(EditionArr)) {
 			const row = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
-			cell.innerHTML = ekeys[i];
+			cell.innerHTML = edition;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = EditionArr[ekeys[i]] ?? 0;
+			cell.innerHTML = EditionArr[edition] ?? 0;
 		}
 		sortDate('EditionTable',0);
 		
-		const MediaTable   = document.getElementById("MediaTable");
-		const mkeys = Object.keys(MediaArr);
-		for (let i = 0; i < MediaArr.length; i++) {
+		const MediaTable = document.getElementById("MediaTable");
+		for (media of Object.keys(MediaArr)) {
 			const row = MediaTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
-			cell.innerHTML = mkeys[i];
+			cell.innerHTML = media;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = MediaArr[mkeys[i]] ?? 0;
+			cell.innerHTML = MediaArr[media] ?? 0;
 		}
 		sortDate('MediaTable',0);
 	}
