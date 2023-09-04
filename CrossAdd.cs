@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-internal static class Cross
+﻿internal static class Cross
 {
     public static Location AddTraits (this Location location, params Trait[] traits)
     {

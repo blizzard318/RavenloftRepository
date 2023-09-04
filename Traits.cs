@@ -182,7 +182,7 @@
         static Creature()
         {
             KeeningSpirit.Item1.ExtraInfo = "Also known as 'Groaning Spirit'";
-            KeeningSpirit.Item2.ExtraInfo = "Also known as 'Keening Spriti'";
+            KeeningSpirit.Item2.ExtraInfo = "Also known as 'Keening Spirit'";
         }
         private static Trait CreateCreature(string name)
         {

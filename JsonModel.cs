@@ -11,8 +11,8 @@ internal class JsonSource : JsonObject
 internal class JsonDomain : JsonObject
 {
     public string Darklords { get; set; }
-    public string Clusters { get; set; }
-    public int Editions { get; set; }
+    //public string Clusters { get; set; }
+    public string Editions { get; set; }
     public int Sources { get; set; }
 }
 internal class JsonLocation : JsonObject

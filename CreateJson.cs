@@ -31,32 +31,42 @@ internal static class CreateJson
     }
     public static void CreateDomains()
     {
-        var Sources = Factory.db.Sources.Include(s => s.Traits).ToHashSet();
-        var mediatypes = new List<JsonDomain>();
-        foreach (var mediaType in Traits.Media.Medias)
+        var Domains = Factory.db.Domains.Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
+        var domains = new List<JsonDomain>();
+        foreach (var domain in Domains)
         {
-            var SourcesByEdition = Sources.Where(s => s.Traits.Contains(mediaType)).ToArray();
-            var sources = new List<JsonMedia.Source>();
-            foreach (var source in SourcesByEdition)
+            var SameDomainButDifferentNames = Domains.Where(d => d.OriginalName == domain.Name).ToArray();
+
+            var DifferentNamesOfSameDomain = new HashSet<string>();
+            var Darklords = new HashSet<string>();
+            foreach (var SameDomain in SameDomainButDifferentNames) //Get all domains
             {
-                Sources.Remove(source);
-                sources.Add(new JsonMedia.Source()
+                Domains.Remove(SameDomain);
+                DifferentNamesOfSameDomain.Add(SameDomain.Name);
+
+                var DomainDarklords = SameDomain.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord)).ToHashSet();
+                foreach (var DomainDarklord in DomainDarklords)
                 {
-                    Name = source.Key,
-                    Edition = source.Traits.Single(s => s.Type == nameof(Traits.Edition)).Key,
-                    ReleaseDate = source.ReleaseDate,
-                });
+                    var DarklordAlternateNames = DomainDarklords.Where(d => d.Key == DomainDarklord.Key);
+                    foreach (var ToRemove in DarklordAlternateNames) DomainDarklords.Remove(ToRemove);
+                    Darklords.Add(string.Join('/', DarklordAlternateNames));
+                }
             }
 
-            mediatypes.Add(new JsonDomain()
+            var sources = Factory.db.domainAppearances.Include(a => a.Source.Traits).Where(a => a.EntityId == domain.Key);
+            var editions = sources.Select(a => a.Source.Traits).Distinct().ToList();
+
+            domains.Add(new JsonDomain()
             {
-                Name = mediaType.Key,
-                Sources = sources
+                Name = string.Join('/', DifferentNamesOfSameDomain),
+                Darklords = string.Join(',', Darklords),
+                //Clusters = default,
+                Editions = string.Join(',', editions),
+                Sources = sources.Count()
             });
-            Console.WriteLine(JsonSerializer.Serialize(mediatypes[mediatypes.Count() - 1]));
         }
 
-        var dir = Directory.CreateDirectory(nameof(Traits.Media)).ToString();
+        var dir = Directory.CreateDirectory(nameof(Domain)).ToString();
         string filepath = Path.Join(dir, "data.json");
         File.WriteAllText(filepath, JsonSerializer.Serialize(mediatypes, opt));
     }
