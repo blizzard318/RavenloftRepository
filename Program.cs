@@ -7,8 +7,6 @@ using System.Text.Unicode;
 AddToDatabase.Add();
 var db = Factory.db;
 
-CreateJson.CreateEditions();
-CreateJson.CreateMedias();
 CreateJson.CreateSourcess();
 
 return;

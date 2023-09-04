@@ -45,7 +45,7 @@ internal static class AddToDatabase
             var BurgomasterHome = ctx.CreateLocation("Burgomaster's Home", "1, 9").AddDomains(Barovia).AddTraits(Traits.Settlement.VillageOfBarovia);
             var BarovianChurch = ctx.CreateLocation("Church of Barovia", "9, 10").AddDomains(Barovia).AddTraits(Traits.Settlement.VillageOfBarovia);
 
-            ctx.CreateNPC("Madam Eva","1, 6, 11, 32").AddTraits(Traits.Status.Vistani, Traits.Race.Human, Traits.Alignment.CN, Traits.Status.Raunie)
+            ctx.CreateNPC("Madam Eva","1, 6, 11, 32").AddTraits(Traits.Race.Human, Traits.Alignment.CN, Traits.Status.Raunie.Item1, Traits.Status.Raunie.Item2)
                 .AddLocations(
                     ctx.CreateLocation("Tser Pool Encampment", "11").AddDomains(Barovia).AddTraits(Traits.Location.Settlement, Traits.Settlement.TserPoolEncampment),
                     ctx.CreateLocation("Madam Eva's Tent", "11").AddDomains(Barovia).AddTraits(Traits.Settlement.TserPoolEncampment)
@@ -62,7 +62,7 @@ internal static class AddToDatabase
                     ctx.CreateNPC("Artista DeSlop", "27").AddTraits(Traits.Status.Deceased),
                     ctx.CreateNPC("Lady Isolde Yunk", "27").AddTraits(Traits.Status.Deceased).AddInfo("Also known as 'Isolde the Incredible'."),
                     ctx.CreateNPC("Prince Aerial Du Plumette", "27").AddTraits(Traits.Alignment.LE, Traits.Creature.Ghost).AddInfo("Also known as 'Aerial the Heavy'."),
-                    ctx.CreateNPC("Artank Swilovich", "27").AddTraits(Traits.Status.Deceased, Traits.Group.BarovianWineDistillersBrotherhood),
+                    ctx.CreateNPC("Artank Swilovich", "27").AddTraits(Traits.Status.Deceased, Traits.Status.BarovianWineDistillersBrotherhood),
 
                     ctx.CreateNPC("Marya Markovia", "27, 28").AddTraits(Traits.Status.Deceased),
                     ctx.CreateNPC("Endorovich the Terrible", "27, 28").AddTraits(Traits.Alignment.LE, Traits.Creature.Spectre),
@@ -104,7 +104,8 @@ internal static class AddToDatabase
                     Traits.Creature.Nightmare,
                     Traits.Creature.Banshee, 
                     Traits.Creature.Trapper, 
-                    Traits.Creature.KeeningSpirit,
+                    Traits.Creature.KeeningSpirit.Item1,
+                    Traits.Creature.KeeningSpirit.Item2,
                     Traits.Creature.Gargoyle, 
                     Traits.Creature.RustMonster, 
                     Traits.Creature.GuardianPortrait, 

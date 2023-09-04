@@ -74,12 +74,6 @@
 		const SourcesData = await fetch("data.json");
 		const Sources = await SourcesData.json();
 		
-		const EditionsData = await fetch("Edition.json");
-		const Editions = await EditionsData.json();
-		
-		const MediasData = await fetch("Media.json");
-		const Medias = await MediasData.json();
-		
 		const EditionArr = {};
 		const MediaArr = {};
 		
@@ -109,28 +103,30 @@
 		sortDate('MainTable',3);
 		
 		const EditionTable = document.getElementById("EditionTable");
-		for (const edition of Editions) {
-			const row = EditionTable.insertRow(-1); // Create a new row
+		const ekeys = EditionArr.keys();
+		for (let i = 0; i < ekeys.length; i++)
+			const row = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
-			cell.innerHTML = edition.Name;
+			cell.innerHTML = ekeys[i];
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = EditionArr[edition.Name] ?? 0;
+			cell.innerHTML = EditionArr[ekeys[i]] ?? 0;
 		}
-		colorCode("EditionTable");
+		sortDate('EditionTable',0);
 		
 		const MediaTable   = document.getElementById("MediaTable");
-		for (const media of Medias) {
-			const row = MediaTable.insertRow(-1); // Create a new row
+		const mkeys = MediaArr.keys();
+		for (let i = 0; i < mkeys.length; i++)
+			const row = MediaTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
-			cell.innerHTML = media.Name;
+			cell.innerHTML = mkeys[i];
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = MediaArr[media.Name] ?? 0;
+			cell.innerHTML = MediaArr[mkeys[i]] ?? 0;
 		}
-		colorCode("MediaTable");
+		sortDate('MediaTable',0);
 	}
 	func();
 	</script>

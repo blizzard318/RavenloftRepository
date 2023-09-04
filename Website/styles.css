@@ -14,9 +14,29 @@ body {
 }
 
 a {
-	color:white;
     white-space: nowrap;
 	text-decoration: underline;
+}
+a:link, a:visited {
+  color: white;
+}
+a:hover {
+  color: red;
+}
+a:active {
+  color: darkred;
+  text-decoration: underline overline;
+}
+
+input {
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 20px;
+  border: none;
+  font-family: "Goudy Bookletter 1911",Times,serif;
 }
 
 table {

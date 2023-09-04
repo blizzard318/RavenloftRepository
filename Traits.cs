@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-internal static class Traits
+﻿internal static class Traits
 {
     //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
@@ -62,7 +60,11 @@ internal static class Traits
     internal static class Location //Seperate them by Mistway,Cluster,Settlement,DarklordLair and else.
     {
         public static List<Trait> Locations = new List<Trait>();
-        static Location() => Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
+        static Location()
+        {
+            Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
+            Locations.Add(Darklord);
+        }
         private static Trait CreateLocation(string name)
         {
             var retval = Factory.CreateTrait(name, nameof(Location));
@@ -75,14 +77,28 @@ internal static class Traits
         public static Trait Darklord => Status.Darklord;
     }
 
-    internal static class Status
+    internal static class Status //Includes Groups
     {
-        private static Trait CreateStatus(string name) => Factory.CreateTrait(name, nameof(Status));
-        public static Trait Raunie   = CreateStatus("Raunie"  );
+        public static List<Trait> Statuses = new List<Trait>();
+        static Status ()
+        {
+            Statuses.Add(Darklord);
+            Statuses.Add(Vistani);
+        }
+        private static Trait CreateStatus(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Status));
+            Statuses.Add(retval);
+            return retval;
+        }
         public static Trait Deceased = CreateStatus("Deceased");
+
         public static Trait Tatyana  = CreateStatus("Reincarnation of Tatyana");
-        public static Trait Vistani  = Factory.CreateTrait("Vistani" , nameof(Status), nameof(Group), nameof(Item));
+        public static Trait Vistani  = Factory.CreateTrait("Vistani" , nameof(Status), nameof(Item));
         public static Trait Darklord = Factory.CreateTrait("Darklord", nameof(Status), nameof(Location));
+        public static Trait BarovianWineDistillersBrotherhood = CreateStatus("Barovian Wine Distillers Brotherhood");
+
+        public static (Trait, Trait) Raunie = (CreateStatus("Raunie"), Vistani);
     }
 
     internal static class Alignment //Don't create a page for this.
@@ -103,48 +119,78 @@ internal static class Traits
     #region Domain-Tracked Traits
     internal static class Language
     {
-        private static Trait CreateLanguage(string name) => Factory.CreateTrait(name, nameof(Language));
+        public static List<Trait> Languages = new List<Trait>();
+        private static Trait CreateLanguage(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Language));
+            Languages.Add(retval);
+            return retval;
+        }
         public static Trait Common = CreateLanguage("Common");
     }
 
     internal static class Race
     {
-        private static Trait CreateRace(string name) => Factory.CreateTrait(name, nameof(Race));
+        public static List<Trait> Races = new List<Trait>();
+        private static Trait CreateRace(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Race));
+            Races.Add(retval);
+            return retval;
+        }
         public static Trait Human = CreateRace("Human");
         public static Trait Elf   = CreateRace("Elf"  );
     }
 
-    internal static class Group
-    {
-        private static Trait CreateGroup(string name) => Factory.CreateTrait(name, nameof(Group));
-        public static Trait Vistani => Status.Vistani;
-        public static Trait BarovianWineDistillersBrotherhood = CreateGroup("Barovian Wine Distillers Brotherhood");
-    }
-
     internal static class Settlement //Everything here has to use Location.Settlement.Key
     {
-        private static Trait CreateSettlement(string name) => Factory.CreateTrait(name, nameof(Settlement));
+        public static List<Trait> Settlements = new List<Trait>();
+        private static Trait CreateSettlement(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Settlement));
+            Settlements.Add(retval);
+            return retval;
+        }
         public static Trait VillageOfBarovia   = CreateSettlement("Village of Barovia"  );
         public static Trait TserPoolEncampment = CreateSettlement("Tser Pool Encampment");
     }
 
     internal static class Mistway //Everything here has to use Location.Mistway.Key
     {
-        private static Trait CreateMistway(string name) => Factory.CreateTrait(name, nameof(Mistway));
+        public static List<Trait> Mistways = new List<Trait>();
+        private static Trait CreateMistway(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Mistway));
+            Mistways.Add(retval);
+            return retval;
+        }
     }
     internal static class Cluster //Everything here has to use Location.Cluster.Key
     {
-        private static Trait CreateCluster(string name) => Factory.CreateTrait(name, nameof(Cluster));
+        public static List<Trait> Clusters = new List<Trait>();
+        private static Trait CreateCluster(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Cluster));
+            Clusters.Add(retval);
+            return retval;
+        }
     }
 
     internal static class Creature
     {
+        public static List<Trait> Creatures = new List<Trait>();
         static Creature()
         {
-            KeeningSpirit.ExtraInfo = "Also known as 'Groaning Spirit'";
+            KeeningSpirit.Item1.ExtraInfo = "Also known as 'Groaning Spirit'";
+            KeeningSpirit.Item2.ExtraInfo = "Also known as 'Keening Spriti'";
+        }
+        private static Trait CreateCreature(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(Creature));
+            Creatures.Add(retval);
+            return retval;
         }
 
-        private static Trait CreateCreature(string name) => Factory.CreateTrait(name, nameof(Creature));
         public static Trait Wolf        = CreateCreature("Wolf"        );
         public static Trait Bat         = CreateCreature("Bat"         );
         public static Trait Horse       = CreateCreature("Horse"       );
@@ -169,7 +215,6 @@ internal static class Traits
         public static Trait Wraith        = CreateCreature("Wraith"        );
         public static Trait Spectre       = CreateCreature("Spectre"       );
         public static Trait Banshee       = CreateCreature("Banshee"       );
-        public static Trait KeeningSpirit = CreateCreature("Keening Spirit");
 
         public static Trait StrahdZombie = CreateCreature("Strahd Zombie");
         public static Trait Zombie       = CreateCreature("Zombie"       );
@@ -181,6 +226,9 @@ internal static class Traits
 
         public static Trait Witch    = CreateCreature("Witch"   );
         public static Trait Werewolf = CreateCreature("Werewolf");
+
+        public static (Trait, Trait) KeeningSpirit = (CreateCreature("Keening Spirit"), CreateCreature("Groaning Spirit"));
+        public static (Trait, Trait) GroaningSpirit = (KeeningSpirit.Item1, KeeningSpirit.Item2);
     }
     #endregion
 }

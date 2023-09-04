@@ -15,67 +15,131 @@
 
 <body>
 	<h1>
-		<a href="..">Official</a> |
+		<a href=".."		 >Official </a> |
 		<a href="../3rdParty">3rd Party</a>
 	</h1><hr />
 	
 	<h2>
-		<a href="../Source">	Sources   </a> | 
-		<a href="../Domain">	Domains   </a> | 
-		<a href="../Location">	Locations </a> | 
-		<a href="../Character">	Characters</a> | 
-		<a href="../Item">		Items	  </a>
+		<a href="../Source"	  >Sources   </a> | 
+		<a href="../Domain"	  >Domains   </a> | 
+		<a href="../Location" >Locations </a> | 
+		<a href="../Character">Characters</a> | 
+		<a href="../Item"	  >Items	 </a>
 	</h2><hr />
 	
-	<b style="font-size:25px">List of Medias</b>
+	<h2>
+		<input type="button" onclick="SwapDisplay('all')"	value="All Domains"> | 
+		<input type="button" onclick="SwapDisplay('edition')" value = "By Edition"> | 
+		<input type="button" onclick="SwapDisplay('cluster')" value = "By Cluster">
+	</h2>
+	
+	<div id="all" style="display:block">
+	<b style="font-size:25px">List of Domains</b>
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
 		<tr style="background-color:Black">
 			<th scope="col">
 				<b>Name(s)</b>
 			</th>
-			<th scope="col" onclick="SortTable('MainTable',1)" style="cursor:pointer">
-				<b>Edition(s)</b>
+			<th scope="col">
+				<b>Darklord(s)</b>
+			</th>
+			<th scope="col" onclick="SortTable('MainTable',3)" style="cursor:pointer">
+				<b>Source(s)</b>
 			</th>
 		</tr>
 	</table>
-	<br/>
+	</div>
+	
+	<div id="edition" style="display:none">
+	<b style="font-size:25px">Domains per Edition</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="EditionTable">
+		<tr style="background-color:Black">
+			<th scope="col">
+				<b>Name</b>
+			</th>
+			<th scope="col">
+				<b>Domains</b>
+			</th>
+		</tr>
+	</table>
+	<div id="AfterEdition"></div>
+	</div>
+	
+	<div id="cluster" style="display:none">
+	<b style="font-size:25px">Domains per Cluster</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="ClusterTable">
+		<tr style="background-color:Black">
+			<th scope="col">
+				<b>Name</b>
+			</th>
+			<th scope="col">
+				<b>Domains</b>
+			</th>
+		</tr>
+	</table>
+	<div id="AfterCluster"></div>
+	</div>
 	
 	<script>
+	function SwapDisplay(name) {
+		if (name == "all") {
+			document.getElementById("all").style.display = "block";
+			document.getElementById("edition").style.display = "none";
+			document.getElementById("cluster").style.display = "none";
+		} else if (name == 'edition'){
+			document.getElementById("all").style.display = "none";
+			document.getElementById("edition").style.display = "block";
+			document.getElementById("cluster").style.display = "none";
+		} else if (name == 'cluster'){
+			document.getElementById("all").style.display = "none";
+			document.getElementById("edition").style.display = "none";
+			document.getElementById("cluster").style.display = "block";
+		}
+	}
+	
 	async function func(){
-		const SourcesData = await fetch("data.json");
-		const Sources = await SourcesData.json();
+		const DomainsData = await fetch("data.json");
+		const Domains = await DomainsData.json();
 		
 		const EditionArr = {};
-		const MediaArr = {};
 		
 		const MainTable = document.getElementById("MainTable");
-		for (const source of Sources) {
-			const row = MainTable.insertRow(-1); // Create a new row
+		for (const domain of Domains) {
+			const row = MainTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
 				let a = document.createElement("a");
-				a.setAttribute("href","#" + source.Name);
-				a.innerHTML = source.Name;
+				a.setAttribute("href","#" + domain.Name);
+				a.innerHTML = domain.Name;
 			cell.innerHTML = a.outerHTML;
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = source.Edition;
-			EditionArr[source.Edition] ??= 0;
-			EditionArr[source.Edition]++;
+			const Darklords = domain.Darklords.split(',');
+			let inputval = "";
+			for (const darklord of Darklords) {
+				a = document.createElement("a");
+				a.setAttribute("href","#" + domain.Name);
+				a.innerHTML = domain.Name;
+				inputval += a.outerHTML + ", ";
+			}
+			cell.innerHTML = inputval.substring(0, s.length() - 2);
 			
 			cell = row.insertCell(-1);
-			cell.innerHTML = source.MediaType;
-			MediaArr[source.MediaType] ??= 0;
-			MediaArr[source.MediaType]++;
+			cell.innerHTML = domain.Sources;
 			
-			cell = row.insertCell(-1);
-			cell.innerHTML = source.ReleaseDate;
+			const Editions = domain.Editions.split(',');
+			for (const edition of Editions) {
+				EditionArr[edition] ??= 0;
+				EditionArr[edition]++;
+			}
 		}
-		sortDate('MainTable',3);
+		sortDate('MainTable',0);
 		
+		const EditionsData = await fetch("../Edition.csv");
+		const Editions = await EditionsData.text();
 		const EditionTable = document.getElementById("EditionTable");
-		for (const edition of Editions) {
-			const row = EditionTable.insertRow(-1); // Create a new row
+		for (const edition of Editions.split(',')) {
+			const row = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
 			cell.innerHTML = edition.Name;
@@ -83,19 +147,8 @@
 			cell = row.insertCell(-1);
 			cell.innerHTML = EditionArr[edition.Name] ?? 0;
 		}
-		colorCode("EditionTable");
 		
-		const MediaTable   = document.getElementById("MediaTable");
-		for (const media of Medias) {
-			const row = MediaTable.insertRow(-1); // Create a new row
-			
-			let cell = row.insertCell(-1);
-			cell.innerHTML = media.Name;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = MediaArr[media.Name] ?? 0;
-		}
-		colorCode("MediaTable");
+		const ClusterTable = document.getElementById("ClusterTable");
 	}
 	func();
 	</script>
