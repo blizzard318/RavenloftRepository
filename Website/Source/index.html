@@ -101,10 +101,10 @@
 		}
 		sortDate('MainTable',3);
 		
-		const EditionData = await fetch("../Edition.csv");
+		const EditionData = await fetch("../Edition.csv"); //Retain the order of the editions.
 		const Editions = (await EditionData.text()).split(',');
 		const EditionTable = document.getElementById("EditionTable");
-		for (edition of Editions) {
+		for (const edition of Editions) {
 			const row = EditionTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
@@ -115,10 +115,8 @@
 		}
 		sortDate('EditionTable',0);
 		
-		const MediaData = await fetch("../Media.csv");
-		const Medias = (await MediaData.text()).split(',');
 		const MediaTable = document.getElementById("MediaTable");
-		for (media of Medias) {
+		for (const media of Object.keys(MediaArr)) {
 			const row = MediaTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
