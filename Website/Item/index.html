@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Editions</title>
+	<title>Items</title>
 	<meta name="theme-color" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Ravenloft Repository">
@@ -29,18 +29,18 @@
 	<h2>
 		<input type="button" onclick="SwapDisplay('all')" value="All Domains"> | 
 		<input type="button" onclick="SwapDisplay('edition')" value = "By Edition"> | 
-		<input type="button" onclick="SwapDisplay('cluster')" value = "By Cluster">
+		<input type="button" onclick="SwapDisplay('domain')" value = "By Domain">
 	</h2>
 	<br/>
 	<div id="all" style="display:block">
-	<b style="font-size:25px">List of Domains</b>
+	<b style="font-size:25px">List of Items</b>
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
 		<tr style="background-color:Black">
 			<th scope="col">
 				<b>Name(s)</b>
 			</th>
 			<th scope="col">
-				<b>Darklord(s)</b>
+				<b>Domain(s)</b>
 			</th>
 			<th scope="col">
 				<b>Source(s)</b>
@@ -60,9 +60,9 @@
 	</table>
 	</div>
 	
-	<div id="cluster" style="display:none">
-	<b style="font-size:25px">Domains per Cluster</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="ClusterTable">
+	<div id="domain" style="display:none">
+	<b style="font-size:25px">Items per Domain</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="domainTable">
 		<tr style="background-color:Black">
 			<th scope="col">
 				<b>Name</b>
@@ -72,7 +72,7 @@
 			</th>
 		</tr>
 	</table>
-	<div id="AfterCluster"></div>
+	<div id="Afterdomain"></div>
 	</div>
 	
 	<script>
@@ -80,15 +80,15 @@
 		if (name == "all") {
 			document.getElementById("all").style.display = "block";
 			document.getElementById("edition").style.display = "none";
-			document.getElementById("cluster").style.display = "none";
+			document.getElementById("domain").style.display = "none";
 		} else if (name == 'edition'){
 			document.getElementById("all").style.display = "none";
 			document.getElementById("edition").style.display = "block";
-			document.getElementById("cluster").style.display = "none";
-		} else if (name == 'cluster'){
+			document.getElementById("domain").style.display = "none";
+		} else if (name == 'domain'){
 			document.getElementById("all").style.display = "none";
 			document.getElementById("edition").style.display = "none";
-			document.getElementById("cluster").style.display = "block";
+			document.getElementById("domain").style.display = "block";
 		}
 	}
 	
@@ -103,47 +103,47 @@
 			EditionTable.rows[0].appendChild(cell);
 		}
 		
-		const DomainsData = await fetch("data.json");
-		const Domains = await DomainsData.json();
+		const ItemsData = await fetch("data.json");
+		const Items = await ItemsData.json();
 		
 		const ClusterArr = {};
 		
 		const MainTable = document.getElementById("MainTable");
-		for (const domain of Domains) {
+		for (const item of Items) {
 			const row = MainTable.insertRow(-1);
 			const erow = EditionTable.insertRow(-1);
 			
 			let TotalNames = [];
-			for (const altname of domain.Name.split('/')){ //Cycle through alternate names
+			for (const altname of item.Name.split('/')){ //Cycle through alternate names
 				const a = document.createElement("a");
-				a.setAttribute("href", domain.Name);
-				a.innerHTML = domain.Name;
+				a.setAttribute("href", item.Name);
+				a.innerHTML = item.Name;
 				TotalNames.push(a.outerHTML);
 			}
 			row.insertCell(-1).innerHTML = erow.insertCell(-1).innerHTML = TotalNames.join(',');
 			
-			const Darklords = domain.Darklords.split(',');
+			const Domains = item.Domains.split(',');
 			let inputval = "";
-			for (const darklord of Darklords) {
+			for (const domain of Domains) {
 				let TotalNames = [];
-				for (const altname of darklord.split('/')){ //Cycle through alternate names
+				for (const altname of domain.split('/')){ //Cycle through alternate names
 					a = document.createElement("a");
-					a.setAttribute("href", "../Character/" + darklord);
-					a.innerHTML = darklord;
+					a.setAttribute("href", "../Domain/" + domain);
+					a.innerHTML = domain;
 					TotalNames.push(a.outerHTML);
 				}
 				inputval += TotalNames.join(',') + ", ";
 			}
 			row.insertCell(-1).innerHTML = inputval.substring(0, inputval.length - 2);
 			
-			const Clusters = domain.Clusters.split(',');
+			/*const Clusters = domain.Clusters.split(',');
 			for (const cluster of Clusters) {
 				ClusterArr[cluster] ??= [];
 				ClusterArr[cluster].push(domain);
-			}
+			}*/
 			
 			let sources = 0;
-			for (const edition of domain.Editions) {
+			for (const edition of item.Editions) {
 				const cell = erow.insertCell(-1);
 				if (edition > 0) {
 					cell.innerText = edition;
@@ -156,7 +156,7 @@
 		sortDate('MainTable',0);
 		colorCode('EditionTable');
 		
-		const AfterCluster = document.getElementById("AfterCluster");
+		/*const AfterCluster = document.getElementById("AfterCluster");
 		const ClusterTable = document.getElementById("ClusterTable");
 		for (const cluster of Object.keys(ClusterArr)) {
 			let row = ClusterTable.insertRow(-1);
@@ -203,7 +203,7 @@
 			}
 			colorCode(table.id);
 		}
-		sortDate('ClusterTable',0);
+		sortDate('ClusterTable',0);*/
 	}
 	func();
 	</script>

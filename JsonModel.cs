@@ -11,9 +11,12 @@ internal class JsonSource : JsonObject
 internal class JsonDomain : JsonObject
 {
     public string Darklords { get; set; }
-    //public string Clusters { get; set; }
-    public string Editions { get; set; }
-    public int Sources { get; set; }
+    public string Clusters { get; set; }
+    public int[] Editions { get; set; } //Seperated by the editions.csv
+}
+internal class JsonCharacter : JsonObject
+{
+
 }
 internal class JsonLocation : JsonObject
 {
@@ -21,9 +24,6 @@ internal class JsonLocation : JsonObject
 }
 internal class JsonItem : JsonObject
 {
-
-}
-internal class JsonCharacter : JsonObject
-{
-
+    public string Domains { get; set; }
+    public int[] Editions { get; set; }
 }

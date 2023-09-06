@@ -18,26 +18,24 @@ h1, h2 {
 }
 
 a {
-    white-space: nowrap;
+  color: white;
+  white-space: nowrap;
 	text-decoration: underline;
 }
-a:link, a:visited {
-  color: white;
-}
-a:hover {
+input:hover, a:hover {
   color: red;
 }
-a:active {
+input:active, a:active {
   color: darkred;
   text-decoration: underline overline;
 }
 
 input {
-  background: transparent;
   color: white;
+  text-decoration: underline;
+  background: transparent;
   cursor: pointer;
   font-weight: bold;
-  text-decoration: underline;
   font-size: 20px;
   border: none;
   font-family: "Goudy Bookletter 1911",Times,serif;

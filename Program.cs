@@ -7,8 +7,9 @@ using System.Text.Unicode;
 AddToDatabase.Add();
 var db = Factory.db;
 
-CreateJson.CreateSourcess();
-
+CreateJson.CreateSources();
+CreateJson.CreateDomains();
+CreateJson.CreateItems();
 return;
 
 var Sources = db.Sources.Include(s => s.Traits).ToArray();
@@ -162,7 +163,7 @@ foreach (var source in Sources)
             sb.Remove(sb.Length - 2, 2);
         }
 
-        var groups = domain.Entity.Traits.Where(t => t.Type.Contains(nameof(Traits.Group)));
+        var groups = domain.Entity.Traits.Where(t => t.Type.Contains(nameof(Traits.Status)));
         if (groups.Count() > 0)
         {
             sb.Append("<br/>&emsp;&emsp;<b>Groups</b>: ");

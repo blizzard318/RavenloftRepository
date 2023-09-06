@@ -20,7 +20,7 @@
         public static Source.Trait e35 = CreateEdition("3.5th Edition");
         public static Source.Trait e4  = CreateEdition("4th Edition"  );
         public static Source.Trait e5  = CreateEdition("5th Edition"  );
-        public static Source.Trait e0  = CreateEdition("Editionless");
+        public static Source.Trait e0  = CreateEdition("Editionless"  );
     }
 
     internal static class Canon //Annoying to create a page for this, maybe don't.
