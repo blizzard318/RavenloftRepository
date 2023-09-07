@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Items</title>
+	<title>Locations</title>
 	<meta name="theme-color" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Ravenloft Repository">
@@ -27,13 +27,18 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('all')" value="All Items"> | 
-		<input type="button" onclick="SwapDisplay('domain')" value = "By Domain">
-	</h2>
-	<br/>
+		<input type="button" onclick="SwapDisplay('all')" value="All Locations"> | 
+		<input type="button" onclick="SwapDisplay('lair')" value = "Darklord Lairs"> |
+		<input type="button" onclick="SwapDisplay('settlement')" value = "Settlements"> |
+		<input type="button" onclick="SwapDisplay('mistway')" value = "Mistways">
+	</h2><br/>
+
 	<div id="all" style="display:block">
-	<b style="font-size:25px">List of Items</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
+	</div>
+	
+	<div id="lair" style="display:none">
+	<b style="font-size:25px">List of Darklord Lairs</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="LairTable">
 		<tr style="background-color:Black">
 			<th scope="col">
 				<b>Name(s)</b>
@@ -41,38 +46,77 @@
 			<th scope="col">
 				<b>Domain(s)</b>
 			</th>
+			<th scope="col">
+				<b>Darklord</b>
+			</th>
 		</tr>
 	</table>
 	</div>
-	
-	<div id="domain" style="display:none">
+
+	<div id="settlement" style="display:none">
+	</div>
+
+	<div id="mistway" style="display:none">
+	<b style="font-size:25px">List of Mistways</b>
+	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MistTable">
+		<tr style="background-color:Black">
+			<th scope="col">
+				<b>Name(s)</b>
+			</th>
+			<th scope="col">
+				<b>Domain</b>
+			</th>
+			<th scope="col">
+				<b>Domain</b>
+			</th>
+		</tr>
+	</table>
 	</div>
 	
 	<script>
 	function SwapDisplay(name) {
 		if (name == "all") {
 			document.getElementById("all").style.display = "block";
-			document.getElementById("domain").style.display = "none";
-		} else if (name == 'domain'){
+			document.getElementById("lair").style.display = "none";
+			document.getElementById("settlement").style.display = "none";
+			document.getElementById("mistway").style.display = "none";
+		} else if (name == 'lair'){
 			document.getElementById("all").style.display = "none";
-			document.getElementById("domain").style.display = "block";
+			document.getElementById("lair").style.display = "block";
+			document.getElementById("settlement").style.display = "none";
+			document.getElementById("mistway").style.display = "none";
+		} else if (name == 'settlement'){
+			document.getElementById("all").style.display = "none";
+			document.getElementById("lair").style.display = "none";
+			document.getElementById("settlement").style.display = "block";
+			document.getElementById("mistway").style.display = "none";
+		} else if (name == 'mistway'){
+			document.getElementById("all").style.display = "none";
+			document.getElementById("lair").style.display = "none";
+			document.getElementById("settlement").style.display = "none";
+			document.getElementById("mistway").style.display = "block";
 		}
 	}
 	
 	async function func(){
-		const MainTable = document.getElementById("MainTable");
+		const LairTable = document.getElementById("LairTable");
+		const MistTable = document.getElementById("MistTable");
 		const EditionData = await fetch("../Edition.csv");
 		const Editions = (await EditionData.text()).split(',');
 		for (edition of Editions) {
-			const cell = document.createElement("th");
+			let cell = document.createElement("th");
 				cell.scope = "col";
 				cell.innerHTML = "<b>" + edition + "</b>";
-			MainTable.rows[0].appendChild(cell);
+			LairTable.rows[0].appendChild(cell);
+			cell = document.createElement("th");
+				cell.scope = "col";
+				cell.innerHTML = "<b>" + edition + "</b>";
+			MistTable.rows[0].appendChild(cell);
 		}
 		
-		const ItemsData = await fetch("data.json");
-		const Items = await ItemsData.json();
-		for (const item of Items) {
+		const LocationsData = await fetch("data.json");
+		const Locations = await LocationsData.json();
+		for (const location of Locations) {
 			const row = MainTable.insertRow(-1);
 			
 			let TotalNames = [];
@@ -96,6 +140,7 @@
 
 					if (!document.getElementById(a.outerHTML)) {
 						const domaindiv = document.getElementById("domain");
+						domaindiv.append(document.createElement("br"));
 						const b = document.createElement("b");
 							b.style.fontSize = "25px";
 							b.innerHTML = "Items of " + a.outerHTML;
@@ -108,7 +153,6 @@
 							table.cellpadding = "3";
 							table.id = a.outerHTML;
 						domaindiv.append(table);
-						domaindiv.append(document.createElement("br"));
 
 						let drow = table.insertRow(-1);
 							drow.style.backgroundColor  = "black";

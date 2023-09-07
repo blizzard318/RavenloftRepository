@@ -12,7 +12,7 @@ CreateJson.CreateDomains();
 CreateJson.CreateItems();
 return;
 
-var Sources = db.Sources.Include(s => s.Traits).ToArray();
+/*var Sources = db.Sources.Include(s => s.Traits).ToArray();
 var DomainAppearances = db.domainAppearances.Include(a => a.Entity.Traits).ToHashSet();
 var LocationAppearances = db.locationAppearances.Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
 var NPCAppearances = db.npcAppearances.Include(a => a.Entity.Domains).Include(a => a.Entity.Traits).ToHashSet();
@@ -184,4 +184,4 @@ foreach (var source in Sources)
 
     //string filepath = Path.Join(Directory.GetCurrentDirectory(), $"{URL(source.Key)}.html");
     //File.WriteAllTextAsync(filepath, sb.ToString());
-}
+}*/

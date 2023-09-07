@@ -71,8 +71,7 @@
             Locations.Add(retval);
             return retval;
         }
-        public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   ));
-        public static Trait Cluster    = CreateLocation(nameof(Traits.Cluster   ));
+        public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
         public static Trait Darklord => Status.Darklord;
     }

@@ -28,7 +28,6 @@
 	
 	<h2>
 		<input type="button" onclick="SwapDisplay('all')" value="All Domains"> | 
-		<input type="button" onclick="SwapDisplay('edition')" value = "By Edition"> | 
 		<input type="button" onclick="SwapDisplay('cluster')" value = "By Cluster">
 	</h2>
 	<br/>
@@ -41,20 +40,6 @@
 			</th>
 			<th scope="col">
 				<b>Darklord(s)</b>
-			</th>
-			<th scope="col">
-				<b>Source(s)</b>
-			</th>
-		</tr>
-	</table>
-	</div>
-	
-	<div id="edition" style="display:none">
-	<b style="font-size:25px">Domain Appearances per Edition</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="EditionTable">
-		<tr style="background-color:Black">
-			<th scope="col">
-				<b>Name</b>
 			</th>
 		</tr>
 	</table>
@@ -79,28 +64,22 @@
 	function SwapDisplay(name) {
 		if (name == "all") {
 			document.getElementById("all").style.display = "block";
-			document.getElementById("edition").style.display = "none";
-			document.getElementById("cluster").style.display = "none";
-		} else if (name == 'edition'){
-			document.getElementById("all").style.display = "none";
-			document.getElementById("edition").style.display = "block";
 			document.getElementById("cluster").style.display = "none";
 		} else if (name == 'cluster'){
 			document.getElementById("all").style.display = "none";
-			document.getElementById("edition").style.display = "none";
 			document.getElementById("cluster").style.display = "block";
 		}
 	}
 	
 	async function func(){
-		const EditionTable = document.getElementById("EditionTable");
+		const MainTable = document.getElementById("MainTable");
 		const EditionData = await fetch("../Edition.csv");
 		const Editions = (await EditionData.text()).split(',');
 		for (edition of Editions) {
 			const cell = document.createElement("th");
 				cell.scope = "col";
 				cell.innerHTML = "<b>" + edition + "</b>";
-			EditionTable.rows[0].appendChild(cell);
+			MainTable.rows[0].appendChild(cell);
 		}
 		
 		const DomainsData = await fetch("data.json");
@@ -108,10 +87,8 @@
 		
 		const ClusterArr = {};
 		
-		const MainTable = document.getElementById("MainTable");
 		for (const domain of Domains) {
 			const row = MainTable.insertRow(-1);
-			const erow = EditionTable.insertRow(-1);
 			
 			let TotalNames = [];
 			for (const altname of domain.Name.split('/')){ //Cycle through alternate names
@@ -120,7 +97,7 @@
 				a.innerHTML = domain.Name;
 				TotalNames.push(a.outerHTML);
 			}
-			row.insertCell(-1).innerHTML = erow.insertCell(-1).innerHTML = TotalNames.join(',');
+			row.insertCell(-1).innerHTML = TotalNames.join(',');
 			
 			const Darklords = domain.Darklords.split(',');
 			let inputval = "";
@@ -142,19 +119,12 @@
 				ClusterArr[cluster].push(domain);
 			}
 			
-			let sources = 0;
 			for (const edition of domain.Editions) {
-				const cell = erow.insertCell(-1);
-				if (edition > 0) {
-					cell.innerText = edition;
-					sources += edition;
-				}
+				const cell = row.insertCell(-1);
+				cell.innerText = edition ? "X" : "";
 			}
-			
-			row.insertCell(-1).innerHTML = sources;
 		}
 		sortDate('MainTable',0);
-		colorCode('EditionTable');
 		
 		const AfterCluster = document.getElementById("AfterCluster");
 		const ClusterTable = document.getElementById("ClusterTable");

@@ -61,12 +61,12 @@ internal static class CreateJson
                 foreach (var Cluster in DomainClusters) Clusters.Add(Cluster.Key);
             }
 
-            var Editions = new int[Traits.Edition.Editions.Count];
+            var Editions = new bool[Traits.Edition.Editions.Count];
             var Sources = Factory.db.domainAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == domain.OriginalName);
             foreach (var Source in Sources)
             {
                 var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-                Editions[Traits.Edition.Editions.IndexOf(Edition)]++;
+                Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
             }
 
             domains.Add(new JsonDomain()
@@ -81,6 +81,68 @@ internal static class CreateJson
         var dir = Directory.CreateDirectory(nameof(Domain)).ToString();
         string filepath = Path.Join(dir, "data.json");
         File.WriteAllText(filepath, JsonSerializer.Serialize(domains, opt));
+    }    
+    public static void CreateLocations()
+    {
+        var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
+        var locations = new List<JsonLocation>();
+        foreach (var location in Locations)
+        {
+            var Types = new HashSet<string>();
+            var DifferentNamesOfSameDomain = new HashSet<string>();
+            var DifferentNamesOfSameLocation = new HashSet<string>();
+            var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
+            foreach (var SameLocation in SameLocationButDifferentNames) //Get all variant domains of the original domain
+            {
+                Locations.Remove(SameLocation);
+                DifferentNamesOfSameLocation.Add(SameLocation.Name);
+                foreach (var domain in SameLocation.Domains)
+                {
+                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
+                    foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.Add(SameDomain.Name);
+                }
+
+                if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Mistway))) Types.Add(nameof(Traits.Mistway));
+                if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Settlement))) Types.Add(nameof(Traits.Settlement));
+                if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Location.Darklord)))
+                {
+                    var Darklords = new List<string>();
+                    var DomainDarklords = SameLocation.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord)).ToHashSet();
+                    foreach (var DomainDarklord in DomainDarklords) //Go through all darklords
+                    {
+                        var AlternateNames = new List<string>();
+                        var DarklordAlternateNames = DomainDarklords.Where(d => d.OriginalName == DomainDarklord.OriginalName);
+                        foreach (var ToAdd in DarklordAlternateNames) //So far there actually are no Darklords with different names.
+                        {
+                            DomainDarklords.Remove(ToAdd);
+                            AlternateNames.Add(ToAdd.Name);
+                        }
+                        Darklords.Add(string.Join('/', AlternateNames));
+                    }
+                    Types.Add(nameof(Traits.Location.Darklord) + ":" + string.Join(',', Darklords));
+                }
+            }
+
+            var Editions = new bool[Traits.Edition.Editions.Count];
+            var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == location.OriginalName);
+            foreach (var Source in Sources)
+            {
+                var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
+            }
+
+            locations.Add(new JsonLocation()
+            {
+                Name = string.Join('/', DifferentNamesOfSameLocation),
+                Domains = string.Join(',', DifferentNamesOfSameDomain),
+                Types = string.Join(',', Types),
+                Editions = Editions
+            });
+        }
+
+        var dir = Directory.CreateDirectory(nameof(Location)).ToString();
+
+        string filepath = Path.Join(dir, "data.json");
     }
     public static void CreateItems()
     {
@@ -102,12 +164,12 @@ internal static class CreateJson
                 }
             }
 
-            var Editions = new int[Traits.Edition.Editions.Count];
+            var Editions = new bool[Traits.Edition.Editions.Count];
             var Sources = Factory.db.itemAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == item.OriginalName);
             foreach (var Source in Sources)
             {
                 var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-                Editions[Traits.Edition.Editions.IndexOf(Edition)]++;
+                Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
             }
 
             items.Add(new JsonItem()
