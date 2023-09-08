@@ -1,0 +1,254 @@
+[
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Bildrath\u0027s Mercantile"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Blood of the Vine Tavern"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Burgomaster\u0027s Guest House"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Burgomaster\u0027s Home"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "DarklordCount Strahd von Zarovich",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Castle Ravenloft"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Cemetery of Barovia"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Church of Barovia"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Mad Mary\u0027s Townhouse"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Madam Eva\u0027s Tent"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Road Junction"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "The Gates of Barovia"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "The Gates of Ravenloft"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "The Old Svalich Road"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "The River Ivlis"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "The Svalich Woods"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Tser Falls"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Tser Pool Encampment"
+  },
+  {
+    "Domains": "Barovia",
+    "Types": "Settlement",
+    "Editions": [
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "Name": "Village of Barovia"
+  }
+]

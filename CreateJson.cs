@@ -84,8 +84,9 @@ internal static class CreateJson
     }    
     public static void CreateLocations()
     {
-        var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
+        var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
         var locations = new List<JsonLocation>();
+
         foreach (var location in Locations)
         {
             var Types = new HashSet<string>();
@@ -104,7 +105,7 @@ internal static class CreateJson
 
                 if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Mistway))) Types.Add(nameof(Traits.Mistway));
                 if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Settlement))) Types.Add(nameof(Traits.Settlement));
-                if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Location.Darklord)))
+                if (SameLocation.Traits.Any(l => l == Traits.Location.Darklord))
                 {
                     var Darklords = new List<string>();
                     var DomainDarklords = SameLocation.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord)).ToHashSet();
@@ -119,7 +120,7 @@ internal static class CreateJson
                         }
                         Darklords.Add(string.Join('/', AlternateNames));
                     }
-                    Types.Add(nameof(Traits.Location.Darklord) + ":" + string.Join(',', Darklords));
+                    Types.Add(nameof(Traits.Location.Darklord) + string.Join(',', Darklords));
                 }
             }
 
@@ -141,8 +142,8 @@ internal static class CreateJson
         }
 
         var dir = Directory.CreateDirectory(nameof(Location)).ToString();
-
         string filepath = Path.Join(dir, "data.json");
+        File.WriteAllText(filepath, JsonSerializer.Serialize(locations, opt));
     }
     public static void CreateItems()
     {

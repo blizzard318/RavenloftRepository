@@ -10,6 +10,7 @@ var db = Factory.db;
 CreateJson.CreateSources();
 CreateJson.CreateDomains();
 CreateJson.CreateItems();
+CreateJson.CreateLocations();
 return;
 
 /*var Sources = db.Sources.Include(s => s.Traits).ToArray();
