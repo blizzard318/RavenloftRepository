@@ -117,8 +117,6 @@
 		const LocationsData = await fetch("data.json");
 		const Locations = await LocationsData.json();
 		for (const location of Locations) {
-			const row = MainTable.insertRow(-1);
-			
 			let TotalNames = [];
 			for (const altname of item.Name.split('/')){ //Cycle through alternate names
 				const a = document.createElement("a");
@@ -126,10 +124,10 @@
 				a.innerHTML = item.Name;
 				TotalNames.push(a.outerHTML);
 			}
-			const ItemNames = row.insertCell(-1).innerHTML = TotalNames.join('/');
+			const LocationNames = row.insertCell(-1).innerHTML = TotalNames.join('/');
 			
-			const Domains = location.Domains.split(',');
 			let inputval = "";
+			const Domains = location.Domains.split(',');
 			for (const domain of Domains) {
 				TotalNames = [];
 				for (const altname of domain.split('/')){ //Cycle through alternate names
@@ -169,7 +167,7 @@
 						}
 					}
 					let drow = document.getElementById(a.outerHTML).insertRow(-1);
-					drow.insertCell(-1).innerHTML = ItemNames;
+					drow.insertCell(-1).innerHTML = LocationNames;
 
 					for (const edition of item.Editions) {
 						const cell = drow.insertCell(-1);

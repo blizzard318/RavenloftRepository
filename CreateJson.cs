@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Humanizer.Localisation;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
@@ -10,6 +11,15 @@ internal static class CreateJson
         Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin),
         WriteIndented = true
     };
+
+    private static void SaveDataJson<T> (string DirectoryName, T ToSaveInside)
+    {
+        var dir = Directory.CreateDirectory(DirectoryName).ToString();
+        string filepath = Path.Join(dir, "data.json");
+        string contents = JsonSerializer.Serialize(ToSaveInside, opt).Replace("\\u0027", "'");
+        File.WriteAllText(filepath, contents);
+    }
+    public static void CreateEditions() => File.WriteAllText("Edition.csv", string.Join(",", Traits.Edition.Editions));
     public static void CreateSources()
     {
         var Sources = Factory.db.Sources.Include(s => s.Traits).ToArray();
@@ -24,10 +34,7 @@ internal static class CreateJson
                 MediaType = source.Traits.Single(s => s.Type == nameof(Traits.Media)).Key
             });
         }
-
-        var dir = Directory.CreateDirectory(nameof(Source)).ToString();
-        string filepath = Path.Join(dir, "data.json");
-        File.WriteAllText(filepath, JsonSerializer.Serialize(sources, opt));
+        SaveDataJson(nameof(Source), sources);
     }
     public static void CreateDomains()
     {
@@ -77,10 +84,7 @@ internal static class CreateJson
                 Editions = Editions
             });
         }
-
-        var dir = Directory.CreateDirectory(nameof(Domain)).ToString();
-        string filepath = Path.Join(dir, "data.json");
-        File.WriteAllText(filepath, JsonSerializer.Serialize(domains, opt));
+        SaveDataJson(nameof(Domain), domains);
     }    
     public static void CreateLocations()
     {
@@ -103,8 +107,8 @@ internal static class CreateJson
                     foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.Add(SameDomain.Name);
                 }
 
-                if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Mistway))) Types.Add(nameof(Traits.Mistway));
-                if (SameLocation.Traits.Any(l => l.Type == nameof(Traits.Settlement))) Types.Add(nameof(Traits.Settlement));
+                if (SameLocation.Traits.Any(l => l == Traits.Location.Mistway)) Types.Add(nameof(Traits.Mistway));
+                if (SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Types.Add(nameof(Traits.Settlement));
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Darklord))
                 {
                     var Darklords = new List<string>();
@@ -140,10 +144,7 @@ internal static class CreateJson
                 Editions = Editions
             });
         }
-
-        var dir = Directory.CreateDirectory(nameof(Location)).ToString();
-        string filepath = Path.Join(dir, "data.json");
-        File.WriteAllText(filepath, JsonSerializer.Serialize(locations, opt));
+        SaveDataJson(nameof(Location), locations);
     }
     public static void CreateItems()
     {
@@ -180,9 +181,6 @@ internal static class CreateJson
                 Editions = Editions
             });
         }
-
-        var dir = Directory.CreateDirectory(nameof(Item)).ToString();
-        string filepath = Path.Join(dir, "data.json");
-        File.WriteAllText(filepath, JsonSerializer.Serialize(items, opt));
+        SaveDataJson(nameof(Item), items);
     }
 }

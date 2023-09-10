@@ -156,7 +156,7 @@
 
     internal static class Mistway //Everything here has to use Location.Mistway.Key
     {
-        public static List<Trait> Mistways = new List<Trait>();
+        public static List<Trait> Mistways = new List<Trait>(2); //Usually just 2.
         private static Trait CreateMistway(string name)
         {
             var retval = Factory.CreateTrait(name, nameof(Mistway));

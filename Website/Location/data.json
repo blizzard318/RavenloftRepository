@@ -1,7 +1,7 @@
 [
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -11,11 +11,11 @@
       false,
       false
     ],
-    "Name": "Bildrath\u0027s Mercantile"
+    "Name": "Bildrath's Mercantile"
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -29,7 +29,7 @@
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -39,11 +39,11 @@
       false,
       false
     ],
-    "Name": "Burgomaster\u0027s Guest House"
+    "Name": "Burgomaster's Guest House"
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -53,7 +53,7 @@
       false,
       false
     ],
-    "Name": "Burgomaster\u0027s Home"
+    "Name": "Burgomaster's Home"
   },
   {
     "Domains": "Barovia",
@@ -71,7 +71,7 @@
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -85,7 +85,7 @@
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -99,7 +99,7 @@
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -109,11 +109,11 @@
       false,
       false
     ],
-    "Name": "Mad Mary\u0027s Townhouse"
+    "Name": "Mad Mary's Townhouse"
   },
   {
     "Domains": "Barovia",
-    "Types": "Settlement",
+    "Types": "",
     "Editions": [
       true,
       false,
@@ -123,7 +123,7 @@
       false,
       false
     ],
-    "Name": "Madam Eva\u0027s Tent"
+    "Name": "Madam Eva's Tent"
   },
   {
     "Domains": "Barovia",
