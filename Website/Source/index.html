@@ -70,7 +70,7 @@
 	
 	<script>
 	async function func(){
-		const SourcesData = await fetch("data.json");
+		const SourcesData = await fetch("Source.json");
 		const Sources = await SourcesData.json();
 		
 		const EditionArr = {};
@@ -81,10 +81,7 @@
 			const row = MainTable.insertRow(-1);
 			
 			let cell = row.insertCell(-1);
-				let a = document.createElement("a");
-				a.setAttribute("href","#" + source.Name);
-				a.innerHTML = source.Name;
-			cell.innerHTML = a.outerHTML;
+			cell.innerHTML = source.Name;
 			
 			cell = row.insertCell(-1);
 			cell.innerHTML = source.Edition;

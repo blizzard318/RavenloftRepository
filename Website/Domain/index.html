@@ -82,7 +82,7 @@
 			MainTable.rows[0].appendChild(cell);
 		}
 		
-		const DomainsData = await fetch("data.json");
+		const DomainsData = await fetch("Domain.json");
 		const Domains = await DomainsData.json();
 		
 		const ClusterArr = {};
@@ -90,33 +90,13 @@
 		for (const domain of Domains) {
 			const row = MainTable.insertRow(-1);
 			
-			let TotalNames = [];
-			for (const altname of domain.Name.split('/')){ //Cycle through alternate names
-				const a = document.createElement("a");
-				a.setAttribute("href", domain.Name);
-				a.innerHTML = domain.Name;
-				TotalNames.push(a.outerHTML);
-			}
-			row.insertCell(-1).innerHTML = TotalNames.join(',');
-			
-			const Darklords = domain.Darklords.split(',');
-			let inputval = "";
-			for (const darklord of Darklords) {
-				let TotalNames = [];
-				for (const altname of darklord.split('/')){ //Cycle through alternate names
-					a = document.createElement("a");
-					a.setAttribute("href", "../Character/" + darklord);
-					a.innerHTML = darklord;
-					TotalNames.push(a.outerHTML);
-				}
-				inputval += TotalNames.join(',') + ", ";
-			}
-			row.insertCell(-1).innerHTML = inputval.substring(0, inputval.length - 2);
+			row.insertCell(-1).innerHTML = domain.Name;
+			row.insertCell(-1).innerHTML = domain.Darklords;
 			
 			const Clusters = domain.Clusters.split(',');
 			for (const cluster of Clusters) {
 				ClusterArr[cluster] ??= [];
-				ClusterArr[cluster].push(domain);
+				ClusterArr[cluster].push(domain.Name);
 			}
 			
 			for (const edition of domain.Editions) {
@@ -160,16 +140,8 @@
 				cell.innerHTML = "<b>Name(s)</b>";
 			row.appendChild(cell);
 			
-			for (const domain of ClusterArr[cluster]) {
-				let TotalNames = [];
-				for (const altname of domain.Name.split('/')){ //Cycle through alternate names
-					const a = document.createElement("a");
-					a.setAttribute("href", domain.Name);
-					a.innerHTML = domain.Name;
-					TotalNames.push(a.outerHTML);
-				}
-				row = table.insertRow(-1);
-				row.insertCell(-1).innerHTML = TotalNames.join(',');
+			for (const domainName of ClusterArr[cluster]) {
+				table.insertRow(-1).insertCell(-1).innerHTML = domainName;
 			}
 			colorCode(table.id);
 		}

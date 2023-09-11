@@ -1,6 +1,6 @@
 [
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -11,10 +11,10 @@
       false,
       false
     ],
-    "Name": "Bildrath's Mercantile"
+    "Name": "<a href='/Location/Bildrath's Mercantile'>Bildrath's Mercantile</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -25,10 +25,10 @@
       false,
       false
     ],
-    "Name": "Blood of the Vine Tavern"
+    "Name": "<a href='/Location/Blood of the Vine Tavern'>Blood of the Vine Tavern</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -39,10 +39,10 @@
       false,
       false
     ],
-    "Name": "Burgomaster's Guest House"
+    "Name": "<a href='/Location/Burgomaster's Guest House'>Burgomaster's Guest House</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -53,11 +53,11 @@
       false,
       false
     ],
-    "Name": "Burgomaster's Home"
+    "Name": "<a href='/Location/Burgomaster's Home'>Burgomaster's Home</a>"
   },
   {
-    "Domains": "Barovia",
-    "Types": "DarklordCount Strahd von Zarovich",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
+    "Types": "Darklord<a href='/Character/Count Strahd von Zarovich'>Count Strahd von Zarovich</a>",
     "Editions": [
       true,
       false,
@@ -67,10 +67,10 @@
       false,
       false
     ],
-    "Name": "Castle Ravenloft"
+    "Name": "<a href='/Location/Castle Ravenloft'>Castle Ravenloft</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -81,10 +81,10 @@
       false,
       false
     ],
-    "Name": "Cemetery of Barovia"
+    "Name": "<a href='/Location/Cemetery of Barovia'>Cemetery of Barovia</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -95,10 +95,10 @@
       false,
       false
     ],
-    "Name": "Church of Barovia"
+    "Name": "<a href='/Location/Church of Barovia'>Church of Barovia</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -109,10 +109,10 @@
       false,
       false
     ],
-    "Name": "Mad Mary's Townhouse"
+    "Name": "<a href='/Location/Mad Mary's Townhouse'>Mad Mary's Townhouse</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -123,10 +123,10 @@
       false,
       false
     ],
-    "Name": "Madam Eva's Tent"
+    "Name": "<a href='/Location/Madam Eva's Tent'>Madam Eva's Tent</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -137,10 +137,10 @@
       false,
       false
     ],
-    "Name": "Road Junction"
+    "Name": "<a href='/Location/Road Junction'>Road Junction</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -151,10 +151,10 @@
       false,
       false
     ],
-    "Name": "The Gates of Barovia"
+    "Name": "<a href='/Location/The Gates of Barovia'>The Gates of Barovia</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -165,10 +165,10 @@
       false,
       false
     ],
-    "Name": "The Gates of Ravenloft"
+    "Name": "<a href='/Location/The Gates of Ravenloft'>The Gates of Ravenloft</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -179,10 +179,10 @@
       false,
       false
     ],
-    "Name": "The Old Svalich Road"
+    "Name": "<a href='/Location/The Old Svalich Road'>The Old Svalich Road</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -193,10 +193,10 @@
       false,
       false
     ],
-    "Name": "The River Ivlis"
+    "Name": "<a href='/Location/The River Ivlis'>The River Ivlis</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -207,10 +207,10 @@
       false,
       false
     ],
-    "Name": "The Svalich Woods"
+    "Name": "<a href='/Location/The Svalich Woods'>The Svalich Woods</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -221,10 +221,10 @@
       false,
       false
     ],
-    "Name": "Tser Falls"
+    "Name": "<a href='/Location/Tser Falls'>Tser Falls</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "Settlement",
     "Editions": [
       true,
@@ -235,10 +235,10 @@
       false,
       false
     ],
-    "Name": "Tser Pool Encampment"
+    "Name": "<a href='/Location/Tser Pool Encampment'>Tser Pool Encampment</a>"
   },
   {
-    "Domains": "Barovia",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "Settlement",
     "Editions": [
       true,
@@ -249,6 +249,6 @@
       false,
       false
     ],
-    "Name": "Village of Barovia"
+    "Name": "<a href='/Location/Village of Barovia'>Village of Barovia</a>"
   }
 ]
