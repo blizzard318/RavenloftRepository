@@ -16,7 +16,9 @@ internal class JsonDomain : JsonObject
 }
 internal class JsonCharacter : JsonObject
 {
-
+    public string Domains { get; set; }
+    public string Types { get; set; } //Vistani, Darklord, Raunie
+    public bool[] Editions { get; set; }
 }
 internal class JsonLocation : JsonObject
 {

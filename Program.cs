@@ -11,6 +11,7 @@ CreateJson.CreateSources();
 CreateJson.CreateDomains();
 CreateJson.CreateItems();
 CreateJson.CreateLocations();
+CreateJson.CreateCharacters();
 return;
 
 /*var Sources = db.Sources.Include(s => s.Traits).ToArray();

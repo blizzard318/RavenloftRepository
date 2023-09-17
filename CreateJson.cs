@@ -102,18 +102,21 @@ internal static class CreateJson
         foreach (var location in Locations)
         {
             var Types = new HashSet<string>();
-            var DifferentNamesOfSameDomain = new List<string>();
+            var TotalDomains = new List<string>();
             var DifferentNamesOfSameLocation = new List<string>();
             var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
             foreach (var SameLocation in SameLocationButDifferentNames) //Get all variant domains of the original domain
             {
                 Locations.Remove(SameLocation);
                 DifferentNamesOfSameLocation.AddLink(nameof(Location), SameLocation.Name);
+
+                var DifferentNamesOfSameDomain = new List<string>();
                 foreach (var domain in SameLocation.Domains)
                 {
                     var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
                     foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
                 }
+                TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
 
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Mistway))    Types.Add(nameof(Traits.Mistway   ));
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Types.Add(nameof(Traits.Settlement));
@@ -147,7 +150,7 @@ internal static class CreateJson
             locations.Add(new JsonLocation()
             {
                 Name = string.Join('/', DifferentNamesOfSameLocation),
-                Domains = string.Join(',', DifferentNamesOfSameDomain),
+                Domains = string.Join(',', TotalDomains),
                 Types = string.Join(',', Types),
                 Editions = Editions
             });
@@ -195,5 +198,52 @@ internal static class CreateJson
             });
         }
         SaveDataJson(nameof(Item), items);
+    }    
+    public static void CreateCharacters()
+    {
+        var Characters = Factory.db.NPCs
+            .Include(s => s.Traits).Include(s => s.Domains)
+            .GroupBy(s => s.Name).Select(g => g.First()).ToHashSet(); 
+        var characters = new List<JsonCharacter>();
+        foreach (var character in Characters)
+        {
+            var Types = new HashSet<string>();
+            var TotalDomains = new List<string>();
+            var DifferentNamesOfSameCharacter = new List<string>();
+            var SameCharacterButDifferentNames = Characters.Where(d => d.OriginalName == character.Name).ToArray();
+            foreach (var SameCharacter in SameCharacterButDifferentNames) //Get all domains
+            {
+                Characters.Remove(SameCharacter);
+                DifferentNamesOfSameCharacter.AddLink("Character", SameCharacter.Name);
+
+                var DifferentNamesOfSameDomain = new HashSet<string>();
+                foreach (var domain in SameCharacter.Domains)
+                {
+                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
+                    foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                }
+                TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+
+                var StatusTraits = SameCharacter.Traits.Where(c => c.Type == nameof(Traits.Status));
+                foreach (var statusTrait in StatusTraits) Types.Add(statusTrait.Key);
+            }
+
+            var Editions = new bool[Traits.Edition.Editions.Count];
+            var Sources = Factory.db.npcAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == character.OriginalName);
+            foreach (var Source in Sources)
+            {
+                var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
+            }
+
+            characters.Add(new JsonCharacter()
+            {
+                Name = string.Join('/', DifferentNamesOfSameCharacter),
+                Domains = string.Join(',', TotalDomains),
+                Types = string.Join(',', Types),
+                Editions = Editions
+            });
+        }
+        SaveDataJson("Character", characters);
     }
 }
