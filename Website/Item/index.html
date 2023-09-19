@@ -78,7 +78,6 @@
 			const ItemNames = row.insertCell(-1).innerHTML = item.Name;
 			
 			const Domains = item.Domains.split(',');
-			let TotalDomains = "";
 			for (const domain of Domains) {
 				if (!document.getElementById(domain)) {
 					const domaindiv = document.getElementById("domain");

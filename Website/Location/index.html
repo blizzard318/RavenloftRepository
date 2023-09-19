@@ -199,9 +199,7 @@
 					row.insertCell(-1).innerHTML = location.Name;
 					for (const edition of location.Editions) {
 						const cell = row.insertCell(-1);
-						if (edition > 0) {
-							cell.innerText = edition ? "X" : "";
-						}
+						if (edition > 0) cell.innerText = edition ? "X" : "";
 					}
 					colorCode(SettlementTableId);
 				}
@@ -213,9 +211,7 @@
 				row.insertCell(-1).innerHTML = location.Types.split("Darklord")[1];
 				for (const edition of location.Editions) {
 					const cell = row.insertCell(-1);
-					if (edition > 0) {
-						cell.innerText = edition ? "X" : "";
-					}
+					if (edition > 0) cell.innerText = edition ? "X" : "";
 				}
 			}
 			if (location.Types.includes("Mistway")){
@@ -225,9 +221,7 @@
 				row.insertCell(-1).innerHTML = location.Domains[1];
 				for (const edition of location.Editions) {
 					const cell = row.insertCell(-1);
-					if (edition > 0) {
-						cell.innerText = edition ? "X" : "";
-					}
+					if (edition > 0) cell.innerText = edition ? "X" : "";
 				}
 			}
 		}

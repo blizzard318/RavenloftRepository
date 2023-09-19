@@ -123,7 +123,7 @@ internal static class AddToDatabase
                     Traits.Creature.IronGolem
                 );
 
-            ctx.CreateNPC("Anna Petrovna", "28");
+            ctx.CreateNPC("Anna Petrovna", "28").AddLocations(CastleRavenloft);
             ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Race.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
             ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BarovianChurch);
 
@@ -146,7 +146,7 @@ internal static class AddToDatabase
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, SashaIvliskova);
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, PatrinaVelikovna);
 
-            var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Status.Tatyana);
+            var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Status.Tatyana).AddLocations(CastleRavenloft);
             ctx.CreateRelationship(Sergei, RelationshipType.Spouse, Tatyana);
 
 

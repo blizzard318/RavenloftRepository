@@ -42,7 +42,7 @@
     "Name": "<a href='/Character/Animus'>Animus</a>"
   },
   {
-    "Domains": "",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [
       true,
@@ -138,34 +138,6 @@
       false
     ],
     "Name": "<a href='/Character/Bildrath'>Bildrath</a>"
-  },
-  {
-    "Domains": "",
-    "Types": "",
-    "Editions": [
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false
-    ],
-    "Name": "<a href='/Character/Bildrath Parents'>Bildrath Parents</a>"
-  },
-  {
-    "Domains": "",
-    "Types": "",
-    "Editions": [
-      true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false
-    ],
-    "Name": "<a href='/Character/Bildrath Sibling'>Bildrath Sibling</a>"
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
@@ -770,7 +742,7 @@
     "Name": "<a href='/Character/Tatsaul Eris'>Tatsaul Eris</a>"
   },
   {
-    "Domains": "",
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "Deceased,Reincarnation of Tatyana",
     "Editions": [
       true,

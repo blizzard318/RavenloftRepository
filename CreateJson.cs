@@ -207,6 +207,7 @@ internal static class CreateJson
         var characters = new List<JsonCharacter>();
         foreach (var character in Characters)
         {
+            if (character.Traits.Contains(Traits.NoLink)) continue;
             var Types = new HashSet<string>();
             var TotalDomains = new List<string>();
             var DifferentNamesOfSameCharacter = new List<string>();
