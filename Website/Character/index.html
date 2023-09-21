@@ -23,7 +23,10 @@
 		<a href="../Domain"	  >Domains   </a> | 
 		<a href="../Location" >Locations </a> | 
 		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items	 </a>
+		<a href="../Item"	  >Items	 </a><br/>
+		<a href="../Creature" >Creatures </a> | 
+		<a href="../Group" 	  >Groups 	 </a> | 
+		<a href="../Language" >Languages </a>
 	</h2><hr />
 	
 	<h2>
@@ -31,7 +34,7 @@
 		<input type="button" onclick="SwapDisplay('group')" value = "By Group">
 	</h2>
 	<br/>
-	
+
 	<div id="domain" style="display:block">
 	</div>
 	
@@ -50,9 +53,6 @@
 	}
 	
 	async function func(){
-		const EditionData = await fetch("../Edition.csv");
-		const Editions = (await EditionData.text()).split(',');
-
 		const CharactersData = await fetch("Character.json");
 		const Characters = await CharactersData.json();
 
@@ -81,13 +81,8 @@
 							cell.scope = "col";
 							cell.innerHTML = "<b>Name(s)</b>";
 					row.appendChild(cell);
-					
-					for (edition of Editions) {
-						cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>" + edition + "</b>";
-						row.appendChild(cell);
-					}
+
+					AddEditionHeader(domain);
 				}
 				const DeceasedId = "Deceased" + domain;
 				if (character.Types.includes("Deceased")){
@@ -114,28 +109,16 @@
 								cell.innerHTML = "<b>Name(s)</b>";
 						row.appendChild(cell);
 
-						for (edition of Editions) {
-							cell = document.createElement("th");
-								cell.scope = "col";
-								cell.innerHTML = "<b>" + edition + "</b>";
-							row.appendChild(cell);
-						}
+						AddEditionHeader(DeceasedId);
 					}
 					const row = document.getElementById(DeceasedId).insertRow(-1);
 					row.insertCell(-1).innerHTML = character.Name;
-					for (const edition of character.Editions) {
-						const cell = row.insertCell(-1);
-						if (edition > 0) cell.innerText = edition ? "X" : "";
-					}
+					AddEditionsToTable(row, character.Editions);
 					colorCode(DeceasedId);
 				} else {
 					const row = document.getElementById(domain).insertRow(-1);
 					row.insertCell(-1).innerHTML = character.Name;
-
-					for (const edition of character.Editions) {
-						const cell = row.insertCell(-1);
-						if (edition > 0) cell.innerText = edition ? "X" : "";
-					}
+					AddEditionsToTable(row, character.Editions);
 					colorCode(domain);
 				}
 			}

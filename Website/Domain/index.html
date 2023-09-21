@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Editions</title>
+	<title>Domains</title>
 	<meta name="theme-color" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Ravenloft Repository">
@@ -23,7 +23,10 @@
 		<a href="../Domain"	  >Domains   </a> | 
 		<a href="../Location" >Locations </a> | 
 		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items	 </a>
+		<a href="../Item"	  >Items	 </a><br/>
+		<a href="../Creature" >Creatures </a> | 
+		<a href="../Group" 	  >Groups 	 </a> | 
+		<a href="../Language" >Languages </a>
 	</h2><hr />
 	
 	<h2>
@@ -73,14 +76,7 @@
 	
 	async function func(){
 		const MainTable = document.getElementById("MainTable");
-		const EditionData = await fetch("../Edition.csv");
-		const Editions = (await EditionData.text()).split(',');
-		for (edition of Editions) {
-			const cell = document.createElement("th");
-				cell.scope = "col";
-				cell.innerHTML = "<b>" + edition + "</b>";
-			MainTable.rows[0].appendChild(cell);
-		}
+		AddEditionHeader("MainTable");
 		
 		const DomainsData = await fetch("Domain.json");
 		const Domains = await DomainsData.json();
@@ -98,11 +94,7 @@
 				ClusterArr[cluster] ??= [];
 				ClusterArr[cluster].push(domain.Name);
 			}
-			
-			for (const edition of domain.Editions) {
-				const cell = row.insertCell(-1);
-				cell.innerText = edition ? "X" : "";
-			}
+			AddEditionsToTable(row, domain.Editions);
 		}
 		sortDate('MainTable',0);
 		

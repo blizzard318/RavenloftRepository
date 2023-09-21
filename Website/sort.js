@@ -118,3 +118,26 @@ function sortDate (tableName, n) {
 
   colorCode(tableName);
 }
+
+
+var EditionData;
+var Editions;
+
+async function AddEditionHeader (tableName) {
+  EditionData ??= await fetch("../Edition.csv");
+  Editions ??= (await EditionData.text()).split(',');
+  const HeaderRow = document.getElementById(tableName).rows[0];
+  for (edition of Editions) {
+    let cell = document.createElement("th");
+      cell.scope = "col";
+      cell.innerHTML = "<b>" + edition + "</b>";
+    HeaderRow.appendChild(cell);
+  }
+}
+
+function AddEditionsToTable (row, editions) {
+  for (const edition of editions) {
+    const cell = row.insertCell(-1);
+    if (edition > 0) cell.innerText = edition ? "X" : "";
+  }
+}

@@ -23,7 +23,10 @@
 		<a href="../Domain"	  >Domains   </a> | 
 		<a href="../Location" >Locations </a> | 
 		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items	 </a>
+		<a href="../Item"	  >Items	 </a><br/>
+		<a href="../Creature" >Creatures </a> | 
+		<a href="../Group" 	  >Groups 	 </a> | 
+		<a href="../Language" >Languages </a>
 	</h2><hr />
 	
 	<h2>
@@ -103,18 +106,8 @@
 	async function func(){
 		const LairTable = document.getElementById("LairTable");
 		const MistTable = document.getElementById("MistTable");
-		const EditionData = await fetch("../Edition.csv");
-		const Editions = (await EditionData.text()).split(',');
-		for (edition of Editions) {
-			let cell = document.createElement("th");
-				cell.scope = "col";
-				cell.innerHTML = "<b>" + edition + "</b>";
-			LairTable.rows[0].appendChild(cell);
-			cell = document.createElement("th");
-				cell.scope = "col";
-				cell.innerHTML = "<b>" + edition + "</b>";
-			MistTable.rows[0].appendChild(cell);
-		}
+		AddEditionHeader("LairTable");
+		AddEditionHeader("MistTable");
 		
 		const LocationsData = await fetch("Location.json");
 		const Locations = await LocationsData.json();
@@ -143,23 +136,13 @@
 							cell.scope = "col";
 							cell.innerHTML = "<b>Name(s)</b>";
 					row.appendChild(cell);
-					
-					for (edition of Editions) {
-						cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>" + edition + "</b>";
-						row.appendChild(cell);
-					}
+
+					AddEditionHeader(domain);
 					alldiv.append(document.createElement("br"));
 				}
 				let row = document.getElementById(domain).insertRow(-1);
 				row.insertCell(-1).innerHTML = location.Name;
-				for (const edition of location.Editions) {
-					const cell = row.insertCell(-1);
-					if (edition > 0) {
-						cell.innerText = edition ? "X" : "";
-					}
-				}
+				AddEditionsToTable(row, location.Editions);
 				colorCode(domain);
 
 				if (location.Types.includes("Settlement")){
@@ -187,20 +170,12 @@
 								cell.innerHTML = "<b>Name(s)</b>";
 						row.appendChild(cell);
 						
-						for (edition of Editions) {
-							cell = document.createElement("th");
-								cell.scope = "col";
-								cell.innerHTML = "<b>" + edition + "</b>";
-							row.appendChild(cell);
-						}
+						AddEditionHeader(SettlementTableId);
 						alldiv.append(document.createElement("br"));
 					}
 					row = document.getElementById(SettlementTableId).insertRow(-1);
 					row.insertCell(-1).innerHTML = location.Name;
-					for (const edition of location.Editions) {
-						const cell = row.insertCell(-1);
-						if (edition > 0) cell.innerText = edition ? "X" : "";
-					}
+					AddEditionsToTable(row, location.Editions);
 					colorCode(SettlementTableId);
 				}
 			}
@@ -209,20 +184,14 @@
 				row.insertCell(-1).innerHTML = location.Name;
 				row.insertCell(-1).innerHTML = location.Domains;
 				row.insertCell(-1).innerHTML = location.Types.split("Darklord")[1];
-				for (const edition of location.Editions) {
-					const cell = row.insertCell(-1);
-					if (edition > 0) cell.innerText = edition ? "X" : "";
-				}
+				AddEditionsToTable(row, location.Editions);
 			}
 			if (location.Types.includes("Mistway")){
 				const row = MistTable.insertRow(-1);
 				row.insertCell(-1).innerHTML = location.Name;
 				row.insertCell(-1).innerHTML = location.Domains[0];
 				row.insertCell(-1).innerHTML = location.Domains[1];
-				for (const edition of location.Editions) {
-					const cell = row.insertCell(-1);
-					if (edition > 0) cell.innerText = edition ? "X" : "";
-				}
+				AddEditionsToTable(row, location.Editions);
 			}
 		}
 		colorCode('LairTable');
