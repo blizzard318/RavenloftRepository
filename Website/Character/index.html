@@ -122,6 +122,47 @@
 					colorCode(domain);
 				}
 			}
+
+			const Groups = character.Types.split(',');
+			for (const group of Groups) {
+				if (!group || group == "Deceased") continue;
+				
+				if (!document.getElementById(group)) {
+					const groupdiv = document.getElementById("group");
+					const b = document.createElement("b");
+						b.style.fontSize = "25px";
+						b.innerHTML = group;
+						groupdiv.append(b);
+
+					const table = document.createElement("table");
+						table.border = "1";
+						table.rules = "cols";
+						table.cellspacing = "0";
+						table.cellpadding = "3";
+						table.id = group;
+					groupdiv.append(table);
+					groupdiv.append(document.createElement("br"));
+
+					const row = table.insertRow(-1);
+						row.style.backgroundColor  = "black";
+						let cell = document.createElement("th");
+							cell.scope = "col";
+							cell.innerHTML = "<b>Name(s)</b>";
+					row.appendChild(cell);
+
+						cell = document.createElement("th");
+							cell.scope = "col";
+							cell.innerHTML = "<b>Domain(s)</b>";
+					row.appendChild(cell);
+
+					AddEditionHeader(group);
+				}
+				const row = document.getElementById(group).insertRow(-1);
+				row.insertCell(-1).innerHTML = character.Name;
+				row.insertCell(-1).innerHTML = character.Domains;
+				AddEditionsToTable(row, character.Editions);
+				colorCode(group);
+			}
 		}
 	}
 	func();

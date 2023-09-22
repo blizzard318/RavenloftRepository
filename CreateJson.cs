@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Text.Unicode;
 
 internal static class CreateJson
@@ -165,6 +166,7 @@ internal static class CreateJson
         var items = new List<JsonItem>();
         foreach (var item in Items)
         {
+            var Groups = new HashSet<string>();
             var TotalDomains = new List<string>();
             var DifferentNamesOfSameItem = new List<string>();
             var SameItemButDifferentNames = Items.Where(d => d.OriginalName == item.Name).ToArray();
@@ -180,6 +182,9 @@ internal static class CreateJson
                     foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
                 }
                 TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+
+                var StatusTraits = SameItem.Traits.Where(c => c.Type.Contains(nameof(Traits.Status)));
+                foreach (var statusTrait in StatusTraits) Groups.AddLink("Group", statusTrait.Key);
             }
 
             var Editions = new bool[Traits.Edition.Editions.Count];
@@ -194,11 +199,21 @@ internal static class CreateJson
             {
                 Name = string.Join('/', DifferentNamesOfSameItem),
                 Domains = string.Join(',', TotalDomains),
+                Groups = string.Join(',', Groups),
                 Editions = Editions
             });
         }
         SaveDataJson(nameof(Item), items);
-    }    
+    }
+    public static void CreateLanguages()
+    {
+        var Languages = Factory.db.Traits.Include(t => t.Domains).GroupBy(s => s.Key).Select(g => g.First()).ToHashSet();
+        var languages = new List<JsonLanguage>();
+        foreach (var language in Languages)
+        {
+            var TotalDomains = new List<string>();
+        }
+    }
     public static void CreateCharacters()
     {
         var Characters = Factory.db.NPCs
@@ -225,8 +240,12 @@ internal static class CreateJson
                 }
                 TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
 
-                var StatusTraits = SameCharacter.Traits.Where(c => c.Type == nameof(Traits.Status));
-                foreach (var statusTrait in StatusTraits) Types.Add(statusTrait.Key);
+                var StatusTraits = SameCharacter.Traits.Where(c => c.Type.Contains(nameof(Traits.Status)));
+                foreach (var statusTrait in StatusTraits)
+                {
+                    if (statusTrait == Traits.Status.Deceased) Types.Add(statusTrait.Key);
+                    else Types.AddLink("Group", statusTrait.Key);
+                }
             }
 
             var Editions = new bool[Traits.Edition.Editions.Count];

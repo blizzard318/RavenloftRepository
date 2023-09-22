@@ -95,7 +95,7 @@
         public static Trait Vistani  = Factory.CreateTrait("Vistani" , nameof(Status), nameof(Item));
         public static Trait Darklord = Factory.CreateTrait("Darklord", nameof(Status), nameof(Location));
 
-        public static Trait Tatyana = CreateStatus("Reincarnation of Tatyana");
+        public static Trait Tatyana = CreateStatus("Reincarnations of Tatyana");
         public static Trait BarovianWineDistillersBrotherhood = CreateStatus("Barovian Wine Distillers Brotherhood");
 
         public static (Trait, Trait) Raunie = (CreateStatus("Raunie"), Vistani);

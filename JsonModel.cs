@@ -2,6 +2,20 @@
 {
     public string Name { get; set; }
 }
+internal class JsonLanguage : JsonObject
+{
+    public string Domains { get; set; }
+}
+internal class JsonGroup : JsonObject
+{
+    public string Domains { get; set; }
+    public bool[] Editions { get; set; }
+}
+internal class JsonCreature: JsonObject
+{
+    public string Domains { get; set; }
+    public string Groups { get; set; } //Groups they belong/associated with
+}
 internal class JsonSource : JsonObject
 {
     public string Edition { get; set; }
@@ -29,5 +43,6 @@ internal class JsonLocation : JsonObject
 internal class JsonItem : JsonObject
 {
     public string Domains { get; set; }
+    public string Groups { get; set; } //Groups they belong/associated with
     public bool[] Editions { get; set; }
 }

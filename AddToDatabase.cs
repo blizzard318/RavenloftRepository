@@ -123,7 +123,7 @@ internal static class AddToDatabase
                     Traits.Creature.IronGolem
                 );
 
-            ctx.CreateNPC("Anna Petrovna", "28").AddLocations(CastleRavenloft);
+            ctx.CreateNPC("Anna Petrovna", "28").AddDomains(Barovia);
             ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Race.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
             ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BarovianChurch);
 
@@ -146,13 +146,13 @@ internal static class AddToDatabase
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, SashaIvliskova);
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, PatrinaVelikovna);
 
-            var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Status.Tatyana).AddLocations(CastleRavenloft);
+            var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Status.Tatyana).AddDomains(Barovia);
             ctx.CreateRelationship(Sergei, RelationshipType.Spouse, Tatyana);
 
 
 
             var KolyanIndirovich = ctx.CreateNPC("Kolyan Indirovich", "7, 8, 9").AddTraits(Traits.Status.Deceased, Traits.Race.Human).AddLocations(VillageOfBarovia, BurgomasterHome);
-            var IreenaKolyana = ctx.CreateNPC("Ireena Kolyana").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BurgomasterHome);
+            var IreenaKolyana = ctx.CreateNPC("Ireena Kolyana").AddTraits(Traits.Alignment.LG, Traits.Race.Human, Traits.Status.Tatyana).AddLocations(VillageOfBarovia, BurgomasterHome);
             var Ismark = ctx.CreateNPC("Ismark the Lesser", "8, 9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BurgomasterHome, BloodVineTavern);
             ctx.CreateRelationship(KolyanIndirovich, RelationshipType.Adopted, IreenaKolyana);
             ctx.CreateRelationship(KolyanIndirovich, RelationshipType.Parent, Ismark);

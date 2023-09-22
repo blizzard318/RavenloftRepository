@@ -85,7 +85,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "Barovian Wine Distillers Brotherhood,Deceased",
+    "Types": "Deceased,<a href='/Group/Barovian Wine Distillers Brotherhood'>Barovian Wine Distillers Brotherhood</a>",
     "Editions": [
       true,
       false,
@@ -141,7 +141,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "",
+    "Types": "<a href='/Group/Darklord'>Darklord</a>",
     "Editions": [
       true,
       false,
@@ -295,7 +295,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "",
+    "Types": "<a href='/Group/Reincarnations of Tatyana'>Reincarnations of Tatyana</a>",
     "Editions": [
       true,
       false,
@@ -477,7 +477,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "Raunie",
+    "Types": "<a href='/Group/Raunie'>Raunie</a>,<a href='/Group/Vistani'>Vistani</a>",
     "Editions": [
       true,
       false,
@@ -743,7 +743,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "Deceased,Reincarnation of Tatyana",
+    "Types": "Deceased,<a href='/Group/Reincarnations of Tatyana'>Reincarnations of Tatyana</a>",
     "Editions": [
       true,
       false,
