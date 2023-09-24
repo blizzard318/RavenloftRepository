@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Characters</title>
+	<meta name="theme-color" content="black">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ravenloft Repository">
+	<link rel="stylesheet" href="../styles.css">
+	<link rel="shortcut icon" href="../favicon.ico">
+	<script src="../sort.js" charset="utf-8"></script>
+</head>
+
+<body>
+	<h1>
+		<a href=".."		 >Official </a> |
+		<a href="../3rdParty">3rd Party</a>
+	</h1><hr />
+	
+	<h2>
+		<a href="../Source"	  >Sources   </a> | 
+		<a href="../Domain"	  >Domains   </a> | 
+		<a href="../Location" >Locations </a> | 
+		<a href="../Character">Characters</a> | 
+		<a href="../Item"	  >Items	 </a><br/>
+		<a href="../Creature" >Creatures </a> | 
+		<a href="../Group" 	  >Groups 	 </a> | 
+		<a href="../Language" >Languages </a>
+	</h2><hr />
+	
+	<h2>
+		<input type="button" onclick="SwapDisplay('language')" value="Domains per Language"> | 
+		<input type="button" onclick="SwapDisplay('domain')" value = "Languages per Domain">
+	</h2>
+	<br/>
+
+	<div id="language" style="display:block">
+	</div>
+	
+	<div id="domain" style="display:none">
+	</div>
+	
+	<script>
+	function SwapDisplay(name) {
+		if (name == "language") {
+			document.getElementById("language").style.display = "block";
+			document.getElementById("domain").style.display = "none";
+		} else if (name == 'domain'){
+			document.getElementById("language").style.display = "none";
+			document.getElementById("domain").style.display = "block";
+		}
+	}
+	
+	async function func(){
+		const LanguagesData = await fetch("Language.json");
+		const Languages = await LanguagesData.json();
+
+		for (const language of Languages) {
+			const Domains = language.Domains.split(',');
+			for (const domain of Domains) {
+				if (!document.getElementById(domain)) {
+					const domaindiv = document.getElementById("domain");
+					const b = document.createElement("b");
+						b.style.fontSize = "25px";
+						b.innerHTML = "Languages of " + domain;
+					domaindiv.append(b);
+
+					const table = document.createElement("table");
+						table.border = "1";
+						table.rules = "cols";
+						table.cellspacing = "0";
+						table.cellpadding = "3";
+						table.id = domain;
+					domaindiv.append(table);
+					domaindiv.append(document.createElement("br"));
+
+					const row = table.insertRow(-1);
+						row.style.backgroundColor  = "black";
+						let cell = document.createElement("th");
+							cell.scope = "col";
+							cell.innerHTML = "<b>Name(s)</b>";
+					row.appendChild(cell);
+				}
+				const row = document.getElementById(domain).insertRow(-1);
+				row.insertCell(-1).innerHTML = character.Name;
+				colorCode(domain);
+			}
+		}
+	}
+	func();
+	</script>
+</body>
+</html>

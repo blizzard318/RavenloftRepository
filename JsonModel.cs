@@ -9,7 +9,6 @@ internal class JsonLanguage : JsonObject
 internal class JsonGroup : JsonObject
 {
     public string Domains { get; set; }
-    public bool[] Editions { get; set; }
 }
 internal class JsonCreature: JsonObject
 {

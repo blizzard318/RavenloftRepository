@@ -207,12 +207,51 @@ internal static class CreateJson
     }
     public static void CreateLanguages()
     {
-        var Languages = Factory.db.Traits.Include(t => t.Domains).GroupBy(s => s.Key).Select(g => g.First()).ToHashSet();
+        var Languages = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type == nameof(Traits.Language)).GroupBy(s => s.Key).Select(g => g.First()).ToHashSet();
         var languages = new List<JsonLanguage>();
         foreach (var language in Languages)
         {
             var TotalDomains = new List<string>();
+            var DifferentNamesOfSameDomain = new HashSet<string>();
+            foreach (var domain in language.Domains)
+            {
+                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
+                foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+            }
+            TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+
+            languages.Add(new JsonLanguage()
+            {
+                Name = AddLink("Language", language.Key),
+                Domains = string.Join(',', TotalDomains)
+            });
         }
+        SaveDataJson("Language", languages);
+    }
+    public static void CreateGroups()
+    {
+        var Groups = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type.Contains(nameof(Traits.Status))).GroupBy(s => s.Key).Select(g => g.First()).ToHashSet();
+        var groups = new List<JsonGroup>();
+
+        foreach (var group in Groups)
+        {
+            if (group == Traits.Status.Deceased) continue;
+            var TotalDomains = new List<string>();
+            var DifferentNamesOfSameDomain = new HashSet<string>();
+            foreach (var domain in group.Domains)
+            {
+                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
+                foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+            }
+            TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+
+            groups.Add(new JsonGroup()
+            {
+                Name = AddLink("Group", group.Key),
+                Domains = string.Join(',', TotalDomains)
+            });
+        }
+        SaveDataJson("Group", groups);
     }
     public static void CreateCharacters()
     {
