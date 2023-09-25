@@ -36,7 +36,16 @@
 		<input type="button" onclick="SwapDisplay('mistway')" value = "Mistways">
 	</h2><br/>
 
-	<div id="all" style="display:block">
+	<div id="bigall" style="display:block">
+		<div id="all"></div>
+		<b style="font-size:25px">Locations whose domain is unknown</b>
+		<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="UnknownTable">
+			<caption>Their domain was never disclosed.</caption>
+			<tr style="background-color:Black">
+				<th scope="col"><b>Name(s)</b></th>
+			</tr>
+		</table>
+		<br/>
 	</div>
 	
 	<div id="lair" style="display:none">
@@ -81,22 +90,22 @@
 	<script>
 	function SwapDisplay(name) {
 		if (name == "all") {
-			document.getElementById("all").style.display = "block";
+			document.getElementById("bigall").style.display = "block";
 			document.getElementById("lair").style.display = "none";
 			document.getElementById("settlement").style.display = "none";
 			document.getElementById("mistway").style.display = "none";
 		} else if (name == 'lair'){
-			document.getElementById("all").style.display = "none";
+			document.getElementById("bigall").style.display = "none";
 			document.getElementById("lair").style.display = "block";
 			document.getElementById("settlement").style.display = "none";
 			document.getElementById("mistway").style.display = "none";
 		} else if (name == 'settlement'){
-			document.getElementById("all").style.display = "none";
+			document.getElementById("bigall").style.display = "none";
 			document.getElementById("lair").style.display = "none";
 			document.getElementById("settlement").style.display = "block";
 			document.getElementById("mistway").style.display = "none";
 		} else if (name == 'mistway'){
-			document.getElementById("all").style.display = "none";
+			document.getElementById("bigall").style.display = "none";
 			document.getElementById("lair").style.display = "none";
 			document.getElementById("settlement").style.display = "none";
 			document.getElementById("mistway").style.display = "block";
@@ -108,13 +117,15 @@
 		const MistTable = document.getElementById("MistTable");
 		AddEditionHeader("LairTable");
 		AddEditionHeader("MistTable");
+		AddEditionHeader("UnknownTable");
 		
 		const LocationsData = await fetch("Location.json");
 		const Locations = await LocationsData.json();
 		for (const location of Locations) {
 			const Domains = location.Domains.split(',');
 			for (const domain of Domains) {
-				if (!document.getElementById(domain)) {
+				const DomainID = domain ? domain : "UnknownTable";
+				if (!document.getElementById(DomainID)) {
 					const alldiv = document.getElementById("all");
 
 					const b = document.createElement("b");
@@ -136,14 +147,14 @@
 							cell.scope = "col";
 							cell.innerHTML = "<b>Name(s)</b>";
 					row.appendChild(cell);
-
+					
 					AddEditionHeader(domain);
 					alldiv.append(document.createElement("br"));
 				}
-				let row = document.getElementById(domain).insertRow(-1);
+				let row = document.getElementById(DomainID).insertRow(-1);
 				row.insertCell(-1).innerHTML = location.Name;
 				AddEditionsToTable(row, location.Editions);
-				colorCode(domain);
+				colorCode(DomainID);
 
 				if (location.Types.includes("Settlement")){
 					const SettlementTableId = "Settlements of " + domain;

@@ -1,12 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/*using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
 using System.Text.Encodings.Web;
-using System.Text.Unicode;
+using System.Text.Unicode;*/
 
 AddToDatabase.Add();
-var db = Factory.db;
+//var db = Factory.db;
 
+CreateJson.CreateEditions();
 CreateJson.CreateSources();
 CreateJson.CreateDomains();
 CreateJson.CreateItems();

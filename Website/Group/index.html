@@ -100,7 +100,7 @@
 						table.rules = "cols";
 						table.cellspacing = "0";
 						table.cellpadding = "3";
-						table.id = domain;
+						table.id = group.Name;
 					domaindiv.append(table);
 					domaindiv.append(document.createElement("br"));
 
@@ -111,9 +111,9 @@
 							cell.innerHTML = "<b>Name(s)</b>";
 					row.appendChild(cell);
 			}
-			const row = document.getElementById(group.Name).insertRow(-1);
-			row.insertCell(-1).innerHTML = domain;
-			colorCode(domain);
+			for (const domain of Domains)
+				document.getElementById(group.Name).insertRow(-1).insertCell(-1).innerHTML = domain;
+			colorCode(group.Name);
 		}
 	}
 	func();

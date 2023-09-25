@@ -7,6 +7,8 @@ internal static class AddToDatabase
         //Domains, NPCs, Items and Locations are Source-locked, but not Traits.
 
         AddI6Ravenloft();
+        AddBeforeIWake();
+        AddCommanderLegendsBattleforBaldursGate();
         void AddI6Ravenloft()
         {
             var releaseDate = "01/11/1983";
@@ -173,7 +175,43 @@ internal static class AddToDatabase
             ctx.CreateRelationship(BildrathParents, RelationshipType.Parent, BildrathSibling);
             ctx.CreateRelationship(BildrathSibling, RelationshipType.Parent, Parriwimple);
         }
+        void AddBeforeIWake()
+        {
+            var releaseDate = "31/10/2007";
+            string ExtraInfo = "<br/>&emsp;Author: Air Marmell";
+            using var ctx = Factory.CreateSource("Before I Wake", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
+            if (ctx == null) return;
 
+            var Bluetspur = ctx.CreateDomain("Bluetspur").AddNPCs(
+                ctx.CreateNPC("Clarke").AddTraits(Traits.Race.Human),
+                ctx.CreateNPC("Phillips").AddTraits(Traits.Race.Human, Traits.Status.Deceased),
+                ctx.CreateNPC("God-Brain").AddTraits(Traits.Status.Darklord)
+                );
+
+            var Darkon = ctx.CreateDomain("Darkon").AddLocations(
+                ctx.CreateLocation("Nartok").AddTraits(Traits.Location.Settlement)
+                );
+
+            ctx.CreateDomain("Lamordia");
+
+            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddNPCs(
+                ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Race.Human),
+                ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Race.Human)
+                );
+
+            ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Race.Human).AddDomains(Darkon, Bluetspur).AddLocations(DharlaethAsylum);
+        }
+        void AddCommanderLegendsBattleforBaldursGate()
+        {
+            var releaseDate = "10/06/2022";
+            string ExtraInfo = "<br/>&emsp;A Magic the Gathering Deck";
+            using var ctx = Factory.CreateSource("Commander Legends: Battle for Baldur's Gate", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+            if (ctx == null) return;
+
+            var Barovia = ctx.CreateDomain("Barovia").AddNPCs(
+                ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Race.Human, Traits.Creature.Witch)
+                );
+        }
         Factory.db.SaveChanges();
     }
 }

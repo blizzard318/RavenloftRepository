@@ -25,7 +25,12 @@ internal static class CreateJson
     }
     private static void AddLink (this ICollection<string> list, string subdomain, string name) => list.Add(AddLink(subdomain, name));
     private static string AddLink(string subdomain, string name) => $"<a href='/{subdomain}/{name}'>{name}</a>";
-    public static void CreateEditions() => File.WriteAllText("Edition.csv", string.Join(",", Traits.Edition.Editions));
+    public static void CreateEditions()
+    {
+        var list = new string[Traits.Edition.Editions.Count];
+        for (int i = 0; i < list.Length; i++) list[i] = Traits.Edition.Editions[i].Key;
+        File.WriteAllText("Edition.csv", string.Join(",", list));
+    }
     public static void CreateSources()
     {
         var Sources = Factory.db.Sources.Include(s => s.Traits).ToArray();
@@ -45,8 +50,7 @@ internal static class CreateJson
     public static void CreateDomains()
     {
         var Domains = Factory.db.Domains
-            .Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits)
-            .GroupBy(s => s.Name).Select(g => g.First()).ToHashSet();
+            .Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
         var domains = new List<JsonDomain>();
         foreach (var domain in Domains)
         {
@@ -97,8 +101,7 @@ internal static class CreateJson
     public static void CreateLocations()
     {
         var Locations = Factory.db.Locations
-            .Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits)
-            .GroupBy(s => s.Name).Select(g => g.First()).ToHashSet();
+            .Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
         var locations = new List<JsonLocation>();
         foreach (var location in Locations)
         {
@@ -111,13 +114,15 @@ internal static class CreateJson
                 Locations.Remove(SameLocation);
                 DifferentNamesOfSameLocation.AddLink(nameof(Location), SameLocation.Name);
 
-                var DifferentNamesOfSameDomain = new List<string>();
+                var TotalNamesOfSameDomain = string.Empty;
+                var DifferentNamesOfSameDomain = new HashSet<string>();
                 foreach (var domain in SameLocation.Domains)
                 {
                     var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
                     foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                    TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 }
-                TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+                TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
 
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Mistway))    Types.Add(nameof(Traits.Mistway   ));
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Types.Add(nameof(Traits.Settlement));
@@ -161,8 +166,7 @@ internal static class CreateJson
     public static void CreateItems()
     {
         var Items = Factory.db.Items
-            .Include(s => s.Traits).Include(s => s.Domains)
-            .GroupBy(s => s.Name).Select(g => g.First()).ToHashSet(); 
+            .Include(s => s.Traits).Include(s => s.Domains).ToHashSet(); 
         var items = new List<JsonItem>();
         foreach (var item in Items)
         {
@@ -175,13 +179,15 @@ internal static class CreateJson
                 Items.Remove(SameItem);
                 DifferentNamesOfSameItem.AddLink(nameof(Item), SameItem.Name);
 
+                var TotalNamesOfSameDomain = string.Empty;
                 var DifferentNamesOfSameDomain = new HashSet<string>();
                 foreach (var domain in SameItem.Domains)
                 {
                     var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
                     foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                    TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 }
-                TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+                TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
 
                 var StatusTraits = SameItem.Traits.Where(c => c.Type.Contains(nameof(Traits.Status)));
                 foreach (var statusTrait in StatusTraits) Groups.AddLink("Group", statusTrait.Key);
@@ -207,18 +213,20 @@ internal static class CreateJson
     }
     public static void CreateLanguages()
     {
-        var Languages = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type == nameof(Traits.Language)).GroupBy(s => s.Key).Select(g => g.First()).ToHashSet();
+        var Languages = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type == nameof(Traits.Language)).ToHashSet();
         var languages = new List<JsonLanguage>();
         foreach (var language in Languages)
         {
             var TotalDomains = new List<string>();
+            var TotalNamesOfSameDomain = string.Empty;
             var DifferentNamesOfSameDomain = new HashSet<string>();
             foreach (var domain in language.Domains)
             {
                 var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
                 foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
             }
-            TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+            TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
 
             languages.Add(new JsonLanguage()
             {
@@ -230,20 +238,22 @@ internal static class CreateJson
     }
     public static void CreateGroups()
     {
-        var Groups = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type.Contains(nameof(Traits.Status))).GroupBy(s => s.Key).Select(g => g.First()).ToHashSet();
+        var Groups = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type.Contains(nameof(Traits.Status))).ToHashSet();
         var groups = new List<JsonGroup>();
 
         foreach (var group in Groups)
         {
             if (group == Traits.Status.Deceased) continue;
             var TotalDomains = new List<string>();
+            var TotalNamesOfSameDomain = string.Empty;
             var DifferentNamesOfSameDomain = new HashSet<string>();
             foreach (var domain in group.Domains)
             {
                 var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
                 foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
             }
-            TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+            TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
 
             groups.Add(new JsonGroup()
             {
@@ -256,8 +266,7 @@ internal static class CreateJson
     public static void CreateCharacters()
     {
         var Characters = Factory.db.NPCs
-            .Include(s => s.Traits).Include(s => s.Domains)
-            .GroupBy(s => s.Name).Select(g => g.First()).ToHashSet(); 
+            .Include(s => s.Traits).Include(s => s.Domains).ToHashSet(); 
         var characters = new List<JsonCharacter>();
         foreach (var character in Characters)
         {
@@ -271,13 +280,15 @@ internal static class CreateJson
                 Characters.Remove(SameCharacter);
                 DifferentNamesOfSameCharacter.AddLink("Character", SameCharacter.Name);
 
+                var TotalNamesOfSameDomain = string.Empty;
                 var DifferentNamesOfSameDomain = new HashSet<string>();
                 foreach (var domain in SameCharacter.Domains)
                 {
                     var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
                     foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                    TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 }
-                TotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+                TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
 
                 var StatusTraits = SameCharacter.Traits.Where(c => c.Type.Contains(nameof(Traits.Status)));
                 foreach (var statusTrait in StatusTraits)

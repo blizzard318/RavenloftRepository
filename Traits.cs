@@ -14,12 +14,12 @@
             Editions.Add(retval);
             return retval;
         }
-        public static Source.Trait e1  = CreateEdition("1st Edition"  );
-        public static Source.Trait e2  = CreateEdition("2nd Edition"  );
-        public static Source.Trait e3  = CreateEdition("3rd Edition"  );
-        public static Source.Trait e35 = CreateEdition("3.5th Edition");
-        public static Source.Trait e4  = CreateEdition("4th Edition"  );
-        public static Source.Trait e5  = CreateEdition("5th Edition"  );
+        public static Source.Trait e1  = CreateEdition("1st Ed"  );
+        public static Source.Trait e2  = CreateEdition("2nd Ed"  );
+        public static Source.Trait e3  = CreateEdition("3rd Ed"  );
+        public static Source.Trait e35 = CreateEdition("3.5th Ed");
+        public static Source.Trait e4  = CreateEdition("4th Ed"  );
+        public static Source.Trait e5  = CreateEdition("5th Ed"  );
         public static Source.Trait e0  = CreateEdition("Editionless"  );
     }
 

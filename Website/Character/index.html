@@ -35,7 +35,25 @@
 	</h2>
 	<br/>
 
-	<div id="domain" style="display:block">
+	<div id="bigdomain" style="display:block">
+		<div id="domain">
+		</div>
+		<b style="font-size:25px">Characters whose domain is unknown</b>
+		<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="UnknownTable">
+			<caption>Their location was never disclosed.</caption>
+			<tr style="background-color:Black">
+				<th scope="col"><b>Name(s)</b></th>
+			</tr>
+		</table>
+		<br/>
+		<b style="font-size:25px">Deceased characters whose domain is unknown</b>
+		<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="DeceasedUnknownTable">
+			<caption>Their location was never disclosed.</caption>
+			<tr style="background-color:Black">
+				<th scope="col"><b>Name(s)</b></th>
+			</tr>
+		</table>
+		<br/>
 	</div>
 	
 	<div id="group" style="display:none">
@@ -44,10 +62,10 @@
 	<script>
 	function SwapDisplay(name) {
 		if (name == "domain") {
-			document.getElementById("domain").style.display = "block";
+			document.getElementById("bigdomain").style.display = "block";
 			document.getElementById("group").style.display = "none";
 		} else if (name == 'group'){
-			document.getElementById("domain").style.display = "none";
+			document.getElementById("bigdomain").style.display = "none";
 			document.getElementById("group").style.display = "block";
 		}
 	}
@@ -55,71 +73,74 @@
 	async function func(){
 		const CharactersData = await fetch("Character.json");
 		const Characters = await CharactersData.json();
+		AddEditionHeader("UnknownTable");
+		AddEditionHeader("DeceasedUnknownTable");
 
 		for (const character of Characters) {
 			const Domains = character.Domains.split(',');
 			for (const domain of Domains) {
-				if (!document.getElementById(domain)) {
+				const DomainID = domain ? domain : "UnknownTable";
+				const DeceasedId = "Deceased" + DomainID;
+
+				if (!document.getElementById(DomainID)) {
 					const domaindiv = document.getElementById("domain");
-					const b = document.createElement("b");
+					let b = document.createElement("b");
 						b.style.fontSize = "25px";
-						b.innerHTML = "Characters of " + domain;
+						b.innerHTML = "Characters of " + DomainID;
 					domaindiv.append(b);
 
-					const table = document.createElement("table");
+					let table = document.createElement("table");
 						table.border = "1";
 						table.rules = "cols";
 						table.cellspacing = "0";
 						table.cellpadding = "3";
-						table.id = domain;
+						table.id = DomainID;
 					domaindiv.append(table);
 					domaindiv.append(document.createElement("br"));
 
-					const row = table.insertRow(-1);
+					let row = table.insertRow(-1);
 						row.style.backgroundColor  = "black";
 						let cell = document.createElement("th");
 							cell.scope = "col";
 							cell.innerHTML = "<b>Name(s)</b>";
 					row.appendChild(cell);
 
-					AddEditionHeader(domain);
+					AddEditionHeader(DomainID);
+
+					b = document.createElement("b");
+						b.style.fontSize = "25px";
+						b.innerHTML = "Deceased of " + DomainID;
+					domaindiv.append(b);
+
+					table = document.createElement("table");
+						table.border = "1";
+						table.rules = "cols";
+						table.cellspacing = "0";
+						table.cellpadding = "3";
+						table.id = DeceasedId;
+					domaindiv.append(table);
+					domaindiv.append(document.createElement("br"));
+
+					row = table.insertRow(-1);
+						row.style.backgroundColor  = "black";
+						cell = document.createElement("th");
+							cell.scope = "col";
+							cell.innerHTML = "<b>Name(s)</b>";
+					row.appendChild(cell);
+
+					AddEditionHeader(DeceasedId);
 				}
-				const DeceasedId = "Deceased" + domain;
+
 				if (character.Types.includes("Deceased")){
-					if (!document.getElementById(DeceasedId)) {
-						const domaindiv = document.getElementById("domain");
-						const b = document.createElement("b");
-							b.style.fontSize = "25px";
-							b.innerHTML = "Deceased of " + domain;
-						domaindiv.append(b);
-
-						const table = document.createElement("table");
-							table.border = "1";
-							table.rules = "cols";
-							table.cellspacing = "0";
-							table.cellpadding = "3";
-							table.id = DeceasedId;
-						domaindiv.append(table);
-						domaindiv.append(document.createElement("br"));
-
-						const row = table.insertRow(-1);
-							row.style.backgroundColor  = "black";
-							let cell = document.createElement("th");
-								cell.scope = "col";
-								cell.innerHTML = "<b>Name(s)</b>";
-						row.appendChild(cell);
-
-						AddEditionHeader(DeceasedId);
-					}
 					const row = document.getElementById(DeceasedId).insertRow(-1);
 					row.insertCell(-1).innerHTML = character.Name;
 					AddEditionsToTable(row, character.Editions);
 					colorCode(DeceasedId);
 				} else {
-					const row = document.getElementById(domain).insertRow(-1);
+					const row = document.getElementById(DomainID).insertRow(-1);
 					row.insertCell(-1).innerHTML = character.Name;
 					AddEditionsToTable(row, character.Editions);
-					colorCode(domain);
+					colorCode(DomainID);
 				}
 			}
 

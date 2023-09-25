@@ -1,5 +1,33 @@
 [
   {
+    "Domains": "",
+    "Types": "",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Location/Dharlaeth Asylum'>Dharlaeth Asylum</a>"
+  },
+  {
+    "Domains": "<a href='/Domain/Darkon'>Darkon</a>",
+    "Types": "Settlement",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Location/Nartok'>Nartok</a>"
+  },
+  {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "",
     "Editions": [

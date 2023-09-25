@@ -1,5 +1,103 @@
 [
   {
+    "Domains": "<a href='/Domain/Bluetspur'>Bluetspur</a>",
+    "Types": "",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/Clarke'>Clarke</a>"
+  },
+  {
+    "Domains": "",
+    "Types": "",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/Doctor Augustus'>Doctor Augustus</a>"
+  },
+  {
+    "Domains": "<a href='/Domain/Bluetspur'>Bluetspur</a>",
+    "Types": "<a href='/Group/Darklord'>Darklord</a>",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/God-Brain'>God-Brain</a>"
+  },
+  {
+    "Domains": "<a href='/Domain/Bluetspur'>Bluetspur</a>,<a href='/Domain/Darkon'>Darkon</a>",
+    "Types": "",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/Howard Ashton'>Howard Ashton</a>"
+  },
+  {
+    "Domains": "",
+    "Types": "",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/Nurse Roberts'>Nurse Roberts</a>"
+  },
+  {
+    "Domains": "<a href='/Domain/Bluetspur'>Bluetspur</a>",
+    "Types": "Deceased",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/Phillips'>Phillips</a>"
+  },
+  {
+    "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
+    "Types": "",
+    "Editions": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    "Name": "<a href='/Character/Baba Lysaga'>Baba Lysaga</a>"
+  },
+  {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
     "Types": "Deceased",
     "Editions": [
@@ -85,7 +183,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "Deceased,<a href='/Group/Barovian Wine Distillers Brotherhood'>Barovian Wine Distillers Brotherhood</a>",
+    "Types": "<a href='/Group/Barovian Wine Distillers Brotherhood'>Barovian Wine Distillers Brotherhood</a>,Deceased",
     "Editions": [
       true,
       false,

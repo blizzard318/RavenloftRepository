@@ -119,7 +119,6 @@ function sortDate (tableName, n) {
   colorCode(tableName);
 }
 
-
 var EditionData;
 var Editions;
 

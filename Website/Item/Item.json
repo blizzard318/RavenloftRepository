@@ -1,7 +1,7 @@
 [
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "",
+    "Groups": "",
     "Editions": [
       true,
       false,
@@ -15,7 +15,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "",
+    "Groups": "",
     "Editions": [
       true,
       false,
@@ -29,7 +29,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "",
+    "Groups": "",
     "Editions": [
       true,
       false,
@@ -43,7 +43,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "<a href='/Group/Vistani'>Vistani</a>",
+    "Groups": "<a href='/Group/Vistani'>Vistani</a>",
     "Editions": [
       true,
       false,
@@ -57,7 +57,7 @@
   },
   {
     "Domains": "<a href='/Domain/Barovia'>Barovia</a>",
-    "Types": "",
+    "Groups": "",
     "Editions": [
       true,
       false,
