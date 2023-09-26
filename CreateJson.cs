@@ -1,5 +1,4 @@
-﻿using Humanizer.Localisation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -56,7 +55,7 @@ internal static class CreateJson
         {
             var Clusters = new List<string>();
             var Darklords = new List<string>();
-            var DifferentNamesOfSameDomain = new List<string>();
+            var DifferentNamesOfSameDomain = new HashSet<string>();
             var SameDomainButDifferentNames = Domains.Where(d => d.OriginalName == domain.OriginalName).ToArray();
             foreach (var SameDomain in SameDomainButDifferentNames) //Get all variant domains of the original domain
             {
@@ -107,7 +106,7 @@ internal static class CreateJson
         {
             var Types = new HashSet<string>();
             var TotalDomains = new List<string>();
-            var DifferentNamesOfSameLocation = new List<string>();
+            var DifferentNamesOfSameLocation = new HashSet<string>();
             var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
             foreach (var SameLocation in SameLocationButDifferentNames) //Get all variant domains of the original domain
             {
@@ -172,7 +171,7 @@ internal static class CreateJson
         {
             var Groups = new HashSet<string>();
             var TotalDomains = new List<string>();
-            var DifferentNamesOfSameItem = new List<string>();
+            var DifferentNamesOfSameItem = new HashSet<string>();
             var SameItemButDifferentNames = Items.Where(d => d.OriginalName == item.Name).ToArray();
             foreach (var SameItem in SameItemButDifferentNames) //Get all domains
             {
@@ -263,6 +262,32 @@ internal static class CreateJson
         }
         SaveDataJson("Group", groups);
     }
+    public static void CreateCreatures()
+    {
+        var Creatures = Factory.db.Traits.Include(t => t.Domains).Where(t => t.Type.Contains(nameof(Traits.Creature))).ToHashSet();
+        var creatures = new List<JsonCreature>();
+
+        foreach (var creature in Creatures)
+        {
+            var TotalDomains = new List<string>();
+            var TotalNamesOfSameDomain = string.Empty;
+            var DifferentNamesOfSameDomain = new HashSet<string>();
+            foreach (var domain in creature.Domains)
+            {
+                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
+                foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+            }
+            TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
+
+            creatures.Add(new JsonCreature()
+            {
+                Name = AddLink(nameof(Traits.Creature), creature.Key),
+                Domains = string.Join(',', TotalDomains)
+            });
+        }
+        SaveDataJson(nameof(Traits.Creature), creatures);
+    }
     public static void CreateCharacters()
     {
         var Characters = Factory.db.NPCs
@@ -273,7 +298,7 @@ internal static class CreateJson
             if (character.Traits.Contains(Traits.NoLink)) continue;
             var Types = new HashSet<string>();
             var TotalDomains = new List<string>();
-            var DifferentNamesOfSameCharacter = new List<string>();
+            var DifferentNamesOfSameCharacter = new HashSet<string>();
             var SameCharacterButDifferentNames = Characters.Where(d => d.OriginalName == character.Name).ToArray();
             foreach (var SameCharacter in SameCharacterButDifferentNames) //Get all domains
             {

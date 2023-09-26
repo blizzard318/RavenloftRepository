@@ -15,6 +15,7 @@ CreateJson.CreateLocations();
 CreateJson.CreateCharacters();
 CreateJson.CreateLanguages();
 CreateJson.CreateGroups();
+CreateJson.CreateCreatures();
 return;
 
 /*var Sources = db.Sources.Include(s => s.Traits).ToArray();

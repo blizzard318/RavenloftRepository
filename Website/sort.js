@@ -9,8 +9,8 @@ function colorCode(tableName) {
 }
 
 function sortDate (tableName, n) {
-	function convertDate(d) {
-	  const p = d.split("/");
+	function convertDate(row) {
+	  const p = row.getElementsByTagName("td")[n].innerText.split("/");
 	  return +(p[2]+p[1]+p[0]);
 	}
   let shouldSwitch, switching, switchcount = 0, dir = "asc";
@@ -27,8 +27,8 @@ function sortDate (tableName, n) {
       shouldSwitch = false;
       /* Get the two elements you want to compare,
       one from current row and one from the next: */
-      const x = convertDate(rows[i].getElementsByTagName("TD")[n]);
-      const y = convertDate(rows[i + 1].getElementsByTagName("TD")[n]);
+      const x = convertDate(rows[i    ]);
+      const y = convertDate(rows[i + 1]);
       /* Check if the two rows should switch place,
       based on the direction, asc or desc: */
       if (dir == "asc") {
@@ -65,7 +65,7 @@ function sortDate (tableName, n) {
   colorCode(tableName);
 }
 
-function sortDate (tableName, n) {
+function sortTable (tableName, n) {
   // Set the sorting direction to ascending:
   let shouldSwitch, switching, switchcount = 0, dir = "asc";
   const rows = document.getElementById(tableName).rows;

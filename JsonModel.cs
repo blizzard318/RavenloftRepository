@@ -13,7 +13,6 @@ internal class JsonGroup : JsonObject
 internal class JsonCreature: JsonObject
 {
     public string Domains { get; set; }
-    public string Groups { get; set; } //Groups they belong/associated with
 }
 internal class JsonSource : JsonObject
 {

@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Items</title>
+	<title>Characters</title>
 	<meta name="theme-color" content="black">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Ravenloft Repository">
@@ -30,39 +30,40 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('domain')" value = "By Domain"> |
-		<input type="button" onclick="SwapDisplay('group')" value = "By Group">
+		<input type="button" onclick="SwapDisplay('domain')" value="Creatures per Domain"> | 
+		<input type="button" onclick="SwapDisplay('creature')" value = "Domains per creature">
 	</h2>
 	<br/>
-	
+
 	<div id="domain" style="display:block">
 	</div>
-
-	<div id="group" style="display:none">
+	
+	<div id="creature" style="display:none">
 	</div>
 	
 	<script>
 	function SwapDisplay(name) {
-		if (name == 'domain'){
+		if (name == "domain") {
 			document.getElementById("domain").style.display = "block";
-			document.getElementById("group").style.display = "none";
-		} else if (name == 'group'){
+			document.getElementById("creature").style.display = "none";
+		} else if (name == 'creature'){
 			document.getElementById("domain").style.display = "none";
-			document.getElementById("group").style.display = "block";
+			document.getElementById("creature").style.display = "block";
 		}
 	}
 	
 	async function func(){
-		const ItemsData = await fetch("Item.json");
-		const Items = await ItemsData.json();
-		for (const item of Items) {
-			const Domains = item.Domains.split(',');
+		const CreaturesData = await fetch("Creature.json");
+		const Creatures = await CreaturesData.json();
+
+		for (const creature of Creatures) {
+			const Domains = creature.Domains.split(',');
 			for (const domain of Domains) {
 				if (!document.getElementById(domain)) {
 					const domaindiv = document.getElementById("domain");
 					const b = document.createElement("b");
 						b.style.fontSize = "25px";
-						b.innerHTML = "Items of " + domain;
+						b.innerHTML = "Creatures of " + domain;
 					domaindiv.append(b);
 
 					const table = document.createElement("table");
@@ -74,62 +75,44 @@
 					domaindiv.append(table);
 					domaindiv.append(document.createElement("br"));
 
-					let drow = table.insertRow(-1);
-						drow.style.backgroundColor  = "black";
+					const row = table.insertRow(-1);
+						row.style.backgroundColor  = "black";
 						let cell = document.createElement("th");
 							cell.scope = "col";
 							cell.innerHTML = "<b>Name(s)</b>";
-					drow.appendChild(cell);
-
-					AddEditionHeader(domain);
+					row.appendChild(cell);
 				}
-				let drow = document.getElementById(domain).insertRow(-1);
-				drow.insertCell(-1).innerHTML = item.Name;
-
-				AddEditionsToTable(drow, item.Editions);
+				const row = document.getElementById(domain).insertRow(-1);
+				row.insertCell(-1).innerHTML = creature.Name;
 				colorCode(domain);
 			}
-
-			const Groups = item.Types.split(',');
-			for (const group of Groups) {
-				if (!group) continue;
-				if (!document.getElementById(group)) {
-					const groupdiv = document.getElementById("group");
+			
+			if (!document.getElementById(creature.Name)) {
+					const domaindiv = document.getElementById("creature");
 					const b = document.createElement("b");
 						b.style.fontSize = "25px";
-						b.innerHTML = "Items of " + group;
-					groupdiv.append(b);
+						b.innerHTML = "Domains of " + creature.Name;
+					domaindiv.append(b);
 
 					const table = document.createElement("table");
 						table.border = "1";
 						table.rules = "cols";
 						table.cellspacing = "0";
 						table.cellpadding = "3";
-						table.id = group;
-					groupdiv.append(table);
-					groupdiv.append(document.createElement("br"));
+						table.id = creature.Name;
+					domaindiv.append(table);
+					domaindiv.append(document.createElement("br"));
 
-					let drow = table.insertRow(-1);
-						drow.style.backgroundColor  = "black";
+					const row = table.insertRow(-1);
+						row.style.backgroundColor  = "black";
 						let cell = document.createElement("th");
 							cell.scope = "col";
 							cell.innerHTML = "<b>Name(s)</b>";
-					drow.appendChild(cell);
-					
-						cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Domain(s)</b>";
-						drow.appendChild(cell);
-
-					AddEditionHeader(group);
-				}
-				let drow = document.getElementById(group).insertRow(-1);
-				drow.insertCell(-1).innerHTML = item.Name;
-				drow.insertCell(-1).innerHTML = item.Domains;
-
-				AddEditionsToTable(drow, item.Editions);
-				colorCode(group);
+					row.appendChild(cell);
 			}
+			for (const domain of Domains)
+				document.getElementById(creature.Name).insertRow(-1).insertCell(-1).innerHTML = domain;
+			colorCode(creature.Name);
 		}
 	}
 	func();
