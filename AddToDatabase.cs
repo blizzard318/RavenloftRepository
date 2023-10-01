@@ -125,7 +125,7 @@ internal static class AddToDatabase
                     Traits.Creature.IronGolem
                 );
 
-            ctx.CreateNPC("Anna Petrovna", "28").AddDomains(Barovia);
+            ctx.CreateNPC("Anna Petrovna", "28");
             ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Race.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
             ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BarovianChurch);
 
@@ -204,7 +204,8 @@ internal static class AddToDatabase
         void AddCommanderLegendsBattleforBaldursGate()
         {
             var releaseDate = "10/06/2022";
-            string ExtraInfo = "<br/>&emsp;A Magic the Gathering Deck";
+            string ExtraInfo = "<br/>&emsp;Illustrator: Slawomir Maniak";
+            ExtraInfo += "<br/>&emsp;A Magic the Gathering Deck";
             using var ctx = Factory.CreateSource("Commander Legends: Battle for Baldur's Gate", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
             if (ctx == null) return;
 

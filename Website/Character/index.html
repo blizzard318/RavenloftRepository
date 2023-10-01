@@ -30,12 +30,12 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('domain')" value="By Domain"> | 
-		<input type="button" onclick="SwapDisplay('group')" value = "By Group">
+		<input type="button" onclick="OpenPage('bigdomain')" value="By Domain"> | 
+		<input type="button" onclick="OpenPage('group')" value = "By Group">
 	</h2>
 	<br/>
 
-	<div id="bigdomain" style="display:block">
+	<div class="page" id="bigdomain" style="display:block">
 		<div id="domain">
 		</div>
 		<b style="font-size:25px">Characters whose domain is unknown</b>
@@ -56,20 +56,10 @@
 		<br/>
 	</div>
 	
-	<div id="group" style="display:none">
+	<div class="page" id="group" style="display:none">
 	</div>
 	
 	<script>
-	function SwapDisplay(name) {
-		if (name == "domain") {
-			document.getElementById("bigdomain").style.display = "block";
-			document.getElementById("group").style.display = "none";
-		} else if (name == 'group'){
-			document.getElementById("bigdomain").style.display = "none";
-			document.getElementById("group").style.display = "block";
-		}
-	}
-	
 	async function func(){
 		const CharactersData = await fetch("Character.json");
 		const Characters = await CharactersData.json();

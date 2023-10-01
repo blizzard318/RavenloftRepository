@@ -30,28 +30,18 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('domain')" value="Creatures per Domain"> | 
-		<input type="button" onclick="SwapDisplay('creature')" value = "Domains per creature">
+		<input type="button" onclick="OpenPage('domain')" value="Creatures per Domain"> | 
+		<input type="button" onclick="OpenPage('creature')" value = "Domains per creature">
 	</h2>
 	<br/>
 
-	<div id="domain" style="display:block">
+	<div class="page" id="domain" style="display:block">
 	</div>
 	
-	<div id="creature" style="display:none">
+	<div class="page" id="creature" style="display:none">
 	</div>
 	
 	<script>
-	function SwapDisplay(name) {
-		if (name == "domain") {
-			document.getElementById("domain").style.display = "block";
-			document.getElementById("creature").style.display = "none";
-		} else if (name == 'creature'){
-			document.getElementById("domain").style.display = "none";
-			document.getElementById("creature").style.display = "block";
-		}
-	}
-	
 	async function func(){
 		const CreaturesData = await fetch("Creature.json");
 		const Creatures = await CreaturesData.json();

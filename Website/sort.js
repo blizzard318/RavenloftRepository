@@ -119,6 +119,12 @@ function sortTable (tableName, n) {
   colorCode(tableName);
 }
 
+function OpenPage (pageName) {
+  var pages = document.getElementsByClassName("page");
+  for (page of pages) page.style.display = "none";
+  document.getElementById(pageName).style.display = "block";
+}
+
 var EditionData;
 var Editions;
 

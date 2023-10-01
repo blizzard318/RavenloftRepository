@@ -30,28 +30,18 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('language')" value="Domains per Language"> | 
-		<input type="button" onclick="SwapDisplay('domain')" value = "Languages per Domain">
+		<input type="button" onclick="OpenPage('language')" value="Domains per Language"> | 
+		<input type="button" onclick="OpenPage('domain')" value = "Languages per Domain">
 	</h2>
 	<br/>
 
-	<div id="language" style="display:block">
+	<div class="page" id="language" style="display:block">
 	</div>
 	
-	<div id="domain" style="display:none">
+	<div class="page" id="domain" style="display:none">
 	</div>
 	
 	<script>
-	function SwapDisplay(name) {
-		if (name == "language") {
-			document.getElementById("language").style.display = "block";
-			document.getElementById("domain").style.display = "none";
-		} else if (name == 'domain'){
-			document.getElementById("language").style.display = "none";
-			document.getElementById("domain").style.display = "block";
-		}
-	}
-	
 	async function func(){
 		const LanguagesData = await fetch("Language.json");
 		const Languages = await LanguagesData.json();

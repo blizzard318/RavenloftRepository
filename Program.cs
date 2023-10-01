@@ -7,7 +7,7 @@ using System.Text.Unicode;*/
 AddToDatabase.Add();
 //var db = Factory.db;
 
-CreateJson.CreateEditions();
+/*CreateJson.CreateEditions();
 CreateJson.CreateSources();
 CreateJson.CreateDomains();
 CreateJson.CreateItems();
@@ -15,7 +15,11 @@ CreateJson.CreateLocations();
 CreateJson.CreateCharacters();
 CreateJson.CreateLanguages();
 CreateJson.CreateGroups();
-CreateJson.CreateCreatures();
+CreateJson.CreateCreatures();*/
+
+CreateHTML.CreateHomepage();
+CreateHTML.CreateSourcePage();
+
 return;
 
 /*var Sources = db.Sources.Include(s => s.Traits).ToArray();

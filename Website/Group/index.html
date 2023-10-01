@@ -30,28 +30,18 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('domain')" value="Groups per Domain"> | 
-		<input type="button" onclick="SwapDisplay('group')" value = "Domains per Group">
+		<input type="button" onclick="OpenPage('domain')" value="Groups per Domain"> | 
+		<input type="button" onclick="OpenPage('group')" value = "Domains per Group">
 	</h2>
 	Group is probably the wrong word. This page also contains statuses, such as <a href="/Group/Raunie">Raunies</a> and <a href="/Group/Darklord">Darklords</a>.
 	<br/>
-	<div id="domain" style="display:block">
+	<div class="page" id="domain" style="display:block">
 	</div>
 	
-	<div id="group" style="display:none">
+	<div class="page" id="group" style="display:none">
 	</div>
 	
 	<script>
-	function SwapDisplay(name) {
-		if (name == "domain") {
-			document.getElementById("domain").style.display = "block";
-			document.getElementById("group").style.display = "none";
-		} else if (name == 'group'){
-			document.getElementById("domain").style.display = "none";
-			document.getElementById("group").style.display = "block";
-		}
-	}
-	
 	async function func(){
 		const GroupsData = await fetch("Group.json");
 		const Groups = await GroupsData.json();

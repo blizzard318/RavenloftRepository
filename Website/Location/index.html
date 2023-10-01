@@ -9,7 +9,7 @@
     <meta name="description" content="Ravenloft Repository">
 	<link rel="stylesheet" href="../styles.css">
 	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js" charset="utf-8"></script>
+	<script src="../sort.js"></script>
 </head>
 
 <body>
@@ -30,13 +30,13 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('all')" value="All Locations"> | 
-		<input type="button" onclick="SwapDisplay('lair')" value = "Darklord Lairs"> |
-		<input type="button" onclick="SwapDisplay('settlement')" value = "Settlements"> |
-		<input type="button" onclick="SwapDisplay('mistway')" value = "Mistways">
+		<input type="button" onclick="OpenPage('bigall')" value="All Locations"> | 
+		<input type="button" onclick="OpenPage('lair')" value = "Darklord Lairs"> |
+		<input type="button" onclick="OpenPage('settlement')" value = "Settlements"> |
+		<input type="button" onclick="OpenPage('mistway')" value = "Mistways">
 	</h2><br/>
 
-	<div id="bigall" style="display:block">
+	<div class="page" id="bigall" style="display:block">
 		<div id="all"></div>
 		<b style="font-size:25px">Locations whose domain is unknown</b>
 		<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="UnknownTable">
@@ -48,7 +48,7 @@
 		<br/>
 	</div>
 	
-	<div id="lair" style="display:none">
+	<div class="page" id="lair" style="display:none">
 	<b style="font-size:25px">List of Darklord Lairs</b>
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="LairTable">
 		<tr style="background-color:Black">
@@ -65,12 +65,12 @@
 	</table>
 	</div>
 
-	<div id="settlement" style="display:none">
+	<div class="page" id="settlement" style="display:none">
 		Settlements are generally places like towns, villages and cities where player characters can buy/sell/trade and rest up.
 		<br/><br/>
 	</div>
 
-	<div id="mistway" style="display:none">
+	<div class="page" id="mistway" style="display:none">
 	<b style="font-size:25px">List of Mistways</b>
 	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MistTable">
 		<tr style="background-color:Black">
@@ -88,30 +88,6 @@
 	</div>
 	
 	<script>
-	function SwapDisplay(name) {
-		if (name == "all") {
-			document.getElementById("bigall").style.display = "block";
-			document.getElementById("lair").style.display = "none";
-			document.getElementById("settlement").style.display = "none";
-			document.getElementById("mistway").style.display = "none";
-		} else if (name == 'lair'){
-			document.getElementById("bigall").style.display = "none";
-			document.getElementById("lair").style.display = "block";
-			document.getElementById("settlement").style.display = "none";
-			document.getElementById("mistway").style.display = "none";
-		} else if (name == 'settlement'){
-			document.getElementById("bigall").style.display = "none";
-			document.getElementById("lair").style.display = "none";
-			document.getElementById("settlement").style.display = "block";
-			document.getElementById("mistway").style.display = "none";
-		} else if (name == 'mistway'){
-			document.getElementById("bigall").style.display = "none";
-			document.getElementById("lair").style.display = "none";
-			document.getElementById("settlement").style.display = "none";
-			document.getElementById("mistway").style.display = "block";
-		}
-	}
-	
 	async function func(){
 		const LairTable = document.getElementById("LairTable");
 		const MistTable = document.getElementById("MistTable");

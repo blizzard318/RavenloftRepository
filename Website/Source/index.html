@@ -1,133 +1,156 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>Sources</title>
-	<meta name="theme-color" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ravenloft Repository">
-	<link rel="stylesheet" href="../styles.css">
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js"></script>
+<meta charset='utf-8'>
+<title>Ravenloft</title>
+<meta name='theme-color' content='black'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ravenloft Repository'>
+<link rel='stylesheet' href='../styles.css'>
+<link rel='shortcut icon' href='../favicon.ico'>
+<script src='../sort.js'></script>
 </head>
-
 <body>
-	<h1>Ravenloft Catalogue</h1><hr/>
-	<h2>
-		<a href=".."		 >Official</a> |
-		<a href="../3rdParty">3rd Party</a>
-	</h2><hr />
-	<h2>
-		<a href="../Source"	  >Sources</a> | 
-		<a href="../Domain"	  >Domains</a> | 
-		<a href="../Location" >Locations</a> | 
-		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items</a><br/>
-		<a href="../Creature" >Creatures</a> | 
-		<a href="../Group" 	  >Groups</a> | 
-		<a href="../Language" >Languages</a>
-	</h2><hr />
-	
-	<b style="font-size:25px">List of Medias</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
-		<tr style="background-color:Black">
-			<th scope="col">
-				<b>Name</b>
-			</th>
-			<th scope="col" onclick="sortTable('MainTable',1)" style="cursor:pointer">
-				<b>Edition</b>
-			</th>
-			<th scope="col" onclick="sortTable('MainTable',2)" style="cursor:pointer">
-				<b>Media Type</b>
-			</th>
-			<th scope="col" onclick="sortDate('MainTable',3)" style="cursor:pointer">
-				<b>Release Date</b>
-			</th>
-		</tr>
-	</table>
-	<br/>
-	<b style="font-size:25px">Editions Breakdown</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="EditionTable">
-		<tr style="background-color:Black">
-			<th scope="col">
-				<b>Edition</b>
-			</th>
-			<th scope="col">
-				<b>Source Materials</b>
-			</th>
-		</tr>
-	</table>
-	<br/>
-	<b style="font-size:25px">Media Breakdown </b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MediaTable">
-		<tr style="background-color:Black">
-			<th scope="col">
-				<b>Type</b>
-			</th>
-			<th scope="col">
-				<b>Source Materials</b>
-			</th>
-		</tr>
-	</table>
-	
-	<script>
-	async function func(){
-		const SourcesData = await fetch("Source.json");
-		const Sources = await SourcesData.json();
-		
-		const EditionArr = {};
-		const MediaArr = {};
-		
-		const MainTable = document.getElementById("MainTable");
-		for (const source of Sources) {
-			const row = MainTable.insertRow(-1);
-			
-			let cell = row.insertCell(-1);
-			cell.innerHTML = source.Name;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = source.Edition;
-			EditionArr[source.Edition] ??= 0;
-			EditionArr[source.Edition]++;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = source.MediaType;
-			MediaArr[source.MediaType] ??= 0;
-			MediaArr[source.MediaType]++;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = source.ReleaseDate;
-		}
-		sortDate('MainTable',3);
-		
-		const EditionData = await fetch("../Edition.csv"); //Retain the order of the editions.
-		const Editions = (await EditionData.text()).split(',');
-		const EditionTable = document.getElementById("EditionTable");
-		for (const edition of Editions) {
-			const row = EditionTable.insertRow(-1);
-			
-			let cell = row.insertCell(-1);
-			cell.innerHTML = edition;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = EditionArr[edition] ?? 0;
-		}
-		sortDate('EditionTable',0);
-		
-		const MediaTable = document.getElementById("MediaTable");
-		for (const media of Object.keys(MediaArr)) {
-			const row = MediaTable.insertRow(-1);
-			
-			let cell = row.insertCell(-1);
-			cell.innerHTML = media;
-			
-			cell = row.insertCell(-1);
-			cell.innerHTML = MediaArr[media] ?? 0;
-		}
-		sortDate('MediaTable',0);
-	}
-	func();
-	</script>
+<h1>Ravenloft Catalogue</h1><hr/>
+<h2>
+<a href='../'>Official</a> | 
+<a href='../3rdParty'>3rd Party</a>
+</h2><hr />
+<h2>
+<a href='../Source'>Sources</a> | 
+<a href='../Domain'>Domains</a> | 
+<a href='../Location'>Locations</a> | 
+<a href='../Character'>Characters</a> | 
+<a href='../Item'>Items</a><br/>
+<a href='../Creature'>Creatures</a> | 
+<a href='../Group'>Groups</a> | 
+<a href='../Language'>Languages</a>
+</h2><hr />
+<b style='font-size:25px'>List of Media</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='List of Media'>
+<tr style='background-color:Black'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('List of Media',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortTable('List of Media',2)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('List of Media',3)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+<tr>
+<td><a href="/Source/Before I Wake">Before I Wake</a></td>
+<td>Editionless</td>
+<td>31/10/2007</td>
+<td>Novel</td>
+</tr>
+<tr>
+<td><a href="/Source/Commander Legends: Battle for Baldur's Gate">Commander Legends: Battle for Baldur's Gate</a></td>
+<td>Editionless</td>
+<td>10/06/2022</td>
+<td>Board Game</td>
+</tr>
+<tr>
+<td><a href="/Source/I6: Ravenloft">I6: Ravenloft</a></td>
+<td>1st Ed</td>
+<td>01/11/1983</td>
+<td>Module</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Editions Breakdown</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Editions Breakdown'>
+<tr style='background-color:Black'>
+<th scope='col'>
+<b>Edition</b>
+</th>
+<th scope='col'>
+<b>Source Materials</b>
+</th>
+</tr>
+<tr>
+<td>1st Ed</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2nd Ed</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3rd Ed</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3.5th Ed</td>
+<td>0</td>
+</tr>
+<tr>
+<td>4th Ed</td>
+<td>0</td>
+</tr>
+<tr>
+<td>5th Ed</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Editionless</td>
+<td>2</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Media Breakdown</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Media Breakdown'>
+<tr style='background-color:Black'>
+<th scope='col'>
+<b>Type</b>
+</th>
+<th scope='col'>
+<b>Source Materials</b>
+</th>
+</tr>
+<tr>
+<td>Sourcebook</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Module</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Magazine</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Novel</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Gamebook</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Audiobook</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Video Game</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Comic</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Board Game</td>
+<td>1</td>
+</tr>
+</table><br/>
+<script>
+sortDate('List of Media',3);
+sortDate('Editions Breakdown',0);
+sortDate('Media Breakdown',0);
+</script>
 </body>
 </html>

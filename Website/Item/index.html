@@ -30,28 +30,18 @@
 	</h2><hr />
 	
 	<h2>
-		<input type="button" onclick="SwapDisplay('domain')" value = "By Domain"> |
-		<input type="button" onclick="SwapDisplay('group')" value = "By Group">
+		<input type="button" onclick="OpenPage('domain')" value = "By Domain"> |
+		<input type="button" onclick="OpenPage('group')" value = "By Group">
 	</h2>
 	<br/>
 	
-	<div id="domain" style="display:block">
+	<div class="page" id="domain" style="display:block">
 	</div>
 
-	<div id="group" style="display:none">
+	<div class="page" id="group" style="display:none">
 	</div>
 	
 	<script>
-	function SwapDisplay(name) {
-		if (name == 'domain'){
-			document.getElementById("domain").style.display = "block";
-			document.getElementById("group").style.display = "none";
-		} else if (name == 'group'){
-			document.getElementById("domain").style.display = "none";
-			document.getElementById("group").style.display = "block";
-		}
-	}
-	
 	async function func(){
 		const ItemsData = await fetch("Item.json");
 		const Items = await ItemsData.json();
