@@ -125,7 +125,7 @@ internal static class AddToDatabase
                     Traits.Creature.IronGolem
                 );
 
-            ctx.CreateNPC("Anna Petrovna", "28");
+            ctx.CreateNPC("Anna Petrovna", "28").AddDomains(Factory.OutsideRavenloft);
             ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Race.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
             ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BarovianChurch);
 

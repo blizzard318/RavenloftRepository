@@ -1,8 +1,12 @@
-﻿using static Relationship;
+﻿using System.Xml.Linq;
+using static Relationship;
 
 internal class Factory : IDisposable
 {
     public readonly static RavenloftContext db = new RavenloftContext();
+
+    public static readonly Domain OutsideRavenloft;
+    public static readonly Domain InsideRavenloft;
 
     private readonly Source Source;
     private readonly List<Domain> domains = new(); //For trait distribution
@@ -32,6 +36,26 @@ internal class Factory : IDisposable
         }
     }
 
+    static Factory()
+    {
+        (OutsideRavenloft = db.Domains.Find("Outside Ravenloft") ??
+            db.Domains.Add(new Domain()
+        {
+            Key = "Outside Ravenloft",
+            Name = "Outside Ravenloft",
+            OriginalName = "Outside Ravenloft",
+            ExtraInfo = "Related to but outside Ravenloft.",
+        }).Entity).Traits.Add(Traits.NoLink);
+
+        (InsideRavenloft = db.Domains.Find("Inside Ravenloft") ??
+            db.Domains.Add(new Domain()
+        {
+            Key = "Inside Ravenloft",
+            Name = "Inside Ravenloft",
+            OriginalName = "Inside Ravenloft",
+            ExtraInfo = "Within Ravenloft but unsure which domain."
+        }).Entity).Traits.Add(Traits.NoLink);
+    }
     public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
         => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
     private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
