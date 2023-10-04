@@ -11,6 +11,10 @@
 <script src='../sort.js'></script>
 </head>
 <body>
+<span style="float:right;display:inline-block;height:0px">
+<label for="darkmode">Dark Mode</label>
+<input type="checkbox" id="darkmode">
+</span>
 <h1>Ravenloft Catalogue</h1><hr/>
 <h2>
 <a href='../'>Official</a> | 
@@ -28,7 +32,7 @@
 </h2><hr />
 <b style='font-size:25px'>List of Media</b>
 <table cellspacing='0' cellpadding='3' rules='cols' border='1' id='List of Media'>
-<tr style='background-color:Black'>
+<tr style='background-color:var(--header)'>
 <th scope='col'>
 <b>Name</b>
 </th>
@@ -63,7 +67,7 @@
 </table><br/>
 <b style='font-size:25px'>Editions Breakdown</b>
 <table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Editions Breakdown'>
-<tr style='background-color:Black'>
+<tr style='background-color:var(--header)'>
 <th scope='col'>
 <b>Edition</b>
 </th>
@@ -102,7 +106,7 @@
 </table><br/>
 <b style='font-size:25px'>Media Breakdown</b>
 <table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Media Breakdown'>
-<tr style='background-color:Black'>
+<tr style='background-color:var(--header)'>
 <th scope='col'>
 <b>Type</b>
 </th>
@@ -148,6 +152,7 @@
 </tr>
 </table><br/>
 <script>
+    init();
 sortDate('List of Media',3);
 sortDate('Editions Breakdown',0);
 sortDate('Media Breakdown',0);

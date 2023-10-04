@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 internal static class CreateHTML
@@ -22,7 +24,7 @@ internal static class CreateHTML
             public HeaderRow(Table table)
             {
                 TableID = table.TableID;
-                sb.AppendLine("<tr style='background-color:Black'>");
+                sb.AppendLine("<tr style='background-color:var(--header)'>");
             }
             public void CreateHeader (string title)
             {
@@ -81,10 +83,16 @@ internal static class CreateHTML
             sb.AppendLine("<meta name='description' content='Ravenloft Repository'>");
             sb.Append("<link rel='stylesheet' href='").Append(db).AppendLine("styles.css'>");
             sb.Append("<link rel='shortcut icon' href='").Append(db).AppendLine("favicon.ico'>");
-            sb.Append("<script src='").Append(db).AppendLine("sort.js'></script>");
+            sb.Append("<script src='").Append(db).AppendLine("init.js' defer></script>");
+            sb.Append("<script src='").Append(db).AppendLine("sort.js' defer></script>");
         sb.AppendLine("</head>");
 
         sb.AppendLine("<body>");
+
+        sb.AppendLine("<span style='float:right;display:inline-block;height:0px'>");
+            sb.AppendLine("<label for='darkmode'>Dark Mode</label>");
+            sb.AppendLine("<input type='checkbox' id='darkmode'>");
+        sb.AppendLine("</span>");
 
         sb.AppendLine("<h1>Ravenloft Catalogue</h1><hr/>");
 

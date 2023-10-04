@@ -2,8 +2,8 @@ function colorCode(tableName) {
   let flipflop = true;
   const rows = document.getElementById(tableName).rows;
   for (var i = 1; i < rows.length; i++) {
-	if (rows[i].style.display == "none") continue;
-    rows[i].style.background = flipflop ? "#323232" : "#626262";
+      if (rows[i].style.display == "none") continue;
+      rows[i].style.background = flipflop ? "var(--row1)" : "var(--row2)";
 	flipflop = !flipflop;
   }
 }
@@ -125,6 +125,7 @@ function OpenPage (pageName) {
   document.getElementById(pageName).style.display = "block";
 }
 
+//GET RID OF THIS
 var EditionData;
 var Editions;
 
@@ -145,4 +146,21 @@ function AddEditionsToTable (row, editions) {
     const cell = row.insertCell(-1);
     if (edition > 0) cell.innerText = edition ? "X" : "";
   }
+}
+//TO THIS
+
+function init() {
+    if (!sessionStorage.getItem("darkmode") && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        sessionStorage.setItem("darkmode", true);
+
+    SetDarkMode(sessionStorage.getItem("darkmode") === 'true');
+    document.getElementById("darkmode").checked = (sessionStorage.getItem("darkmode") === 'true');
+    document.getElementById("darkmode").addEventListener('change', () => SetDarkMode(document.getElementById("darkmode").checked));
+
+    function SetDarkMode(setval) {
+        if (setval) document.querySelector('html').dataset.darkmode = true;
+        else delete document.querySelector('html').dataset.darkmode;
+
+        sessionStorage.setItem("darkmode", setval);
+    }
 }

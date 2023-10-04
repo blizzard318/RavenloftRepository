@@ -1,22 +1,27 @@
-header {
+:root {
     text-align: center;
-    display: block;
-}
-
-body {
-    background-color: #1A1A1A;
-    text-align: center;
-    margin: 0 auto;
     font-family: "Goudy Bookletter 1911",Times,serif;
-    font-size: 16px;
-    color: #EAEAEA;
     line-height: 1.5;
+    font-size: 16px;
+	--bg-color: #EAEAEA;
+	--color: #1A1A1A;
+  --header:#9D9D9D;
+  --row1:white;
+  --row2:#BBBBBB;
+	color: var(--color);
+	background-color: var(--bg-color);
+}
+[data-darkmode] {
+	--bg-color: #1A1A1A;
+	--color: #EAEAEA;
+  --header:#000000;
+  --row1:#323232;
+  --row2:#626262;
 }
 
 h1, h2, h3 {
-	margin:-3px;
+	margin:-3px auto;
 }
-
 h1 {
   font-size: 40px;
 }
@@ -28,9 +33,9 @@ h3{
 }
 
 a {
-  color: white;
+  color: var(--color);
   white-space: nowrap;
-	text-decoration: underline;
+  text-decoration: underline;
 }
 input:hover, a:hover {
   color: red;
@@ -39,9 +44,8 @@ input:active, a:active {
   color: darkred;
   text-decoration: underline overline;
 }
-
 input {
-  color: white;
+  color: var(--color);
   text-decoration: underline;
   background: transparent;
   cursor: pointer;
