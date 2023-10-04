@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -61,8 +62,13 @@ internal static class CreateHTML
     }
     private static void SaveHTML(string DirectoryName)
     {
-        var dir = Directory.CreateDirectory(DirectoryName).ToString();
-        string filepath = Path.Join(dir, "index.html");
+        sb.AppendLine("</body>").AppendLine("<script>init();</script>").AppendLine("</html>");
+        string filepath = "index.html";
+        if (!string.IsNullOrEmpty(DirectoryName))
+        {
+            var dir = Directory.CreateDirectory(DirectoryName).ToString();
+            filepath = Path.Join(dir, filepath);
+        }
         File.WriteAllText(filepath, sb.ToString());
         sb.Clear();
     }
@@ -83,8 +89,7 @@ internal static class CreateHTML
             sb.AppendLine("<meta name='description' content='Ravenloft Repository'>");
             sb.Append("<link rel='stylesheet' href='").Append(db).AppendLine("styles.css'>");
             sb.Append("<link rel='shortcut icon' href='").Append(db).AppendLine("favicon.ico'>");
-            sb.Append("<script src='").Append(db).AppendLine("init.js' defer></script>");
-            sb.Append("<script src='").Append(db).AppendLine("sort.js' defer></script>");
+            sb.Append("<script src='").Append(db).AppendLine("sort.js'></script>");
         sb.AppendLine("</head>");
 
         sb.AppendLine("<body>");
@@ -112,6 +117,26 @@ internal static class CreateHTML
             sb.Append("<a href='").Append(db).AppendLine("Language'>Languages</a>");
         sb.AppendLine("</h2><hr />");
     }
+    private class SubHeader : IDisposable
+    {
+        public SubHeader((string pageID, string buttonName)[] Pages)
+        {
+
+        }
+        public Page this[string pageID]
+        {
+            get
+            {
+                return ()
+            }
+        }
+        public void Dispose() => sb.AppendLine("</div>");
+        private class Page : IDisposable
+        {
+            public Page(string ID, bool display = false) => sb.AppendLine($"<div class='page' id='{ID}' style='{(display ? "block" : "none")}'>");
+            public void Dispose() => sb.AppendLine("</div>");
+        }
+    }
     public static void CreateHomepage()
     {
         CreateOfficialHeader("Ravenloft");
@@ -124,15 +149,17 @@ internal static class CreateHTML
         sb.AppendLine("This is not meant to replace <a href='https://www.fraternityofshadows.com/wiki/'>Mistipedia</a> or anyone else's efforts,");
         sb.AppendLine("it is definitely inspired by the <a href='https://www.fraternityofshadows.com/rldb/'>Ravenloft Catalogue</a>.<br/>");
 
-        sb.AppendLine("</body>").AppendLine("</html>");
-
-        File.WriteAllText("index.html", sb.ToString());
-        sb.Clear();
+        SaveHTML(string.Empty);
     }
+    public static void CreateLocationPage()
+    {
+        CreateOfficialHeader("Locations of Ravenloft", 1);
 
+
+    }
     public static void CreateSourcePage()
     {
-        CreateOfficialHeader("Ravenloft", 1);
+        CreateOfficialHeader("Source Materials", 1);
 
         var MaterialPerEdition = new Dictionary<string, int>(Traits.Edition.Editions.Count);
         var MaterialPerMedia = new Dictionary<string, int>(Traits.Media.Medias.Count);
@@ -193,8 +220,6 @@ internal static class CreateHTML
             sb.AppendLine($"sortDate('{EditionTableID}',0);");
             sb.AppendLine($"sortDate('{MediaTableID}',0);");
         sb.AppendLine("</script>");
-
-        sb.AppendLine("</body>").AppendLine("</html>");
 
         SaveHTML(nameof(Source));
     }
