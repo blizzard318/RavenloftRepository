@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Text;
 
 internal static class CreateHTML
@@ -119,22 +115,35 @@ internal static class CreateHTML
     }
     private class SubHeader : IDisposable
     {
-        public SubHeader((string pageID, string buttonName)[] Pages)
+        private readonly List<Page> pages = new List<Page>();
+        public Page CreatePage (string ID, string buttonValue)
         {
-
+            var retval = new Page(ID, buttonValue);
+            pages.Add(retval);
+            return retval;
         }
-        public Page this[string pageID]
+        public void Dispose()
         {
-            get
+            sb.AppendLine("<h2>");
+            foreach (var page in pages) sb.AppendLine(${ });
+            sb.Append("</h2>").AppendLine("<br/>");
+            for (int i = 0; i < pages.Count; i++)
             {
-                return ()
+                sb.AppendLine($"<div class='page' id='{pages[i].ID}' style='{(i == 0 ? "block" : "none")}'>");
+                sb.Append(pages[i].contents);
             }
         }
-        public void Dispose() => sb.AppendLine("</div>");
-        private class Page : IDisposable
+        public class Page : IDisposable
         {
-            public Page(string ID, bool display = false) => sb.AppendLine($"<div class='page' id='{ID}' style='{(display ? "block" : "none")}'>");
-            public void Dispose() => sb.AppendLine("</div>");
+            public readonly string ID;
+            public readonly string buttonValue;
+            public readonly StringBuilder contents = new StringBuilder();
+            public Page(string ID, string buttonValue)
+            {
+                this.ID = ID;
+                this.buttonValue = buttonValue;
+            }
+            public void Dispose() => contents.AppendLine("</div>");
         }
     }
     public static void CreateHomepage()
@@ -155,7 +164,10 @@ internal static class CreateHTML
     {
         CreateOfficialHeader("Locations of Ravenloft", 1);
 
-
+        using (var subheader = new SubHeader())
+        {
+            using (var )
+        }
     }
     public static void CreateSourcePage()
     {

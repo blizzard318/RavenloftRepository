@@ -153,6 +153,7 @@
         }
         public static Trait VillageOfBarovia   = CreateSettlement("Village of Barovia"  );
         public static Trait TserPoolEncampment = CreateSettlement("Tser Pool Encampment");
+        public static Trait Nartok = CreateSettlement("Nartok");
     }
 
     internal static class Mistway //Everything here has to use Location.Mistway.Key

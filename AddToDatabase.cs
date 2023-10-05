@@ -188,9 +188,8 @@ internal static class AddToDatabase
                 ctx.CreateNPC("God-Brain").AddTraits(Traits.Status.Darklord)
                 );
 
-            var Darkon = ctx.CreateDomain("Darkon").AddLocations(
-                ctx.CreateLocation("Nartok").AddTraits(Traits.Location.Settlement)
-                );
+            var Darkon = ctx.CreateDomain("Darkon").AddLocations(ctx.CreateLocation("Nartok").AddTraits(Traits.Location.Settlement));
+            ctx.CreateLocation("Mills of Nartok").AddTraits(Traits.Settlement.Nartok).AddDomains(Darkon).ExtraInfo = "For Darkonian Lumber";
 
             ctx.CreateDomain("Lamordia");
 
