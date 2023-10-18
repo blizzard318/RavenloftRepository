@@ -79,10 +79,11 @@ internal static class CreateJson
             }
 
             var Editions = new bool[Traits.Edition.Editions.Count];
-            var Sources = Factory.db.domainAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == domain.OriginalName);
+            var Sources = Factory.db.domainAppearances.Include(a => a.Source.Traits)
+                .Where(a => a.Entity.OriginalName == domain.OriginalName).Select(a => a.Source);
             foreach (var Source in Sources)
             {
-                var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
                 Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
             }
 
@@ -116,8 +117,8 @@ internal static class CreateJson
                 var DifferentNamesOfSameDomain = new HashSet<string>();
                 foreach (var domain in SameLocation.Domains)
                 {
-                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
-                    foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                    foreach (var SameDomainName in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomainName);
                     TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 }
                 TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
@@ -144,10 +145,11 @@ internal static class CreateJson
             }
 
             var Editions = new bool[Traits.Edition.Editions.Count];
-            var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == location.OriginalName);
+            var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits)
+                .Where(a => a.Entity.OriginalName == location.OriginalName).Select(a => a.Source);
             foreach (var Source in Sources)
             {
-                var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
                 Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
             }
 
@@ -181,8 +183,8 @@ internal static class CreateJson
                 var DifferentNamesOfSameDomain = new HashSet<string>();
                 foreach (var domain in SameItem.Domains)
                 {
-                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
-                    foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                    foreach (var SameDomainName in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomainName);
                     TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 }
                 TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
@@ -192,10 +194,11 @@ internal static class CreateJson
             }
 
             var Editions = new bool[Traits.Edition.Editions.Count];
-            var Sources = Factory.db.itemAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == item.OriginalName);
+            var Sources = Factory.db.itemAppearances.Include(a => a.Source.Traits)
+                .Where(a => a.Entity.OriginalName == item.OriginalName).Select(a => a.Source);
             foreach (var Source in Sources)
             {
-                var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
                 Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
             }
 
@@ -220,8 +223,9 @@ internal static class CreateJson
             var DifferentNamesOfSameDomain = new HashSet<string>();
             foreach (var domain in language.Domains)
             {
-                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
-                foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                var SameDomainButDifferentNames = Factory.db.Domains
+                    .Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                foreach (var SameDomainName in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomainName);
                 TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
             }
             TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
@@ -247,8 +251,8 @@ internal static class CreateJson
             var DifferentNamesOfSameDomain = new HashSet<string>();
             foreach (var domain in group.Domains)
             {
-                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
-                foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                foreach (var SameDomainName in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomainName);
                 TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
             }
             TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
@@ -273,8 +277,9 @@ internal static class CreateJson
             var DifferentNamesOfSameDomain = new HashSet<string>();
             foreach (var domain in creature.Domains)
             {
-                var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
-                foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                var SameDomainButDifferentNames = Factory.db.Domains
+                    .Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                foreach (var SameDomainName in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomainName);
                 TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
             }
             TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
@@ -308,8 +313,9 @@ internal static class CreateJson
                 var DifferentNamesOfSameDomain = new HashSet<string>();
                 foreach (var domain in SameCharacter.Domains)
                 {
-                    var SameDomainButDifferentNames = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName);
-                    foreach (var SameDomain in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+                    var SameDomainButDifferentNames = Factory.db.Domains
+                        .Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                    foreach (var SameDomainName in SameDomainButDifferentNames) DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomainName);
                     TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 }
                 TotalDomains.Add(string.Join(",", DifferentNamesOfSameDomain));
@@ -323,10 +329,11 @@ internal static class CreateJson
             }
 
             var Editions = new bool[Traits.Edition.Editions.Count];
-            var Sources = Factory.db.npcAppearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == character.OriginalName);
+            var Sources = Factory.db.npcAppearances.Include(a => a.Source.Traits)
+                .Where(a => a.Entity.OriginalName == character.OriginalName).Select(a => a.Source);
             foreach (var Source in Sources)
             {
-                var Edition = Source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
                 Editions[Traits.Edition.Editions.IndexOf(Edition)] = true;
             }
 

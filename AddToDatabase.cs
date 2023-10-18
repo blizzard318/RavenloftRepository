@@ -193,7 +193,7 @@ internal static class AddToDatabase
 
             ctx.CreateDomain("Lamordia");
 
-            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddNPCs(
+            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddDomains(Factory.InsideRavenloft).AddNPCs(
                 ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Race.Human),
                 ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Race.Human)
                 );

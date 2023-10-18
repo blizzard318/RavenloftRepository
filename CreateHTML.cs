@@ -1,26 +1,37 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text;
 
 internal static class CreateHTML
 {
+    #region PAGE CREATOR
     private static string CreateLink(string subdomain, string name) => $"<a href=\"/{subdomain}/{name}\">{name}</a>";
     private static StringBuilder sb = new StringBuilder();
     private class Table : IDisposable
     {
         private readonly string TableID;
-        public Table(string title)
+        private readonly StringBuilder sb;
+        public Table(string title) : this(title, string.Empty, CreateHTML.sb) { }
+        public Table(string title, string caption) : this(title, caption, CreateHTML.sb) { }
+        public Table(string title, StringBuilder stringBuilder) : this(title, string.Empty, stringBuilder) { }
+        public Table(string title, string caption, StringBuilder stringBuilder)
         {
             TableID = title;
+            sb = stringBuilder;
             sb.AppendLine($"<b style='font-size:25px'>{title}</b>");
             sb.AppendLine($"<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='{title}'>");
+            if (!string.IsNullOrWhiteSpace(caption)) sb.AppendLine($"<caption>{caption}</caption>");
         }
         public class HeaderRow : IDisposable
         {
             private readonly string TableID;
+            private readonly StringBuilder sb;
             private int col = 0;
             public HeaderRow(Table table)
             {
                 TableID = table.TableID;
+                sb = table.sb;
                 sb.AppendLine("<tr style='background-color:var(--header)'>");
             }
             public void CreateHeader (string title)
@@ -37,6 +48,12 @@ internal static class CreateHTML
             {
                 sb.AppendLine($"<th scope='col' onclick=\"sortDate('{TableID}',{col})\" style='cursor:pointer'>");
                 EndHeader(title);
+            }
+            public void CreateEditionHeaders ()
+            {
+                foreach (var edition in Traits.Edition.Editions)
+                    sb.AppendLine($"<th scope='col'>").AppendLine($"<b>{edition.Key}</b>").AppendLine("</th>");
+                col += Traits.Edition.Editions.Count;
             }
             private void EndHeader (string title)
             {
@@ -66,7 +83,6 @@ internal static class CreateHTML
             filepath = Path.Join(dir, filepath);
         }
         File.WriteAllText(filepath, sb.ToString());
-        sb.Clear();
     }
     private static void CreateOfficialHeader(string title, int depth = 0)
     {
@@ -74,6 +90,7 @@ internal static class CreateHTML
         var db = new StringBuilder(DepthText.Length * depth);
         for (int i = 0; i < depth; i++) db.Append(DepthText);
 
+        sb.Clear();
         sb.AppendLine("<!DOCTYPE html>");
         sb.AppendLine("<html>");
 
@@ -116,33 +133,33 @@ internal static class CreateHTML
     private class SubHeader : IDisposable
     {
         private readonly List<Page> pages = new List<Page>();
-        public Page CreatePage (string ID, string buttonValue)
+        public Page CreatePage (string ID)
         {
-            var retval = new Page(ID, buttonValue);
+            var retval = new Page(ID);
             pages.Add(retval);
             return retval;
         }
         public void Dispose()
         {
             sb.AppendLine("<h2>");
-            foreach (var page in pages) sb.AppendLine(${ });
+            for (int i = 0; i < pages.Count - 1; i++)
+                sb.AppendLine($"<input type='button' onclick=\"OpenPage('{pages[i].ID}')\" value='{pages[i].ID}'> | ");
+            sb.AppendLine($"<input type='button' onclick=\"OpenPage('{pages[pages.Count -1].ID}')\" value='{pages[pages.Count - 1].ID}'>");
             sb.Append("</h2>").AppendLine("<br/>");
-            for (int i = 0; i < pages.Count; i++)
+
+            sb.AppendLine($"<div class='page' id='{pages[0].ID}' style='block'>");
+            sb.Append(pages[0].contents);
+            for (int i = 1; i < pages.Count; i++)
             {
-                sb.AppendLine($"<div class='page' id='{pages[i].ID}' style='{(i == 0 ? "block" : "none")}'>");
+                sb.AppendLine($"<div class='page' id='{pages[i].ID}' style='none'>");
                 sb.Append(pages[i].contents);
             }
         }
         public class Page : IDisposable
         {
             public readonly string ID;
-            public readonly string buttonValue;
             public readonly StringBuilder contents = new StringBuilder();
-            public Page(string ID, string buttonValue)
-            {
-                this.ID = ID;
-                this.buttonValue = buttonValue;
-            }
+            public Page(string ID) => this.ID = ID;
             public void Dispose() => contents.AppendLine("</div>");
         }
     }
@@ -160,13 +177,94 @@ internal static class CreateHTML
 
         SaveHTML(string.Empty);
     }
+#endregion
+
+    #region ACTUAL PAGES
     public static void CreateLocationPage()
     {
         CreateOfficialHeader("Locations of Ravenloft", 1);
 
         using (var subheader = new SubHeader())
         {
-            using (var )
+            var Locations = Factory.db.Locations
+                .Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
+
+            var TempLocationsPerDomain = new Dictionary<string, List<Location>>();
+            foreach (var location in Locations)
+            {
+                foreach (var domain in location.Domains)
+                {
+                    string key = domain.OriginalName;
+                    if (!TempLocationsPerDomain.ContainsKey(key))
+                        TempLocationsPerDomain[key] = new List<Location> { location };
+                    else TempLocationsPerDomain[key].Add(location);
+                }
+            }
+
+            //Get all the domain names.
+            var LocationsPerDomain = new Dictionary<string, List<Location>>();
+            foreach (var DomainOriginalName in TempLocationsPerDomain.Keys)
+            {
+                var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == DomainOriginalName).Select(d => d.Name).ToHashSet();
+                string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+                LocationsPerDomain[TotalNamesOfSameDomain] = TempLocationsPerDomain[DomainOriginalName];
+            }
+
+            using (var AllPage = subheader.CreatePage("All Locations"))
+            {
+                var UnknownDomainLocations = LocationsPerDomain[Factory.InsideRavenloft.Key];
+                LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
+
+                foreach (var DomainNames in LocationsPerDomain.Keys)
+                {
+                    using (var table = new Table($"Locations of {DomainNames}", AllPage.contents))
+                    {
+                        using (var headerRow = new Table.HeaderRow(table))
+                        {
+                            headerRow.CreateHeader("Name(s)");
+                            headerRow.CreateEditionHeaders();
+                        }
+                    }
+                }
+                using (var table = new Table($"Locations within Ravenloft", "The domain of the location is unknown.",AllPage.contents)) //Last table
+                {
+                    using (var headerRow = new Table.HeaderRow(table))
+                    {
+                        headerRow.CreateHeader("Name(s)");
+                        headerRow.CreateEditionHeaders();
+                    }
+                }
+            }
+            using (var LairPage = subheader.CreatePage("Darklord Lairs"))
+            {
+                using (var table = new Table($"List of Darklord Lairs"))
+                {
+                    using (var headerRow = new Table.HeaderRow(table))
+                    {
+                        headerRow.CreateHeader("Name(s)");
+                        headerRow.CreateHeader("Domain(s)");
+                        headerRow.CreateHeader("Darklord");
+                        headerRow.CreateEditionHeaders();
+                    }
+                }
+            }
+            using (var SettlementPage = subheader.CreatePage("Settlements"))
+            {
+
+            }
+            using (var MistwayPage = subheader.CreatePage("Mistways"))
+            {
+                using (var table = new Table($"List of Darklord Lairs"))
+                {
+                    using (var headerRow = new Table.HeaderRow(table))
+                    {
+                        headerRow.CreateHeader("Name(s)");
+                        headerRow.CreateHeader("Domain");
+                        headerRow.CreateHeader("Domain");
+                        headerRow.CreateEditionHeaders();
+                    }
+                }
+            }
         }
     }
     public static void CreateSourcePage()
@@ -235,4 +333,5 @@ internal static class CreateHTML
 
         SaveHTML(nameof(Source));
     }
+    #endregion
 }
