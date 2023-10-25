@@ -6,6 +6,7 @@ internal static class CreateHTML
 {
     #region PAGE CREATOR
     private static string CreateLink(string subdomain, string name) => $"<a href=\"/{subdomain}/{name}\">{name}</a>";
+    private static void AddLink(this ICollection<string> list, string subdomain, string name) => list.Add(CreateLink(subdomain, name));
     private static StringBuilder sb = new StringBuilder();
     private class Table : IDisposable
     {
@@ -61,7 +62,7 @@ internal static class CreateHTML
             }
             public void Dispose() => sb.AppendLine("</tr>");
         }
-        public void AddRow(params string[] columns)
+        public void AddRows(params string[] columns)
         {
             sb.AppendLine("<tr>");
             foreach (var column in columns)
@@ -187,30 +188,25 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
-            var Locations = Factory.db.Locations
-                .Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
+            //var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
 
-            var TempLocationsPerDomain = new Dictionary<string, List<Location>>();
+            var Locations = Factory.db.Locations.Include(s => s.Domains).ToHashSet();
+
+            var LocationsPerDomain = new Dictionary<string, List<Location[]>>();
             foreach (var location in Locations)
             {
                 foreach (var domain in location.Domains)
                 {
-                    string key = domain.OriginalName;
-                    if (!TempLocationsPerDomain.ContainsKey(key))
-                        TempLocationsPerDomain[key] = new List<Location> { location };
-                    else TempLocationsPerDomain[key].Add(location);
+                    var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
+                    foreach (var SameLocation in SameLocationButDifferentNames) Locations.Remove(SameLocation);
+
+                    var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                    string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+                    if (!LocationsPerDomain.ContainsKey(TotalNamesOfSameDomain))
+                        LocationsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
+                    else LocationsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
                 }
             }
-
-            //Get all the domain names.
-            var LocationsPerDomain = new Dictionary<string, List<Location>>();
-            foreach (var DomainOriginalName in TempLocationsPerDomain.Keys)
-            {
-                var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == DomainOriginalName).Select(d => d.Name).ToHashSet();
-                string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
-                LocationsPerDomain[TotalNamesOfSameDomain] = TempLocationsPerDomain[DomainOriginalName];
-            }
-
             using (var AllPage = subheader.CreatePage("All Locations"))
             {
                 var UnknownDomainLocations = LocationsPerDomain[Factory.InsideRavenloft.Key];
@@ -225,9 +221,27 @@ internal static class CreateHTML
                             headerRow.CreateHeader("Name(s)");
                             headerRow.CreateEditionHeaders();
                         }
-                        foreach (var location in LocationsPerDomain[DomainNames])
+
+                        foreach (var DifferentNamesOfSameDomain in LocationsPerDomain[DomainNames])
                         {
-                            table.AddRow(location.name);
+                            var Editions = new List<string>();
+                            var Names = new HashSet<string>();
+                            var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits);
+                            foreach (var location in DifferentNamesOfSameDomain)
+                            {
+                                Names.Add(location.Name);
+                                var iSources = Sources.Where(a => a.Entity.Key == location.Key).Select(a => a.Source);
+                                foreach (var Source in iSources)
+                                {
+                                    var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                                    Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
+                                }
+                            }
+
+                            var rowval = new List<string>() { string.Join('/', Names) };
+                            rowval.AddRange(Editions);
+
+                            table.AddRows(rowval.ToArray());
                         }
                     }
                 }
@@ -298,7 +312,7 @@ internal static class CreateHTML
                 var media = source.Traits.Single(s => s.Type == nameof(Traits.Media)).Key;
                 MaterialPerMedia[media] = MaterialPerMedia.ContainsKey(media) ? MaterialPerMedia[media] + 1 : 1;
 
-                table.AddRow(new []{ CreateLink(nameof(Source), source.Key), edition, source.ReleaseDate, media });
+                table.AddRows(new []{ CreateLink(nameof(Source), source.Key), edition, source.ReleaseDate, media });
             }
         }
         const string EditionTableID = "Editions Breakdown";
@@ -312,7 +326,7 @@ internal static class CreateHTML
             foreach (var edition in Traits.Edition.Editions)
             {
                 if (!MaterialPerEdition.ContainsKey(edition.Key)) MaterialPerEdition[edition.Key] = 0;
-                table.AddRow(new[] { edition.Key, MaterialPerEdition[edition.Key].ToString() });
+                table.AddRows(new[] { edition.Key, MaterialPerEdition[edition.Key].ToString() });
             }
         }
         const string MediaTableID = "Media Breakdown";
@@ -326,7 +340,7 @@ internal static class CreateHTML
             foreach (var media in Traits.Media.Medias)
             {
                 if (!MaterialPerMedia.ContainsKey(media.Key)) MaterialPerMedia[media.Key] = 0;
-                table.AddRow(new[] { media.Key, MaterialPerMedia[media.Key].ToString() });
+                table.AddRows(new[] { media.Key, MaterialPerMedia[media.Key].ToString() });
             }
         }
 
