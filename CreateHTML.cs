@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NUglify;
 using System.Text;
 
 internal static class CreateHTML
@@ -82,7 +81,9 @@ internal static class CreateHTML
             var dir = Directory.CreateDirectory(DirectoryName).ToString();
             filepath = Path.Join(dir, filepath);
         }
-        File.WriteAllText(filepath, sb.ToString());
+        var html = sb.ToString();
+        html = Uglify.Html(html).Code; //Compression.
+        File.WriteAllText(filepath, html);
     }
     private static void CreateOfficialHeader(string title, int depth = 0)
     {
