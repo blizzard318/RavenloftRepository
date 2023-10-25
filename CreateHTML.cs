@@ -164,6 +164,9 @@ internal static class CreateHTML
             public void Dispose() => contents.AppendLine("</div>");
         }
     }
+    #endregion
+
+    #region ACTUAL PAGES
     public static void CreateHomepage()
     {
         CreateOfficialHeader("Ravenloft");
@@ -178,9 +181,6 @@ internal static class CreateHTML
 
         SaveHTML(string.Empty);
     }
-#endregion
-
-    #region ACTUAL PAGES
     public static void CreateLocationPage()
     {
         CreateOfficialHeader("Locations of Ravenloft", 1);
@@ -224,6 +224,10 @@ internal static class CreateHTML
                         {
                             headerRow.CreateHeader("Name(s)");
                             headerRow.CreateEditionHeaders();
+                        }
+                        foreach (var location in LocationsPerDomain[DomainNames])
+                        {
+                            table.AddRow(location.name);
                         }
                     }
                 }
