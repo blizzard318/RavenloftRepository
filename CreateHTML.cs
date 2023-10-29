@@ -191,20 +191,37 @@ internal static class CreateHTML
         {
             var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToList();
 
+            //List is different locations, array is alternate names for same place.
             var LocationsPerDomain = new Dictionary<string, List<Location[]>>();
             var SettlementsPerDomain = new Dictionary<string, List<Location[]>>();
+            var Mistways = new Dictionary<string, Location>();
+
             foreach (var location in Locations)
             {
                 foreach (var domain in location.Domains)
                 {
                     var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
-                    foreach (var SameLocation in SameLocationButDifferentNames) Locations.Remove(SameLocation);
 
                     var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
                     string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+
+                    bool Settlement = false;
+                    foreach (var SameLocation in SameLocationButDifferentNames)
+                    {
+                        Locations.Remove(SameLocation);
+                        if (!Settlement && SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Settlement = true;
+                    }
+
                     if (!LocationsPerDomain.ContainsKey(TotalNamesOfSameDomain))
                         LocationsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
                     else LocationsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
+
+                    if (Settlement)
+                    {
+                        if (!SettlementsPerDomain.ContainsKey(TotalNamesOfSameDomain))
+                            SettlementsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
+                        else SettlementsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
+                    }
                 }
             }
             using (var AllPage = subheader.CreatePage("All Locations"))
@@ -254,6 +271,10 @@ internal static class CreateHTML
                 var UnknownDomainSettlements = SettlementsPerDomain[Factory.InsideRavenloft.Key];
                 SettlementsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
+                foreach (var DomainNames in LocationsPerDomain.Keys)
+                    SetTable($"Settlements of {DomainNames}", null, LocationsPerDomain[DomainNames]);
+                SetTable($"Settlements within Ravenloft", "The domain of the settlement is unknown.", UnknownDomainSettlements);
+
                 void SetTable(string title, string caption, List<Location[]> locations)
                 {
                     using (var table = new Table(title, SettlementPage.contents))
@@ -299,6 +320,38 @@ internal static class CreateHTML
                         headerRow.CreateEditionHeaders();
                     }
                 }
+
+                Locations = Factory.db.Locations.Include(s => s.Traits).Where(s => s.Traits.Any(Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToList();
+                Locations = Locations.Where()
+                foreach (var location in Locations)
+                {
+                    foreach (var domain in location.Domains)
+                    {
+                        var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
+
+                        var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                        string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+
+                        bool Settlement = false;
+                        foreach (var SameLocation in SameLocationButDifferentNames)
+                        {
+                            Locations.Remove(SameLocation);
+                            if (!Settlement && SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Settlement = true;
+                        }
+
+                        if (!LocationsPerDomain.ContainsKey(TotalNamesOfSameDomain))
+                            LocationsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
+                        else LocationsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
+
+                        if (Settlement)
+                        {
+                            if (!SettlementsPerDomain.ContainsKey(TotalNamesOfSameDomain))
+                                SettlementsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
+                            else SettlementsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
+                        }
+                    }
+                }
+
             }
             using (var MistwayPage = subheader.CreatePage("Mistways"))
             {
