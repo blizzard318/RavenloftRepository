@@ -19,6 +19,7 @@ CreateJson.CreateCreatures();*/
 
 CreateHTML.CreateHomepage();
 CreateHTML.CreateSourcePage();
+CreateHTML.CreateLocationPage();
 
 return;
 

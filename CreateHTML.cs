@@ -1,13 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NUglify;
+using NUglify.Helpers;
 using System.Text;
-using static Traits;
 
 internal static class CreateHTML
 {
     #region PAGE CREATOR
     private static string CreateLink(string subdomain, string name) => $"<a href=\"/{subdomain}/{name}\">{name}</a>";
     private static void AddLink(this ICollection<string> list, string subdomain, string name) => list.Add(CreateLink(subdomain, name));
+    private static string[] Linkify(this ICollection<string> list, string subdomain)
+    {
+        var retval = new List<string>(list.Count);
+        foreach (var item in list) retval.Add(CreateLink(subdomain, item));
+        return retval.ToArray();
+    }
     private static StringBuilder sb = new StringBuilder();
     private class Table : IDisposable
     {
@@ -35,20 +41,29 @@ internal static class CreateHTML
                 sb = table.sb;
                 sb.AppendLine("<tr style='background-color:var(--header)'>");
             }
-            public void CreateHeader (string title)
+            public void CreateHeader (params string[] titles)
             {
-                sb.AppendLine("<th scope='col'>");
-                EndHeader(title);
+                foreach (var title in titles)
+                {
+                    sb.AppendLine("<th scope='col'>");
+                    EndHeader(title);
+                }
             }
-            public void CreateSortHeader (string title)
+            public void CreateSortHeader (params string[] titles)
             {
-                sb.AppendLine($"<th scope='col' onclick=\"sortTable('{TableID}',{col})\" style='cursor:pointer'>");
-                EndHeader(title);
+                foreach (var title in titles)
+                {
+                    sb.AppendLine($"<th scope='col' onclick=\"sortTable('{TableID}',{col})\" style='cursor:pointer'>");
+                    EndHeader(title);
+                }
             }
-            public void CreateSortDateHeader (string title)
+            public void CreateSortDateHeader (params string[] titles)
             {
-                sb.AppendLine($"<th scope='col' onclick=\"sortDate('{TableID}',{col})\" style='cursor:pointer'>");
-                EndHeader(title);
+                foreach (var title in titles)
+                {
+                    sb.AppendLine($"<th scope='col' onclick=\"sortDate('{TableID}',{col})\" style='cursor:pointer'>");
+                    EndHeader(title);
+                }
             }
             public void CreateEditionHeaders ()
             {
@@ -66,10 +81,7 @@ internal static class CreateHTML
         public void AddRows(params string[] columns)
         {
             sb.AppendLine("<tr>");
-            foreach (var column in columns)
-            {
-                sb.AppendLine($"<td>{column}</td>");
-            }
+            foreach (var column in columns) sb.AppendLine($"<td>{column}</td>");
             sb.AppendLine("</tr>");
         }
         public void Dispose() => sb.AppendLine("</table><br/>");
@@ -150,11 +162,11 @@ internal static class CreateHTML
             sb.AppendLine($"<input type='button' onclick=\"OpenPage('{pages[pages.Count -1].ID}')\" value='{pages[pages.Count - 1].ID}'>");
             sb.Append("</h2>").AppendLine("<br/>");
 
-            sb.AppendLine($"<div class='page' id='{pages[0].ID}' style='block'>");
+            sb.AppendLine($"<div class='page' id='{pages[0].ID}' style='display:block'>");
             sb.Append(pages[0].contents);
             for (int i = 1; i < pages.Count; i++)
             {
-                sb.AppendLine($"<div class='page' id='{pages[i].ID}' style='none'>");
+                sb.AppendLine($"<div class='page' id='{pages[i].ID}' style='display:none'>");
                 sb.Append(pages[i].contents);
             }
         }
@@ -189,12 +201,11 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
-            var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToList();
+            var Locations = Factory.db.Locations.Include(s => s.Traits).Include(s => s.Domains).ThenInclude(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
 
             //List is different locations, array is alternate names for same place.
             var LocationsPerDomain = new Dictionary<string, List<Location[]>>();
             var SettlementsPerDomain = new Dictionary<string, List<Location[]>>();
-            var Mistways = new Dictionary<string, Location>();
 
             foreach (var location in Locations)
             {
@@ -202,8 +213,13 @@ internal static class CreateHTML
                 {
                     var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
 
-                    var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
-                    string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+                    var TotalNamesOfSameDomain = domain.Name;
+                    if (!domain.Traits.Any(s => s == Traits.NoLink))
+                    {
+                        var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                        var LinkifiedDomains = Linkify(DifferentNamesOfSameDomain, nameof(Domain));
+                        TotalNamesOfSameDomain = string.Join("/", LinkifiedDomains);
+                    }
 
                     bool Settlement = false;
                     foreach (var SameLocation in SameLocationButDifferentNames)
@@ -226,147 +242,166 @@ internal static class CreateHTML
             }
             using (var AllPage = subheader.CreatePage("All Locations"))
             {
-                var UnknownDomainLocations = LocationsPerDomain[Factory.InsideRavenloft.Key];
-                LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
+                var UnkownExist = LocationsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownDomainLocations);
+                if (UnkownExist) LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
                 foreach (var DomainNames in LocationsPerDomain.Keys)
-                    SetTable($"Locations of {DomainNames}", null, LocationsPerDomain[DomainNames]);
-                SetTable($"Locations within Ravenloft", "The domain of the location is unknown.", UnknownDomainLocations);
+                    SetTable($"Locations of {DomainNames}", null, LocationsPerDomain[DomainNames], AllPage.contents);
+                if (UnkownExist) 
+                    SetTable($"Locations within Ravenloft", "The domain of the location is unknown.", UnknownDomainLocations, AllPage.contents);
 
-                void SetTable(string title, string caption, List<Location[]> locations)
-                {
-                    using (var table = new Table(title, AllPage.contents))
-                    {
-                        using (var headerRow = new Table.HeaderRow(table))
-                        {
-                            headerRow.CreateHeader("Name(s)");
-                            headerRow.CreateEditionHeaders();
-                        }
-                        foreach (var DifferentNamesOfSameDomain in locations)
-                        {
-                            var Editions = new List<string>();
-                            var Names = new HashSet<string>();
-                            var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits);
-                            foreach (var location in DifferentNamesOfSameDomain)
-                            {
-                                Names.Add(location.Name);
-                                var iSources = Sources.Where(a => a.Entity.Key == location.Key).Select(a => a.Source);
-                                foreach (var Source in iSources)
-                                {
-                                    var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-                                    Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
-                                }
-                            }
-
-                            var rowval = new List<string>() { string.Join('/', Names) };
-                            rowval.AddRange(Editions);
-
-                            table.AddRows(rowval.ToArray());
-                        }
-                    }
-                }
             }
             using (var SettlementPage = subheader.CreatePage("Settlements"))
             {
-                var UnknownDomainSettlements = SettlementsPerDomain[Factory.InsideRavenloft.Key];
-                SettlementsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
+                var UnkownExist = SettlementsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownDomainSettlements);
+                if (UnkownExist) SettlementsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
-                foreach (var DomainNames in LocationsPerDomain.Keys)
-                    SetTable($"Settlements of {DomainNames}", null, LocationsPerDomain[DomainNames]);
-                SetTable($"Settlements within Ravenloft", "The domain of the settlement is unknown.", UnknownDomainSettlements);
-
-                void SetTable(string title, string caption, List<Location[]> locations)
-                {
-                    using (var table = new Table(title, SettlementPage.contents))
-                    {
-                        using (var headerRow = new Table.HeaderRow(table))
-                        {
-                            headerRow.CreateHeader("Name(s)");
-                            headerRow.CreateEditionHeaders();
-                        }
-                        foreach (var DifferentNamesOfSameDomain in locations)
-                        {
-                            var Editions = new List<string>();
-                            var Names = new HashSet<string>();
-                            var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits);
-                            foreach (var location in DifferentNamesOfSameDomain)
-                            {
-                                Names.Add(location.Name);
-                                var iSources = Sources.Where(a => a.Entity.Key == location.Key).Select(a => a.Source);
-                                foreach (var Source in iSources)
-                                {
-                                    var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-                                    Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
-                                }
-                            }
-
-                            var rowval = new List<string>() { string.Join('/', Names) };
-                            rowval.AddRange(Editions);
-
-                            table.AddRows(rowval.ToArray());
-                        }
-                    }
-                }
+                foreach (var DomainNames in SettlementsPerDomain.Keys)
+                    SetTable($"Settlements of {DomainNames}", null, SettlementsPerDomain[DomainNames], SettlementPage.contents);
+                if (UnkownExist)
+                    SetTable($"Settlements within Ravenloft", "The domain of the settlement is unknown.", UnknownDomainSettlements, SettlementPage.contents);
             }
             using (var LairPage = subheader.CreatePage("Darklord Lairs"))
             {
-                using (var table = new Table($"List of Darklord Lairs"))
+                using (var table = new Table($"List of Darklord Lairs", LairPage.contents))
                 {
                     using (var headerRow = new Table.HeaderRow(table))
                     {
-                        headerRow.CreateHeader("Name(s)");
-                        headerRow.CreateHeader("Domain(s)");
-                        headerRow.CreateHeader("Darklord");
+                        headerRow.CreateHeader("Name(s)", "Domain(s)", "Darklord");
                         headerRow.CreateEditionHeaders();
                     }
-                }
-
-                Locations = Factory.db.Locations.Include(s => s.Traits).Where(s => s.Traits.Any(Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToList();
-                Locations = Locations.Where()
-                foreach (var location in Locations)
-                {
-                    foreach (var domain in location.Domains)
+                    var DarkLordLairs = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ToHashSet();
+                    foreach (var lair in DarkLordLairs)
                     {
-                        var SameLocationButDifferentNames = Locations.Where(d => d.OriginalName == location.OriginalName).ToArray();
-
-                        var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
-                        string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
-
-                        bool Settlement = false;
+                        var SameLocationButDifferentNames = DarkLordLairs.Where(d => d.OriginalName == lair.OriginalName).ToArray();
+                        var TotalNamesofTotalDomains = new HashSet<string>();
+                        var TotalNamesofTotalDarklords = new HashSet<string>();
+                        var Editions = new string[Traits.Edition.Editions.Count];
+                        var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits);
                         foreach (var SameLocation in SameLocationButDifferentNames)
                         {
-                            Locations.Remove(SameLocation);
-                            if (!Settlement && SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Settlement = true;
+                            DarkLordLairs.Remove(SameLocation);
+
+                            var Darklords = new List<string>();
+                            var DomainDarklords = SameLocation.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord)).ToHashSet();
+                            foreach (var DomainDarklord in DomainDarklords) //Go through all darklords
+                            {
+                                var AlternateNames = new List<string>();
+                                var DarklordAlternateNames = DomainDarklords.Where(d => d.OriginalName == DomainDarklord.OriginalName);
+                                foreach (var ToAdd in DarklordAlternateNames) //So far there actually are no Darklords with different names.
+                                {
+                                    DomainDarklords.Remove(ToAdd);
+                                    AlternateNames.AddLink("Character", ToAdd.Name);
+                                }
+                                Darklords.Add(string.Join('/', AlternateNames));
+                            }
+                            foreach (var darklord in Darklords) TotalNamesofTotalDarklords.Add(darklord);
+
+                            foreach (var domain in SameLocation.Domains)
+                            {
+                                var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                                var LinkifiedDomains = Linkify(DifferentNamesOfSameDomain, nameof(Domain));
+                                TotalNamesofTotalDomains.Add(string.Join("/", LinkifiedDomains));
+                            }
+
+                            var iSources = Sources.Where(a => a.Entity.Key == SameLocation.Key).Select(a => a.Source);
+                            foreach (var Source in iSources)
+                            {
+                                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                                Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
+                            }
                         }
 
-                        if (!LocationsPerDomain.ContainsKey(TotalNamesOfSameDomain))
-                            LocationsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
-                        else LocationsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
+                        var LinkifiedNames = Linkify(SameLocationButDifferentNames.Select(s => s.Name).ToArray(), nameof(Location));
+                        var rowval = new List<string>() 
+                        { 
+                            string.Join('/', LinkifiedNames), 
+                            string.Join(",", TotalNamesofTotalDomains),
+                            string.Join(",", TotalNamesofTotalDarklords),
+                        };
+                        rowval.AddRange(Editions);
 
-                        if (Settlement)
-                        {
-                            if (!SettlementsPerDomain.ContainsKey(TotalNamesOfSameDomain))
-                                SettlementsPerDomain[TotalNamesOfSameDomain] = new List<Location[]> { SameLocationButDifferentNames };
-                            else SettlementsPerDomain[TotalNamesOfSameDomain].Add(SameLocationButDifferentNames);
-                        }
+                        table.AddRows(rowval.ToArray());
                     }
                 }
-
             }
             using (var MistwayPage = subheader.CreatePage("Mistways"))
             {
-                using (var table = new Table($"List of Darklord Lairs"))
+                using (var table = new Table($"List of Mistways", MistwayPage.contents))
+                {
+                    using (var headerRow = new Table.HeaderRow(table))
+                    {
+                        headerRow.CreateHeader("Name(s)", "Domain", "Domain");
+                        headerRow.CreateEditionHeaders();
+                    }
+                    var Mistways = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Mistway)).Include(s => s.Domains).ToList();
+                    foreach (var Mistway in Mistways)
+                    {
+                        var SameLocationButDifferentNames = Mistways.Where(d => d.OriginalName == Mistway.OriginalName).ToArray();
+
+                        var Editions = new string[Traits.Edition.Editions.Count];
+                        var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits);
+                        var TotalNamesofTotalDomains = new HashSet<string>();
+                        foreach (var SameLocation in SameLocationButDifferentNames)
+                        {
+                            Mistways.Remove(SameLocation);
+                            var iSources = Sources.Where(a => a.Entity.Key == SameLocation.Key).Select(a => a.Source);
+                            foreach (var Source in iSources)
+                            {
+                                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                                Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
+                            }
+
+                            foreach (var domain in SameLocation.Domains)
+                            {
+                                var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
+                                TotalNamesofTotalDomains.Add(string.Join("/", DifferentNamesOfSameDomain));
+                            }
+                        }
+
+                        var rowval = new List<string>() { string.Join('/', (object[])SameLocationButDifferentNames) };
+                        rowval.AddRange(TotalNamesofTotalDomains); //If this goes beyond 2 then the HTML goes fucky-wucky.
+                        rowval.AddRange(Editions);
+
+                        table.AddRows(rowval.ToArray());
+                    }
+                }
+            } 
+            void SetTable(string title, string caption, List<Location[]> locations, StringBuilder contents)
+            {
+                using (var table = new Table(title, caption, contents))
                 {
                     using (var headerRow = new Table.HeaderRow(table))
                     {
                         headerRow.CreateHeader("Name(s)");
-                        headerRow.CreateHeader("Domain");
-                        headerRow.CreateHeader("Domain");
                         headerRow.CreateEditionHeaders();
+                    }
+                    foreach (var DifferentNamesOfSameLocation in locations)
+                    {
+                        var Editions = new string[Traits.Edition.Editions.Count];
+                        var Names = new HashSet<string>();
+                        var Sources = Factory.db.locationAppearances.Include(a => a.Source.Traits);
+                        foreach (var location in DifferentNamesOfSameLocation)
+                        {
+                            Names.Add(location.Name);
+                            var iSources = Sources.Where(a => a.Entity.Key == location.Key).Select(a => a.Source);
+                            foreach (var Source in iSources)
+                            {
+                                var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                                Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
+                            }
+                        }
+
+                        var rowval = new List<string>() { string.Join('/', Linkify(Names, nameof(Location))) };
+                        rowval.AddRange(Editions);
+
+                        table.AddRows(rowval.ToArray());
                     }
                 }
             }
         }
+
+        SaveHTML(nameof(Location));
     }
     public static void CreateSourcePage()
     {
@@ -381,8 +416,7 @@ internal static class CreateHTML
             using (var headerRow = new Table.HeaderRow(table))
             {
                 headerRow.CreateHeader("Name");
-                headerRow.CreateSortHeader("Edition");
-                headerRow.CreateSortHeader("Media Type");
+                headerRow.CreateSortHeader("Edition", "Media Type");
                 headerRow.CreateSortDateHeader("Release Date");
             }
             var Sources = Factory.db.Sources.Include(s => s.Traits).ToArray();
@@ -401,10 +435,7 @@ internal static class CreateHTML
         using (var table = new Table(EditionTableID))
         {
             using (var headerRow = new Table.HeaderRow(table))
-            {
-                headerRow.CreateHeader("Edition");
-                headerRow.CreateHeader("Source Materials");
-            }
+                headerRow.CreateHeader("Edition", "Source Materials");
             foreach (var edition in Traits.Edition.Editions)
             {
                 if (!MaterialPerEdition.ContainsKey(edition.Key)) MaterialPerEdition[edition.Key] = 0;
@@ -415,10 +446,7 @@ internal static class CreateHTML
         using (var table = new Table(MediaTableID))
         {
             using (var headerRow = new Table.HeaderRow(table))
-            {
-                headerRow.CreateHeader("Type");
-                headerRow.CreateHeader("Source Materials");
-            }
+                headerRow.CreateHeader("Type", "Source Materials");
             foreach (var media in Traits.Media.Medias)
             {
                 if (!MaterialPerMedia.ContainsKey(media.Key)) MaterialPerMedia[media.Key] = 0;
@@ -433,6 +461,23 @@ internal static class CreateHTML
         sb.AppendLine("</script>");
 
         SaveHTML(nameof(Source));
+    }
+    public static void CreateCharacterPage()
+    {
+        CreateOfficialHeader("Ravenloft");
+
+        using (var subheader = new SubHeader())
+        {
+            using (var Domain = subheader.CreatePage("By Domain"))
+            {
+
+            }
+            using (var Group = subheader.CreatePage("By Group"))
+            {
+
+            }
+        }
+        SaveHTML("Character");
     }
     #endregion
 }
