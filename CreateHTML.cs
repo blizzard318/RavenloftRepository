@@ -461,9 +461,80 @@ internal static class CreateHTML
 
         SaveHTML(nameof(Source));
     }
+    public static void CreateDomainPage()
+    {
+        CreateOfficialHeader("Domains of Ravenloft");
+
+        var Domains = Factory.db.Domains
+            .Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).ToHashSet();
+        var Clusters = new Dictionary<string, List<(string DomainNames, string Darklords)>>();
+
+        foreach (var domain in Domains)
+        {
+            var ClustersDomainBelongsTo = new HashSet<string>() { Traits.Cluster.IslandOfTerror.Key };
+            var Darklords = new HashSet<string>();
+            var DifferentNamesOfSameDomain = new HashSet<string>();
+            var SameDomainButDifferentNames = Domains.Where(d => d.OriginalName == domain.OriginalName).ToArray();
+            foreach (var SameDomain in SameDomainButDifferentNames) //Get all variant domains of the original domain
+            {
+                Domains.Remove(SameDomain);
+                DifferentNamesOfSameDomain.AddLink(nameof(Domain), SameDomain.Name);
+
+                var DomainDarklords = SameDomain.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord)).ToHashSet();
+                foreach (var DomainDarklord in DomainDarklords) //Go through all darklords
+                {
+                    var AlternateNames = new List<string>();
+                    var DarklordAlternateNames = DomainDarklords.Where(d => d.OriginalName == DomainDarklord.OriginalName);
+                    foreach (var ToAdd in DarklordAlternateNames) //So far there actually are no Darklords with different names.
+                    {
+                        DomainDarklords.Remove(ToAdd);
+                        AlternateNames.AddLink("Character", ToAdd.Name);
+                    }
+                    var TotalAlternateNames = string.Join("/", AlternateNames);
+                    Darklords.Add(TotalAlternateNames);
+                }
+                var DomainClusters = SameDomain.Traits.Where(t => t.Type == nameof(Traits.Cluster)).ToArray();
+                foreach (var Cluster in DomainClusters) ClustersDomainBelongsTo.AddLink(nameof(Cluster), Cluster.Key);
+            }
+
+            if (ClustersDomainBelongsTo.Count > 1)
+                ClustersDomainBelongsTo.Remove(Traits.Cluster.IslandOfTerror.Key);
+
+            foreach (var Cluster in ClustersDomainBelongsTo)
+            {
+                string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
+                string TotalNamesOfTotalDarklords = string.Join(",", Darklords);
+                var Entry = (TotalNamesOfSameDomain, TotalNamesOfTotalDarklords);
+                if (Clusters.ContainsKey(Cluster))
+                    Clusters[Cluster].Add(Entry);
+                else Clusters.Add(Cluster, new List<(string, string)>() { Entry });
+            }
+        }
+        using (var subheader = new SubHeader()) 
+        {
+            using (var Domain = subheader.CreatePage("All Domain"))
+            {
+                using (var table = new Table("List of Domains", Domain.contents))
+                {
+
+                }
+            }
+            using (var Group = subheader.CreatePage("By Cluster"))
+            {
+                foreach ()
+                {
+                    using (var table = new Table("List of Domains", Group.contents))
+                    {
+
+                    }
+                }
+            }
+        }
+        SaveHTML(nameof(Domain));
+    }
     public static void CreateCharacterPage()
     {
-        CreateOfficialHeader("Ravenloft");
+        CreateOfficialHeader("Characters of Ravenloft");
 
         using (var subheader = new SubHeader())
         {

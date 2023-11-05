@@ -175,6 +175,7 @@
             Clusters.Add(retval);
             return retval;
         }
+        public static Trait IslandOfTerror = CreateCluster("Island of Terror");
     }
 
     internal static class Creature
