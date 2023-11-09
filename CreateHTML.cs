@@ -4,7 +4,6 @@ using System.Text;
 
 internal static class CreateHTML
 {
-    #region PAGE CREATOR
     private static string CreateLink(string subdomain, string name) => $"<a href=\"/{subdomain}/{name}\">{name}</a>";
     private static void AddLink(this ICollection<string> list, string subdomain, string name) => list.Add(CreateLink(subdomain, name));
     private static string[] Linkify(this ICollection<string> list, string subdomain)
@@ -13,6 +12,55 @@ internal static class CreateHTML
         foreach (var item in list) retval.Add(CreateLink(subdomain, item));
         return retval.ToArray();
     }
+
+    #region PREGENERATED DATA
+
+    private class Pregen
+    {
+        private bool Pregenerated = false;
+        private readonly Dictionary<string, string> Domains = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> Characters = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> Locations = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> Items = new Dictionary<string, string>();
+
+        public void Pregenerate() //I don't trust this to be a static constructor.
+        {
+            if (Pregenerated) return;
+            Pregenerated = true;
+
+            Fill(Domains, Factory.db.Domains);
+            Fill(Characters, Factory.db.NPCs);
+            Fill(Locations, Factory.db.Locations);
+            Fill(Items, Factory.db.Items);
+
+            void Fill<T>(Dictionary<string, string> ToFill, DbSet<T> ToRead) where T : UseVariableName
+            {
+                var All = ToRead.ToHashSet();
+                var OriginalNames = ToRead.Select(s => s.OriginalName).ToHashSet();
+                foreach (var OriginalName in OriginalNames)
+                {
+                    var NamesOfSame = All.Where(d => d.OriginalName == OriginalName).Select(s => s.Name).ToHashSet();
+                    Domains.Add(OriginalName, string.Join("/", NamesOfSame));
+                }
+            }
+        }
+        public string this[UseVariableName i]
+        {
+            get
+            {
+                if (i is Domain) return Domains[i.OriginalName];
+                else if (i is NPC) return Characters[i.OriginalName];
+                else if (i is Location) return Locations[i.OriginalName];
+                else if (i is Item) return Items[i.OriginalName];
+                throw new NotImplementedException();
+            }
+        }
+    }
+    private static Pregen TotalNamesOf = new Pregen();
+
+    #endregion
+
+    #region PAGE CREATOR
     private static StringBuilder sb = new StringBuilder();
     private class Table : IDisposable
     {
@@ -100,6 +148,7 @@ internal static class CreateHTML
     }
     private static void CreateOfficialHeader(string title, int depth = 0)
     {
+        TotalNamesOf.Pregenerate();
         const string DepthText = "../";
         var db = new StringBuilder(DepthText.Length * depth);
         for (int i = 0; i < depth; i++) db.Append(DepthText);
@@ -215,16 +264,13 @@ internal static class CreateHTML
                     var TotalNamesOfSameDomain = domain.Name;
                     if (!domain.Traits.Any(s => s == Traits.NoLink))
                     {
-                        var DifferentNamesOfSameDomain = Factory.db.Domains.Where(d => d.OriginalName == domain.OriginalName).Select(d => d.Name).ToHashSet();
-                        var LinkifiedDomains = Linkify(DifferentNamesOfSameDomain, nameof(Domain));
-                        TotalNamesOfSameDomain = string.Join("/", LinkifiedDomains);
+                        TotalNamesOfSameDomain = TotalNamesOf[domain];
                     }
 
-                    bool Settlement = false;
+                    bool Settlement = SameLocationButDifferentNames.Any(l => l.Traits.Contains(Traits.Location.Settlement));
                     foreach (var SameLocation in SameLocationButDifferentNames)
                     {
                         Locations.Remove(SameLocation);
-                        if (!Settlement && SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Settlement = true;
                     }
 
                     if (!LocationsPerDomain.ContainsKey(TotalNamesOfSameDomain))
@@ -505,8 +551,7 @@ internal static class CreateHTML
                 string TotalNamesOfSameDomain = string.Join("/", DifferentNamesOfSameDomain);
                 string TotalNamesOfTotalDarklords = string.Join(",", Darklords);
                 var Entry = (TotalNamesOfSameDomain, TotalNamesOfTotalDarklords);
-                if (Clusters.ContainsKey(Cluster))
-                    Clusters[Cluster].Add(Entry);
+                if (Clusters.ContainsKey(Cluster)) Clusters[Cluster].Add(Entry);
                 else Clusters.Add(Cluster, new List<(string, string)>() { Entry });
             }
         }
