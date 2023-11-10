@@ -128,7 +128,6 @@ public class Relationship
     public enum RelationshipType { Parent, Adopted, Spouse }
     public RelationshipType Type { get; set; }
 }
-
 public abstract class Appearance
 {
     public int Id { get; set; }
@@ -136,22 +135,26 @@ public abstract class Appearance
     [Column("Source")] public string SourceKey { get; set; }
     public string PageNumbers { get; set; }
 }
-public class LocationAppearance : Appearance
+public interface IHasEntity<T>
+{
+    T Entity { get; set; }
+}
+public class LocationAppearance : Appearance, IHasEntity<Location>
 {
     public Location Entity { get; set; }
     [Column("Location")] public string EntityId { get; set; }
 }
-public class NPCAppearance : Appearance
+public class NPCAppearance : Appearance, IHasEntity<NPC>
 {
     public NPC Entity { get; set; }
     [Column("NPC")] public string EntityId { get; set; }
 }
-public class DomainAppearance : Appearance
+public class DomainAppearance : Appearance, IHasEntity<Domain>
 {
     public Domain Entity { get; set; }
     [Column("Domain")] public string EntityId { get; set; }
 }
-public class ItemAppearance : Appearance
+public class ItemAppearance : Appearance, IHasEntity<Item>
 {
     public Item Entity { get; set; }
     [Column("Item")] public string EntityId { get; set; }
