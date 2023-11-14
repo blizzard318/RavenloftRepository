@@ -55,6 +55,7 @@
         public static Source.Trait videogame  = CreateMedia("Video Game");
         public static Source.Trait comic      = CreateMedia("Comic"     );
         public static Source.Trait boardgame  = CreateMedia("Board Game");
+        public static Source.Trait miniature  = CreateMedia("Miniature" );
     }
 
     internal static class Location //Seperate them by Mistway,Cluster,Settlement,DarklordLair and else.
@@ -97,6 +98,7 @@
 
         public static Trait Tatyana = CreateStatus("Reincarnations of Tatyana");
         public static Trait BarovianWineDistillersBrotherhood = CreateStatus("Barovian Wine Distillers Brotherhood");
+        public static Trait TheKargat = CreateStatus("The Kargat");
 
         public static (Trait, Trait) Raunie = (CreateStatus("Raunie"), Vistani);
     }
@@ -175,7 +177,7 @@
             Clusters.Add(retval);
             return retval;
         }
-        public static Trait IslandOfTerror = CreateCluster("Island of Terror");
+        public static Trait IslandOfTerror = CreateCluster("Islands of Terror");
     }
 
     internal static class Creature
@@ -226,8 +228,9 @@
         public static Trait Ghoul   = CreateCreature("Ghoul"  );
         public static Trait Wight   = CreateCreature("Wight"  );
 
-        public static Trait Witch    = CreateCreature("Witch"   );
-        public static Trait Werewolf = CreateCreature("Werewolf");
+        public static Trait Witch     = CreateCreature("Witch"   );
+        public static Trait Werewolf  = CreateCreature("Werewolf");
+        public static Trait Werebeast = CreateCreature("Werebeast");
 
         public static (Trait, Trait) KeeningSpirit = (CreateCreature("Keening Spirit"), CreateCreature("Groaning Spirit"));
         public static (Trait, Trait) GroaningSpirit = (KeeningSpirit.Item1, KeeningSpirit.Item2);

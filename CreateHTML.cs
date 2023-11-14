@@ -165,7 +165,7 @@ internal static class CreateHTML
             filepath = Path.Join(dir, filepath);
         }
         var html = sb.ToString();
-        html = Uglify.Html(html).Code; //Compression.
+        //html = Uglify.Html(html).Code; //Compression.
         File.WriteAllText(filepath, html);
     }
     private static void CreateOfficialHeader(string title, int depth = 0)
@@ -328,21 +328,21 @@ internal static class CreateHTML
         using (var subheader = new SubHeader())
         {
             //Key is domain, entries are all location names
-            var LocationsPerDomain   = new Dictionary<string, string[]>();
-            var SettlementsPerDomain = new Dictionary<string, string[]>();
+            var LocationsPerDomain   = new Dictionary<string, HashSet<string>>();
+            var SettlementsPerDomain = new Dictionary<string, HashSet<string>>();
 
-            var OriginalDomains = Get.AllOriginalsOf(typeof(Domain));
-            foreach (var OriginalDomainName in OriginalDomains)
+            var AllLocations = Factory.db.Locations.Include(s => s.Domains).Include(s => s.Traits);
+            foreach (var location in AllLocations)
             {
-                var locations = Factory.db.Locations.Where(s => s.Domains.Any(s => s.OriginalName == OriginalDomainName)).Include(s => s.Traits);
+                foreach (var domain in location.Domains)
+                {
+                    LocationsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                    SettlementsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
 
-                var LinkedNames = new HashSet<string>();
-                foreach (var location in locations) LinkedNames.Add(Get.TotalNamesOf(location));
-
-                LocationsPerDomain.Add(Get.TotalNamesOf<Domain>(OriginalDomainName), LinkedNames.ToArray());
-
-                if (locations.Any(l => l.Traits.Contains(Traits.Location.Settlement)))
-                    SettlementsPerDomain.Add(Get.TotalNamesOf<Domain>(OriginalDomainName), LinkedNames.ToArray());
+                    LocationsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                    if (location.Traits.Contains(Traits.Location.Settlement))
+                        SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                }
             }
 
             using (var AllPage = subheader.CreatePage("All Locations"))
@@ -350,8 +350,8 @@ internal static class CreateHTML
                 var UnkownExist = LocationsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownDomainLocations);
                 if (UnkownExist) LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
-                foreach (var DomainNames in LocationsPerDomain.Keys)
-                    SetTable($"Locations of {DomainNames}", null, LocationsPerDomain[DomainNames], AllPage);
+                foreach (var DomainName in LocationsPerDomain.Keys)
+                    SetTable($"Locations of {Get.TotalNamesOf<Domain>(DomainName)}", null, LocationsPerDomain[DomainName], AllPage);
                 if (UnkownExist) 
                     SetTable($"Locations within Ravenloft", "The domain of the location is unknown.", UnknownDomainLocations, AllPage);
 
@@ -375,7 +375,7 @@ internal static class CreateHTML
                     using (var headerRow = table.CreateHeaderRow())
                         headerRow.CreateHeader("Name(s)", "Domain(s)", "Darklord").CreateEditionHeaders();
 
-                    var DarkLordLairsCopies = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).GroupBy(s => s.OriginalName);
+                    var DarkLordLairsCopies = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(s => s.Traits).GroupBy(s => s.OriginalName);
 
                     foreach (var SingleSetOfLairCopies in DarkLordLairsCopies)
                     {
@@ -384,17 +384,17 @@ internal static class CreateHTML
 
                         foreach (var CopyOfLair in SingleSetOfLairCopies) //Different sources may have different darklords/domains for same location
                         {
-                            var DomainDarklords = CopyOfLair.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord));
-
-                            foreach (var DomainDarklord in DomainDarklords) TotalNamesofTotalDarklords.Add(Get.TotalNamesOf(DomainDarklord));
                             foreach (var domain in CopyOfLair.Domains) TotalNamesofTotalDomains.Add(Get.TotalNamesOf(domain));
+
+                            var DomainDarklords = CopyOfLair.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord));
+                            foreach (var DomainDarklord in DomainDarklords) TotalNamesofTotalDarklords.Add(Get.TotalNamesOf(DomainDarklord));
                         }
 
                         var rowval = new List<string>() 
                         { 
                             Get.TotalNamesOf<Location>(SingleSetOfLairCopies.Key), 
                             string.Join(",", TotalNamesofTotalDomains),
-                            string.Join(",", TotalNamesofTotalDarklords),
+                            string.Join(",", TotalNamesofTotalDarklords)
                         };
                         rowval.AddRange(Get.EditionsOf<Location>(SingleSetOfLairCopies.Key));
 
@@ -426,16 +426,16 @@ internal static class CreateHTML
                     }
                 }
             } 
-            void SetTable(string title, string? caption, string[] locations, SubHeader.Page page)
+            void SetTable(string title, string? caption, HashSet<string> OriginalLocationNames, SubHeader.Page page)
             {
                 using (var table = page.CreateTable(title, caption))
                 {
                     using (var headerRow = table.CreateHeaderRow())
                         headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
 
-                    foreach (var location in locations)
+                    foreach (var location in OriginalLocationNames)
                     {
-                        var rowval = new List<string>() { location };
+                        var rowval = new List<string>() { Get.TotalNamesOf<Location>(location) };
                         rowval.AddRange(Get.EditionsOf<Location>(location));
                         table.AddRows(rowval.ToArray());
                     }
@@ -447,35 +447,31 @@ internal static class CreateHTML
     }
     public static void CreateDomainPage()
     {
-        CreateOfficialHeader("Domains of Ravenloft");
+        CreateOfficialHeader("Domains of Ravenloft", 1);
 
-        var DomainCopies = Factory.db.Domains.Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits).GroupBy(s => s.OriginalName);
-        var Clusters = new Dictionary<string, List<(string OriginalDomainName, string Darklords)>>();
-
-        foreach (var SetOfSameDomains in DomainCopies)
+        var AllDomains = Factory.db.Domains.Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits);
+        var Domains = new Dictionary<string, HashSet<string>>(); //Domain : Darklords
+        var Clusters = new Dictionary<string, HashSet<string>>(); //Cluster : Domains
+        foreach (var Domain in AllDomains)
         {
-            var ClustersDomainBelongsTo = new HashSet<string>() { Traits.Cluster.IslandOfTerror.Key };
-            var Darklords = new HashSet<string>();
-            foreach (var domain in SetOfSameDomains)
+            if (Domain == Factory.InsideRavenloft || Domain == Factory.OutsideRavenloft) continue;
+            Domains.TryAdd(Domain.OriginalName, new HashSet<string>());
+
+            var AllDarklords = Domain.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord));
+            foreach (var Darklord in AllDarklords) Domains[Domain.OriginalName].Add(Get.TotalNamesOf(Darklord));
+
+            var ClustersInDomain = Domain.Traits.Where(t => t.Type == nameof(Traits.Cluster));
+
+            if (ClustersInDomain.Count() == 0)             AddToCluster(Traits.Cluster.IslandOfTerror.Key);
+            else foreach (var Cluster in ClustersInDomain) AddToCluster(CreateLink(nameof(Cluster), Cluster.Key));
+
+            void AddToCluster(string key)
             {
-                var AllDarklords = domain.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord));
-                foreach (var Darklord in AllDarklords) Darklords.Add(Get.TotalNamesOf(Darklord));
-
-                var DomainClusters = domain.Traits.Where(t => t.Type == nameof(Traits.Cluster));
-                foreach (var Cluster in DomainClusters) ClustersDomainBelongsTo.AddLink(nameof(Cluster), Cluster.Key);
-            }
-            if (ClustersDomainBelongsTo.Count > 1)
-                ClustersDomainBelongsTo.Remove(Traits.Cluster.IslandOfTerror.Key);
-
-            foreach (var Cluster in ClustersDomainBelongsTo)
-            {
-                string TotalNamesOfTotalDarklords = string.Join(",", Darklords);
-                var Entry = (SetOfSameDomains.Key, TotalNamesOfTotalDarklords);
-
-                if (Clusters.ContainsKey(Cluster)) Clusters[Cluster].Add(Entry);
-                else Clusters.Add(Cluster, new List<(string, string)>() { Entry });
+                Clusters.TryAdd(key, new HashSet<string>());
+                Clusters[key].Add(Domain.OriginalName);
             }
         }
+
         using (var subheader = new SubHeader()) 
         {
             using (var Domain = subheader.CreatePage("All Domain"))
@@ -485,14 +481,11 @@ internal static class CreateHTML
                     using (var headerRow = table.CreateHeaderRow())
                         headerRow.CreateHeader("Name(s)", "Darklord(s)").CreateEditionHeaders();
 
-                    foreach (var cluster in Clusters)
+                    foreach (var domain in Domains)
                     {
-                        foreach (var domain in cluster.Value)
-                        {
-                            var rowval = new List<string>() { Get.TotalNamesOf<Domain>(domain.OriginalDomainName), domain.Darklords };
-                            rowval.AddRange(Get.EditionsOf<Domain>(domain.OriginalDomainName));
-                            table.AddRows(rowval.ToArray());
-                        }
+                        var rowval = new List<string>() { Get.TotalNamesOf<Domain>(domain.Key), string.Join(",",domain.Value) };
+                        rowval.AddRange(Get.EditionsOf<Domain>(domain.Key));
+                        table.AddRows(rowval.ToArray());
                     }
                 }
             }
@@ -501,19 +494,22 @@ internal static class CreateHTML
                 using (var table = Group.CreateTable("Domains per Cluster"))
                 {
                     using (var headerRow = table.CreateHeaderRow())
-                        headerRow.CreateHeader("Name", "Domains").CreateEditionHeaders();
+                        headerRow.CreateHeader("Name", "Domains");
+
+                    foreach (var cluster in Clusters)
+                        table.AddRows(new[] { cluster.Key, cluster.Value.Count().ToString() });
                 }
                 foreach (var cluster in Clusters)
                 {
                     using (var table = Group.CreateTable(cluster.Key))
                     {
                         using (var headerRow = table.CreateHeaderRow())
-                            headerRow.CreateHeader("Name").CreateEditionHeaders();
+                            headerRow.CreateHeader(cluster.Key).CreateEditionHeaders();
 
                         foreach (var domain in cluster.Value)
                         {
-                            var rowval = new List<string>() { Get.TotalNamesOf<Domain>(domain.OriginalDomainName) };
-                            rowval.AddRange(Get.EditionsOf<Domain>(domain.OriginalDomainName));
+                            var rowval = new List<string>() { Get.TotalNamesOf<Domain>(domain) };
+                            rowval.AddRange(Get.EditionsOf<Domain>(domain));
                             table.AddRows(rowval.ToArray());
                         }
                     }

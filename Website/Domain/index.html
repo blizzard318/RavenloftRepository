@@ -1,135 +1,203 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>Domains</title>
-	<meta name="theme-color" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ravenloft Repository">
-	<link rel="stylesheet" href="../styles.css">
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js" charset="utf-8"></script>
+<meta charset='utf-8'>
+<title>Domains of Ravenloft</title>
+<meta name='theme-color' content='black'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ravenloft Repository'>
+<link rel='stylesheet' href='../styles.css'>
+<link rel='shortcut icon' href='../favicon.ico'>
+<script src='../sort.js'></script>
 </head>
-
 <body>
-	<h1>Ravenloft Catalogue</h1><hr/>
-	<h2>
-		<a href=".."		 >Official</a> |
-		<a href="../3rdParty">3rd Party</a>
-	</h2><hr />
-	<h2>
-		<a href="../Source"	  >Sources</a> | 
-		<a href="../Domain"	  >Domains</a> | 
-		<a href="../Location" >Locations</a> | 
-		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items</a><br/>
-		<a href="../Creature" >Creatures</a> | 
-		<a href="../Group" 	  >Groups</a> | 
-		<a href="../Language" >Languages</a>
-	</h2><hr />
-	
-	<h2>
-		<input type="button" onclick="OpenPage('all')" value="All Domains"> | 
-		<input type="button" onclick="OpenPage('cluster')" value = "By Cluster">
-	</h2>
-	<br/>
-	<div class="page" id="all" style="display:block">
-	<b style="font-size:25px">List of Domains</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="MainTable">
-		<tr style="background-color:Black">
-			<th scope="col">
-				<b>Name(s)</b>
-			</th>
-			<th scope="col">
-				<b>Darklord(s)</b>
-			</th>
-		</tr>
-	</table>
-	</div>
-	
-	<div class="page" id="cluster" style="display:none">
-	<b style="font-size:25px">Domains per Cluster</b>
-	<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="ClusterTable">
-		<tr style="background-color:Black">
-			<th scope="col">
-				<b>Name</b>
-			</th>
-			<th scope="col">
-				<b>Domains</b>
-			</th>
-		</tr>
-	</table>
-	<div id="AfterCluster"></div>
-	</div>
-	
-	<script>
-	async function func(){
-		const MainTable = document.getElementById("MainTable");
-		AddEditionHeader("MainTable");
-		
-		const DomainsData = await fetch("Domain.json");
-		const Domains = await DomainsData.json();
-		
-		const ClusterArr = {};
-		
-		for (const domain of Domains) {
-			const row = MainTable.insertRow(-1);
-			
-			row.insertCell(-1).innerHTML = domain.Name;
-			row.insertCell(-1).innerHTML = domain.Darklords;
-			
-			const Clusters = domain.Clusters.split(',');
-			for (const cluster of Clusters) {
-				ClusterArr[cluster] ??= [];
-				ClusterArr[cluster].push(domain.Name);
-			}
-			AddEditionsToTable(row, domain.Editions);
-		}
-		sortDate('MainTable',0);
-		
-		const AfterCluster = document.getElementById("AfterCluster");
-		const ClusterTable = document.getElementById("ClusterTable");
-		for (const cluster of Object.keys(ClusterArr)) {
-			let row = ClusterTable.insertRow(-1);
-			
-			const a = document.createElement("a");
-			a.setAttribute("href", "#" + (cluster ? cluster : "Islands of Terror"));
-			a.innerHTML = cluster ? cluster : "Islands of Terror";
-			row.insertCell(-1).innerHTML = a.outerHTML;
-			
-			row.insertCell(-1).innerHTML = ClusterArr[cluster]?.length ?? 0;
-
-			AfterCluster.append(document.createElement("br"));
-
-			const b = document.createElement("b");
-				b.style.fontSize = "25px";
-				b.innerHTML = cluster ? cluster : "Islands of Terror";
-			AfterCluster.append(b);
-
-			const table = document.createElement("table");
-				table.border = "1";
-				table.rules = "cols";
-				table.cellspacing = "0";
-				table.cellpadding = "3";
-				table.id = cluster ? cluster : "Islands of Terror";
-			AfterCluster.append(table);
-
-			row = table.insertRow(-1);
-			row.style.backgroundColor  = "black";
-				const cell = document.createElement("th");
-				cell.scope = "col";
-				cell.innerHTML = "<b>Name(s)</b>";
-			row.appendChild(cell);
-			
-			for (const domainName of ClusterArr[cluster]) {
-				table.insertRow(-1).insertCell(-1).innerHTML = domainName;
-			}
-			colorCode(table.id);
-		}
-		sortDate('ClusterTable',0);
-	}
-	func();
-	</script>
+<span style='float:right;display:inline-block;height:0px'>
+<label for='darkmode'>Dark Mode</label>
+<input type='checkbox' id='darkmode'>
+</span>
+<h1>Ravenloft Catalogue</h1><hr/>
+<h2>
+<a href='../'>Official</a> | 
+<a href='../3rdParty'>3rd Party</a>
+</h2><hr />
+<h2>
+<a href='../Source'>Sources</a> | 
+<a href='../Domain'>Domains</a> | 
+<a href='../Location'>Locations</a> | 
+<a href='../Character'>Characters</a> | 
+<a href='../Item'>Items</a><br/>
+<a href='../Creature'>Creatures</a> | 
+<a href='../Group'>Groups</a> | 
+<a href='../Language'>Languages</a>
+</h2><hr />
+<h2>
+<input type='button' onclick="OpenPage('All Domain')" value='All Domain'> | 
+<input type='button' onclick="OpenPage('By Cluster/Type')" value='By Cluster/Type'>
+</h2><br/>
+<div class='page' id='All Domain' style='display:block'>
+<b style='font-size:25px'>List of Domains</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='List of Domains'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>Darklord(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href="/Domain/Bluetspur">Bluetspur</a></td>
+<td><a href="/Character/God-Brain">God-Brain</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href="/Domain/Darkon">Darkon</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href="/Domain/Lamordia">Lamordia</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href="/Domain/Barovia">Barovia</a></td>
+<td><a href="/Character/Count Strahd von Zarovich">Count Strahd von Zarovich</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
+<div class='page' id='By Cluster/Type' style='display:none'>
+<b style='font-size:25px'>Domains per Cluster</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Domains per Cluster'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>Domains</b>
+</th>
+</tr>
+<tr>
+<td>Islands of Terror</td>
+<td>4</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Islands of Terror</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Islands of Terror'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Islands of Terror</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href="/Domain/Bluetspur">Bluetspur</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href="/Domain/Darkon">Darkon</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href="/Domain/Lamordia">Lamordia</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href="/Domain/Barovia">Barovia</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
 </body>
+<script>init();</script>
 </html>

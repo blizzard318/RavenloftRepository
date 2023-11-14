@@ -9,6 +9,9 @@ internal static class AddToDatabase
         AddI6Ravenloft();
         AddBeforeIWake();
         AddCommanderLegendsBattleforBaldursGate();
+        AddDiceMastersStrahd();
+        AddSpellfireMastertheMagic();
+
         void AddI6Ravenloft()
         {
             var releaseDate = "01/11/1983";
@@ -211,6 +214,42 @@ internal static class AddToDatabase
             var Barovia = ctx.CreateDomain("Barovia").AddNPCs(
                 ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Race.Human, Traits.Creature.Witch)
                 );
+        }
+        void AddDiceMastersStrahd()
+        {
+            var releaseDate = "8/10/2016";
+            var ExtraInfo = string.Empty;
+            using var ctx = Factory.CreateSource("Dice Masters: Strahd", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+            if (ctx == null) return;
+
+            ctx.CreateNPC("Count Strahd von Zarovich").AddLocations(ctx.CreateLocation("Castle Ravenloft"));
+        }
+        void AddSpellfireMastertheMagic()
+        {
+            var releaseDate = "01/04/1994";
+            var ExtraInfo = "Only the name and flavour text are";
+            using var ctx = Factory.CreateSource("Spellfire: Master the Magic", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+            if (ctx == null) return;
+
+            var Barovia = ctx.CreateDomain("Barovia").AddInfo("Ravenloft Edition, 1/100");
+            var Darkon = ctx.CreateDomain("Darkon")    .AddInfo("Ravenloft Edition, 2/100" );
+            ctx.CreateDomain("Lamordia")  .AddInfo("Ravenloft Edition, 3/100" );
+            ctx.CreateDomain("Mordent")   .AddInfo("Ravenloft Edition, 4/100" );
+            ctx.CreateDomain("Kartakass").AddInfo("Ravenloft Edition, 5/100").AddTraits(Traits.Creature.Werebeast);
+            ctx.CreateDomain("Keening")   .AddInfo("Ravenloft Edition, 6/100" );
+            ctx.CreateDomain("Tepest")    .AddInfo("Ravenloft Edition, 7/100" );
+            ctx.CreateDomain("Verbrek")   .AddInfo("Ravenloft Edition, 8/100" ).AddTraits(Traits.Creature.Wolf);
+            ctx.CreateDomain("Invidia")   .AddInfo("Ravenloft Edition, 9/100" );
+            ctx.CreateDomain("Nova Vaasa").AddInfo("Ravenloft Edition, 10/100");
+            ctx.CreateDomain("Dementlieu").AddInfo("Ravenloft Edition, 11/100");
+            ctx.CreateDomain("Valachan")  .AddInfo("Ravenloft Edition, 12/100");
+            ctx.CreateDomain("Har'Akir")  .AddInfo("Ravenloft Edition, 13/100");
+            ctx.CreateDomain("Souragne")  .AddInfo("Ravenloft Edition, 14/100");
+            ctx.CreateDomain("Sri Raji")  .AddInfo("Ravenloft Edition, 15/100");
+
+            ctx.CreateLocation("Castle Ravenloft").AddInfo("Ravenloft Edition, 16/100").AddDomains(Barovia);
+            ctx.CreateLocation("Azalin's Graveyard").AddInfo("Ravenloft Edition, 17/100").AddDomains(Darkon).AddTraits(Traits.Creature.Zombie);
+            ctx.CreateLocation("Kargat Mausoleum").AddInfo("Ravenloft Edition, 18/100").AddDomains(Darkon).AddTraits(Traits.Status.TheKargat);
         }
         Factory.db.SaveChanges();
     }
