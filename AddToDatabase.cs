@@ -26,7 +26,7 @@ internal static class AddToDatabase
 
             var Barovia = ctx.CreateDomain("Barovia")
                 .AddItems(
-                    ctx.CreateItem("Tarokka", "1, 4, 5").AddTraits(Traits.Status.Vistani),
+                    ctx.CreateItem("Tarokka Deck", "1, 4, 5").AddTraits(Traits.Status.Vistani),
                     ctx.CreateItem("Sunsword", "5, 31"),
                     ctx.CreateItem("Icon of Ravenloft", "14"),
                     ctx.CreateItem("Holy Symbol of Ravenkind", "17, 30"),
@@ -50,7 +50,7 @@ internal static class AddToDatabase
             var BurgomasterHome = ctx.CreateLocation("Burgomaster's Home", "1, 9").AddDomains(Barovia).AddTraits(Traits.Settlement.VillageOfBarovia);
             var BarovianChurch = ctx.CreateLocation("Church of Barovia", "9, 10").AddDomains(Barovia).AddTraits(Traits.Settlement.VillageOfBarovia);
 
-            ctx.CreateNPC("Madam Eva","1, 6, 11, 32").AddTraits(Traits.Race.Human, Traits.Alignment.CN, Traits.Status.Raunie.Item1, Traits.Status.Raunie.Item2)
+            ctx.CreateNPC("Madam Eva","1, 6, 11, 32").AddTraits(Traits.Creature.Human, Traits.Alignment.CN, Traits.Status.Raunie.Item1, Traits.Status.Raunie.Item2)
                 .AddLocations(
                     ctx.CreateLocation("Tser Pool Encampment", "11").AddDomains(Barovia).AddTraits(Traits.Location.Settlement, Traits.Settlement.TserPoolEncampment),
                     ctx.CreateLocation("Madam Eva's Tent", "11").AddDomains(Barovia).AddTraits(Traits.Settlement.TserPoolEncampment)
@@ -59,9 +59,9 @@ internal static class AddToDatabase
             var CastleRavenloft = ctx.CreateLocation("Castle Ravenloft","1, 6, 8, 9, 12-30").AddDomains(Barovia).AddTraits(Traits.Location.Darklord)
                 .AddNPCs(
                     ctx.CreateNPC("Guardian Of Sorrow", "16").AddTraits(Traits.Alignment.NE),
-                    ctx.CreateNPC("Lief Lipsiege", "17").AddTraits(Traits.Alignment.CE, Traits.Race.Human),
-                    ctx.CreateNPC("Helga", "18").AddTraits(Traits.Alignment.CE, Traits.Race.Human, Traits.Creature.Vampire),
-                    ctx.CreateNPC("Cyrus Belview", "23").AddTraits(Traits.Alignment.CN, Traits.Race.Human),
+                    ctx.CreateNPC("Lief Lipsiege", "17").AddTraits(Traits.Alignment.CE, Traits.Creature.Human),
+                    ctx.CreateNPC("Helga", "18").AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.Vampire),
+                    ctx.CreateNPC("Cyrus Belview", "23").AddTraits(Traits.Alignment.CN, Traits.Creature.Human),
 
                     ctx.CreateNPC("Spectre Ab-Centeer", "27").AddTraits(Traits.Status.Deceased),
                     ctx.CreateNPC("Artista DeSlop", "27").AddTraits(Traits.Status.Deceased),
@@ -129,15 +129,15 @@ internal static class AddToDatabase
                 );
 
             ctx.CreateNPC("Anna Petrovna", "28").AddDomains(Factory.OutsideRavenloft);
-            ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Race.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
-            ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BarovianChurch);
+            ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Creature.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
+            ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human).AddLocations(VillageOfBarovia, BarovianChurch);
 
-            var Strahd = ctx.CreateNPC("Count Strahd von Zarovich").AddTraits(Traits.Creature.Vampire, Traits.Race.Human, Traits.Alignment.CE, Traits.Status.Darklord, Traits.Creature.Wolf, Traits.Creature.Worg, Traits.Creature.Bat, Traits.Creature.StrahdZombie, Traits.Creature.Zombie).AddLocations(CastleRavenloft).AddInfo("'ClosedBorders':'No one has left Barovia for centuries. This is because of the trapping fog that exists everywhere in Barovia. Once it is breathed, it infuses itself around a character's vital organs as a neutralized poison. The fog does not taste or smell any different than normal fog. It does not harm characters as long as they continue to breathe the air in Barovia. However, when they leave Barovia, the poison becomes active. Characters must save vs. poison or start to choke. Unless choking characters reenter Barovia within 24 hours, they die. The choking stops as soon as they breathe the fog again.  The fog is magically produced by Strahd and disappears entirely upon his destruction.'");
+            var Strahd = ctx.CreateNPC("Count Strahd von Zarovich").AddTraits(Traits.Creature.Vampire, Traits.Creature.Human, Traits.Alignment.CE, Traits.Status.Darklord, Traits.Creature.Wolf, Traits.Creature.Worg, Traits.Creature.Bat, Traits.Creature.StrahdZombie, Traits.Creature.Zombie).AddLocations(CastleRavenloft).AddInfo("'ClosedBorders':'No one has left Barovia for centuries. This is because of the trapping fog that exists everywhere in Barovia. Once it is breathed, it infuses itself around a character's vital organs as a neutralized poison. The fog does not taste or smell any different than normal fog. It does not harm characters as long as they continue to breathe the air in Barovia. However, when they leave Barovia, the poison becomes active. Characters must save vs. poison or start to choke. Unless choking characters reenter Barovia within 24 hours, they die. The choking stops as soon as they breathe the fog again.  The fog is magically produced by Strahd and disappears entirely upon his destruction.'");
 
-            var Sergei = ctx.CreateNPC("Sergei von Zarovich", "1, 4, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Race.Human).AddLocations(CastleRavenloft);
+            var Sergei = ctx.CreateNPC("Sergei von Zarovich", "1, 4, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(CastleRavenloft);
 
-            var KingBarov = ctx.CreateNPC("King Barov", "28, 30").AddTraits(Traits.Status.Deceased, Traits.Race.Human).AddLocations(CastleRavenloft);
-            var Ravenovia = ctx.CreateNPC("Queen Ravenovia", "5, 28, 30").AddTraits(Traits.Status.Deceased, Traits.Race.Human).AddLocations(CastleRavenloft);
+            var KingBarov = ctx.CreateNPC("King Barov", "28, 30").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(CastleRavenloft);
+            var Ravenovia = ctx.CreateNPC("Queen Ravenovia", "5, 28, 30").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(CastleRavenloft);
 
             ctx.CreateRelationship(KingBarov, RelationshipType.Spouse, Ravenovia);
             ctx.CreateRelationship(KingBarov, RelationshipType.Parent, Strahd);
@@ -146,8 +146,8 @@ internal static class AddToDatabase
             ctx.CreateRelationship(Ravenovia, RelationshipType.Parent, Sergei);
 
 
-            var SashaIvliskova = ctx.CreateNPC("Sasha Ivliskova", "28").AddTraits(Traits.Alignment.CE, Traits.Race.Human, Traits.Creature.Vampire).AddLocations(CastleRavenloft);
-            var PatrinaVelikovna = ctx.CreateNPC("Patrina Velikovna", "28").AddTraits(Traits.Alignment.CE, Traits.Race.Elf, Traits.Creature.Banshee).AddLocations(CastleRavenloft);
+            var SashaIvliskova = ctx.CreateNPC("Sasha Ivliskova", "28").AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.Vampire).AddLocations(CastleRavenloft);
+            var PatrinaVelikovna = ctx.CreateNPC("Patrina Velikovna", "28").AddTraits(Traits.Alignment.CE, Traits.Creature.Elf, Traits.Creature.Banshee).AddLocations(CastleRavenloft);
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, SashaIvliskova);
             ctx.CreateRelationship(Strahd, RelationshipType.Spouse, PatrinaVelikovna);
 
@@ -156,22 +156,22 @@ internal static class AddToDatabase
 
 
 
-            var KolyanIndirovich = ctx.CreateNPC("Kolyan Indirovich", "7, 8, 9").AddTraits(Traits.Status.Deceased, Traits.Race.Human).AddLocations(VillageOfBarovia, BurgomasterHome);
-            var IreenaKolyana = ctx.CreateNPC("Ireena Kolyana").AddTraits(Traits.Alignment.LG, Traits.Race.Human, Traits.Status.Tatyana).AddLocations(VillageOfBarovia, BurgomasterHome);
-            var Ismark = ctx.CreateNPC("Ismark the Lesser", "8, 9").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BurgomasterHome, BloodVineTavern);
+            var KolyanIndirovich = ctx.CreateNPC("Kolyan Indirovich", "7, 8, 9").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(VillageOfBarovia, BurgomasterHome);
+            var IreenaKolyana = ctx.CreateNPC("Ireena Kolyana").AddTraits(Traits.Alignment.LG, Traits.Creature.Human, Traits.Status.Tatyana).AddLocations(VillageOfBarovia, BurgomasterHome);
+            var Ismark = ctx.CreateNPC("Ismark the Lesser", "8, 9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human).AddLocations(VillageOfBarovia, BurgomasterHome, BloodVineTavern);
             ctx.CreateRelationship(KolyanIndirovich, RelationshipType.Adopted, IreenaKolyana);
             ctx.CreateRelationship(KolyanIndirovich, RelationshipType.Parent, Ismark);
 
 
 
-            var MadMary = ctx.CreateNPC("Mad Mary", "9, 19").AddTraits(Traits.Alignment.CN, Traits.Race.Human).AddLocations(VillageOfBarovia, MaryHouse);
-            var Gertruda = ctx.CreateNPC("Gertruda", "9, 19").AddTraits(Traits.Alignment.NG, Traits.Race.Human).AddLocations(VillageOfBarovia, CastleRavenloft, MaryHouse);
+            var MadMary = ctx.CreateNPC("Mad Mary", "9, 19").AddTraits(Traits.Alignment.CN, Traits.Creature.Human).AddLocations(VillageOfBarovia, MaryHouse);
+            var Gertruda = ctx.CreateNPC("Gertruda", "9, 19").AddTraits(Traits.Alignment.NG, Traits.Creature.Human).AddLocations(VillageOfBarovia, CastleRavenloft, MaryHouse);
             ctx.CreateRelationship(MadMary, RelationshipType.Parent, Gertruda);
 
 
 
-            var Bildrath = ctx.CreateNPC("Bildrath", "8").AddTraits(Traits.Alignment.LG, Traits.Race.Human).AddLocations(VillageOfBarovia, BildrathMercantile);
-            var Parriwimple = ctx.CreateNPC("Parriwimple", "8").AddTraits(Traits.Alignment.LN, Traits.Race.Human).AddLocations(VillageOfBarovia, BildrathMercantile);
+            var Bildrath = ctx.CreateNPC("Bildrath", "8").AddTraits(Traits.Alignment.LG, Traits.Creature.Human).AddLocations(VillageOfBarovia, BildrathMercantile);
+            var Parriwimple = ctx.CreateNPC("Parriwimple", "8").AddTraits(Traits.Alignment.LN, Traits.Creature.Human).AddLocations(VillageOfBarovia, BildrathMercantile);
             var BildrathParents = ctx.CreateNPC("Bildrath Parents", string.Empty).AddTraits(Traits.NoLink);
             var BildrathSibling = ctx.CreateNPC("Bildrath Sibling", string.Empty).AddTraits(Traits.NoLink);
             ctx.CreateRelationship(BildrathParents, RelationshipType.Parent, Bildrath);
@@ -186,8 +186,8 @@ internal static class AddToDatabase
             if (ctx == null) return;
 
             var Bluetspur = ctx.CreateDomain("Bluetspur").AddNPCs(
-                ctx.CreateNPC("Clarke").AddTraits(Traits.Race.Human),
-                ctx.CreateNPC("Phillips").AddTraits(Traits.Race.Human, Traits.Status.Deceased),
+                ctx.CreateNPC("Clarke").AddTraits(Traits.Creature.Human),
+                ctx.CreateNPC("Phillips").AddTraits(Traits.Creature.Human, Traits.Status.Deceased),
                 ctx.CreateNPC("God-Brain").AddTraits(Traits.Status.Darklord)
                 );
 
@@ -197,11 +197,11 @@ internal static class AddToDatabase
             ctx.CreateDomain("Lamordia");
 
             var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddDomains(Factory.InsideRavenloft).AddNPCs(
-                ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Race.Human),
-                ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Race.Human)
+                ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Creature.Human),
+                ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Creature.Human)
                 );
 
-            ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Race.Human).AddDomains(Darkon, Bluetspur).AddLocations(DharlaethAsylum);
+            ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Creature.Human).AddDomains(Darkon, Bluetspur).AddLocations(DharlaethAsylum);
         }
         void AddCommanderLegendsBattleforBaldursGate()
         {
@@ -212,7 +212,7 @@ internal static class AddToDatabase
             if (ctx == null) return;
 
             var Barovia = ctx.CreateDomain("Barovia").AddNPCs(
-                ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Race.Human, Traits.Creature.Witch)
+                ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Creature.Human, Traits.Creature.Witch)
                 );
         }
         void AddDiceMastersStrahd()
@@ -231,25 +231,112 @@ internal static class AddToDatabase
             using var ctx = Factory.CreateSource("Spellfire: Master the Magic", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
             if (ctx == null) return;
 
-            var Barovia = ctx.CreateDomain("Barovia").AddInfo("Ravenloft Edition, 1/100");
-            var Darkon = ctx.CreateDomain("Darkon")    .AddInfo("Ravenloft Edition, 2/100" );
-            ctx.CreateDomain("Lamordia")  .AddInfo("Ravenloft Edition, 3/100" );
-            ctx.CreateDomain("Mordent")   .AddInfo("Ravenloft Edition, 4/100" );
-            ctx.CreateDomain("Kartakass").AddInfo("Ravenloft Edition, 5/100").AddTraits(Traits.Creature.Werebeast);
-            ctx.CreateDomain("Keening")   .AddInfo("Ravenloft Edition, 6/100" );
-            ctx.CreateDomain("Tepest")    .AddInfo("Ravenloft Edition, 7/100" );
-            ctx.CreateDomain("Verbrek")   .AddInfo("Ravenloft Edition, 8/100" ).AddTraits(Traits.Creature.Wolf);
-            ctx.CreateDomain("Invidia")   .AddInfo("Ravenloft Edition, 9/100" );
-            ctx.CreateDomain("Nova Vaasa").AddInfo("Ravenloft Edition, 10/100");
-            ctx.CreateDomain("Dementlieu").AddInfo("Ravenloft Edition, 11/100");
-            ctx.CreateDomain("Valachan")  .AddInfo("Ravenloft Edition, 12/100");
-            ctx.CreateDomain("Har'Akir")  .AddInfo("Ravenloft Edition, 13/100");
-            ctx.CreateDomain("Souragne")  .AddInfo("Ravenloft Edition, 14/100");
-            ctx.CreateDomain("Sri Raji")  .AddInfo("Ravenloft Edition, 15/100");
+            ctx.CreateDomain("Barovia", "Ravenloft Set 1/100");
+            ctx.CreateDomain("Darkon", "Ravenloft Set 2/100");
+            ctx.CreateDomain("Lamordia", "Ravenloft Set 3/100");
+            ctx.CreateDomain("Mordent", "Ravenloft Set 4/100");
+            ctx.CreateDomain("Kartakass", "Ravenloft Set 5/100");
+            ctx.CreateDomain("Keening", "Ravenloft Set 6/100");
+            ctx.CreateDomain("Tepest", "Ravenloft Set 7/100");
+            ctx.CreateDomain("Verbrek", "Ravenloft Set 8/100").AddTraits(Traits.Creature.Wolf);
+            ctx.CreateDomain("Invidia", "Ravenloft Set 9/100");
+            ctx.CreateDomain("Nova Vaasa", "Ravenloft Set 10/100");
+            ctx.CreateDomain("Dementlieu", "Ravenloft Set 11/100");
+            ctx.CreateDomain("Valachan", "Ravenloft Set 12/100");
+            ctx.CreateDomain("Har'Akir", "Ravenloft Set 13/100");
+            ctx.CreateDomain("Souragne", "Ravenloft Set 14/100");
+            ctx.CreateDomain("Sri Raji", "Ravenloft Set 15/100");
 
-            ctx.CreateLocation("Castle Ravenloft").AddInfo("Ravenloft Edition, 16/100").AddDomains(Barovia);
-            ctx.CreateLocation("Azalin's Graveyard").AddInfo("Ravenloft Edition, 17/100").AddDomains(Darkon).AddTraits(Traits.Creature.Zombie);
-            ctx.CreateLocation("Kargat Mausoleum").AddInfo("Ravenloft Edition, 18/100").AddDomains(Darkon).AddTraits(Traits.Status.TheKargat);
+            ctx.CreateLocation("Castle Ravenloft", "Ravenloft Set 16/100");
+            var AzalinGraveyard = ctx.CreateLocation("Azalin's Graveyard", "Ravenloft Set 17/100").AddTraits(Traits.Creature.Zombie);
+            ctx.CreateLocation("Kargat Mausoleum", "Ravenloft Set 18/100").AddTraits(Traits.Status.TheKargat);
+
+            ctx.CreateDomain("Paridon", "Ravenloft Set 19/100").AddTraits(Traits.Creature.Doppelganger);
+
+            ctx.CreateLocation("Pharaoh's Rest", "Ravenloft Set 20/100");
+
+            ctx.CreateItem("Spell Book of Drawmji", "Ravenloft Set 29/100");
+            ctx.CreateItem("Tarokka Deck", "Ravenloft Set 56/100");
+            ctx.CreateItem("Timepiece of Klorr", "Ravenloft Set 57/100");
+            ctx.CreateItem("Ring of Regeneration", "Ravenloft Set 58/100");
+            ctx.CreateItem("Sun Sword", "Ravenloft Set 59/100");
+            ctx.CreateItem("Blood Coin", "Ravenloft Set 60/100");
+            ctx.CreateItem("Staff of Mimicry", "Ravenloft Set 61/100");
+            ctx.CreateItem("Soul Searcher Medallion", "Ravenloft Set 62/100");
+            ctx.CreateItem("Ring of Reversion", "Ravenloft Set 63/100");
+            ctx.CreateItem("Amulet of the Beast", "Ravenloft Set 64/100");
+            
+            ctx.CreateItem("Cat of Felkovic", "Ravenloft Set 65/100");
+            ctx.CreateItem("Apparatus", "Ravenloft Set 66/100");
+            ctx.CreateItem("Crown of Souls", "Ravenloft Set 67/100");
+            ctx.CreateItem("Holy Symbol of Ravenkind", "Ravenloft Set 68/100");
+            ctx.CreateItem("Tapestry of Dark Souls", "Ravenloft Set 69/100");
+            ctx.CreateItem("Fang of the Nosferatu", "Ravenloft Set 70/100");
+
+            ctx.CreateNPC("Azalin", "Azalin Rex", "Ravenloft Set 82/100").AddLocations(AzalinGraveyard);
+            ctx.CreateNPC("Adam", "Ravenloft Set 83/100");
+            ctx.CreateNPC("Ankhtepot", "Ravenloft Set 84/100");
+            ctx.CreateNPC("Ireena Kolyana", "Ravenloft Set 85/100");
+            ctx.CreateNPC("Dr. Rudolph Van Richten", "Ravenloft Set 86/100");
+            ctx.CreateNPC("Harkon Lukas", "Ravenloft Set 87/100");
+            ctx.CreateNPC("Headless Horseman", "Ravenloft Set 88/100").AddTraits(Traits.Creature.Horse);
+            ctx.CreateNPC("Arijani", "Ravenloft Set 89/100");
+            ctx.CreateNPC("Wilfred Godefroy", "Ravenloft Set 90/100");
+            ctx.CreateNPC("Tiyet", "Ravenloft Set 91/100");
+            ctx.CreateNPC("Sir Hiregaard", "Sir Tristen Hiregaard", "Ravenloft Set 92/100");
+            ctx.CreateNPC("Gabrielle Aderre", "Ravenloft Set 93/100");
+            ctx.CreateNPC("Hags of Tepest", "Ravenloft Set 94/100").AddTraits(Traits.Creature.Hag);
+            ctx.CreateNPC("Sir Edmund Bloodsworth", "Ravenloft Set 95/100").AddTraits(Traits.Creature.Doppelganger);
+            ctx.CreateNPC("High Master Illithid", "Ravenloft Set 96/100").AddTraits(Traits.Creature.MindFlayer.Item1, Traits.Creature.MindFlayer.Item2);
+            ctx.CreateNPC("Dr. Mordenheim", "Dr. Victor Mordenheim", "Ravenloft Set 97/100");
+            ctx.CreateNPC("Sergei Von Zarovich", "Ravenloft Set 98/100");
+            ctx.CreateNPC("Lord Soth", "Ravenloft Set 99/100");
+            ctx.CreateNPC("Strahd Von Zarovich", "Count Strahd von Zarovich", "Ravenloft Set 100/100");
+
+            ctx.CreateItem("Seal of Lost Arak", "Artifacts Set 12/100");
+            ctx.CreateItem("Crystal of the Ebon Flame", "Artifacts Set 13/100");
+            ctx.CreateNPC("Yagno Petrovna", "Artifacts Set 82/100");
+            ctx.CreateDomain("Bluet Spur", "Bluetspur", "Artifacts Set 88/100, 4th Edition Set, 59/500");
+            ctx.CreateItem("Death Rock", "Artifacts Set 2/20");
+
+            ctx.CreateLocation("UnderDread", "Underdark Set 9/100");
+            ctx.CreateLocation("The Dread Chamber", "Underdark Set 18/100");
+            ctx.CreateNPC("The Red Death", "Underdark Set 68/100");
+            ctx.CreateNPC("Chantal the Banshee", "Underdark Set 97/100").AddTraits(Traits.Creature.Banshee);
+            ctx.CreateNPC("Iseult", "Underdark Set 99/100");
+
+            ctx.CreateLocation("Tower of Spirits", "Runes & Ruins Set 15/25");
+
+            ctx.CreateLocation("Castle Strahd","Castle Ravenloft", "Dungeons Set 7/100");
+            ctx.CreateLocation("The Ruins of Lololia", "Dungeons Set 32/100");
+            ctx.CreateItem("Borer", "Dungeons Set 61/100");
+
+            ctx.CreateDomain("Falkovnia", "Nightstalkers Set 5/100");
+            ctx.CreateDomain("Richemulot", "Nightstalkers Set 6/100");
+            ctx.CreateLocation("Haunted Graveyard", "Nightstalkers Set 11/100").AddTraits(Traits.Creature.Ghost);
+            ctx.CreateNPC("Jacqueline Renier", "Nightstalkers Set 32/100");
+            ctx.CreateNPC("Ratik Ubel", "Nightstalkers Set 33/100");
+            ctx.CreateNPC("Julio, Master Thief of Haslic", "Nightstalkers Set 34/100");
+            ctx.CreateNPC("Nemon Hotep", "Nightstalkers Set 67/100");
+            ctx.CreateNPC("Shera the Wise", "Nightstalkers Set 68/100");
+            ctx.CreateNPC("Varney the Vampire", "Nightstalkers Set 16/25").AddTraits(Traits.Creature.Vampire);
+            ctx.CreateNPC("Gib Lhadsemlo", "Nightstalkers Set 18/25").AddTraits(Traits.Creature.FleshGolem);
+            ctx.CreateLocation("Mad Scientist's Laboratory", "Nightstalkers Set 25/25");
+
+            ctx.CreateDomain("Arak", "4th Edition Set, 60/500").AddTraits(Traits.Creature.Drow);
+            ctx.CreateDomain("Borca", "4th Edition Set, 61/500");
+            ctx.CreateDomain("Gundarak", "4th Edition Set, 62/500").AddNPCs(
+                ctx.CreateNPC("Lord Gundar", "4th Edition Set, 62/500").AddTraits(Traits.Creature.Ghost, Traits.Status.Darklord)
+                );
+            ctx.CreateDomain("Sithicus", "4th Edition Set, 63/500");
+
+            ctx.CreateNPC("Pearl", "4th Edition Set, 304/500");
+            ctx.CreateNPC("Amber", "4th Edition Set, 304/500");
+            ctx.CreateNPC("Aquamarina", "4th Edition Set, 304/500");
+
+            ctx.CreateNPC("Bride of Malice", "4th Edition Set, 357/500").AddTraits(Traits.Creature.Vampire, Traits.Creature.Dragon);
+            ctx.CreateNPC("Vulture of the Core", "4th Edition Set, 358/500").AddTraits(Traits.Creature.Vulture);
+            ctx.CreateNPC("The Bog Monster", "4th Edition Set, 360/500");
         }
         Factory.db.SaveChanges();
     }

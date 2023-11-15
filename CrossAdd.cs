@@ -108,7 +108,7 @@
     }
     public static Domain AddInfo(this Domain domain, string ExtraInfo)
     {
-        domain.ExtraInfo = ExtraInfo;
+        domain.ExtraInfo += ExtraInfo;
         return domain;
     }
 

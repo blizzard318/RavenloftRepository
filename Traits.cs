@@ -20,7 +20,7 @@
         public static Source.Trait e35 = CreateEdition("3.5th Ed");
         public static Source.Trait e4  = CreateEdition("4th Ed"  );
         public static Source.Trait e5  = CreateEdition("5th Ed"  );
-        public static Source.Trait e0  = CreateEdition("Editionless"  );
+        public static Source.Trait e0  = CreateEdition("Editionless");
     }
 
     internal static class Canon //Annoying to create a page for this, maybe don't.
@@ -131,19 +131,6 @@
         public static Trait Common = CreateLanguage("Common");
     }
 
-    internal static class Race
-    {
-        public static List<Trait> Races = new List<Trait>();
-        private static Trait CreateRace(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Race));
-            Races.Add(retval);
-            return retval;
-        }
-        public static Trait Human = CreateRace("Human");
-        public static Trait Elf   = CreateRace("Elf"  );
-    }
-
     internal static class Settlement //Everything here has to use Location.Settlement.Key
     {
         public static List<Trait> Settlements = new List<Trait>();
@@ -194,7 +181,11 @@
             Creatures.Add(retval);
             return retval;
         }
+        public static Trait Human = CreateCreature("Human");
+        public static Trait Elf = CreateCreature("Elf");
+        public static Trait Drow = CreateCreature("Drow");
 
+        public static Trait Vulture     = CreateCreature("Vulture"     );
         public static Trait Wolf        = CreateCreature("Wolf"        );
         public static Trait Bat         = CreateCreature("Bat"         );
         public static Trait Horse       = CreateCreature("Horse"       );
@@ -214,6 +205,10 @@
         public static Trait Trapper          = CreateCreature("Trapper"          );
         public static Trait GuardianPortrait = CreateCreature("Guardian Portrait");
 
+        public static Trait Dragon = CreateCreature("Dragon");
+
+        public static Trait Doppelganger = CreateCreature("Doppelganger");
+
         public static Trait Spirit        = CreateCreature("Spirit"        );
         public static Trait Ghost         = CreateCreature("Ghost"         );
         public static Trait Wraith        = CreateCreature("Wraith"        );
@@ -224,14 +219,16 @@
         public static Trait Zombie       = CreateCreature("Zombie"       );
         public static Trait Skeleton     = CreateCreature("Skeleton"     );
 
-        public static Trait Vampire = CreateCreature("Vampire");
-        public static Trait Ghoul   = CreateCreature("Ghoul"  );
-        public static Trait Wight   = CreateCreature("Wight"  );
+        public static Trait Vampire    = CreateCreature("Vampire");
+        public static Trait Ghoul      = CreateCreature("Ghoul"  );
+        public static Trait Wight      = CreateCreature("Wight"  );
+        public static Trait FleshGolem = CreateCreature("Flesh Golem");
 
+        public static Trait Hag       = CreateCreature("Hag"     );
         public static Trait Witch     = CreateCreature("Witch"   );
         public static Trait Werewolf  = CreateCreature("Werewolf");
-        public static Trait Werebeast = CreateCreature("Werebeast");
 
+        public static (Trait, Trait) MindFlayer = (CreateCreature("Illithid"), CreateCreature("Mind Flayer"));
         public static (Trait, Trait) KeeningSpirit = (CreateCreature("Keening Spirit"), CreateCreature("Groaning Spirit"));
         public static (Trait, Trait) GroaningSpirit = (KeeningSpirit.Item1, KeeningSpirit.Item2);
     }

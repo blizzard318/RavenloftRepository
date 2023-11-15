@@ -93,7 +93,7 @@ internal class Factory : IDisposable
         { 
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
         });
         return retval;
     }
@@ -112,7 +112,7 @@ internal class Factory : IDisposable
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
         });
         return retval;
     }
@@ -131,7 +131,7 @@ internal class Factory : IDisposable
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
         });
         return retval;
     }
@@ -150,7 +150,7 @@ internal class Factory : IDisposable
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : string.Join(',', pageNumbers)
+            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
         });
         return retval;
     }
