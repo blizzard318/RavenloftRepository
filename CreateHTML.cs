@@ -524,6 +524,41 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
+            //Key is domain, entries are all location names
+            var CharactersPerDomain = new Dictionary<string, HashSet<string>>();
+            var CharactersPerGroup = new Dictionary<string, HashSet<string>>();
+            var CharactersPerCreature = new Dictionary<string, HashSet<string>>();
+
+            var DeceasedCharactersPerDomain = new Dictionary<string, HashSet<string>>();
+            var DeceasedCharactersPerGroup = new Dictionary<string, HashSet<string>>();
+            var DeceasedCharactersPerCreature = new Dictionary<string, HashSet<string>>();
+
+            var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits);
+            foreach (var character in AllCharacters)
+            {
+                foreach (var domain in character.Domains)
+                {
+                    CharactersPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                    CharactersPerGroup.TryAdd(domain.OriginalName, new HashSet<string>());
+                    CharactersPerCreature.TryAdd(domain.OriginalName, new HashSet<string>());
+                    DeceasedCharactersPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                    DeceasedCharactersPerGroup.TryAdd(domain.OriginalName, new HashSet<string>());
+                    DeceasedCharactersPerCreature.TryAdd(domain.OriginalName, new HashSet<string>());
+
+                    CharactersPerDomain[domain.OriginalName].Add(character.OriginalName);
+
+                    var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status)));
+                    foreach (var statusTrait in StatusTraits)
+                    {
+                        if (statusTrait == Traits.Status.Deceased) Types.Add(statusTrait.Key);
+                        else Types.AddLink("Group", statusTrait.Key);
+                    }
+
+                    if (location.Traits.Contains(Traits.Location.Settlement))
+                        SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                }
+            }
+
             using (var Domain = subheader.CreatePage("By Domain"))
             {
 
@@ -532,8 +567,46 @@ internal static class CreateHTML
             {
 
             }
+            using (var Creature = subheader.CreatePage("By Creature Type"))
+            {
+
+            }
         }
         SaveHTML("Character");
+    }
+    public static void CreateItemPage()
+    {
+        CreateOfficialHeader("Items of Ravenloft");
+
+        using (var subheader = new SubHeader())
+        {
+            //Key is domain, entries are all location names
+            var ItemsPerDomain = new Dictionary<string, HashSet<string>>();
+            var ItemsPerGroup = new Dictionary<string, HashSet<string>>();
+
+            var AllLocations = Factory.db.Locations.Include(s => s.Domains).Include(s => s.Traits);
+            foreach (var location in AllLocations)
+            {
+                foreach (var domain in location.Domains)
+                {
+                    ItemsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                    ItemsPerGroup.TryAdd(domain.OriginalName, new HashSet<string>());
+
+                    ItemsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                    if (location.Traits.Contains(Traits.Location.Settlement))
+                        SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                }
+            }
+            using (var Domain = subheader.CreatePage("By Domain"))
+            {
+
+            }
+            using (var Group = subheader.CreatePage("By Group")) //Status And Creature Traits
+            {
+
+            }
+        }
+        SaveHTML(nameof(Item));
     }
     #endregion
 }

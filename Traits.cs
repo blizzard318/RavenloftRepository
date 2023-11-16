@@ -25,7 +25,7 @@
 
     internal static class Canon //Annoying to create a page for this, maybe don't.
     {
-        static Canon() => nc.ExtraInfo = pc.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
+        static Canon() => NotCanon.ExtraInfo = PotentialCanon.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
         public static List<Source.Trait> Canons = new List<Source.Trait>(2);
         private static Source.Trait CreateCanon(string name)
         {
@@ -33,8 +33,8 @@
             Canons.Add(retval);
             return retval;
         }
-        public static Source.Trait pc = CreateCanon("Potentially Canon");
-        public static Source.Trait nc = CreateCanon("Not Canon"        );
+        public static Source.Trait PotentialCanon = CreateCanon("Potentially Canon");
+        public static Source.Trait NotCanon       = CreateCanon("Not Canon"        );
     }
 
     internal static class Media
@@ -188,6 +188,7 @@
         public static Trait Vulture     = CreateCreature("Vulture"     );
         public static Trait Wolf        = CreateCreature("Wolf"        );
         public static Trait Bat         = CreateCreature("Bat"         );
+        public static Trait VampireBat  = CreateCreature("Vampire Bat" );
         public static Trait Horse       = CreateCreature("Horse"       );
         public static Trait Cat         = CreateCreature("Cat"         );
         public static Trait GiantSpider = CreateCreature("Giant Spider");
@@ -228,9 +229,12 @@
         public static Trait Witch     = CreateCreature("Witch"   );
         public static Trait Werewolf  = CreateCreature("Werewolf");
 
+        #region Alternate Names
         public static (Trait, Trait) MindFlayer = (CreateCreature("Illithid"), CreateCreature("Mind Flayer"));
+        public static (Trait, Trait) Illithid = (MindFlayer.Item1, MindFlayer.Item2);
         public static (Trait, Trait) KeeningSpirit = (CreateCreature("Keening Spirit"), CreateCreature("Groaning Spirit"));
         public static (Trait, Trait) GroaningSpirit = (KeeningSpirit.Item1, KeeningSpirit.Item2);
+        #endregion
     }
     #endregion
 }
