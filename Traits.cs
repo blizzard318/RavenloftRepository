@@ -61,11 +61,6 @@
     internal static class Location //Seperate them by Mistway,Cluster,Settlement,DarklordLair and else.
     {
         public static List<Trait> Locations = new List<Trait>();
-        static Location()
-        {
-            Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
-            Locations.Add(Darklord);
-        }
         private static Trait CreateLocation(string name)
         {
             var retval = Factory.CreateTrait(name, nameof(Location));
@@ -74,7 +69,6 @@
         }
         public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
-        public static Trait Darklord => Status.Darklord;
     }
 
     internal static class Status //Includes Groups
@@ -82,6 +76,7 @@
         public static List<Trait> Statuses = new List<Trait>();
         static Status ()
         {
+            Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
             Statuses.Add(Darklord);
             Statuses.Add(Vistani);
         }

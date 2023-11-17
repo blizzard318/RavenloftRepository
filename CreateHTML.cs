@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUglify;
+using NUglify.JavaScript.Syntax;
+using System;
 using System.Text;
 
 internal static class CreateHTML
@@ -80,20 +83,39 @@ internal static class CreateHTML
 
     #region PAGE CREATOR
     private static StringBuilder sb = new StringBuilder();
+    private enum SortMethod { alphabet, date }
     private class Table : IDisposable
     {
+        private static readonly Dictionary<string, (SortMethod method, int index)> TablesToSort = new Dictionary<string, (SortMethod, int)>();
+        public static void SortAllTablesOnPage()
+        {
+            if (TablesToSort.Count == 0) return;
+            foreach (var table in TablesToSort)
+            {
+                switch (table.Value.method)
+                {
+                    case SortMethod.alphabet:
+                        CreateHTML.sb.AppendLine($"sortTable('{table.Key}',{table.Value.index});");
+                        break;
+                    case SortMethod.date:
+                        CreateHTML.sb.AppendLine($"sortDate('{table.Key}',{table.Value.index});");
+                        break;
+                }
+            }
+            TablesToSort.Clear();
+        }
+
         private readonly string TableID;
         private readonly StringBuilder sb;
-        public Table(string title, string? caption = null) : this(title, caption, CreateHTML.sb) { }
-        public Table(string title, StringBuilder stringBuilder) : this(title, string.Empty, stringBuilder) { }
-        public Table(string title, string? caption, StringBuilder stringBuilder)
+        public Table(string title, string? caption = null, StringBuilder? stringBuilder = null)
         {
-            TableID = title;
-            sb = stringBuilder;
+            TablesToSort.Add(TableID = title, (SortMethod.alphabet, 0));
+            sb = stringBuilder ?? CreateHTML.sb;
             sb.AppendLine($"<b style='font-size:25px'>{title}</b>");
             sb.AppendLine($"<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='{title}'>");
             if (!string.IsNullOrWhiteSpace(caption)) sb.AppendLine($"<caption>{caption}</caption>");
         }
+        public void AdjustSort(SortMethod method, int index) => TablesToSort[TableID] = (method, index);
         public HeaderRow CreateHeaderRow() => new HeaderRow(this);
         public class HeaderRow : IDisposable
         {
@@ -106,7 +128,7 @@ internal static class CreateHTML
                 sb = table.sb;
                 sb.AppendLine("<tr style='background-color:var(--header)'>");
             }
-            public HeaderRow CreateHeader (params string[] titles)
+            public HeaderRow CreateHeader(params string[] titles)
             {
                 foreach (var title in titles)
                 {
@@ -115,7 +137,7 @@ internal static class CreateHTML
                 }
                 return this;
             }
-            public HeaderRow CreateSortHeader (params string[] titles)
+            public HeaderRow CreateSortHeader(params string[] titles)
             {
                 foreach (var title in titles)
                 {
@@ -124,7 +146,7 @@ internal static class CreateHTML
                 }
                 return this;
             }
-            public HeaderRow CreateSortDateHeader (params string[] titles)
+            public HeaderRow CreateSortDateHeader(params string[] titles)
             {
                 foreach (var title in titles)
                 {
@@ -133,23 +155,29 @@ internal static class CreateHTML
                 }
                 return this;
             }
-            public HeaderRow CreateEditionHeaders ()
+            public HeaderRow CreateEditionHeaders()
             {
                 foreach (var edition in Traits.Edition.Editions)
                     sb.AppendLine($"<th scope='col'>").AppendLine($"<b>{edition.Key}</b>").AppendLine("</th>");
                 col += Traits.Edition.Editions.Count;
                 return this;
             }
-            private void EndHeader (string title)
+            private void EndHeader(string title)
             {
                 sb.AppendLine($"<b>{title}</b>").AppendLine("</th>");
                 col++;
             }
             public void Dispose() => sb.AppendLine("</tr>");
         }
-        public void AddRows(params string[] columns)
+        public void AddRows(string[] columns)
         {
             sb.AppendLine("<tr>");
+            foreach (var column in columns) sb.AppendLine($"<td>{column}</td>");
+            sb.AppendLine("</tr>");
+        }
+        public void AddRows(string HTMLclass, string[] columns)
+        {
+            sb.AppendLine($"<tr stye='{HTMLclass}'>");
             foreach (var column in columns) sb.AppendLine($"<td>{column}</td>");
             sb.AppendLine("</tr>");
         }
@@ -157,7 +185,9 @@ internal static class CreateHTML
     }
     private static void SaveHTML(string DirectoryName)
     {
-        sb.AppendLine("</body>").AppendLine("<script>init();</script>").AppendLine("</html>");
+        sb.AppendLine("</body>").AppendLine("<script>init();");
+        Table.SortAllTablesOnPage();
+        sb.AppendLine("</script>").AppendLine("</html>");
         string filepath = "index.html";
         if (!string.IsNullOrEmpty(DirectoryName))
         {
@@ -245,10 +275,26 @@ internal static class CreateHTML
             public readonly string ID;
             public readonly StringBuilder contents = new StringBuilder();
             public Page(string ID) => this.ID = ID;
-            public Table CreateTable (string title, string? caption = null) => new Table(title, caption, contents);
+            public Table CreateTable(string title, string? caption = null) => new Table(title, caption, contents);
             public void Dispose() => contents.AppendLine("</div>");
         }
     }
+    private static void SetTable(string title, string? caption, HashSet<string> OriginalNames, SubHeader.Page page)
+    {
+        using (var table = page.CreateTable(title, caption))
+        {
+            using (var headerRow = table.CreateHeaderRow())
+                headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
+
+            foreach (var location in OriginalNames)
+            {
+                var rowval = new List<string>() { Get.TotalNamesOf<Location>(location) };
+                rowval.AddRange(Get.EditionsOf<Location>(location));
+                table.AddRows(rowval.ToArray());
+            }
+        }
+    }
+
     #endregion
 
     #region ACTUAL PAGES
@@ -375,7 +421,7 @@ internal static class CreateHTML
                     using (var headerRow = table.CreateHeaderRow())
                         headerRow.CreateHeader("Name(s)", "Domain(s)", "Darklord").CreateEditionHeaders();
 
-                    var DarkLordLairsCopies = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(s => s.Traits).GroupBy(s => s.OriginalName);
+                    var DarkLordLairsCopies = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Status.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(s => s.Traits).GroupBy(s => s.OriginalName);
 
                     foreach (var SingleSetOfLairCopies in DarkLordLairsCopies)
                     {
@@ -402,10 +448,9 @@ internal static class CreateHTML
                     }
                 }
             }
-
             using (var MistwayPage = subheader.CreatePage("Mistways"))
             {
-                using (var table = new Table($"List of Mistways", MistwayPage.contents))
+                using (var table = MistwayPage.CreateTable($"List of Mistways"))
                 {
                     using (var headerRow = table.CreateHeaderRow())
                     {
@@ -426,21 +471,6 @@ internal static class CreateHTML
                     }
                 }
             } 
-            void SetTable(string title, string? caption, HashSet<string> OriginalLocationNames, SubHeader.Page page)
-            {
-                using (var table = page.CreateTable(title, caption))
-                {
-                    using (var headerRow = table.CreateHeaderRow())
-                        headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
-
-                    foreach (var location in OriginalLocationNames)
-                    {
-                        var rowval = new List<string>() { Get.TotalNamesOf<Location>(location) };
-                        rowval.AddRange(Get.EditionsOf<Location>(location));
-                        table.AddRows(rowval.ToArray());
-                    }
-                }
-            }
         }
 
         SaveHTML(nameof(Location));
@@ -522,40 +552,44 @@ internal static class CreateHTML
     {
         CreateOfficialHeader("Characters of Ravenloft");
 
+        sb.AppendLine("<label for='showdead'>Show dead characters</label>");
+        sb.AppendLine("<input type='checkbox' id='showdead' checked>");
+
         using (var subheader = new SubHeader())
         {
-            //Key is domain, entries are all location names
-            var CharactersPerDomain = new Dictionary<string, HashSet<string>>();
-            var CharactersPerGroup = new Dictionary<string, HashSet<string>>();
-            var CharactersPerCreature = new Dictionary<string, HashSet<string>>();
+            const int ALIVE = 1, DEAD = 2;
+            const int PERDOMAIN = 1, PERGROUP = 2, PERCREATURE = 3;
 
-            var DeceasedCharactersPerDomain = new Dictionary<string, HashSet<string>>();
-            var DeceasedCharactersPerGroup = new Dictionary<string, HashSet<string>>();
-            var DeceasedCharactersPerCreature = new Dictionary<string, HashSet<string>>();
+            var Characters = new Dictionary<string, HashSet<string>>[6];
+            for (int i = 0; i < Characters.Length; i++) Characters[i] = new Dictionary<string, HashSet<string>>();
 
             var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits);
             foreach (var character in AllCharacters)
             {
+                var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
+
+                var offset = StatusTraits.Remove(Traits.Status.Deceased) ? ALIVE : DEAD;
+
+                var CharacterGroup = Characters[offset + PERDOMAIN];
                 foreach (var domain in character.Domains)
                 {
-                    CharactersPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                    CharactersPerGroup.TryAdd(domain.OriginalName, new HashSet<string>());
-                    CharactersPerCreature.TryAdd(domain.OriginalName, new HashSet<string>());
-                    DeceasedCharactersPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                    DeceasedCharactersPerGroup.TryAdd(domain.OriginalName, new HashSet<string>());
-                    DeceasedCharactersPerCreature.TryAdd(domain.OriginalName, new HashSet<string>());
+                    CharacterGroup.TryAdd(domain.OriginalName, new HashSet<string>());
+                    CharacterGroup[domain.OriginalName].Add(character.OriginalName);
+                }
 
-                    CharactersPerDomain[domain.OriginalName].Add(character.OriginalName);
+                CharacterGroup = Characters[offset + PERGROUP];
+                foreach (var statusTrait in StatusTraits)
+                {
+                    CharacterGroup.TryAdd(statusTrait.Key, new HashSet<string>());
+                    CharacterGroup[statusTrait.Key].Add(character.OriginalName);
+                }
 
-                    var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status)));
-                    foreach (var statusTrait in StatusTraits)
-                    {
-                        if (statusTrait == Traits.Status.Deceased) Types.Add(statusTrait.Key);
-                        else Types.AddLink("Group", statusTrait.Key);
-                    }
-
-                    if (location.Traits.Contains(Traits.Location.Settlement))
-                        SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                CharacterGroup = Characters[offset + PERCREATURE];
+                var CreatureTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Creature)));
+                foreach (var creatureTrait in CreatureTraits)
+                {
+                    CharacterGroup.TryAdd(creatureTrait.Key, new HashSet<string>());
+                    CharacterGroup[creatureTrait.Key].Add(character.OriginalName);
                 }
             }
 
@@ -572,6 +606,10 @@ internal static class CreateHTML
 
             }
         }
+        sb.AppendLine("<script>");
+        sb.AppendLine($"document.getElementById('showdead').addEventListener('change', () => document.querySelectorAll('.dead').forEach(x => x.style.visibility = document.getElementById('darkmode').checked?'visible':'collapse');");
+        sb.AppendLine("</script>");
+
         SaveHTML("Character");
     }
     public static void CreateItemPage()
@@ -583,27 +621,50 @@ internal static class CreateHTML
             //Key is domain, entries are all location names
             var ItemsPerDomain = new Dictionary<string, HashSet<string>>();
             var ItemsPerGroup = new Dictionary<string, HashSet<string>>();
+            var ItemsPerCreature = new Dictionary<string, HashSet<string>>();
 
-            var AllLocations = Factory.db.Locations.Include(s => s.Domains).Include(s => s.Traits);
-            foreach (var location in AllLocations)
+            var AllItems = Factory.db.Items.Include(s => s.Domains).Include(s => s.Traits);
+            foreach (var item in AllItems)
             {
-                foreach (var domain in location.Domains)
+                foreach (var domain in item.Domains)
                 {
                     ItemsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                    ItemsPerGroup.TryAdd(domain.OriginalName, new HashSet<string>());
+                    ItemsPerGroup[domain.OriginalName].Add(item.OriginalName);
+                }
 
-                    ItemsPerDomain[domain.OriginalName].Add(location.OriginalName);
-                    if (location.Traits.Contains(Traits.Location.Settlement))
-                        SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                var StatusTraits = item.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
+                foreach (var statusTrait in StatusTraits)
+                {
+                    ItemsPerGroup.TryAdd(statusTrait.Key, new HashSet<string>());
+                    ItemsPerGroup[statusTrait.Key].Add(item.OriginalName);
+                }
+
+                var CreatureTraits = item.Traits.Where(c => c.Type.Contains(nameof(Traits.Creature)));
+                foreach (var creatureTrait in CreatureTraits)
+                {
+                    ItemsPerCreature.TryAdd(creatureTrait.Key, new HashSet<string>());
+                    ItemsPerCreature[creatureTrait.Key].Add(item.OriginalName);
                 }
             }
             using (var Domain = subheader.CreatePage("By Domain"))
             {
+                var UnkownExist = ItemsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownItemLocations);
+                if (UnkownExist) ItemsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
+                foreach (var DomainName in ItemsPerDomain.Keys)
+                    SetTable($"Items of {Get.TotalNamesOf<Domain>(DomainName)}", null, ItemsPerDomain[DomainName], Domain);
+                if (UnkownExist)
+                    SetTable($"Items within Ravenloft", "The domain of the item is unknown.", UnknownItemLocations, Domain);
             }
-            using (var Group = subheader.CreatePage("By Group")) //Status And Creature Traits
+            using (var Group = subheader.CreatePage("By Group")) //Status Traits
             {
-
+                foreach (var ItemName in ItemsPerDomain.Keys)
+                    SetTable($"Items of {Get.TotalNamesOf<Item>(ItemName)}", null, ItemsPerGroup[ItemName], Group);
+            }
+            using (var Creature = subheader.CreatePage("By Creature")) //Creature Traits
+            {
+                foreach (var CreatureName in ItemsPerCreature.Keys)
+                    SetTable($"Items of {Get.TotalNamesOf<Item>(CreatureName)}", null, ItemsPerCreature[CreatureName], Creature);
             }
         }
         SaveHTML(nameof(Item));

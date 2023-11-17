@@ -125,7 +125,7 @@ internal static class CreateJson
 
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Mistway))    Types.Add(nameof(Traits.Mistway   ));
                 if (SameLocation.Traits.Any(l => l == Traits.Location.Settlement)) Types.Add(nameof(Traits.Settlement));
-                if (SameLocation.Traits.Any(l => l == Traits.Location.Darklord)) //Keep this last
+                if (SameLocation.Traits.Any(l => l == Traits.Status.Darklord)) //Keep this last
                 {
                     var Darklords = new List<string>();
                     var DomainDarklords = SameLocation.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord)).ToHashSet();
@@ -140,7 +140,7 @@ internal static class CreateJson
                         }
                         Darklords.Add(string.Join('/', AlternateNames));
                     }
-                    Types.Add(nameof(Traits.Location.Darklord) + string.Join(',', Darklords));
+                    Types.Add(nameof(Traits.Status.Darklord) + string.Join(',', Darklords));
                 }
             }
 
