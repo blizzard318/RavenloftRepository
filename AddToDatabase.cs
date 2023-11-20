@@ -194,14 +194,15 @@ internal static class AddToDatabase
             var Darkon = ctx.CreateDomain("Darkon").AddLocations(ctx.CreateLocation("Nartok").AddTraits(Traits.Location.Settlement));
             ctx.CreateLocation("Mills of Nartok").AddTraits(Traits.Settlement.Nartok).AddDomains(Darkon).ExtraInfo = "For Darkonian Lumber";
 
-            ctx.CreateDomain("Lamordia");
+            var Lamordia = ctx.CreateDomain("Lamordia");
 
-            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddDomains(Factory.InsideRavenloft).AddNPCs(
+            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddDomains(Lamordia).AddNPCs(
                 ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Creature.Human),
                 ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Creature.Human)
                 );
+            DharlaethAsylum.ExtraInfo = "Whilst not stated in story, Ari Marmell said it takes place in Lamordia.<a href='https://bsky.app/profile/mouseferatu.bsky.social/post/3kelemhzy2l2n'>Bluesky Link</a>";
 
-            ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Creature.Human).AddDomains(Darkon, Bluetspur).AddLocations(DharlaethAsylum);
+            ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Creature.Human).AddDomains(Darkon, Bluetspur, Lamordia).AddLocations(DharlaethAsylum);
         }
         void AddCommanderLegendsBattleforBaldursGate()
         {
@@ -226,7 +227,7 @@ internal static class AddToDatabase
         }
         void AddSpellfireMastertheMagic()
         {
-            const string ExtraInfo = "Any missing cards are either not related to Ravenloft or too generic to add.";
+            const string ExtraInfo = "Cards not listed are either not related to Ravenloft or too generic to add.";
             AddRavenloftSet();
             AddArtifactsSet();
             Add3rdEditionSet();
@@ -297,15 +298,15 @@ internal static class AddToDatabase
                 ctx.CreateNPC("Arijani", "89/100");
                 ctx.CreateNPC("Wilfred Godefroy", "90/100");
                 ctx.CreateNPC("Tiyet", "91/100");
-                ctx.CreateNPC("Sir Hiregaard", "Sir Tristen Hiregaard", "92/100");
+                ctx.CreateNPC("Sir Tristen Hiregaard", "92/100");
                 ctx.CreateNPC("Gabrielle Aderre", "93/100");
                 ctx.CreateNPC("Hags of Tepest", "94/100").AddTraits(Traits.Creature.Hag);
                 ctx.CreateNPC("Sir Edmund Bloodsworth", "95/100").AddTraits(Traits.Creature.Doppelganger);
                 ctx.CreateNPC("High Master Illithid", "96/100").AddTraits(Traits.Creature.MindFlayer.Item1, Traits.Creature.MindFlayer.Item2);
-                ctx.CreateNPC("Dr. Mordenheim", "Dr. Victor Mordenheim", "97/100");
+                ctx.CreateNPC("Dr. Victor Mordenheim", "97/100");
                 ctx.CreateNPC("Sergei Von Zarovich", "98/100");
                 ctx.CreateNPC("Lord Soth", "99/100");
-                ctx.CreateNPC("Strahd Von Zarovich", "Count Strahd von Zarovich", "100/100");
+                ctx.CreateNPC("Count Strahd von Zarovich", "100/100");
             }
             void AddArtifactsSet()
             {
@@ -316,9 +317,9 @@ internal static class AddToDatabase
                 ctx.CreateItem("Crystal of the Ebon Flame", "13/100");
                 ctx.CreateNPC("Yagno Petrovna", "82/100");
                 ctx.CreateDomain("Bluet Spur", "Bluetspur", "88/100");
-                ctx.CreateDomain("Ancient Kalidnay", "Kalidnay", "92/100");
+                ctx.CreateDomain("Kalidnay", "92/100");
                 ctx.CreateItem("Death Rock", "2/20");
-                ctx.CreateNPC("Young Strahd", "Count Strahd von Zarovich", "8/20");
+                ctx.CreateNPC("Count Strahd von Zarovich", "8/20");
                 ctx.CreateNPC("Ghostly Piper", "10/20");
                 if (ctx == null) return;
             }

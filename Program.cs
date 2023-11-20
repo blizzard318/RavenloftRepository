@@ -21,6 +21,8 @@ CreateHTML.CreateHomepage();
 CreateHTML.CreateSourcePage();
 CreateHTML.CreateLocationPage();
 CreateHTML.CreateDomainPage();
+CreateHTML.CreateItemPage();
+CreateHTML.CreateCharacterPage();
 
 return;
 

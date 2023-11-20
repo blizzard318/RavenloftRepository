@@ -71,6 +71,20 @@
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
     }
 
+    internal static class CampaignSetting
+    {
+        public static List<Trait> Settings = new List<Trait>();
+        static CampaignSetting()
+        {
+        }
+        private static Trait CreateSetting(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(CampaignSetting));
+            Settings.Add(retval);
+            return retval;
+        }
+    }
+
     internal static class Status //Includes Groups
     {
         public static List<Trait> Statuses = new List<Trait>();

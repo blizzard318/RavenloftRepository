@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUglify;
-using NUglify.JavaScript.Syntax;
-using System;
 using System.Text;
+using System.Text.RegularExpressions;
+using static Traits;
 
 internal static class CreateHTML
 {
@@ -279,17 +279,17 @@ internal static class CreateHTML
             public void Dispose() => contents.AppendLine("</div>");
         }
     }
-    private static void SetTable(string title, string? caption, HashSet<string> OriginalNames, SubHeader.Page page)
+    private static void SetTable<T>(string title, string? caption, HashSet<string> OriginalNames, SubHeader.Page page) where T : UseVariableName
     {
         using (var table = page.CreateTable(title, caption))
         {
             using (var headerRow = table.CreateHeaderRow())
                 headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
 
-            foreach (var location in OriginalNames)
+            foreach (var original in OriginalNames)
             {
-                var rowval = new List<string>() { Get.TotalNamesOf<Location>(location) };
-                rowval.AddRange(Get.EditionsOf<Location>(location));
+                var rowval = new List<string>() { Get.TotalNamesOf<T>(original) };
+                rowval.AddRange(Get.EditionsOf<T>(original));
                 table.AddRows(rowval.ToArray());
             }
         }
@@ -393,13 +393,17 @@ internal static class CreateHTML
 
             using (var AllPage = subheader.CreatePage("All Locations"))
             {
-                var UnkownExist = LocationsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownDomainLocations);
-                if (UnkownExist) LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
+                var Inside = LocationsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownDomainLocations);
+                if (Inside) LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
+                var Outside = LocationsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var OutsideRavenloftLocations);
+                if (Outside) LocationsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
                 foreach (var DomainName in LocationsPerDomain.Keys)
-                    SetTable($"Locations of {Get.TotalNamesOf<Domain>(DomainName)}", null, LocationsPerDomain[DomainName], AllPage);
-                if (UnkownExist) 
-                    SetTable($"Locations within Ravenloft", "The domain of the location is unknown.", UnknownDomainLocations, AllPage);
+                    SetTable<Location>($"Locations of {Get.TotalNamesOf<Domain>(DomainName)}", null, LocationsPerDomain[DomainName], AllPage);
+                if (Inside) 
+                    SetTable<Location>($"Locations within Ravenloft", "The domain of the location is unknown.", UnknownDomainLocations, AllPage);
+                if (Outside) 
+                    SetTable<Location>($"Locations outside Ravenloft", "This place is related to Ravenloft somehow.", OutsideRavenloftLocations, AllPage);
 
             }
 
@@ -409,9 +413,9 @@ internal static class CreateHTML
                 if (UnkownExist) SettlementsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
                 foreach (var DomainNames in SettlementsPerDomain.Keys)
-                    SetTable($"Settlements of {DomainNames}", null, SettlementsPerDomain[DomainNames], SettlementPage);
+                    SetTable<Location>($"Settlements of {DomainNames}", null, SettlementsPerDomain[DomainNames], SettlementPage);
                 if (UnkownExist)
-                    SetTable($"Settlements within Ravenloft", "The domain of the settlement is unknown.", UnknownDomainSettlements, SettlementPage);
+                    SetTable<Location>($"Settlements within Ravenloft", "The domain of the settlement is unknown.", UnknownDomainSettlements, SettlementPage);
             }
 
             using (var LairPage = subheader.CreatePage("Darklord Lairs"))
@@ -478,6 +482,8 @@ internal static class CreateHTML
     public static void CreateDomainPage()
     {
         CreateOfficialHeader("Domains of Ravenloft", 1);
+        sb.AppendLine($"Quick-link for {CreateLink(nameof(Domain), Factory.InsideRavenloft.Key)}");
+        sb.AppendLine($"Quick-link for {CreateLink(nameof(Domain), Factory.OutsideRavenloft.Key)}");
 
         var AllDomains = Factory.db.Domains.Include(s => s.Traits).Include(s => s.NPCs).ThenInclude(n => n.Traits);
         var Domains = new Dictionary<string, HashSet<string>>(); //Domain : Darklords
@@ -550,18 +556,18 @@ internal static class CreateHTML
     }
     public static void CreateCharacterPage()
     {
-        CreateOfficialHeader("Characters of Ravenloft");
+        CreateOfficialHeader("Characters of Ravenloft", 1);
 
         sb.AppendLine("<label for='showdead'>Show dead characters</label>");
         sb.AppendLine("<input type='checkbox' id='showdead' checked>");
 
         using (var subheader = new SubHeader())
         {
-            const int ALIVE = 1, DEAD = 2;
-            const int PERDOMAIN = 1, PERGROUP = 2, PERCREATURE = 3;
+            const int ALIVE = 0, DEAD = 1;
+            const int PERDOMAIN = 0, PERGROUP = 1, PERCREATURE = 2;
 
-            var Characters = new Dictionary<string, HashSet<string>>[6];
-            for (int i = 0; i < Characters.Length; i++) Characters[i] = new Dictionary<string, HashSet<string>>();
+            var Characters = new Dictionary<string, HashSet<string>[]>[3]; //Alive, Dead
+            for (int i = 0; i < Characters.Length; i++) Characters[i] = new Dictionary<string, HashSet<string>[]>();
 
             var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits);
             foreach (var character in AllCharacters)
@@ -570,40 +576,73 @@ internal static class CreateHTML
 
                 var offset = StatusTraits.Remove(Traits.Status.Deceased) ? ALIVE : DEAD;
 
-                var CharacterGroup = Characters[offset + PERDOMAIN];
                 foreach (var domain in character.Domains)
                 {
-                    CharacterGroup.TryAdd(domain.OriginalName, new HashSet<string>());
-                    CharacterGroup[domain.OriginalName].Add(character.OriginalName);
+                    Characters[PERDOMAIN].TryAdd(domain.OriginalName, Init());
+                    Characters[PERDOMAIN][domain.OriginalName][offset].Add(character.OriginalName);
                 }
 
-                CharacterGroup = Characters[offset + PERGROUP];
                 foreach (var statusTrait in StatusTraits)
                 {
-                    CharacterGroup.TryAdd(statusTrait.Key, new HashSet<string>());
-                    CharacterGroup[statusTrait.Key].Add(character.OriginalName);
+                    Characters[PERGROUP].TryAdd(statusTrait.Key, Init());
+                    Characters[PERGROUP][statusTrait.Key][offset].Add(character.OriginalName);
                 }
 
-                CharacterGroup = Characters[offset + PERCREATURE];
                 var CreatureTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Creature)));
                 foreach (var creatureTrait in CreatureTraits)
                 {
-                    CharacterGroup.TryAdd(creatureTrait.Key, new HashSet<string>());
-                    CharacterGroup[creatureTrait.Key].Add(character.OriginalName);
+                    Characters[PERCREATURE].TryAdd(creatureTrait.Key, Init());
+                    Characters[PERCREATURE][creatureTrait.Key][offset].Add(character.OriginalName);
                 }
+                static HashSet<string>[] Init() => new HashSet<string>[2] { new HashSet<string>(), new HashSet<string>() };
             }
 
             using (var Domain = subheader.CreatePage("By Domain"))
             {
+                var CharactersPerDomain = Characters[PERDOMAIN];
+                var Inside = CharactersPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var InsideCharacters);
+                if (Inside) CharactersPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
+                var Outside = CharactersPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var OutsideCharacters);
+                if (Outside) CharactersPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
+                ForEachLoop(Domain, Characters[PERDOMAIN]);
+                if (Inside)
+                    SetTable("Characters within Ravenloft", "The domain of the item is unknown.", InsideCharacters, Domain);
+                if (Outside)
+                    SetTable("Characters outside Ravenloft", "They're related to Raveloft somehow", OutsideCharacters, Domain);
             }
             using (var Group = subheader.CreatePage("By Group"))
-            {
+                ForEachLoop(Group, Characters[PERGROUP]);
 
-            }
             using (var Creature = subheader.CreatePage("By Creature Type"))
-            {
+                ForEachLoop(Creature, Characters[PERCREATURE]);
 
+            static void ForEachLoop(SubHeader.Page page, Dictionary<string, HashSet<string>[]> NPCList)
+            {
+                foreach (var Key in NPCList.Keys)
+                    SetTable($"Items of {Get.TotalNamesOf<NPC>(Key)}", null, NPCList[Key], page);
+            }
+
+            static void SetTable(string title, string? caption, HashSet<string>[] OriginalNames, SubHeader.Page page)
+            {
+                using (var table = page.CreateTable(title, caption))
+                {
+                    using (var headerRow = table.CreateHeaderRow())
+                        headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
+
+                    foreach (var character in OriginalNames[ALIVE])
+                    {
+                        var rowval = new List<string>() { Get.TotalNamesOf<NPC>(character) };
+                        rowval.AddRange(Get.EditionsOf<NPC>(character));
+                        table.AddRows(rowval.ToArray());
+                    }
+                    foreach (var character in OriginalNames[DEAD])
+                    {
+                        var rowval = new List<string>() { Get.TotalNamesOf<NPC>(character) };
+                        rowval.AddRange(Get.EditionsOf<NPC>(character));
+                        table.AddRows("dead", rowval.ToArray());
+                    }
+                }
             }
         }
         sb.AppendLine("<script>");
@@ -614,7 +653,7 @@ internal static class CreateHTML
     }
     public static void CreateItemPage()
     {
-        CreateOfficialHeader("Items of Ravenloft");
+        CreateOfficialHeader("Items of Ravenloft", 1);
 
         using (var subheader = new SubHeader())
         {
@@ -651,20 +690,20 @@ internal static class CreateHTML
                 var UnkownExist = ItemsPerDomain.TryGetValue(Factory.InsideRavenloft.Key, out var UnknownItemLocations);
                 if (UnkownExist) ItemsPerDomain.Remove(Factory.InsideRavenloft.Key); //Last table
 
-                foreach (var DomainName in ItemsPerDomain.Keys)
-                    SetTable($"Items of {Get.TotalNamesOf<Domain>(DomainName)}", null, ItemsPerDomain[DomainName], Domain);
+                ForEachLoop(Domain, ItemsPerDomain);
                 if (UnkownExist)
-                    SetTable($"Items within Ravenloft", "The domain of the item is unknown.", UnknownItemLocations, Domain);
+                    SetTable<Item>($"Items within Ravenloft", "The domain of the item is unknown.", UnknownItemLocations, Domain);
             }
             using (var Group = subheader.CreatePage("By Group")) //Status Traits
-            {
-                foreach (var ItemName in ItemsPerDomain.Keys)
-                    SetTable($"Items of {Get.TotalNamesOf<Item>(ItemName)}", null, ItemsPerGroup[ItemName], Group);
-            }
+                ForEachLoop(Group, ItemsPerGroup);
+
             using (var Creature = subheader.CreatePage("By Creature")) //Creature Traits
+                ForEachLoop(Creature, ItemsPerCreature);
+
+            static void ForEachLoop(SubHeader.Page page, Dictionary< string, HashSet<string>> ItemList)
             {
-                foreach (var CreatureName in ItemsPerCreature.Keys)
-                    SetTable($"Items of {Get.TotalNamesOf<Item>(CreatureName)}", null, ItemsPerCreature[CreatureName], Creature);
+                foreach (var Key in ItemList.Keys)
+                    SetTable<Item>($"Items of {Get.TotalNamesOf<Item>(Key)}", null, ItemList[Key], page);
             }
         }
         SaveHTML(nameof(Item));
