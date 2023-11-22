@@ -121,7 +121,7 @@ public class Relationship
 }
 public abstract class Appearance
 {
-    public int Id { get; set; }
+    public int Id { get; set; } //Auto-generated, ignore.
     public Source Source { get; set; }
     [Column("Source")] public string SourceKey { get; set; }
     public string PageNumbers { get; set; }

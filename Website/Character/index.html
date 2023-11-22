@@ -1,182 +1,2725 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>Characters</title>
-	<meta name="theme-color" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ravenloft Repository">
-	<link rel="stylesheet" href="../styles.css">
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js" charset="utf-8"></script>
+<meta charset='utf-8'>
+<title>Characters of Ravenloft</title>
+<meta name='theme-color' content='black'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ravenloft Repository'>
+<link rel='stylesheet' href='../styles.css'>
+<link rel='shortcut icon' href='../favicon.ico'>
+<script src='../sort.js'></script>
 </head>
-
 <body>
-	<h1>Ravenloft Catalogue</h1><hr/>
-	<h2>
-		<a href=".."		 >Official</a> |
-		<a href="../3rdParty">3rd Party</a>
-	</h2><hr />
-	<h2>
-		<a href="../Source"	  >Sources</a> | 
-		<a href="../Domain"	  >Domains</a> | 
-		<a href="../Location" >Locations</a> | 
-		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items</a><br/>
-		<a href="../Creature" >Creatures</a> | 
-		<a href="../Group" 	  >Groups</a> | 
-		<a href="../Language" >Languages</a>
-	</h2><hr />
-	
-	<h2>
-		<input type="button" onclick="OpenPage('bigdomain')" value="By Domain"> | 
-		<input type="button" onclick="OpenPage('group')" value = "By Group">
-	</h2>
-	<br/>
-
-	<div class="page" id="bigdomain" style="display:block">
-		<div id="domain">
-		</div>
-		<b style="font-size:25px">Characters whose domain is unknown</b>
-		<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="UnknownTable">
-			<caption>Their location was never disclosed.</caption>
-			<tr style="background-color:Black">
-				<th scope="col"><b>Name(s)</b></th>
-			</tr>
-		</table>
-		<br/>
-		<b style="font-size:25px">Deceased characters whose domain is unknown</b>
-		<table cellspacing="0" cellpadding="3" rules="cols" border="1" id="DeceasedUnknownTable">
-			<caption>Their location was never disclosed.</caption>
-			<tr style="background-color:Black">
-				<th scope="col"><b>Name(s)</b></th>
-			</tr>
-		</table>
-		<br/>
-	</div>
-	
-	<div class="page" id="group" style="display:none">
-	</div>
-	
-	<script>
-	async function func(){
-		const CharactersData = await fetch("Character.json");
-		const Characters = await CharactersData.json();
-		AddEditionHeader("UnknownTable");
-		AddEditionHeader("DeceasedUnknownTable");
-
-		for (const character of Characters) {
-			const Domains = character.Domains.split(',');
-			for (const domain of Domains) {
-				const DomainID = domain ? domain : "UnknownTable";
-				const DeceasedId = "Deceased" + DomainID;
-
-				if (!document.getElementById(DomainID)) {
-					const domaindiv = document.getElementById("domain");
-					let b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Characters of " + DomainID;
-					domaindiv.append(b);
-
-					let table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = DomainID;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					let row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-
-					AddEditionHeader(DomainID);
-
-					b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Deceased of " + DomainID;
-					domaindiv.append(b);
-
-					table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = DeceasedId;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-
-					AddEditionHeader(DeceasedId);
-				}
-
-				if (character.Types.includes("Deceased")){
-					const row = document.getElementById(DeceasedId).insertRow(-1);
-					row.insertCell(-1).innerHTML = character.Name;
-					AddEditionsToTable(row, character.Editions);
-					colorCode(DeceasedId);
-				} else {
-					const row = document.getElementById(DomainID).insertRow(-1);
-					row.insertCell(-1).innerHTML = character.Name;
-					AddEditionsToTable(row, character.Editions);
-					colorCode(DomainID);
-				}
-			}
-
-			const Groups = character.Types.split(',');
-			for (const group of Groups) {
-				if (!group || group == "Deceased") continue;
-				
-				if (!document.getElementById(group)) {
-					const groupdiv = document.getElementById("group");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = group;
-						groupdiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = group;
-					groupdiv.append(table);
-					groupdiv.append(document.createElement("br"));
-
-					const row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-
-						cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Domain(s)</b>";
-					row.appendChild(cell);
-
-					AddEditionHeader(group);
-				}
-				const row = document.getElementById(group).insertRow(-1);
-				row.insertCell(-1).innerHTML = character.Name;
-				row.insertCell(-1).innerHTML = character.Domains;
-				AddEditionsToTable(row, character.Editions);
-				colorCode(group);
-			}
-		}
-	}
-	func();
-	</script>
+<span style='float:right;display:inline-block;height:0px'>
+<label for='darkmode'>Dark Mode</label>
+<input type='checkbox' id='darkmode'>
+</span>
+<h1>Ravenloft Catalogue</h1><hr/>
+<h2>
+<a href='../'>Official</a> | 
+<a href='../3rdParty'>3rd Party</a>
+</h2><hr />
+<h2>
+<a href='../Source'>Sources</a> | 
+<a href='../Domain'>Domains</a> | 
+<a href='../Location'>Locations</a> | 
+<a href='../Character'>Characters</a> | 
+<a href='../Item'>Items</a><br/>
+<a href='../Creature'>Creatures</a> | 
+<a href='../Group'>Groups</a> | 
+<a href='../Setting'>Campaign Settings</a> | 
+<a href='../Language'>Languages</a>
+</h2><hr />
+<label for='showdead'>Show dead characters</label>
+<input type='checkbox' id='showdead' checked>
+<h2>
+<input type='button' onclick="OpenPage('By Domain')" value='By Domain'> | 
+<input type='button' onclick="OpenPage('By Group')" value='By Group'> | 
+<input type='button' onclick="OpenPage('By Creature Type')" value='By Creature Type'>
+</h2><br/>
+<div class='page' id='By Domain' style='display:block'>
+<b style='font-size:25px'>Characters of Bluetspur/Bluet Spur</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td>Phillips</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Clarke</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>God-Brain</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Howard Ashton</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of Lamordia</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Doctor Augustus</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Howard Ashton</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Nurse Roberts</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of Darkon</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Howard Ashton</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of Barovia</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain3'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td>$$</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Americo Standardski</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Animus</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ardent Pallette</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Artank Swilovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Artista DeSlop</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Duchess Dorfniya Dilisnya</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Elsa Fallona</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Gralmore Nimblenobs</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Intree Sik-Valoo</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ivan DeRose</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Ivan Ivanovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Khazan</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>King Barov</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>King Dostron</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>King Intree Katsky</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>King Toisky</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Kolyan Indirovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Lady Isolde Yunk</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Marya Markovia</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Pidlwik</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Prefect Ciril Romulich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Queen Ravenovia</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sergei von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sir Erik Vonderbucks</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sir Leanne Triksky</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sir Sedrik Spinwitovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Spectre Ab-Centeer</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>St. Finderway</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Stephan Gregorovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Tasha Petrovna</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Tatsaul Eris</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Tatyana</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Baba Lysaga</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Arik</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Beucephalus</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Bildrath</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Cyrus Belview</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Donavich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Endorovich the Terrible</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Gertruda</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Guardian Of Sorrow</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Helga</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Ireena Kolyana</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Ismark the Lesser</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Lief Lipsiege</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Mad Mary</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Madam Eva</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Parriwimple</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Patrina Velikovna</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Prince Aerial Du Plumette</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Sasha Ivliskova</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Stahbal Indi-Bhak</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of Gundarak</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain4'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Lord Gundar</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters <a href='/Domain/Outside Ravenloft'>Outside Ravenloft</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain5'>
+<caption>They're related to Ravenloft somehow</caption>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Anna Petrovna</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Unsorted Characters</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain6'>
+<caption>Please contact site owner to rectify</caption>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td>Bildrath Parents</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Bildrath Sibling</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Amber</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Aquamarina</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Bride of Malice</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Pearl</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Red Jack</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Red Tide</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>The Bog Monster</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Ting Ling</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Vulture of the Core</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Ghostly Piper</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Yagno Petrovna</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Gib Lhadsemlo</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Jacqueline Renier</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Julio, Master Thief of Haslic</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Nemon Hotep</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Ratik Ubel</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Shera the Wise</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Varney the Vampire</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Adam</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Ankhtepot</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Arijani</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Azalin</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Dr. Rudolph Van Richten</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Dr. Victor Mordenheim</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Gabrielle Aderre</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Hags of Tepest</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Harkon Lukas</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Headless Horseman</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>High Master Illithid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Lord Soth</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Sergei Von Zarovich</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Sir Edmund Bloodsworth</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Sir Tristen Hiregaard</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Tiyet</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Wilfred Godefroy</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Chantal the Banshee</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>Iseult</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>The Red Death</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
+<div class='page' id='By Group' style='display:none'>
+<b style='font-size:25px'>Characters of <a href='/Group/Darklord'>Darklord</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Group0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>God-Brain</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Lord Gundar</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Group/Barovian Wine Distillers Brotherhood'>Barovian Wine Distillers Brotherhood</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Group1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td>Artank Swilovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Group/Reincarnations of Tatyana'>Reincarnations of Tatyana</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Group2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td>Tatyana</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Ireena Kolyana</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Group/Raunie'>Raunie</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Group3'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Madam Eva</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Group/Vistani'>Vistani</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Group4'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Madam Eva</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+</div>
+<div class='page' id='By Creature Type' style='display:none'>
+<b style='font-size:25px'>Characters of <a href='/Creature/Human'>Human</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td>Phillips</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>King Barov</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Kolyan Indirovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Queen Ravenovia</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Sergei von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Clarke</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Doctor Augustus</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Howard Ashton</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Nurse Roberts</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Baba Lysaga</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Arik</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Bildrath</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Cyrus Belview</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Donavich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Gertruda</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Helga</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Ireena Kolyana</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Ismark the Lesser</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Lief Lipsiege</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Mad Mary</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Madam Eva</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Parriwimple</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Sasha Ivliskova</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Witch'>Witch</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Baba Lysaga</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Horse'>Horse</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Beucephalus</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Headless Horseman</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Nightmare'>Nightmare</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type3'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Beucephalus</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Vampire'>Vampire</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type4'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Helga</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Sasha Ivliskova</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Bride of Malice</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Red Tide</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr stye='dead'>
+<td>Varney the Vampire</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Wolf'>Wolf</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type5'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Worg'>Worg</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type6'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Bat'>Bat</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type7'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Strahd Zombie'>Strahd Zombie</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type8'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Zombie'>Zombie</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type9'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Count Strahd von Zarovich</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Spectre'>Spectre</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type10'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Endorovich the Terrible</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Elf'>Elf</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type11'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Patrina Velikovna</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Banshee'>Banshee</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type12'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Patrina Velikovna</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Chantal the Banshee</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Ghost'>Ghost</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type13'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Prince Aerial Du Plumette</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr stye='dead'>
+<td>Lord Gundar</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Wight'>Wight</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type14'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Stahbal Indi-Bhak</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Dragon'>Dragon</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type15'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Bride of Malice</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Vulture'>Vulture</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type16'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Vulture of the Core</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Flesh Golem'>Flesh Golem</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type17'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Gib Lhadsemlo</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Hag'>Hag</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type18'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Hags of Tepest</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Illithid'>Illithid</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type19'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>High Master Illithid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Mind Flayer'>Mind Flayer</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type20'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>High Master Illithid</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Characters of <a href='/Creature/Doppelganger'>Doppelganger</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature Type21'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr stye='dead'>
+<td>Sir Edmund Bloodsworth</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
+<script>
+document.getElementById('showdead').addEventListener('change', () => document.querySelectorAll('.dead').forEach(x => x.style.visibility = document.getElementById('darkmode').checked?'visible':'collapse');
+</script>
 </body>
+<script>init();
+sortTable('By Domain0',0);
+sortTable('By Domain1',0);
+sortTable('By Domain2',0);
+sortTable('By Domain3',0);
+sortTable('By Domain4',0);
+sortTable('By Domain5',0);
+sortTable('By Domain6',0);
+sortTable('By Group0',0);
+sortTable('By Group1',0);
+sortTable('By Group2',0);
+sortTable('By Group3',0);
+sortTable('By Group4',0);
+sortTable('By Creature Type0',0);
+sortTable('By Creature Type1',0);
+sortTable('By Creature Type2',0);
+sortTable('By Creature Type3',0);
+sortTable('By Creature Type4',0);
+sortTable('By Creature Type5',0);
+sortTable('By Creature Type6',0);
+sortTable('By Creature Type7',0);
+sortTable('By Creature Type8',0);
+sortTable('By Creature Type9',0);
+sortTable('By Creature Type10',0);
+sortTable('By Creature Type11',0);
+sortTable('By Creature Type12',0);
+sortTable('By Creature Type13',0);
+sortTable('By Creature Type14',0);
+sortTable('By Creature Type15',0);
+sortTable('By Creature Type16',0);
+sortTable('By Creature Type17',0);
+sortTable('By Creature Type18',0);
+sortTable('By Creature Type19',0);
+sortTable('By Creature Type20',0);
+sortTable('By Creature Type21',0);
+</script>
 </html>

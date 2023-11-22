@@ -1,7 +1,8 @@
 function sortDate(tableName, n) {
     var convert = (row) => {
         const p = row.getElementsByTagName('td')[n].innerText.split('/');
-        return +(p[2] + p[1] + p[0]);
+        if (isNaN(Number(p[2] + p[1] + p[0]))) console.log(row.getElementsByTagName('td')[n].innerText);
+        return Number(p[2] + p[1] + p[0]);
     }
     sortTableBy(tableName, convert);
 }

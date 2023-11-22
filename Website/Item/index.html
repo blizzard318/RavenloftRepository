@@ -1,128 +1,469 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>Items</title>
-	<meta name="theme-color" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ravenloft Repository">
-	<link rel="stylesheet" href="../styles.css">
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js" charset="utf-8"></script>
+<meta charset='utf-8'>
+<title>Items of Ravenloft</title>
+<meta name='theme-color' content='black'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ravenloft Repository'>
+<link rel='stylesheet' href='../styles.css'>
+<link rel='shortcut icon' href='../favicon.ico'>
+<script src='../sort.js'></script>
 </head>
-
 <body>
-	<h1>Ravenloft Catalogue</h1><hr/>
-	<h2>
-		<a href=".."		 >Official</a> |
-		<a href="../3rdParty">3rd Party</a>
-	</h2><hr />
-	<h2>
-		<a href="../Source"	  >Sources</a> | 
-		<a href="../Domain"	  >Domains</a> | 
-		<a href="../Location" >Locations</a> | 
-		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items</a><br/>
-		<a href="../Creature" >Creatures</a> | 
-		<a href="../Group" 	  >Groups</a> | 
-		<a href="../Language" >Languages</a>
-	</h2><hr />
-	
-	<h2>
-		<input type="button" onclick="OpenPage('domain')" value = "By Domain"> |
-		<input type="button" onclick="OpenPage('group')" value = "By Group">
-	</h2>
-	<br/>
-	
-	<div class="page" id="domain" style="display:block">
-	</div>
-
-	<div class="page" id="group" style="display:none">
-	</div>
-	
-	<script>
-	async function func(){
-		const ItemsData = await fetch("Item.json");
-		const Items = await ItemsData.json();
-		for (const item of Items) {
-			const Domains = item.Domains.split(',');
-			for (const domain of Domains) {
-				if (!document.getElementById(domain)) {
-					const domaindiv = document.getElementById("domain");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Items of " + domain;
-					domaindiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = domain;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					let drow = table.insertRow(-1);
-						drow.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					drow.appendChild(cell);
-
-					AddEditionHeader(domain);
-				}
-				let drow = document.getElementById(domain).insertRow(-1);
-				drow.insertCell(-1).innerHTML = item.Name;
-
-				AddEditionsToTable(drow, item.Editions);
-				colorCode(domain);
-			}
-
-			const Groups = item.Groups.split(',');
-			for (const group of Groups) {
-				if (!group) continue;
-				if (!document.getElementById(group)) {
-					const groupdiv = document.getElementById("group");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Items of " + group;
-					groupdiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = group;
-					groupdiv.append(table);
-					groupdiv.append(document.createElement("br"));
-
-					let drow = table.insertRow(-1);
-						drow.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					drow.appendChild(cell);
-					
-						cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Domain(s)</b>";
-						drow.appendChild(cell);
-
-					AddEditionHeader(group);
-				}
-				let drow = document.getElementById(group).insertRow(-1);
-				drow.insertCell(-1).innerHTML = item.Name;
-				drow.insertCell(-1).innerHTML = item.Domains;
-
-				AddEditionsToTable(drow, item.Editions);
-				colorCode(group);
-			}
-		}
-	}
-	func();
-	</script>
+<span style='float:right;display:inline-block;height:0px'>
+<label for='darkmode'>Dark Mode</label>
+<input type='checkbox' id='darkmode'>
+</span>
+<h1>Ravenloft Catalogue</h1><hr/>
+<h2>
+<a href='../'>Official</a> | 
+<a href='../3rdParty'>3rd Party</a>
+</h2><hr />
+<h2>
+<a href='../Source'>Sources</a> | 
+<a href='../Domain'>Domains</a> | 
+<a href='../Location'>Locations</a> | 
+<a href='../Character'>Characters</a> | 
+<a href='../Item'>Items</a><br/>
+<a href='../Creature'>Creatures</a> | 
+<a href='../Group'>Groups</a> | 
+<a href='../Setting'>Campaign Settings</a> | 
+<a href='../Language'>Languages</a>
+</h2><hr />
+<h2>
+<input type='button' onclick="OpenPage('By Domain')" value='By Domain'> | 
+<input type='button' onclick="OpenPage('By Group')" value='By Group'> | 
+<input type='button' onclick="OpenPage('By Creature')" value='By Creature'>
+</h2><br/>
+<div class='page' id='By Domain' style='display:block'>
+<b style='font-size:25px'>Items of Barovia</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Item/Holy Symbol of Ravenkind'>Holy Symbol of Ravenkind</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Icon of Ravenloft'>Icon of Ravenloft</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Item/Sunsword'>Sunsword</a>/<a href='/Item/Sun Sword'>Sun Sword</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Tarokka Deck'>Tarokka Deck</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Tome of Strahd'>Tome of Strahd</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Unsorted Items</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain1'>
+<caption>Please contact site owner to rectify</caption>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Item/Tapestry of the Stag'>Tapestry of the Stag</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Crystal of the Ebon Flame'>Crystal of the Ebon Flame</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Death Rock'>Death Rock</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Seal of Lost Arak'>Seal of Lost Arak</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Borer'>Borer</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Strahd's Medallion'>Strahd's Medallion</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Amulet of the Beast'>Amulet of the Beast</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Apparatus'>Apparatus</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Blood Coin'>Blood Coin</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Cat of Felkovic'>Cat of Felkovic</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Crown of Souls'>Crown of Souls</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Fang of the Nosferatu'>Fang of the Nosferatu</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Ring of Regeneration'>Ring of Regeneration</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Ring of Reversion'>Ring of Reversion</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Soul Searcher Medallion'>Soul Searcher Medallion</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Spell Book of Drawmji'>Spell Book of Drawmji</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Staff of Mimicry'>Staff of Mimicry</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Tapestry of Dark Souls'>Tapestry of Dark Souls</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Item/Timepiece of Klorr'>Timepiece of Klorr</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
+<div class='page' id='By Group' style='display:none'>
+<b style='font-size:25px'>Items of <a href='/Group/Vistani'>Vistani</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Group0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Item/Tarokka Deck'>Tarokka Deck</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
+<div class='page' id='By Creature' style='display:none'>
+<b style='font-size:25px'>Items of <a href='/Creature/Vampire Bat'>Vampire Bat</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Item/Tapestry of the Stag'>Tapestry of the Stag</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Items of <a href='/Creature/Vampire'>Vampire</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Creature1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Item/Strahd's Medallion'>Strahd's Medallion</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
 </body>
+<script>init();
+sortTable('By Domain0',0);
+sortTable('By Domain1',0);
+sortTable('By Group0',0);
+sortTable('By Creature0',0);
+sortTable('By Creature1',0);
+</script>
 </html>

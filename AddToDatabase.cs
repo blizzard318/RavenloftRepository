@@ -181,7 +181,7 @@ internal static class AddToDatabase
         void AddBeforeIWake()
         {
             var releaseDate = "31/10/2007";
-            string ExtraInfo = "<br/>&emsp;Author: Air Marmell";
+            string ExtraInfo = "&emsp;Author: Air Marmell";
             using var ctx = Factory.CreateSource("Before I Wake", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
             if (ctx == null) return;
 
@@ -237,8 +237,8 @@ internal static class AddToDatabase
             AddNightstalkersSet();
             AddDungeonsSet();
 
-            AddConquestSet();
             AddMilleniumSet();
+            AddConquestSet();
 
             void AddRavenloftSet()
             {
@@ -274,7 +274,7 @@ internal static class AddToDatabase
                 ctx.CreateItem("Tarokka Deck", "56/100");
                 ctx.CreateItem("Timepiece of Klorr", "57/100");
                 ctx.CreateItem("Ring of Regeneration", "58/100");
-                ctx.CreateItem("Sun Sword", "59/100");
+                ctx.CreateItem("Sun Sword", "Sunsword", "59/100");
                 ctx.CreateItem("Blood Coin", "60/100");
                 ctx.CreateItem("Staff of Mimicry", "61/100");
                 ctx.CreateItem("Soul Searcher Medallion", "62/100");
@@ -312,6 +312,7 @@ internal static class AddToDatabase
             {
                 var releaseDate = "01/05/1995";
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Artifacts Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateItem("Seal of Lost Arak", "12/100");
                 ctx.CreateItem("Crystal of the Ebon Flame", "13/100");
@@ -321,12 +322,12 @@ internal static class AddToDatabase
                 ctx.CreateItem("Death Rock", "2/20");
                 ctx.CreateNPC("Count Strahd von Zarovich", "8/20");
                 ctx.CreateNPC("Ghostly Piper", "10/20");
-                if (ctx == null) return;
             }
             void Add3rdEditionSet()
             {
                 var releaseDate = "01/10/1995";
-                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, 3rd Edition Set ", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, 3rd Edition Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateItem("Tapestry of the Stag", "426/440").AddTraits(Traits.Creature.VampireBat);
             }
@@ -334,6 +335,7 @@ internal static class AddToDatabase
             {
                 var releaseDate = "01/12/1995";
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Underdark Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateLocation("UnderDread", "9/100");
                 ctx.CreateLocation("The Dread Chamber", "18/100");
@@ -344,7 +346,8 @@ internal static class AddToDatabase
             void AddRunesNRuinsSet()
             {
                 var releaseDate = "01/02/1996";
-                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Runes & Ruins Set ", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Runes & Ruins Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateLocation("Tower of Spirits", "15/25");
             }
@@ -352,6 +355,7 @@ internal static class AddToDatabase
             {
                 var releaseDate = "01/07/1996";
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, 4th Edition Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateDomain("Arak", "60/500").AddTraits(Traits.Creature.Drow);
                 ctx.CreateDomain("Bluet Spur", "Bluetspur", "59/500");
@@ -378,7 +382,8 @@ internal static class AddToDatabase
             void AddNightstalkersSet()
             {
                 var releaseDate = "01/09/1996";
-                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Nightstalkers Set ", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Nightstalkers Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateDomain("Falkovnia", "5/100");
                 ctx.CreateDomain("Richemulot", "6/100");
@@ -395,7 +400,8 @@ internal static class AddToDatabase
             void AddDungeonsSet()
             {
                 var releaseDate = "01/10/1997";
-                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Dungeons Set ", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Dungeons Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
 
                 ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "7/100").AddTraits(Traits.Creature.VampireBat);
                 ctx.CreateLocation("The Ruins of Lololia", "32/100");
@@ -405,7 +411,8 @@ internal static class AddToDatabase
             {
                 var releaseDate = "01/03/2002";
                 var AddedExtraInfo = ExtraInfo + Environment.NewLine + "This set was made by fans, but was still using Spellfire trademark.";
-                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Millenium Set ", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Millenium Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
+                if (ctx == null) return;
 
                 ctx.CreateItem("Strahd's Medallion", "23/99").AddTraits(Traits.Creature.Vampire);
             }
@@ -413,7 +420,8 @@ internal static class AddToDatabase
             {
                 var releaseDate = "01/08/2004";
                 var AddedExtraInfo = ExtraInfo + Environment.NewLine + "This set was made by fans, but was still using Spellfire trademark.";
-                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Conquest Set ", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Conquest Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
+                if (ctx == null) return;
 
                 ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "73/81").AddTraits(Traits.Creature.VampireBat);
             }
