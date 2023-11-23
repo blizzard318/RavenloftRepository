@@ -128,7 +128,7 @@ internal static class AddToDatabase
                     Traits.Creature.IronGolem
                 );
 
-            ctx.CreateNPC("Anna Petrovna", "28").AddDomains(Factory.OutsideRavenloft);
+            ctx.CreateNPC("Anna Petrovna", "28").AddDomains(ctx.OutsideRavenloft);
             ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Creature.Human).AddLocations(VillageOfBarovia, BloodVineTavern);
             ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human).AddLocations(VillageOfBarovia, BarovianChurch);
 
@@ -181,7 +181,7 @@ internal static class AddToDatabase
         void AddBeforeIWake()
         {
             var releaseDate = "31/10/2007";
-            string ExtraInfo = "&emsp;Author: Air Marmell";
+            string ExtraInfo = "<br/>&emsp;Author: Air Marmell";
             using var ctx = Factory.CreateSource("Before I Wake", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
             if (ctx == null) return;
 

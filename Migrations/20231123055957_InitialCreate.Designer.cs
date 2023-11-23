@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ravenloft.Migrations
 {
     [DbContext(typeof(RavenloftContext))]
-    [Migration("20231110075454_InitialCreate")]
+    [Migration("20231123055957_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

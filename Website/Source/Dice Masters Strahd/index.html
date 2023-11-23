@@ -34,13 +34,21 @@
 <h3>Dice Masters: Strahd</h3><br/>
 <div class='container'>
 <div class='textbox'>
-Name: Dice Masters: Strahd<br/>
-Release Date: 8/10/2016<br/>
-Extra Info: <br/><br/>
-Locations: <a href='/Location/Castle Ravenloft'>Castle Ravenloft</a>/<a href='/Location/Castle Strahd'>Castle Strahd</a><br/>
-Characters: <a href='/Character/Count Strahd von Zarovich'>Count Strahd von Zarovich</a><br/>
+<b>Name:</b> Dice Masters: Strahd<br/>
+<b>Release Date:</b> 8/10/2016<br/>
+<b>Extra Info:</b> 
+<h2>
+<input type='button' onclick="OpenPage('Simple')" value='Simple'> | 
+<input type='button' onclick="OpenPage('Cascade')" value='Cascade'>
+</h2><br/>
+<div class='page' id='Simple' style='display:block'>
+<b class='darkred'>Locations</b><hr class='darkred'/><a href='/Location/Castle Ravenloft'>Castle Ravenloft</a>/<a href='/Location/Castle Strahd'>Castle Strahd</a><br/><br/>
+<b class='darkred'>Characters</b><hr class='darkred'/><a href='/Character/Count Strahd von Zarovich'>Count Strahd von Zarovich</a><br/><br/>
 </div>
+<div class='page' id='Cascade' style='display:none'>
+<b class='darkred'>Domains:</b><ul></ul><br/>
 </div>
+</div></div><br/>
 </body>
 <script>init();
 </script>

@@ -31,7 +31,6 @@ h2{
 h3{
   font-size: 20px;
 }
-
 a {
   color: var(--color);
   white-space: nowrap;
@@ -68,9 +67,16 @@ div.container {
 
 div.textbox {
 	text-align: left;
-	max-width: 650px;
+	width: 650px;
 	outline-color: grey;
 	outline-style: solid;
 	padding: 5px;
 	overflow-wrap: break-word;
+}
+.darkred {
+	border-color: darkred;
+	background-color: darkred;
+	margin-top: -4px;
+	font-size: 110%;
+	color: #EAEAEA;
 }

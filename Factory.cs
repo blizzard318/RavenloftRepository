@@ -2,14 +2,38 @@
 
 internal class Factory : IDisposable
 {
+    public const string OutsideRavenloftKey = "Outside Ravenloft", InsideRavenloftKey = "Inside Ravenloft";
     public readonly static RavenloftContext db = new RavenloftContext();
-
-    public static readonly Domain OutsideRavenloft;
-    public static readonly Domain InsideRavenloft;
-
     private readonly Source Source;
     private readonly List<Domain> domains = new(); //For trait distribution
 
+    private Domain _OutsideRavenloft, _InsideRavenloft;
+    public Domain OutsideRavenloft
+    {
+        get
+        {
+            if (_OutsideRavenloft == null)
+            {
+                _OutsideRavenloft = CreateDomain(OutsideRavenloftKey, string.Empty);
+                _OutsideRavenloft.ExtraInfo = "Related to but outside Ravenloft.";
+                _OutsideRavenloft.Traits.Add(Traits.NoLink);
+            }
+            return _OutsideRavenloft;
+        }
+    }
+    public Domain InsideRavenloft
+    {
+        get
+        {
+            if (_InsideRavenloft == null)
+            {
+                _InsideRavenloft = CreateDomain(InsideRavenloftKey, string.Empty);
+                _InsideRavenloft.ExtraInfo = "Within Ravenloft but unsure which domain.";
+                _InsideRavenloft.Traits.Add(Traits.NoLink);
+            }
+            return _InsideRavenloft;
+        }
+    }
     /*public static NPC GetNPC (string name) => NPCAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
     public static Location GetLocation (string name) => LocationAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
     public static Domain GetDomain(string name) => DomainAppearances.Single(a => a.Source == Source && a.Entity.Search == name).Entity;
@@ -35,7 +59,7 @@ internal class Factory : IDisposable
         }
     }
 
-    static Factory()
+    /*static Factory()
     {
         OutsideRavenloft = db.Domains.Find("Outside Ravenloft");
         if (OutsideRavenloft == null)
@@ -62,7 +86,7 @@ internal class Factory : IDisposable
             }).Entity;
             InsideRavenloft.Traits.Add(Traits.NoLink);
         }
-    }
+    }*/
     public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
         => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
     private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
