@@ -16,7 +16,6 @@ internal class Factory : IDisposable
             {
                 _OutsideRavenloft = CreateDomain(OutsideRavenloftKey, string.Empty);
                 _OutsideRavenloft.ExtraInfo = "Related to but outside Ravenloft.";
-                _OutsideRavenloft.Traits.Add(Traits.NoLink);
             }
             return _OutsideRavenloft;
         }
@@ -29,7 +28,6 @@ internal class Factory : IDisposable
             {
                 _InsideRavenloft = CreateDomain(InsideRavenloftKey, string.Empty);
                 _InsideRavenloft.ExtraInfo = "Within Ravenloft but unsure which domain.";
-                _InsideRavenloft.Traits.Add(Traits.NoLink);
             }
             return _InsideRavenloft;
         }
@@ -58,35 +56,6 @@ internal class Factory : IDisposable
             }
         }
     }
-
-    /*static Factory()
-    {
-        OutsideRavenloft = db.Domains.Find("Outside Ravenloft");
-        if (OutsideRavenloft == null)
-        {
-            OutsideRavenloft = db.Domains.Add(new Domain()
-            {
-                Key = "Outside Ravenloft",
-                Name = "Outside Ravenloft",
-                OriginalName = "Outside Ravenloft",
-                ExtraInfo = "Related to but outside Ravenloft.",
-            }).Entity;
-            OutsideRavenloft.Traits.Add(Traits.NoLink);
-        }
-
-        InsideRavenloft = db.Domains.Find("Inside Ravenloft");
-        if (InsideRavenloft == null)
-        {
-            InsideRavenloft = db.Domains.Add(new Domain()
-            {
-                Key = "Inside Ravenloft",
-                Name = "Inside Ravenloft",
-                OriginalName = "Inside Ravenloft",
-                ExtraInfo = "Within Ravenloft but unsure which domain."
-            }).Entity;
-            InsideRavenloft.Traits.Add(Traits.NoLink);
-        }
-    }*/
     public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
         => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
     private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)

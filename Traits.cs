@@ -57,6 +57,32 @@
         public static Source.Trait boardgame  = CreateMedia("Board Game");
         public static Source.Trait miniature  = CreateMedia("Miniature" );
     }
+    internal static class CampaignSetting //NOT A SOURCE TRAIT. APPLY THIS ON THINGS.
+    {
+        public static List<Trait> Settings = new List<Trait>();
+        static CampaignSetting()
+        {
+            Ravenloft.ExtraInfo = "Assume everything that doesn't have a listed campaign setting belongs here.";
+        }
+        private static Trait CreateSetting(string name)
+        {
+            var retval = Factory.CreateTrait(name, nameof(CampaignSetting));
+            Settings.Add(retval);
+            return retval;
+        }
+        public static Trait Ravenloft = CreateSetting("Ravenloft");
+        public static Trait Mystara = CreateSetting("Mystara");
+        public static Trait Planescape = CreateSetting("Planescape");
+        public static Trait Greyhawk = CreateSetting("Greyhawk");
+        public static Trait NentirVale = CreateSetting("Nentir Vale");
+        public static Trait ForgottonRealms = CreateSetting("Forgotton Realms");
+        public static Trait Spelljammer = CreateSetting("Spelljammer");
+        public static Trait DarkSun = CreateSetting("Dark Sun");
+        public static Trait Birthright = CreateSetting("Birthright");
+        public static Trait Dragonlance = CreateSetting("Dragonlance");
+        public static Trait Eberron = CreateSetting("Eberron");
+        public static Trait MasqueOfRedDeath = CreateSetting("Masque of Red Death");
+    }
 
     internal static class Location //Seperate them by Mistway,Cluster,Settlement,DarklordLair and else.
     {
@@ -69,20 +95,6 @@
         }
         public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
-    }
-
-    internal static class CampaignSetting
-    {
-        public static List<Trait> Settings = new List<Trait>();
-        static CampaignSetting()
-        {
-        }
-        private static Trait CreateSetting(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(CampaignSetting));
-            Settings.Add(retval);
-            return retval;
-        }
     }
 
     internal static class Status //Includes Groups

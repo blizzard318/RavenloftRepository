@@ -33,8 +33,6 @@
         return location;
     }
 
-
-
     public static NPC AddTraits (this NPC npc, params Trait[] traits)
     {
         foreach (var trait in traits)
