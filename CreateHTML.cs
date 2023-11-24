@@ -495,7 +495,9 @@ internal static class CreateHTML
                 var Outside = LocationsPerDomain.TryGetValue(Factory.OutsideRavenloftKey, out var OutsideRavenloftLocations);
                 if (Outside) LocationsPerDomain.Remove(Factory.OutsideRavenloftKey); //Last table
 
-                foreach (var DomainName in LocationsPerDomain.Keys)
+                var Keys = LocationsPerDomain.Keys.ToList();
+                Keys.Sort();
+                foreach (var DomainName in Keys)
                 {
                     var link = Get.TotalNamesOf<Domain>(DomainName);
                     AllPage.SetTable<Location>($"Locations of {link}", null, LocationsPerDomain[DomainName]);
@@ -521,7 +523,9 @@ internal static class CreateHTML
                 var Outside = SettlementsPerDomain.TryGetValue(Factory.OutsideRavenloftKey, out var OutsideRavenloftSettlements);
                 if (Outside) SettlementsPerDomain.Remove(Factory.OutsideRavenloftKey); //Last table
 
-                foreach (var DomainNames in SettlementsPerDomain.Keys)
+                var Keys = SettlementsPerDomain.Keys.ToList();
+                Keys.Sort();
+                foreach (var DomainNames in Keys) 
                     SettlementPage.SetTable<Location>($"Settlements of {DomainNames}", null, SettlementsPerDomain[DomainNames]);
                 if (Inside)
                 {
@@ -617,7 +621,7 @@ internal static class CreateHTML
             foreach (var character in AllCharacters)
             {
                 var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
-                var offset = StatusTraits.Remove(Traits.Status.Deceased) ? ALIVE : DEAD;
+                var offset = StatusTraits.Remove(Traits.Status.Deceased) ? DEAD : ALIVE;
 
                 foreach (var statusTrait in StatusTraits)
                 {
@@ -653,7 +657,9 @@ internal static class CreateHTML
                 var Outside = CharactersPerDomain.TryGetValue(Factory.OutsideRavenloftKey, out var OutsideCharacters);
                 if (Outside) CharactersPerDomain.Remove(Factory.OutsideRavenloftKey); //Last table
 
-                foreach (var Key in CharactersPerDomain.Keys)
+                var Keys = CharactersPerDomain.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
                     SetTable($"Characters of {Get.TotalNamesOf<Domain>(Key)}", null, CharactersPerDomain[Key], Domain);
                 if (Inside)
                 {
@@ -670,13 +676,17 @@ internal static class CreateHTML
             }
             using (var Group = subheader.CreatePage("By Group"))
             {
-                foreach (var Key in CharactersPergroup.Keys)
+                var Keys = CharactersPergroup.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
                     SetTable($"Characters of {CreateLink(nameof(Group), Key)}", null, CharactersPergroup[Key], Group);
             }
             using (var Creature = subheader.CreatePage("By Creature Type"))
             {
-                foreach (var Key in CharactersPerCreature.Keys)
-                    SetTable($"Characters of {CreateLink(nameof(Creature), Key)}", null, CharactersPerCreature[Key], Creature);
+                var Keys = CharactersPerCreature.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
+                    SetTable($"Characters associated with {CreateLink(nameof(Creature), Key)}", null, CharactersPerCreature[Key], Creature);
             }
 
             static void SetTable(string title, string? caption, HashSet<string>[] OriginalNames, SubHeader.Page page)
@@ -758,7 +768,9 @@ internal static class CreateHTML
                 var Outside = ItemsPerDomain.TryGetValue(Factory.InsideRavenloftKey, out var OutsideItems);
                 if (Outside) ItemsPerDomain.Remove(Factory.InsideRavenloftKey); //Last table
 
-                foreach (var Key in ItemsPerDomain.Keys)
+                var Keys = ItemsPerDomain.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
                     Domain.SetTable<Item>($"Items of {Get.TotalNamesOf<Domain>(Key)}", null, ItemsPerDomain[Key]);
                 if (Inside)
                 {
@@ -775,12 +787,16 @@ internal static class CreateHTML
             }
             using (var Group = subheader.CreatePage("By Group")) //Status Traits
             {
-                foreach (var Key in ItemsPerGroup.Keys)
+                var Keys = ItemsPerGroup.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
                     Group.SetTable<Item>($"Items of {CreateLink(nameof(Group), Key)}", null, ItemsPerGroup[Key]);
             }
             using (var Creature = subheader.CreatePage("By Creature")) //Creature Traits
             {
-                foreach (var Key in ItemsPerCreature.Keys)
+                var Keys = ItemsPerCreature.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
                     Creature.SetTable<Item>($"Items of {CreateLink(nameof(Creature), Key)}", null, ItemsPerCreature[Key]);
             }
         }
@@ -813,7 +829,10 @@ internal static class CreateHTML
         foreach (var source in Sources)
         {
             CreateOfficialHeader(source.Key, 2);
-            sb.AppendLine($"<h3>{source.Key}</h3><br/>");
+            sb.AppendLine($"<h3>{source.Key}");
+            var canontrait = source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
+            if (canontrait != null) sb.AppendLine($" ({canontrait.Key})");
+            sb.AppendLine("</h3><br/>");
 
             sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
@@ -825,9 +844,9 @@ internal static class CreateHTML
                 if (mediatypes.Count() == 1) sb.AppendLine($"<b>Media Type:</b> {string.Join(',', mediatypes)}<br/>");
                 else                         sb.AppendLine($"<b>Media Types:</b> {string.Join(',', mediatypes)}<br/>");
 
-                sb.AppendLine($"<b>Edition:</b> {source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key}<br/>");
+                var editiontrait = source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                if (editiontrait != Traits.Edition.e0) sb.AppendLine($"<b>Edition:</b> {editiontrait.Key}<br/>");
 
-                var canontrait = source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
                 if (canontrait != null) sb.AppendLine($"<b>Canon:</b> {canontrait.Key}<br/>");
 
                 sb.AppendLine($"<b>Release Date:</b> {source.ReleaseDate}<br/>");

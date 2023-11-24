@@ -318,7 +318,7 @@ internal static class AddToDatabase
                 ctx.CreateItem("Crystal of the Ebon Flame", "13/100");
                 ctx.CreateNPC("Yagno Petrovna", "82/100");
                 ctx.CreateDomain("Bluet Spur", "Bluetspur", "88/100");
-                ctx.CreateDomain("Kalidnay", "92/100");
+                ctx.CreateDomain("Kalidnay", "92/100").AddTraits(Traits.CampaignSetting.DarkSun);
                 ctx.CreateItem("Death Rock", "2/20");
                 ctx.CreateNPC("Count Strahd von Zarovich", "8/20");
                 ctx.CreateNPC("Ghostly Piper", "10/20");
@@ -329,7 +329,7 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, 3rd Edition Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateItem("Tapestry of the Stag", "426/440").AddTraits(Traits.Creature.VampireBat);
+                ctx.CreateItem("Tapestry of the Stag", "426/440").AddTraits(Traits.Creature.VampireBat, Traits.CampaignSetting.Greyhawk);
             }
             void AddUnderdarkSet()
             {
