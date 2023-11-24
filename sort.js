@@ -16,7 +16,7 @@ function colorCode(table) {
     let flipflop = true;
     const rows = table.rows;
     for (var i = 1; i < rows.length; i++) {
-        if (rows[i].style.display == 'none') continue;
+        if (rows[i].style.visibility == 'collapse') continue;
         rows[i].style.background = flipflop ? 'var(--row1)' : 'var(--row2)';
         flipflop = !flipflop;
     }

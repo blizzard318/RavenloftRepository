@@ -189,7 +189,7 @@ internal static class CreateHTML
         }
         public void AddRows(string HTMLclass, string[] columns)
         {
-            sb.AppendLine($"<tr stye='{HTMLclass}'>");
+            sb.AppendLine($"<tr class='{HTMLclass}'>");
             foreach (var column in columns) sb.AppendLine($"<td>{column}</td>");
             sb.AppendLine("</tr>");
         }
@@ -637,6 +637,7 @@ internal static class CreateHTML
                 var CreatureTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Creature)));
                 foreach (var creatureTrait in CreatureTraits)
                 {
+                    if (creatureTrait == Traits.Creature.Human) continue; //For the sake of spam, I don't think anyone wants to see all humans.
                     CharactersPerCreature.TryAdd(creatureTrait.Key, Init());
                     CharactersPerCreature[creatureTrait.Key][offset].Add(character.OriginalName);
                 }
@@ -701,7 +702,10 @@ internal static class CreateHTML
             }
         }
         sb.AppendLine("<script>");
-        sb.AppendLine($"document.getElementById('showdead').addEventListener('change', () => document.querySelectorAll('.dead').forEach(x => x.style.visibility = document.getElementById('darkmode').checked?'visible':'collapse');");
+        sb.AppendLine("document.getElementById('showdead').addEventListener('change', () => {");
+            sb.AppendLine("document.querySelectorAll('.dead').forEach(x => x.style.visibility = document.getElementById('showdead').checked?'visible':'collapse');");
+            sb.AppendLine("document.querySelectorAll('table').forEach(x => colorCode(x));");
+        sb.AppendLine("});");
         sb.AppendLine("</script>");
 
         SaveHTML("Character");
@@ -783,13 +787,14 @@ internal static class CreateHTML
         SaveHTML(nameof(Item));
     }
 
+    public static void CreateGroupPage()
+    {
+        CreateOfficialHeader("Groups/Titles of Ravenloft", 1);
+        SaveHTML("Group");
+    }
     public static void CreateCreaturePage()
     {
 
-    }
-    public static void CreateGroupPage()
-    {
-        
     }
     public static void CreateCampaignSettingPage()
     {
@@ -816,15 +821,14 @@ internal static class CreateHTML
             {
                 sb.AppendLine($"<b>Name:</b> {source.Key}<br/>");
 
-                var mediatypes = source.Traits.FindAll(t => t.Type == nameof(Traits.Media)).Select(m => m.Key).ToArray();
-                for (int i = 0; i < mediatypes.Count(); i++) mediatypes[i] = CreateLink(nameof(Traits.Media), mediatypes[i]);
-                sb.AppendLine($"<b>Media Type(s):</b> {string.Join(',', mediatypes)}<br/>");
+                var mediatypes = source.Traits.FindAll(t => t.Type == nameof(Traits.Media)).Select(m => m.Key);
+                if (mediatypes.Count() == 1) sb.AppendLine($"<b>Media Type:</b> {string.Join(',', mediatypes)}<br/>");
+                else                         sb.AppendLine($"<b>Media Types:</b> {string.Join(',', mediatypes)}<br/>");
 
-                var editionstring = CreateLink(nameof(Traits.Edition), source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key);
-                sb.AppendLine($"<b>Edition:</b> {editionstring}<br/>");
+                sb.AppendLine($"<b>Edition:</b> {source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key}<br/>");
 
                 var canontrait = source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
-                if (canontrait != null) sb.AppendLine($"<b>Canon:</b> {CreateLink(nameof(Traits.Canon), canontrait.Key)}<br/>");
+                if (canontrait != null) sb.AppendLine($"<b>Canon:</b> {canontrait.Key}<br/>");
 
                 sb.AppendLine($"<b>Release Date:</b> {source.ReleaseDate}<br/>");
                 sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
