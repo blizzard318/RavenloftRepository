@@ -209,7 +209,7 @@ namespace Ravenloft.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     PrimaryName = table.Column<string>(type: "TEXT", nullable: false),
                     OtherName = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: false)
+                    RelationshipType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

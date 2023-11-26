@@ -806,6 +806,27 @@ internal static class CreateHTML
     public static void CreateGroupPage()
     {
         CreateOfficialHeader("Groups/Titles of Ravenloft", 1);
+
+        using (var subheader = new SubHeader())
+        {
+            var CharactersPergroup = new Dictionary<string, HashSet<string>[]>();
+            var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
+            var offset = StatusTraits.Remove(Traits.Status.Deceased) ? DEAD : ALIVE;
+
+            foreach (var statusTrait in StatusTraits)
+            {
+                CharactersPergroup.TryAdd(statusTrait.Key, Init());
+                CharactersPergroup[statusTrait.Key][offset].Add(character.OriginalName);
+            }
+            using (var Total = subheader.CreatePage("Total"))
+            {
+
+            }
+            using (var Domain = subheader.CreatePage("By Domain"))
+            {
+
+            }
+        }
         SaveHTML("Group");
     }
     public static void CreateCreaturePage()

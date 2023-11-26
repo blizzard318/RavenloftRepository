@@ -69,9 +69,6 @@ internal static class AddToDatabase
                     ctx.CreateNPC("Prince Aerial Du Plumette", "27").AddTraits(Traits.Alignment.LE, Traits.Creature.Ghost).AddInfo("Also known as 'Aerial the Heavy'."),
                     ctx.CreateNPC("Artank Swilovich", "27").AddTraits(Traits.Status.Deceased, Traits.Status.BarovianWineDistillersBrotherhood),
 
-                    ctx.CreateNPC("Marya Markovia", "27, 28").AddTraits(Traits.Status.Deceased),
-                    ctx.CreateNPC("Endorovich the Terrible", "27, 28").AddTraits(Traits.Alignment.LE, Traits.Creature.Spectre),
-
                     ctx.CreateNPC("Duchess Dorfniya Dilisnya", "28").AddTraits(Traits.Status.Deceased),
                     ctx.CreateNPC("Pidlwik", "28").AddTraits(Traits.Status.Deceased),
                     ctx.CreateNPC("Sir Leanne Triksky", "28").AddTraits(Traits.Status.Deceased).AddInfo("Also known as 'Sir Lee the Crusher'."),
@@ -139,44 +136,45 @@ internal static class AddToDatabase
             var KingBarov = ctx.CreateNPC("King Barov", "28, 30").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(CastleRavenloft);
             var Ravenovia = ctx.CreateNPC("Queen Ravenovia", "5, 28, 30").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(CastleRavenloft);
 
-            ctx.CreateRelationship(KingBarov, RelationshipType.Spouse, Ravenovia);
-            ctx.CreateRelationship(KingBarov, RelationshipType.Parent, Strahd);
-            ctx.CreateRelationship(KingBarov, RelationshipType.Parent, Sergei);
-            ctx.CreateRelationship(Ravenovia, RelationshipType.Parent, Strahd);
-            ctx.CreateRelationship(Ravenovia, RelationshipType.Parent, Sergei);
+            ctx.CreateRelationship(KingBarov, "Spouse", Ravenovia);
+            ctx.CreateRelationship(KingBarov, "Parent", Strahd);
+            ctx.CreateRelationship(KingBarov, "Parent", Sergei);
+            ctx.CreateRelationship(Ravenovia, "Parent", Strahd);
+            ctx.CreateRelationship(Ravenovia, "Parent", Sergei);
 
+            var Marya = ctx.CreateNPC("Marya Markovia", "27, 28").AddTraits(Traits.Status.Deceased).AddLocations(CastleRavenloft);
+            var Endorovich = ctx.CreateNPC("Endorovich the Terrible", "27, 28").AddTraits(Traits.Alignment.LE, Traits.Creature.Spectre).AddLocations(CastleRavenloft);
+            ctx.CreateRelationship(Endorovich, "Loves", Marya);
+            ctx.CreateRelationship(Endorovich, "Accidentally Murdered", Marya);
 
             var SashaIvliskova = ctx.CreateNPC("Sasha Ivliskova", "28").AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.Vampire).AddLocations(CastleRavenloft);
             var PatrinaVelikovna = ctx.CreateNPC("Patrina Velikovna", "28").AddTraits(Traits.Alignment.CE, Traits.Creature.Elf, Traits.Creature.Banshee).AddLocations(CastleRavenloft);
-            ctx.CreateRelationship(Strahd, RelationshipType.Spouse, SashaIvliskova);
-            ctx.CreateRelationship(Strahd, RelationshipType.Spouse, PatrinaVelikovna);
+            ctx.CreateRelationship(Strahd, "Spouse", SashaIvliskova);
+            ctx.CreateRelationship(Strahd, "Spouse", PatrinaVelikovna);
 
             var Tatyana = ctx.CreateNPC("Tatyana", "1, 30, 31").AddTraits(Traits.Status.Deceased, Traits.Status.Tatyana).AddDomains(Barovia);
-            ctx.CreateRelationship(Sergei, RelationshipType.Spouse, Tatyana);
+            ctx.CreateRelationship(Sergei, "Spouse", Tatyana);
 
 
 
             var KolyanIndirovich = ctx.CreateNPC("Kolyan Indirovich", "7, 8, 9").AddTraits(Traits.Status.Deceased, Traits.Creature.Human).AddLocations(VillageOfBarovia, BurgomasterHome);
             var IreenaKolyana = ctx.CreateNPC("Ireena Kolyana").AddTraits(Traits.Alignment.LG, Traits.Creature.Human, Traits.Status.Tatyana).AddLocations(VillageOfBarovia, BurgomasterHome);
             var Ismark = ctx.CreateNPC("Ismark the Lesser", "8, 9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human).AddLocations(VillageOfBarovia, BurgomasterHome, BloodVineTavern);
-            ctx.CreateRelationship(KolyanIndirovich, RelationshipType.Adopted, IreenaKolyana);
-            ctx.CreateRelationship(KolyanIndirovich, RelationshipType.Parent, Ismark);
+            ctx.CreateRelationship(KolyanIndirovich, "Adopted", IreenaKolyana);
+            ctx.CreateRelationship(KolyanIndirovich, "Parent", Ismark);
 
 
 
             var MadMary = ctx.CreateNPC("Mad Mary", "9, 19").AddTraits(Traits.Alignment.CN, Traits.Creature.Human).AddLocations(VillageOfBarovia, MaryHouse);
             var Gertruda = ctx.CreateNPC("Gertruda", "9, 19").AddTraits(Traits.Alignment.NG, Traits.Creature.Human).AddLocations(VillageOfBarovia, CastleRavenloft, MaryHouse);
-            ctx.CreateRelationship(MadMary, RelationshipType.Parent, Gertruda);
-
-
+            ctx.CreateRelationship(MadMary, "Parent", Gertruda);
+            ctx.CreateRelationship(Gertruda, "Daughter", MadMary);
 
             var Bildrath = ctx.CreateNPC("Bildrath", "8").AddTraits(Traits.Alignment.LG, Traits.Creature.Human).AddLocations(VillageOfBarovia, BildrathMercantile);
             var Parriwimple = ctx.CreateNPC("Parriwimple", "8").AddTraits(Traits.Alignment.LN, Traits.Creature.Human).AddLocations(VillageOfBarovia, BildrathMercantile);
-            var BildrathParents = ctx.CreateNPC("Bildrath Parents", string.Empty).AddTraits(Traits.NoLink);
-            var BildrathSibling = ctx.CreateNPC("Bildrath Sibling", string.Empty).AddTraits(Traits.NoLink);
-            ctx.CreateRelationship(BildrathParents, RelationshipType.Parent, Bildrath);
-            ctx.CreateRelationship(BildrathParents, RelationshipType.Parent, BildrathSibling);
-            ctx.CreateRelationship(BildrathSibling, RelationshipType.Parent, Parriwimple);
+
+            ctx.CreateRelationship(Bildrath, "Uncle", Parriwimple);
+            ctx.CreateRelationship(Parriwimple, "Nephew", Bildrath);
         }
         void AddBeforeIWake()
         {

@@ -31,11 +31,6 @@ public class RavenloftContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Relationship>().Property(e => e.Type).HasConversion(
-            v => v.ToString(),
-            v => (Relationship.RelationshipType)Enum.Parse(typeof(Relationship.RelationshipType), v)
-        );
-
         modelBuilder.Entity<Relationship>()
             .HasOne(r => r.Primary)
             .WithMany(n => n.Relationships)
@@ -116,8 +111,7 @@ public class Relationship
     public NPC Primary { get; set; }
     public string OtherName { get; set; }
     public NPC Other { get; set; } = new();
-    public enum RelationshipType { Parent, Adopted, Spouse }
-    public RelationshipType Type { get; set; }
+    public string RelationshipType { get; set; }
 }
 public abstract class Appearance
 {

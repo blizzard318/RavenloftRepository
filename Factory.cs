@@ -148,12 +148,12 @@ internal class Factory : IDisposable
         return retval;
     }
 
-    public void CreateRelationship(NPC primary, RelationshipType type, NPC other)
+    public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {
         var relationship = new Relationship()
         {
             Primary = primary,
-            Type = type,
+            RelationshipType = RelationshipType,
             Other = other,
         };
         primary.Relationships.Add(relationship);
