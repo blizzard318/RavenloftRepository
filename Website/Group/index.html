@@ -1,112 +1,141 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>Characters</title>
-	<meta name="theme-color" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ravenloft Repository">
-	<link rel="stylesheet" href="../styles.css">
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js" charset="utf-8"></script>
+<meta charset='utf-8'>
+<title>Groups/Titles of Ravenloft</title>
+<meta name='theme-color' content='black'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ravenloft Repository'>
+<link rel='stylesheet' href='../styles.css'>
+<link rel='shortcut icon' href='../favicon.ico'>
+<script src='../sort.js'></script>
 </head>
-
 <body>
-	<h1>Ravenloft Catalogue</h1><hr/>
-	<h2>
-		<a href=".."		 >Official</a> |
-		<a href="../3rdParty">3rd Party</a>
-	</h2><hr />
-	<h2>
-		<a href="../Source"	  >Sources</a> | 
-		<a href="../Domain"	  >Domains</a> | 
-		<a href="../Location" >Locations</a> | 
-		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items</a><br/>
-		<a href="../Creature" >Creatures</a> | 
-		<a href="../Group" 	  >Groups</a> | 
-		<a href="../Language" >Languages</a>
-	</h2><hr />
-	
-	<h2>
-		<input type="button" onclick="OpenPage('domain')" value="Groups per Domain"> | 
-		<input type="button" onclick="OpenPage('group')" value = "Domains per Group">
-	</h2>
-	Group is probably the wrong word. This page also contains statuses, such as <a href="/Group/Raunie">Raunies</a> and <a href="/Group/Darklord">Darklords</a>.
-	<br/>
-	<div class="page" id="domain" style="display:block">
-	</div>
-	
-	<div class="page" id="group" style="display:none">
-	</div>
-	
-	<script>
-	async function func(){
-		const GroupsData = await fetch("Group.json");
-		const Groups = await GroupsData.json();
-
-		for (const group of Groups) {
-			const Domains = group.Domains.split(',');
-			for (const domain of Domains) {
-				if (!document.getElementById(domain)) {
-					const domaindiv = document.getElementById("domain");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Groups of " + domain;
-					domaindiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = domain;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					const row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-				}
-				const row = document.getElementById(domain).insertRow(-1);
-				row.insertCell(-1).innerHTML = group.Name;
-				colorCode(domain);
-			}
-			
-			if (group.Name == "Darklord") continue; //Come on man.
-			if (!document.getElementById(group.Name)) {
-					const domaindiv = document.getElementById("group");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Domains of " + group.Name;
-					domaindiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = group.Name;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					const row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-			}
-			for (const domain of Domains)
-				document.getElementById(group.Name).insertRow(-1).insertCell(-1).innerHTML = domain;
-			colorCode(group.Name);
-		}
-	}
-	func();
-	</script>
+<span style='float:right;display:inline-block;height:0px'>
+<label for='darkmode'>Dark Mode</label>
+<input type='checkbox' id='darkmode'>
+</span>
+<h1>Ravenloft Catalogue</h1><hr/>
+<h2>
+<a href='../'>Official</a> | 
+<a href='../3rdParty'>3rd Party</a>
+</h2><hr />
+<h2>
+<a href='../Source'>Sources</a> | 
+<a href='../Domain'>Domains</a> | 
+<a href='../Location'>Locations</a> | 
+<a href='../Character'>Characters</a> | 
+<a href='../Item'>Items</a><br/>
+<a href='../Creature'>Creatures</a> | 
+<a href='../Group'>Groups</a> | 
+<a href='../Setting'>Campaign Settings</a> | 
+<a href='../Language'>Languages</a>
+</h2><hr />
+<h2>
+<input type='button' onclick="OpenPage('Total')" value='Total'> | 
+<input type='button' onclick="OpenPage('By Domain')" value='By Domain'>
+</h2><br/>
+<div class='page' id='Total' style='display:block'>
+<b style='font-size:25px'>All Groups/Titles in Ravenloft</b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Total0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>Member Count</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Barovian Wine Distillers Brotherhood'>Barovian Wine Distillers Brotherhood</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href='/Group/Darklord'>Darklord</a></td>
+<td>3</td>
+</tr>
+<tr>
+<td><a href='/Group/Raunie'>Raunie</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href='/Group/Reincarnations of Tatyana'>Reincarnations of Tatyana</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href='/Group/Vistani'>Vistani</a></td>
+<td>1</td>
+</tr>
+</table><br/>
+</div>
+<div class='page' id='By Domain' style='display:none'>
+<b style='font-size:25px'>Groups/Titles within <a href='/Domain/Barovia'>Barovia</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>Member Count</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Barovian Wine Distillers Brotherhood'>Barovian Wine Distillers Brotherhood</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href='/Group/Darklord'>Darklord</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href='/Group/Raunie'>Raunie</a></td>
+<td>1</td>
+</tr>
+<tr>
+<td><a href='/Group/Reincarnations of Tatyana'>Reincarnations of Tatyana</a></td>
+<td>2</td>
+</tr>
+<tr>
+<td><a href='/Group/Vistani'>Vistani</a></td>
+<td>1</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Groups/Titles within <a href='/Domain/Bluetspur'>Bluetspur</a>/<a href='/Domain/Bluet Spur'>Bluet Spur</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>Member Count</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Darklord'>Darklord</a></td>
+<td>1</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Groups/Titles within <a href='/Domain/Gundarak'>Gundarak</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Domain2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>Member Count</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Darklord'>Darklord</a></td>
+<td>1</td>
+</tr>
+</table><br/>
+</div>
 </body>
+<script>init();
+sortTable('Total0',0);
+sortTable('By Domain0',0);
+sortTable('By Domain1',0);
+sortTable('By Domain2',0);
+</script>
 </html>

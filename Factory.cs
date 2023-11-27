@@ -2,7 +2,7 @@
 
 internal class Factory : IDisposable
 {
-    public const string OutsideRavenloftKey = "Outside Ravenloft", InsideRavenloftKey = "Inside Ravenloft";
+    public const string OutsideRavenloftOriginalName = "Outside Ravenloft", InsideRavenloftOriginalName = "Inside Ravenloft";
     public readonly static RavenloftContext db = new RavenloftContext();
     private readonly Source Source;
     private readonly List<Domain> domains = new(); //For trait distribution
@@ -14,7 +14,7 @@ internal class Factory : IDisposable
         {
             if (_OutsideRavenloft == null)
             {
-                _OutsideRavenloft = CreateDomain(OutsideRavenloftKey, string.Empty);
+                _OutsideRavenloft = CreateDomain(OutsideRavenloftOriginalName, string.Empty);
                 _OutsideRavenloft.ExtraInfo = "Related to but outside Ravenloft.";
             }
             return _OutsideRavenloft;
@@ -26,7 +26,7 @@ internal class Factory : IDisposable
         {
             if (_InsideRavenloft == null)
             {
-                _InsideRavenloft = CreateDomain(InsideRavenloftKey, string.Empty);
+                _InsideRavenloft = CreateDomain(InsideRavenloftOriginalName, string.Empty);
                 _InsideRavenloft.ExtraInfo = "Within Ravenloft but unsure which domain.";
             }
             return _InsideRavenloft;
