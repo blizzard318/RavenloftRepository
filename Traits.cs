@@ -1,19 +1,22 @@
-﻿internal static class Traits
+﻿using static Source;
+
+internal static class Traits
 {
     //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
 
     #region Universal Traits
+    private static Source.Trait Add(this List<Source.Trait> traits, string name, string TraitType)
+    {
+        var retval = Factory.CreateSourceTrait(name, TraitType);
+        traits.Add(retval);
+        return retval;
+    }
     internal static class Edition
     {
         static Edition() => e0.ExtraInfo = "'Editionless' are official products that do not belong to any edition of Dungeons and Dragons.";
-        public static List<Source.Trait> Editions = new List<Source.Trait>(7);
-        private static Source.Trait CreateEdition(string name)
-        {
-            var retval = Factory.CreateSourceTrait(name, nameof(Edition));
-            Editions.Add(retval);
-            return retval;
-        }
+        public static List<Source.Trait> traits = new List<Source.Trait>(7);
+        private static Source.Trait CreateEdition(string name) => traits.Add(name, nameof(Edition));
         public static Source.Trait e1  = CreateEdition("1st Ed"  );
         public static Source.Trait e2  = CreateEdition("2nd Ed"  );
         public static Source.Trait e3  = CreateEdition("3rd Ed"  );
@@ -22,30 +25,18 @@
         public static Source.Trait e5  = CreateEdition("5th Ed"  );
         public static Source.Trait e0  = CreateEdition("Editionless");
     }
-
     internal static class Canon //Annoying to create a page for this, maybe don't.
     {
         static Canon() => NotCanon.ExtraInfo = PotentialCanon.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
-        public static List<Source.Trait> Canons = new List<Source.Trait>(2);
-        private static Source.Trait CreateCanon(string name)
-        {
-            var retval = Factory.CreateSourceTrait(name, nameof(Canon));
-            Canons.Add(retval);
-            return retval;
-        }
+        public static List<Source.Trait> traits = new List<Source.Trait>(2);
+        private static Source.Trait CreateCanon(string name) => traits.Add(name, nameof(Canon));
         public static Source.Trait PotentialCanon = CreateCanon("Potentially Canon");
         public static Source.Trait NotCanon       = CreateCanon("Not Canon"        );
     }
-
     internal static class Media
     {
-        public static List<Source.Trait> Medias = new List<Source.Trait>(9);
-        private static Source.Trait CreateMedia(string name)
-        {
-            var retval = Factory.CreateSourceTrait(name, nameof(Media));
-            Medias.Add(retval);
-            return retval;
-        }
+        public static List<Source.Trait> traits = new List<Source.Trait>(9);
+        private static Source.Trait CreateMedia(string name) => traits.Add(name, nameof(Media));
         public static Source.Trait sourcebook = CreateMedia("Sourcebook");
         public static Source.Trait module     = CreateMedia("Module"    );
         public static Source.Trait magazine   = CreateMedia("Magazine"  );
@@ -57,19 +48,20 @@
         public static Source.Trait boardgame  = CreateMedia("Board Game");
         public static Source.Trait miniature  = CreateMedia("Miniature" );
     }
+    private static Trait Add (this List<Trait> traits, string name, string TraitType)
+    {
+        var retval = Factory.CreateTrait(name, TraitType);
+        traits.Add(retval);
+        return retval;
+    }
     internal static class CampaignSetting //NOT A SOURCE TRAIT. APPLY THIS ON THINGS.
     {
-        public static List<Trait> Settings = new List<Trait>();
+        public static List<Trait> traits = new List<Trait>();
         static CampaignSetting()
         {
             Ravenloft.ExtraInfo = "Assume everything that doesn't have a listed campaign setting belongs here.";
         }
-        private static Trait CreateSetting(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(CampaignSetting));
-            Settings.Add(retval);
-            return retval;
-        }
+        private static Trait CreateSetting(string name) => traits.Add(name, nameof(CampaignSetting));
         public static Trait Ravenloft = CreateSetting("Ravenloft");
         public static Trait Mystara = CreateSetting("Mystara");
         public static Trait Planescape = CreateSetting("Planescape");
@@ -86,37 +78,26 @@
 
     internal static class Location //Seperate them by Mistway,Cluster,Settlement,DarklordLair and else.
     {
-        public static List<Trait> Locations = new List<Trait>();
-        private static Trait CreateLocation(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Location));
-            Locations.Add(retval);
-            return retval;
-        }
+        public static List<Trait> traits = new List<Trait>();
+        private static Trait CreateLocation(string name) => traits.Add(name, nameof(Location));
         public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
     }
 
     internal static class Status //Includes Groups
     {
-        public static List<Trait> Statuses = new List<Trait>();
+        public static List<Trait> traits = new List<Trait>();
         static Status ()
         {
             Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
-            Statuses.Add(Darklord);
-            Statuses.Add(Vistani);
+            traits.Add(Darklord);
+            traits.Add(Vistani);
         }
-        private static Trait CreateStatus(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Status));
-            Statuses.Add(retval);
-            return retval;
-        }
-        public static Trait Deceased = CreateStatus("Deceased");
-
-        public static Trait Vistani  = Factory.CreateTrait("Vistani" , nameof(Status), nameof(Item));
+        private static Trait CreateStatus(string name) => traits.Add(name, nameof(Status));
+        public static Trait Vistani = Factory.CreateTrait("Vistani", nameof(Status), nameof(Item));
         public static Trait Darklord = Factory.CreateTrait("Darklord", nameof(Status), nameof(Location));
 
+        public static Trait Deceased = CreateStatus("Deceased");
         public static Trait Tatyana = CreateStatus("Reincarnations of Tatyana");
         public static Trait BarovianWineDistillersBrotherhood = CreateStatus("Barovian Wine Distillers Brotherhood");
         public static Trait TheKargat = CreateStatus("The Kargat");
@@ -142,25 +123,15 @@
     #region Domain-Tracked Traits
     internal static class Language
     {
-        public static List<Trait> Languages = new List<Trait>();
-        private static Trait CreateLanguage(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Language));
-            Languages.Add(retval);
-            return retval;
-        }
+        public static List<Trait> traits = new List<Trait>();
+        private static Trait CreateLanguage(string name) => traits.Add(name, nameof(Language));
         public static Trait Common = CreateLanguage("Common");
     }
 
     internal static class Settlement //Everything here has to use Location.Settlement.Key
     {
-        public static List<Trait> Settlements = new List<Trait>();
-        private static Trait CreateSettlement(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Settlement));
-            Settlements.Add(retval);
-            return retval;
-        }
+        public static List<Trait> traits = new List<Trait>();
+        private static Trait CreateSettlement(string name) => traits.Add(name, nameof(Settlement));
         public static Trait VillageOfBarovia   = CreateSettlement("Village of Barovia"  );
         public static Trait TserPoolEncampment = CreateSettlement("Tser Pool Encampment");
         public static Trait Nartok = CreateSettlement("Nartok");
@@ -168,40 +139,25 @@
 
     internal static class Mistway //Everything here has to use Location.Mistway.Key
     {
-        public static List<Trait> Mistways = new List<Trait>(2); //Usually just 2.
-        private static Trait CreateMistway(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Mistway));
-            Mistways.Add(retval);
-            return retval;
-        }
+        public static List<Trait> traits = new List<Trait>(2); //Usually just 2.
+        private static Trait CreateMistway(string name) => traits.Add(name, nameof(Mistway));
     }
     internal static class Cluster //Everything here has to use Location.Cluster.Key
     {
-        public static List<Trait> Clusters = new List<Trait>();
-        private static Trait CreateCluster(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Cluster));
-            Clusters.Add(retval);
-            return retval;
-        }
+        public static List<Trait> traits = new List<Trait>();
+        private static Trait CreateCluster(string name) => traits.Add(name, nameof(Cluster));
         public static Trait IslandOfTerror = CreateCluster("Islands of Terror");
     }
 
     internal static class Creature
     {
-        public static List<Trait> Creatures = new List<Trait>();
+        public static List<Trait> traits = new List<Trait>();
         static Creature()
         {
             KeeningSpirit.Item1.ExtraInfo = "Also known as 'Groaning Spirit'";
             KeeningSpirit.Item2.ExtraInfo = "Also known as 'Keening Spirit'";
         }
-        private static Trait CreateCreature(string name)
-        {
-            var retval = Factory.CreateTrait(name, nameof(Creature));
-            Creatures.Add(retval);
-            return retval;
-        }
+        private static Trait CreateCreature(string name) => traits.Add(name, nameof(Creature));
         public static Trait Human = CreateCreature("Human");
         public static Trait Elf = CreateCreature("Elf");
         public static Trait Drow = CreateCreature("Drow");

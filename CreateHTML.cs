@@ -1,14 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUglify;
-using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 
 internal static class CreateHTML
 {
     private static string CreateLink(string subdomain, string name) => $"<a href='/{subdomain}/{name.Replace(":",string.Empty)}'>{name}</a>";
+    private static string CreateLink(Trait trait)
+    {
+        string subdomain = string.Empty;
+        switch (trait.Type)
+        {
+            case nameof(Traits.Status): return CreateLink("Group", trait.Key);
+
+            case nameof(Traits.Canon): 
+            case nameof(Traits.CampaignSetting): 
+            case nameof(Traits.Language): 
+            case nameof(Traits.Cluster): 
+            case nameof(Traits.Creature): return CreateLink(trait.Type, trait.Key);
+
+            /*case nameof(Traits.Edition):
+            case nameof(Traits.Media):
+            case nameof(Traits.Settlement):
+            case nameof(Traits.Mistway):
+            case nameof(Traits.Alignment):
+            case nameof(Traits.Location):*/ //This shouldn't run at all
+        }
+        throw new Exception();
+    }
     private static string CreateLink<T>(string entity) where T : UseName
     {
         var type = typeof(T);
@@ -62,12 +82,12 @@ internal static class CreateHTML
                         for (int i = 0; i < NamesOfSame.Length; i++) NamesOfSame[i] = CreateLink(Subdomain, NamesOfSame[i]);
                     }
 
-                    var Editions = new string[Traits.Edition.Editions.Count];
+                    var Editions = new string[Traits.Edition.traits.Count];
                     var Sources = Appearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == OriginalName).Select(a => a.Source);
                     foreach (var Source in Sources)
                     {
                         var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-                        Editions[Traits.Edition.Editions.IndexOf(Edition)] = "X";
+                        Editions[Traits.Edition.traits.IndexOf(Edition)] = "X";
                     }
 
                     ToFill.Add(OriginalName, new Entity(string.Join("/", NamesOfSame), Editions));
@@ -172,9 +192,9 @@ internal static class CreateHTML
             }
             public HeaderRow CreateEditionHeaders()
             {
-                foreach (var edition in Traits.Edition.Editions)
+                foreach (var edition in Traits.Edition.traits)
                     sb.AppendLine($"<th scope='col'>").AppendLine($"<b>{edition.Key}</b>").AppendLine("</th>");
-                col += Traits.Edition.Editions.Count;
+                col += Traits.Edition.traits.Count;
                 return this;
             }
             private void EndHeader(string title)
@@ -341,8 +361,8 @@ internal static class CreateHTML
     {
         CreateOfficialHeader("Source Materials", 1);
 
-        var MaterialPerEdition = new Dictionary<string, int>(Traits.Edition.Editions.Count);
-        var MaterialPerMedia = new Dictionary<string, int>(Traits.Media.Medias.Count);
+        var MaterialPerEdition = new Dictionary<string, int>(Traits.Edition.traits.Count);
+        var MaterialPerMedia = new Dictionary<string, int>(Traits.Media.traits.Count);
 
         const string MainTableID = "List of Media";
         using (var table = new Table(MainTableID, MainTableID))
@@ -367,7 +387,7 @@ internal static class CreateHTML
         using (var table = new Table(EditionTableID, EditionTableID))
         {
             using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Edition", "Source Materials");
-            foreach (var edition in Traits.Edition.Editions)
+            foreach (var edition in Traits.Edition.traits)
             {
                 if (!MaterialPerEdition.ContainsKey(edition.Key)) MaterialPerEdition[edition.Key] = 0;
                 table.AddRows(new[] { edition.Key, MaterialPerEdition[edition.Key].ToString() });
@@ -377,7 +397,7 @@ internal static class CreateHTML
         using (var table = new Table(MediaTableID, MediaTableID))
         {
             using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Type", "Source Materials");
-            foreach (var media in Traits.Media.Medias)
+            foreach (var media in Traits.Media.traits)
             {
                 if (!MaterialPerMedia.ContainsKey(media.Key)) MaterialPerMedia[media.Key] = 0;
                 table.AddRows(new[] { media.Key, MaterialPerMedia[media.Key].ToString() });
@@ -837,38 +857,29 @@ internal static class CreateHTML
             //Considered tracking members in each edition, but maybe reserve that for specific pages?
             using (var Total = subheader.CreatePage("Total")) 
             {
-                using (var table = Total.CreateTable("All Groups/Titles in Ravenloft"))
-                {
-                    using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name(s)", "Member Count");
-                    var Groups = GroupMembersPerGroup.Keys.ToList();
-                    Groups.Sort(); //Why doesn't this work?
-                    foreach (var group in Groups)
-                    {
-                        var link = CreateLink(nameof(Group), group);
-                        var number = GroupMembersPerGroup[group].Count().ToString();
-                        table.AddRows(new[] { link, number });
-                    }
-                }
+                AddGroupTable(Total, "All Groups/Titles in Ravenloft", GroupMembersPerGroup);
             }
             using (var Domain = subheader.CreatePage("By Domain"))
             {
                 var Domains = GroupMembersPerDomain.Keys.ToList();
                 Domains.Sort();
                 foreach (var domain in Domains)
+                    AddGroupTable(Domain, $"Groups/Titles within {Get.TotalNamesOf<Domain>(domain)}", GroupMembersPerDomain[domain]);
+            }
+            void AddGroupTable (SubHeader.Page page, string title, Dictionary<string, HashSet<string>> groupMembersPerGroup)
+            {
+                using (var table = page.CreateTable(title))
                 {
-                    using (var table = Domain.CreateTable($"Groups/Titles within {Get.TotalNamesOf<Domain>(domain)}"))
+                    using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name(s)", "Member Count");
+                    var Groups = groupMembersPerGroup.Keys.ToList();
+                    Groups.Sort();
+                    foreach (var group in Groups)
                     {
-                        using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name(s)", "Member Count");
-                        var Groups = GroupMembersPerDomain[domain].Keys.ToList();
-                        Groups.Sort();
-                        foreach (var group in Groups)
-                        {
-                            var GroupMembers = GroupMembersPerDomain[domain][group];
+                        var GroupMembers = groupMembersPerGroup[group];
 
-                            var link = CreateLink(nameof(Group), group);
-                            var number = GroupMembers.Count().ToString();
-                            table.AddRows(new[] { link, number });
-                        }
+                        var link = CreateLink(nameof(Group), group);
+                        var number = GroupMembers.Count().ToString();
+                        table.AddRows(new[] { link, number });
                     }
                 }
             }

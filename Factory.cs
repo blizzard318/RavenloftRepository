@@ -1,6 +1,4 @@
-﻿using static Relationship;
-
-internal class Factory : IDisposable
+﻿internal class Factory : IDisposable
 {
     public const string OutsideRavenloftOriginalName = "Outside Ravenloft", InsideRavenloftOriginalName = "Inside Ravenloft";
     public readonly static RavenloftContext db = new RavenloftContext();
@@ -32,10 +30,6 @@ internal class Factory : IDisposable
             return _InsideRavenloft;
         }
     }
-    /*public static NPC GetNPC (string name) => NPCAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
-    public static Location GetLocation (string name) => LocationAppearances.Single(a => a.Source ==  Source && a.Entity.Search == name).Entity;
-    public static Domain GetDomain(string name) => DomainAppearances.Single(a => a.Source == Source && a.Entity.Search == name).Entity;
-    public static Item GetItem(string name) => ItemAppearances.Single(a => a.Source == Source && a.Entity.Search == name).Entity;*/
 
     public void Dispose ()
     {
