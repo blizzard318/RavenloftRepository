@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUglify;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using static Traits;
 
 internal static class CreateHTML
 {
@@ -322,7 +324,9 @@ internal static class CreateHTML
                     using (var headerRow = table.CreateHeaderRow())
                         headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
 
-                    foreach (var original in OriginalNames)
+                    var Keys = OriginalNames.ToList();
+                    Keys.Reverse(); //Don't ask me, I don't know why.
+                    foreach (var original in Keys)
                     {
                         var rowval = new List<string>() { Get.TotalNamesOf<T>(original) };
                         rowval.AddRange(Get.EditionsOf<T>(original));
@@ -498,14 +502,17 @@ internal static class CreateHTML
             {
                 if (location.Domains.Count == 0) DomainlessLocations.Add(location.OriginalName);
                 else DomainedLocations.Add(location.OriginalName);
+                
                 foreach (var domain in location.Domains)
                 {
                     LocationsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                    SettlementsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-
                     LocationsPerDomain[domain.OriginalName].Add(location.OriginalName);
+
                     if (location.Traits.Contains(Traits.Location.Settlement))
+                    {
+                        SettlementsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
                         SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                    }
                 }
             }
             //Filter out all locations that eventually have domains.
@@ -601,10 +608,8 @@ internal static class CreateHTML
                 using (var table = MistwayPage.CreateTable($"List of Mistways"))
                 {
                     using (var headerRow = table.CreateHeaderRow())
-                    {
-                        headerRow.CreateHeader("Name(s)", "Domain", "Domain");
-                        headerRow.CreateEditionHeaders();
-                    }
+                        headerRow.CreateHeader("Name(s)", "Domain", "Domain").CreateEditionHeaders();
+
                     var Mistways = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Mistway)).Include(s => s.Domains).GroupBy(s => s.OriginalName).Select(s => s.First()); //There is no deviation/variation of mistways. Revise this if that ever happens.
                     foreach (var Mistway in Mistways)
                     {
@@ -871,9 +876,7 @@ internal static class CreateHTML
                 using (var table = page.CreateTable(title))
                 {
                     using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name(s)", "Member Count");
-                    var Groups = groupMembersPerGroup.Keys.ToList();
-                    Groups.Sort();
-                    foreach (var group in Groups)
+                    foreach (var group in groupMembersPerGroup.Keys)
                     {
                         var GroupMembers = groupMembersPerGroup[group];
 
@@ -888,15 +891,120 @@ internal static class CreateHTML
     }
     public static void CreateCreaturePage()
     {
+        CreateOfficialHeader("Creatures of Ravenloft", 1);
 
+        var AllDomains = Factory.db.Domains.Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.Creature)));
+        var CreaturesPerDomain = new Dictionary<string, Dictionary<string, string[]>>();
+        foreach (var domain in AllDomains)
+        {
+            var Edition = Factory.db.domainAppearances.Single(a => a.EntityId == domain.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+            CreaturesPerDomain.TryAdd(domain.OriginalName, new Dictionary<string, string[]>());
+            var creatures = domain.Traits.Where(t => t.Type == nameof(Traits.Creature)).Select(c => c.Key);
+            foreach (var creature in creatures)
+            {
+                CreaturesPerDomain[domain.OriginalName].TryAdd(creature, new string[Traits.Edition.traits.Count]);
+                CreaturesPerDomain[domain.OriginalName][creature][Traits.Edition.traits.IndexOf(Edition)] = "X";
+            }
+        }
+        var Domains = CreaturesPerDomain.Keys.ToList();
+        Domains.Sort();
+        foreach (var domain in Domains)
+        {
+            using (var table = new Table(domain, $"Creatures in {Get.TotalNamesOf<Domain>(domain)}"))
+            {
+                using (var headerRow = table.CreateHeaderRow())
+                    headerRow.CreateHeader("Name").CreateEditionHeaders();
+
+                foreach (var creature in CreaturesPerDomain[domain].Keys)
+                {
+                    var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
+                    rowval.AddRange(CreaturesPerDomain[domain][creature]);
+                    table.AddRows(rowval.ToArray());
+                }
+            }
+        }
+
+        SaveHTML(nameof(Traits.Creature));
     }
     public static void CreateCampaignSettingPage()
     {
+        CreateOfficialHeader("Characters and Items from other Campaign Settings in Ravenloft", 1);
 
+        using (var subheader = new SubHeader())
+        {
+            var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
+            var CharactersPerSetting = new Dictionary<string, Dictionary<string, string[]>>();
+            foreach (var character in AllCharacters)
+            {
+                var setting = character.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
+
+                var Edition = Factory.db.npcAppearances.Single(a => a.EntityId == character.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+                CharactersPerSetting.TryAdd(setting, new Dictionary<string, string[]>());
+                CharactersPerSetting[setting].TryAdd(character.OriginalName, new string[Traits.Edition.traits.Count]);
+                CharactersPerSetting[setting][character.OriginalName][Traits.Edition.traits.IndexOf(Edition)] = "X";
+            }
+            using (var Character = subheader.CreatePage("Characters"))
+            {
+            }
+
+            var AllItems = Factory.db.Items.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
+            var ItemsPerSetting = new Dictionary<string, Dictionary<string, string[]>>();
+            foreach (var item in AllItems)
+            {
+                var setting = item.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
+
+                var Edition = Factory.db.itemAppearances.Single(a => a.EntityId == item.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+                CharactersPerSetting.TryAdd(setting, new Dictionary<string, string[]>());
+                CharactersPerSetting[setting].TryAdd(item.OriginalName, new string[Traits.Edition.traits.Count]);
+                CharactersPerSetting[setting][item.OriginalName][Traits.Edition.traits.IndexOf(Edition)] = "X";
+            }
+            using (var Item = subheader.CreatePage("Items"))
+            {
+            }
+        }
+
+        SaveHTML("Setting");
     }
     public static void CreateLanguagesPage()
     {
+        CreateOfficialHeader("Languages of Ravenloft", 1);
 
+        var AllDomains = Factory.db.Domains.Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.Language)));
+        var LanguagesPerDomain = new Dictionary<string, Dictionary<string, string[]>>();
+        foreach (var domain in AllDomains)
+        {
+            var Edition = Factory.db.domainAppearances.Single(a => a.EntityId == domain.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+            LanguagesPerDomain.TryAdd(domain.OriginalName, new Dictionary<string, string[]>());
+            var languages = domain.Traits.Where(t => t.Type == nameof(Traits.Language)).Select(c => c.Key);
+            foreach (var language in languages)
+            {
+                LanguagesPerDomain[domain.OriginalName].TryAdd(language, new string[Traits.Edition.traits.Count]);
+                LanguagesPerDomain[domain.OriginalName][language][Traits.Edition.traits.IndexOf(Edition)] = "X";
+            }
+        }
+        var Domains = LanguagesPerDomain.Keys.ToList();
+        Domains.Sort();
+        foreach (var domain in Domains)
+        {
+            using (var table = new Table(domain, $"Languages in {Get.TotalNamesOf<Domain>(domain)}"))
+            {
+                using (var headerRow = table.CreateHeaderRow())
+                    headerRow.CreateHeader("Name").CreateEditionHeaders();
+
+                foreach (var language in LanguagesPerDomain[domain].Keys)
+                {
+                    var rowval = new List<string>() { CreateLink(nameof(Traits.Language), language) };
+                    rowval.AddRange(LanguagesPerDomain[domain][language]);
+                    table.AddRows(rowval.ToArray());
+                }
+            }
+        }
+
+        SaveHTML(nameof(Traits.Language));
     }
     #endregion
 

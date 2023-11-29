@@ -256,7 +256,7 @@ internal static class AddToDatabase
                 ctx.CreateDomain("Nova Vaasa", "10/100");
                 ctx.CreateDomain("Dementlieu", "11/100");
                 ctx.CreateDomain("Valachan", "12/100");
-                ctx.CreateDomain("Har'Akir", "13/100");
+                ctx.CreateDomain("Har`Akir", "13/100");
                 ctx.CreateDomain("Souragne", "14/100");
                 ctx.CreateDomain("Sri Raji", "15/100");
 

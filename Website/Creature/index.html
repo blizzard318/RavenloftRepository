@@ -1,111 +1,687 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>Characters</title>
-	<meta name="theme-color" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ravenloft Repository">
-	<link rel="stylesheet" href="../styles.css">
-	<link rel="shortcut icon" href="../favicon.ico">
-	<script src="../sort.js" charset="utf-8"></script>
+<meta charset='utf-8'>
+<title>Creatures of Ravenloft</title>
+<meta name='theme-color' content='black'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Ravenloft Repository'>
+<link rel='stylesheet' href='../styles.css'>
+<link rel='shortcut icon' href='../favicon.ico'>
+<script src='../sort.js'></script>
 </head>
-
 <body>
-	<h1>Ravenloft Catalogue</h1><hr/>
-	<h2>
-		<a href=".."		 >Official</a> |
-		<a href="../3rdParty">3rd Party</a>
-	</h2><hr />
-	<h2>
-		<a href="../Source"	  >Sources</a> | 
-		<a href="../Domain"	  >Domains</a> | 
-		<a href="../Location" >Locations</a> | 
-		<a href="../Character">Characters</a> | 
-		<a href="../Item"	  >Items</a><br/>
-		<a href="../Creature" >Creatures</a> | 
-		<a href="../Group" 	  >Groups</a> | 
-		<a href="../Language" >Languages</a>
-	</h2><hr />
-	
-	<h2>
-		<input type="button" onclick="OpenPage('domain')" value="Creatures per Domain"> | 
-		<input type="button" onclick="OpenPage('creature')" value = "Domains per creature">
-	</h2>
-	<br/>
-
-	<div class="page" id="domain" style="display:block">
-	</div>
-	
-	<div class="page" id="creature" style="display:none">
-	</div>
-	
-	<script>
-	async function func(){
-		const CreaturesData = await fetch("Creature.json");
-		const Creatures = await CreaturesData.json();
-
-		for (const creature of Creatures) {
-			const Domains = creature.Domains.split(',');
-			for (const domain of Domains) {
-				if (!document.getElementById(domain)) {
-					const domaindiv = document.getElementById("domain");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Creatures of " + domain;
-					domaindiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = domain;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					const row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-				}
-				const row = document.getElementById(domain).insertRow(-1);
-				row.insertCell(-1).innerHTML = creature.Name;
-				colorCode(domain);
-			}
-			
-			if (!document.getElementById(creature.Name)) {
-					const domaindiv = document.getElementById("creature");
-					const b = document.createElement("b");
-						b.style.fontSize = "25px";
-						b.innerHTML = "Domains of " + creature.Name;
-					domaindiv.append(b);
-
-					const table = document.createElement("table");
-						table.border = "1";
-						table.rules = "cols";
-						table.cellspacing = "0";
-						table.cellpadding = "3";
-						table.id = creature.Name;
-					domaindiv.append(table);
-					domaindiv.append(document.createElement("br"));
-
-					const row = table.insertRow(-1);
-						row.style.backgroundColor  = "black";
-						let cell = document.createElement("th");
-							cell.scope = "col";
-							cell.innerHTML = "<b>Name(s)</b>";
-					row.appendChild(cell);
-			}
-			for (const domain of Domains)
-				document.getElementById(creature.Name).insertRow(-1).insertCell(-1).innerHTML = domain;
-			colorCode(creature.Name);
-		}
-	}
-	func();
-	</script>
+<span style='float:right;display:inline-block;height:0px'>
+<label for='darkmode'>Dark Mode</label>
+<input type='checkbox' id='darkmode'>
+</span>
+<h1>Ravenloft Catalogue</h1><hr/>
+<h2>
+<a href='../'>Official</a> | 
+<a href='../3rdParty'>3rd Party</a>
+</h2><hr />
+<h2>
+<a href='../Source'>Sources</a> | 
+<a href='../Domain'>Domains</a> | 
+<a href='../Location'>Locations</a> | 
+<a href='../Character'>Characters</a> | 
+<a href='../Item'>Items</a><br/>
+<a href='../Creature'>Creatures</a> | 
+<a href='../Group'>Groups</a> | 
+<a href='../Setting'>Campaign Settings</a> | 
+<a href='../Language'>Languages</a>
+</h2><hr />
+<b style='font-size:25px'>Creatures in <a href='/Domain/Arak'>Arak</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Arak'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Drow'>Drow</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Barovia'>Barovia</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Barovia'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Human'>Human</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Creature/Witch'>Witch</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Creature/Banshee'>Banshee</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Bat'>Bat</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Cat'>Cat</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Elf'>Elf</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Gargoyle'>Gargoyle</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Ghost'>Ghost</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Ghoul'>Ghoul</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Giant Spider'>Giant Spider</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Green Slime'>Green Slime</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Groaning Spirit'>Groaning Spirit</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Guardian Portrait'>Guardian Portrait</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Hellhound'>Hellhound</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Horse'>Horse</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Huge Spider'>Huge Spider</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Iron Golem'>Iron Golem</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Keening Spirit'>Keening Spirit</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Nightmare'>Nightmare</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Red Dragon'>Red Dragon</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Rust Monster'>Rust Monster</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Shadow Demon'>Shadow Demon</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Skeleton'>Skeleton</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Spectre'>Spectre</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Spirit'>Spirit</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Strahd Zombie'>Strahd Zombie</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Trapper'>Trapper</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Vampire'>Vampire</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Werewolf'>Werewolf</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Wight'>Wight</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Wolf'>Wolf</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Worg'>Worg</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Wraith'>Wraith</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href='/Creature/Zombie'>Zombie</a></td>
+<td>X</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Bluetspur'>Bluetspur</a>/<a href='/Domain/Bluet Spur'>Bluet Spur</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Bluetspur'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Human'>Human</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Darkon'>Darkon</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Darkon'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Human'>Human</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Gundarak'>Gundarak</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Gundarak'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Ghost'>Ghost</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Lamordia'>Lamordia</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Lamordia'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Human'>Human</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Paridon'>Paridon</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Paridon'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Doppelganger'>Doppelganger</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+<b style='font-size:25px'>Creatures in <a href='/Domain/Verbrek'>Verbrek</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Verbrek'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Creature/Wolf'>Wolf</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
 </body>
+<script>init();
+sortTable('Arak',0);
+sortTable('Barovia',0);
+sortTable('Bluetspur',0);
+sortTable('Darkon',0);
+sortTable('Gundarak',0);
+sortTable('Lamordia',0);
+sortTable('Paridon',0);
+sortTable('Verbrek',0);
+</script>
 </html>

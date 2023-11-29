@@ -10,3 +10,6 @@ CreateHTML.CreateItemPage();
 CreateHTML.CreateCharacterPage();
 
 CreateHTML.CreateGroupPage();
+CreateHTML.CreateCreaturePage();
+CreateHTML.CreateCampaignSettingPage();
+CreateHTML.CreateLanguagesPage();
