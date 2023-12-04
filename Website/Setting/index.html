@@ -31,7 +31,55 @@
 <a href='../Setting'>Campaign Settings</a> | 
 <a href='../Language'>Languages</a>
 </h2><hr />
+<h2>
+<input type='button' onclick="OpenPage('Characters')" value='Characters'> | 
+<input type='button' onclick="OpenPage('Items')" value='Items'>
+</h2><br/>
+<div class='page' id='Characters' style='display:block'>
+</div>
+<div class='page' id='Items' style='display:none'>
+<b style='font-size:25px'>Items of <a href='/CampaignSetting/Greyhawk'>Greyhawk</a></b>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Items0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Item/Tapestry of the Stag'>Tapestry of the Stag</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table><br/>
+</div>
 </body>
 <script>init();
+sortTable('Items0',0);
 </script>
 </html>

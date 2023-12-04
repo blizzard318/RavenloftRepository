@@ -4,7 +4,6 @@ using NUglify;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using static Traits;
 
 internal static class CreateHTML
 {
@@ -934,35 +933,41 @@ internal static class CreateHTML
         using (var subheader = new SubHeader())
         {
             var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-            var CharactersPerSetting = new Dictionary<string, Dictionary<string, string[]>>();
+            var CharactersPerSetting = new Dictionary<string, HashSet<string>>();
             foreach (var character in AllCharacters)
             {
                 var setting = character.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
 
                 var Edition = Factory.db.npcAppearances.Single(a => a.EntityId == character.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
 
-                CharactersPerSetting.TryAdd(setting, new Dictionary<string, string[]>());
-                CharactersPerSetting[setting].TryAdd(character.OriginalName, new string[Traits.Edition.traits.Count]);
-                CharactersPerSetting[setting][character.OriginalName][Traits.Edition.traits.IndexOf(Edition)] = "X";
+                CharactersPerSetting.TryAdd(setting, new HashSet<string>());
+                CharactersPerSetting[setting].Add(character.OriginalName);
             }
             using (var Character = subheader.CreatePage("Characters"))
             {
+                var Keys = CharactersPerSetting.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
+                    Character.SetTable<NPC>($"Characters of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, CharactersPerSetting[Key]);
             }
 
             var AllItems = Factory.db.Items.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-            var ItemsPerSetting = new Dictionary<string, Dictionary<string, string[]>>();
+            var ItemsPerSetting = new Dictionary<string, HashSet<string>>();
             foreach (var item in AllItems)
             {
                 var setting = item.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
 
                 var Edition = Factory.db.itemAppearances.Single(a => a.EntityId == item.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
 
-                CharactersPerSetting.TryAdd(setting, new Dictionary<string, string[]>());
-                CharactersPerSetting[setting].TryAdd(item.OriginalName, new string[Traits.Edition.traits.Count]);
-                CharactersPerSetting[setting][item.OriginalName][Traits.Edition.traits.IndexOf(Edition)] = "X";
+                ItemsPerSetting.TryAdd(setting, new HashSet<string>());
+                ItemsPerSetting[setting].Add(item.OriginalName);
             }
             using (var Item = subheader.CreatePage("Items"))
             {
+                var Keys = ItemsPerSetting.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
+                    Item.SetTable<Item>($"Items of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, ItemsPerSetting[Key]);
             }
         }
 
