@@ -101,8 +101,10 @@ internal static class Traits
         public static Trait Tatyana = CreateStatus("Reincarnations of Tatyana");
         public static Trait BarovianWineDistillersBrotherhood = CreateStatus("Barovian Wine Distillers Brotherhood");
         public static Trait TheKargat = CreateStatus("The Kargat");
+        public static Trait DarkPowers = CreateStatus("The Dark Powers");
 
         public static (Trait, Trait) Raunie = (CreateStatus("Raunie"), Vistani);
+        public static (Trait, Trait) HagsOfTepest = (CreateStatus("Hags of Tepest"), Creature.Hag);
     }
 
     internal static class Alignment //Don't create a page for this.
@@ -196,6 +198,9 @@ internal static class Traits
         public static Trait StrahdZombie = CreateCreature("Strahd Zombie");
         public static Trait Zombie       = CreateCreature("Zombie"       );
         public static Trait Skeleton     = CreateCreature("Skeleton"     );
+
+        public static Trait GraveElemental = CreateCreature("Grave Elemental");
+        public static Trait AnimatedRock   = CreateCreature("Animated Rock");
 
         public static Trait Vampire    = CreateCreature("Vampire");
         public static Trait Ghoul      = CreateCreature("Ghoul"  );

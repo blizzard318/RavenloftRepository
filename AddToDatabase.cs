@@ -254,7 +254,7 @@ internal static class AddToDatabase
                 ctx.CreateDomain("Nova Vaasa", "10/100");
                 ctx.CreateDomain("Dementlieu", "11/100");
                 ctx.CreateDomain("Valachan", "12/100");
-                ctx.CreateDomain("Har`Akir", "13/100");
+                ctx.CreateDomain("Har'Akir", "13/100");
                 ctx.CreateDomain("Souragne", "14/100");
                 ctx.CreateDomain("Sri Raji", "15/100");
 
@@ -267,7 +267,7 @@ internal static class AddToDatabase
                 ctx.CreateLocation("Pharaoh's Rest", "20/100").AddDomains(ctx.InsideRavenloft);
 
                 ctx.InsideRavenloft.AddItems(
-                    ctx.CreateItem("Spell Book of Drawmji", "29/100"),
+                    ctx.CreateItem("Spell Book of Drawmji", "29/100").AddTraits(Traits.CampaignSetting.Greyhawk),
                     ctx.CreateItem("Tarokka Deck", "56/100"),
                     ctx.CreateItem("Timepiece of Klorr", "57/100"),
                     ctx.CreateItem("Ring of Regeneration", "58/100"),
@@ -296,14 +296,14 @@ internal static class AddToDatabase
                     ctx.CreateNPC("Tiyet", "91/100"),
                     ctx.CreateNPC("Sir Tristen Hiregaard", "92/100"),
                     ctx.CreateNPC("Gabrielle Aderre", "93/100"),
-                    ctx.CreateNPC("Hags of Tepest", "94/100").AddTraits(Traits.Creature.Hag),
+                    //ctx.CreateGroup("Hags of Tepest", "94/100").AddTraits(Traits.Creature.Hag),
                     ctx.CreateNPC("Sir Edmund Bloodsworth", "95/100").AddTraits(Traits.Creature.Doppelganger),
                     ctx.CreateNPC("High Master Illithid", "96/100").AddTraits(Traits.Creature.MindFlayer.Item1, Traits.Creature.MindFlayer.Item2),
                     ctx.CreateNPC("Dr. Victor Mordenheim", "97/100"),
                     ctx.CreateNPC("Sergei Von Zarovich", "98/100"),
                     ctx.CreateNPC("Lord Soth", "99/100"),
                     ctx.CreateNPC("Count Strahd von Zarovich", "100/100")
-                );
+                ).AddTraits(Traits.Status.HagsOfTepest.Item1, Traits.Status.HagsOfTepest.Item2, Traits.Status.DarkPowers);
             }
             void AddArtifactsSet()
             {

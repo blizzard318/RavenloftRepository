@@ -85,7 +85,7 @@ internal static class CreateHTML
             return null;
         }
     }
-    private static string CreateLink(string subdomain, string name) => $"<a href='/{subdomain}/{name.Replace(":", string.Empty)}'>{name}</a>";
+    private static string CreateLink(string subdomain, string name) => $"<a href='/{subdomain}/{FixLink(name)}'>{name}</a>";
     private static string CreateLink(Source entity) => CreateLink(nameof(Source), entity.Key);
     private static string CreateLink(Trait trait)
     {
@@ -109,6 +109,7 @@ internal static class CreateHTML
         }
         throw new Exception();
     }
+    private static string FixLink(string link) => link.Replace(":", string.Empty).Replace("'", string.Empty);
     #endregion
 
     #region PAGE CREATOR
@@ -176,7 +177,7 @@ internal static class CreateHTML
             string filepath = "index.html";
             if (!string.IsNullOrEmpty(DirectoryName))
             {
-                var path = DirectoryName.Replace(":", string.Empty);
+                var path = FixLink(DirectoryName);
                 var dir = Directory.CreateDirectory(path).ToString();
                 filepath = Path.Join(dir, filepath);
             }
@@ -1036,22 +1037,19 @@ internal static class CreateHTML
                 sb.AppendLine($"<b>Release Date:</b> {source.ReleaseDate}<br/>");
                 sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
 
-                var Domains    = GetAppearances<DomainAppearance  , Domain  >(Factory.db.domainAppearances  ).ToHashSet();
+                var Domains    = GetAppearances<DomainAppearance, Domain    >(Factory.db.domainAppearances  );
                 var Locations  = GetAppearances<LocationAppearance, Location>(Factory.db.locationAppearances);
                 var Characters = GetAppearances<NPCAppearance     , NPC     >(Factory.db.npcAppearances     );
                 var Items      = GetAppearances<ItemAppearance    , Item    >(Factory.db.itemAppearances    );
                 IQueryable<T> GetAppearances<T, U>(IQueryable<T> dbSet) where T : Appearance, IHasEntity<U> where U : UseVariableName
                     => dbSet.Where(s => s.SourceKey == source.Key);
 
-                var InsideRavenloft  = Domains.SingleOrDefault(d => d.Entity.OriginalName == Factory.InsideRavenloftOriginalName);
-                if (InsideRavenloft  != null) Domains.Remove(InsideRavenloft);
-                var OutsideRavenloft = Domains.SingleOrDefault(d => d.Entity.OriginalName == Factory.OutsideRavenloftOriginalName);
-                if (OutsideRavenloft != null) Domains.Remove(OutsideRavenloft);
-
                 using (var Category = subheader.CreatePage("Category"))
                 {
+                    bool CheckName(DomainAppearance d) => d.Entity.OriginalName != Factory.InsideRavenloftOriginalName && d.Entity.OriginalName != Factory.OutsideRavenloftOriginalName;
                     //Domains, Locations, NPCs, Items, Language, Groups, Creatures
-                    Category.AddSection(Domains   .Select(d => d.Entity), nameof(Domains   ));
+                    var DomainsWithoutMetaDomains = Domains.Where(CheckName).Select(d => d.Entity);
+                    Category.AddSection(DomainsWithoutMetaDomains       , nameof(Domains   ));
                     Category.AddSection(Locations .Select(d => d.Entity), nameof(Locations ));
                     Category.AddSection(Characters.Select(d => d.Entity), nameof(Characters));
                     Category.AddSection(Items     .Select(d => d.Entity), nameof(Items     ));
@@ -1074,8 +1072,13 @@ internal static class CreateHTML
                 using (var Cascade = subheader.CreatePage("Cascade"))
                 {
                     //Take out inside/outside ravenloft to put behind the domains stuff.
+                    var domainAppearances = Domains.Include(d => d.Entity.Traits).ToList();
+                    var InsideRavenloft = domainAppearances.SingleOrDefault(d => d.Entity.OriginalName == Factory.InsideRavenloftOriginalName);
+                    if (InsideRavenloft != null) domainAppearances.Remove(InsideRavenloft);
+                    var OutsideRavenloft = domainAppearances.SingleOrDefault(d => d.Entity.OriginalName == Factory.OutsideRavenloftOriginalName);
+                    if (OutsideRavenloft != null) domainAppearances.Remove(OutsideRavenloft);
 
-                    foreach (var domain in Domains) DrawCascade(domain);
+                    foreach (var domain in domainAppearances) DrawCascade(domain);
                     if (InsideRavenloft  != null) DrawCascade(InsideRavenloft );
                     if (OutsideRavenloft != null) DrawCascade(OutsideRavenloft);
 
