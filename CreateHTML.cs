@@ -6,32 +6,8 @@ using System.Text.RegularExpressions;
 
 internal static class CreateHTML
 {
-    private static string CreateLink(string subdomain, string name) => $"<a href='/{subdomain}/{name.Replace(":",string.Empty)}'>{name}</a>";
-    private static string CreateLink (Source entity) => CreateLink(nameof(Source), entity.Key);
-    private static string CreateLink(Trait trait)
-    {
-        string subdomain = string.Empty;
-        switch (trait.Type)
-        {
-            case nameof(Traits.Status): return CreateLink("Group", trait.Key);
-
-            case nameof(Traits.Canon): //Hidden page
-            case nameof(Traits.CampaignSetting):
-            case nameof(Traits.Language):
-            case nameof(Traits.Creature): return CreateLink(trait.Type, trait.Key);
-
-            /*case nameof(Traits.Edition):
-            case nameof(Traits.Media):
-            case nameof(Traits.Settlement):
-            case nameof(Traits.Cluster): //Do we want a cluster page?
-            case nameof(Traits.Mistway):
-            case nameof(Traits.Alignment):
-            case nameof(Traits.Location):*/ //This shouldn't run at all
-        }
-        throw new Exception();
-    }
-
     #region PREGENERATED DATA
+    private const string WebsiteTitle = "Ravenloft Catalogue";
     private static string InsideRavenloftLink  = CreateLink(nameof(Domain), Factory.InsideRavenloftOriginalName );
     private static string OutsideRavenloftLink = CreateLink(nameof(Domain), Factory.OutsideRavenloftOriginalName);
 
@@ -109,11 +85,104 @@ internal static class CreateHTML
             return null;
         }
     }
+    private static string CreateLink(string subdomain, string name) => $"<a href='/{subdomain}/{name.Replace(":", string.Empty)}'>{name}</a>";
+    private static string CreateLink(Source entity) => CreateLink(nameof(Source), entity.Key);
+    private static string CreateLink(Trait trait)
+    {
+        string subdomain = string.Empty;
+        switch (trait.Type)
+        {
+            case nameof(Traits.Status): return CreateLink("Group", trait.Key);
+
+            case nameof(Traits.Canon): //Hidden page
+            case nameof(Traits.CampaignSetting):
+            case nameof(Traits.Language):
+            case nameof(Traits.Creature): return CreateLink(trait.Type, trait.Key);
+
+                /*case nameof(Traits.Edition):
+                case nameof(Traits.Media):
+                case nameof(Traits.Settlement):
+                case nameof(Traits.Cluster): //Do we want a cluster page?
+                case nameof(Traits.Mistway):
+                case nameof(Traits.Alignment):
+                case nameof(Traits.Location):*/ //This shouldn't run at all
+        }
+        throw new Exception();
+    }
     #endregion
 
     #region PAGE CREATOR
     private static StringBuilder sb = new StringBuilder();
     private enum SortMethod { alphabet, date }
+    private static void CreateOfficialHeader(string title, int depth = 0)
+    {
+        Get.Pregenerate();
+        const string DepthText = "../";
+        var db = new StringBuilder(DepthText.Length * depth);
+        for (int i = 0; i < depth; i++) db.Append(DepthText);
+
+        sb.Clear();
+        sb.AppendLine("<!DOCTYPE html>");
+        sb.AppendLine("<html>");
+
+        sb.AppendLine("<head>");
+        sb.AppendLine("<meta charset='utf-8'>");
+        sb.AppendLine($"<title>{title}</title>");
+        sb.AppendLine("<meta name='theme-color' content='black'>"); //Always black
+        sb.AppendLine("<meta name='viewport' content='width=device-width, initial-scale=1'>");
+        sb.AppendLine("<meta name='description' content='Ravenloft Repository'>");
+        sb.Append("<link rel='stylesheet' href='").Append(db).AppendLine("styles.css'>");
+        sb.Append("<link rel='shortcut icon' href='").Append(db).AppendLine("favicon.ico'>");
+        sb.Append("<script src='").Append(db).AppendLine("sort.js'></script>");
+        sb.AppendLine("</head>");
+
+        sb.AppendLine("<body>");
+
+        sb.AppendLine("<span style='float:right;display:inline-block;height:0px'>");
+        sb.AppendLine("<label for='darkmode'>Dark Mode</label>");
+        sb.AppendLine("<input type='checkbox' id='darkmode'>");
+        sb.AppendLine("</span>");
+
+        sb.AppendLine($"<h1>{WebsiteTitle}</h1><hr/>");
+
+        sb.AppendLine("<h2>");
+        sb.Append("<a href='").Append(db).AppendLine("'>Official</a> | ");
+        sb.AppendLine("<a href='../3rdParty'>3rd Party</a>");
+        sb.AppendLine("</h2><hr />");
+
+        sb.AppendLine("<h2>");
+        sb.Append("<a href='").Append(db).AppendLine("Source'>Sources</a> | ");
+        sb.Append("<a href='").Append(db).AppendLine("Domain'>Domains</a> | ");
+        sb.Append("<a href='").Append(db).AppendLine("Location'>Locations</a> | ");
+        sb.Append("<a href='").Append(db).AppendLine("Character'>Characters</a> | ");
+        sb.Append("<a href='").Append(db).Append("Item'>Items</a>").AppendLine("<br/>");
+        sb.Append("<a href='").Append(db).AppendLine("Creature'>Creatures</a> | ");
+        sb.Append("<a href='").Append(db).AppendLine("Group'>Groups</a> | ");
+        sb.Append("<a href='").Append(db).AppendLine("Setting'>Campaign Settings</a> | ");
+        sb.Append("<a href='").Append(db).AppendLine("Language'>Languages</a>");
+        sb.AppendLine("</h2><hr />");
+    }
+    private static void SaveHTML(params string[] DirectoryNames)
+    {
+        sb.AppendLine($"<br/><br/><br/><i style='font-size:10px;line-height:0'>Disclaimer: The registered trademarks and other intellectual property related to Ravenloft and owned by TSR, Arthaus, White Wolf SSI, Sony, Hasbro, Ral Partha, Paizo, and/or Wizards of the Coast are used for the purpose of identification only. {WebsiteTitle} is not affiliated with/or endorsed by these manufacturers.</i>");
+        sb.AppendLine("</body>").AppendLine("<script>init();");
+        Table.SortAllTablesOnPage();
+        sb.AppendLine("</script>").AppendLine("</html>");
+        var html = sb.ToString();
+        //html = Uglify.Html(html).Code; //Compression.
+
+        foreach (var DirectoryName in DirectoryNames)
+        {
+            string filepath = "index.html";
+            if (!string.IsNullOrEmpty(DirectoryName))
+            {
+                var path = DirectoryName.Replace(":", string.Empty);
+                var dir = Directory.CreateDirectory(path).ToString();
+                filepath = Path.Join(dir, filepath);
+            }
+            File.WriteAllText(filepath, html);
+        }
+    }
     private class Table : IDisposable
     {
         private static readonly Dictionary<string, (SortMethod method, int index)> TablesToSort = new Dictionary<string, (SortMethod, int)>();
@@ -207,74 +276,6 @@ internal static class CreateHTML
             sb.AppendLine("</tr>");
         }
         public void Dispose() => sb.AppendLine("</table><br/>");
-    }
-    private static void SaveHTML(params string[] DirectoryNames)
-    {
-        sb.AppendLine("</body>").AppendLine("<script>init();");
-        Table.SortAllTablesOnPage();
-        sb.AppendLine("</script>").AppendLine("</html>");
-        var html = sb.ToString();
-        //html = Uglify.Html(html).Code; //Compression.
-
-        foreach (var DirectoryName in DirectoryNames)
-        {
-            string filepath = "index.html";
-            if (!string.IsNullOrEmpty(DirectoryName))
-            {
-                var path = DirectoryName.Replace(":", string.Empty);
-                var dir = Directory.CreateDirectory(path).ToString();
-                filepath = Path.Join(dir, filepath);
-            }
-            File.WriteAllText(filepath, html);
-        }
-    }
-    private static void CreateOfficialHeader(string title, int depth = 0)
-    {
-        Get.Pregenerate();
-        const string DepthText = "../";
-        var db = new StringBuilder(DepthText.Length * depth);
-        for (int i = 0; i < depth; i++) db.Append(DepthText);
-
-        sb.Clear();
-        sb.AppendLine("<!DOCTYPE html>");
-        sb.AppendLine("<html>");
-
-        sb.AppendLine("<head>");
-            sb.AppendLine("<meta charset='utf-8'>");
-            sb.AppendLine($"<title>{title}</title>");
-            sb.AppendLine("<meta name='theme-color' content='black'>"); //Always black
-            sb.AppendLine("<meta name='viewport' content='width=device-width, initial-scale=1'>");
-            sb.AppendLine("<meta name='description' content='Ravenloft Repository'>");
-            sb.Append("<link rel='stylesheet' href='").Append(db).AppendLine("styles.css'>");
-            sb.Append("<link rel='shortcut icon' href='").Append(db).AppendLine("favicon.ico'>");
-            sb.Append("<script src='").Append(db).AppendLine("sort.js'></script>");
-        sb.AppendLine("</head>");
-
-        sb.AppendLine("<body>");
-
-        sb.AppendLine("<span style='float:right;display:inline-block;height:0px'>");
-            sb.AppendLine("<label for='darkmode'>Dark Mode</label>");
-            sb.AppendLine("<input type='checkbox' id='darkmode'>");
-        sb.AppendLine("</span>");
-
-        sb.AppendLine("<h1>Ravenloft Catalogue</h1><hr/>");
-
-        sb.AppendLine("<h2>");
-            sb.Append("<a href='").Append(db).AppendLine("'>Official</a> | ");
-            sb.AppendLine("<a href='../3rdParty'>3rd Party</a>");
-        sb.AppendLine("</h2><hr />");
-
-        sb.AppendLine("<h2>");
-            sb.Append("<a href='").Append(db).AppendLine("Source'>Sources</a> | ");
-            sb.Append("<a href='").Append(db).AppendLine("Domain'>Domains</a> | ");
-            sb.Append("<a href='").Append(db).AppendLine("Location'>Locations</a> | ");
-            sb.Append("<a href='").Append(db).AppendLine("Character'>Characters</a> | ");
-            sb.Append("<a href='").Append(db).Append("Item'>Items</a>").AppendLine("<br/>");
-            sb.Append("<a href='").Append(db).AppendLine("Creature'>Creatures</a> | ");
-            sb.Append("<a href='").Append(db).AppendLine("Group'>Groups</a> | ");
-            sb.Append("<a href='").Append(db).AppendLine("Setting'>Campaign Settings</a> | ");
-            sb.Append("<a href='").Append(db).AppendLine("Language'>Languages</a>");
-        sb.AppendLine("</h2><hr />");
     }
     private class SubHeader : IDisposable
     {
@@ -1009,6 +1010,7 @@ internal static class CreateHTML
     private static void CreateSourcePages()
     {
         var Sources = Factory.db.Sources;
+
         foreach (var source in Sources)
         {
             CreateOfficialHeader(source.Key, 2);
@@ -1024,8 +1026,7 @@ internal static class CreateHTML
                 sb.AppendLine($"<b>Name:</b> {source.Key}<br/>");
 
                 var mediatypes = source.Traits.FindAll(t => t.Type == nameof(Traits.Media)).Select(m => m.Key);
-                if (mediatypes.Count() == 1) sb.AppendLine($"<b>Media Type:</b> {string.Join(',', mediatypes)}<br/>");
-                else                         sb.AppendLine($"<b>Media Types:</b> {string.Join(',', mediatypes)}<br/>");
+                sb.Append($"<b>Media Type(s):</b> {string.Join(',', mediatypes)}<br/>");
 
                 var editiontrait = source.Traits.Single(t => t.Type == nameof(Traits.Edition));
                 if (editiontrait != Traits.Edition.e0) sb.AppendLine($"<b>Edition:</b> {editiontrait.Key}<br/>");
@@ -1035,12 +1036,17 @@ internal static class CreateHTML
                 sb.AppendLine($"<b>Release Date:</b> {source.ReleaseDate}<br/>");
                 sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
 
-                var Domains    = GetAppearances<DomainAppearance  ,Domain  >(Factory.db.domainAppearances  );
-                var Locations  = GetAppearances<LocationAppearance,Location>(Factory.db.locationAppearances);
-                var Characters = GetAppearances<NPCAppearance     ,NPC     >(Factory.db.npcAppearances     );
-                var Items      = GetAppearances<ItemAppearance    ,Item    >(Factory.db.itemAppearances    );
+                var Domains    = GetAppearances<DomainAppearance  , Domain  >(Factory.db.domainAppearances  ).ToHashSet();
+                var Locations  = GetAppearances<LocationAppearance, Location>(Factory.db.locationAppearances);
+                var Characters = GetAppearances<NPCAppearance     , NPC     >(Factory.db.npcAppearances     );
+                var Items      = GetAppearances<ItemAppearance    , Item    >(Factory.db.itemAppearances    );
                 IQueryable<T> GetAppearances<T, U>(IQueryable<T> dbSet) where T : Appearance, IHasEntity<U> where U : UseVariableName
-                    => dbSet.Where(s => s.SourceKey == source.Key && !s.Entity.Traits.Any(t => t == Traits.NoLink));
+                    => dbSet.Where(s => s.SourceKey == source.Key);
+
+                var InsideRavenloft  = Domains.SingleOrDefault(d => d.Entity.OriginalName == Factory.InsideRavenloftOriginalName);
+                if (InsideRavenloft  != null) Domains.Remove(InsideRavenloft);
+                var OutsideRavenloft = Domains.SingleOrDefault(d => d.Entity.OriginalName == Factory.OutsideRavenloftOriginalName);
+                if (OutsideRavenloft != null) Domains.Remove(OutsideRavenloft);
 
                 using (var Category = subheader.CreatePage("Category"))
                 {
@@ -1050,12 +1056,11 @@ internal static class CreateHTML
                     Category.AddSection(Characters.Select(d => d.Entity), nameof(Characters));
                     Category.AddSection(Items     .Select(d => d.Entity), nameof(Items     ));
 
-                    if (Domains.Count() == 0) return;
-                    GenerateTraits(nameof(Traits.Language));
-                    GenerateTraits(nameof(Traits.Status));
-                    GenerateTraits(nameof(Traits.Creature));
+                    GenerateTraits(nameof(Traits.Language), "Languages"    );
+                    GenerateTraits(nameof(Traits.Status  ), "Status/Groups");
+                    GenerateTraits(nameof(Traits.Creature), "Creatures"    );
 
-                    void GenerateTraits(string TraitType)
+                    void GenerateTraits(string TraitType, string title)
                     {
                         var ListofList = Domains.Select(d => d.Entity.Traits.Where(t => t.Type == TraitType));
                         if (ListofList.Count() == 0) return;
@@ -1063,20 +1068,25 @@ internal static class CreateHTML
                         var multiple = new HashSet<Trait>();
                         foreach (var List in ListofList) multiple.UnionWith(List);
 
-                        Category.AddSection(multiple, TraitType);
+                        Category.AddSection(multiple, title);
                     }
                 }
                 using (var Cascade = subheader.CreatePage("Cascade"))
                 {
                     //Take out inside/outside ravenloft to put behind the domains stuff.
-                    foreach (var domain in Domains)
+
+                    foreach (var domain in Domains) DrawCascade(domain);
+                    if (InsideRavenloft  != null) DrawCascade(InsideRavenloft );
+                    if (OutsideRavenloft != null) DrawCascade(OutsideRavenloft);
+
+                    void DrawCascade(DomainAppearance domain)
                     {
                         Cascade.contents.Append($"<b class='darkred'>{Get.LinksOf(domain.Entity)}</b><hr class='darkred'/>");
 
-                        var CharactersInDomain = Characters.Where(s => s.Entity.Domains.Any(c => c == domain.Entity));
-                        var CharactersWithoutLocations = CharactersInDomain.Where(c => c.Entity.Locations.Count == 0);
-                        var LocationsInDomain = Locations.Where(s => s.Entity.Domains.Any(l => l == domain.Entity));
-                        var ItemsInDomain = Items.Where(i => i.Entity.Domains.Any(i => i == domain.Entity));
+                        var CharactersInDomain         = Characters        .Where(s => s.Entity.Domains.Any(c => c == domain.Entity));
+                        var CharactersWithoutLocations = CharactersInDomain.Where(c => c.Entity.Locations.Count == 0                );
+                        var LocationsInDomain          = Locations         .Where(s => s.Entity.Domains.Any(l => l == domain.Entity));
+                        var ItemsInDomain              = Items             .Where(i => i.Entity.Domains.Any(i => i == domain.Entity));
                         var Languages = domain.Entity.Traits.Where(t => t.Type == nameof(Traits.Language));
                         var Groups    = domain.Entity.Traits.Where(t => t.Type == nameof(Traits.Status  ));
                         var Creatures = domain.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
@@ -1107,7 +1117,7 @@ internal static class CreateHTML
                                 CreateList<ItemAppearance, Item>(ItemsInDomain);
                             }
                             CreateListOfTraits(Languages, nameof(Languages));
-                            CreateListOfTraits(Groups   , nameof(Groups   ));
+                            CreateListOfTraits(Groups, nameof(Groups));
                             CreateListOfTraits(Creatures, nameof(Creatures));
 
                             void CreateList<T, U>(IQueryable<T> list) where T : Appearance, IHasEntity<U> where U : UseVariableName
@@ -1115,7 +1125,7 @@ internal static class CreateHTML
                                 using var _ = new UnorderedList(Cascade.contents);
                                 foreach (var instance in list) AddEntry<T, U>(instance);
                             }
-                            void CreateListOfTraits (IEnumerable<Trait> traits, string title)
+                            void CreateListOfTraits(IEnumerable<Trait> traits, string title)
                             {
                                 if (traits.Count() == 0) return;
                                 Cascade.contents.Append($"<li><b>{title}:</b></li>");
@@ -1127,9 +1137,9 @@ internal static class CreateHTML
                     }
 
                     //unsorted pile. To sort.
-                    ListUnsorted<LocationAppearance, Location>(Locations .Where(x => x.Entity.Domains.Count() == 0), nameof(Locations ));
-                    ListUnsorted<NPCAppearance     , NPC     >(Characters.Where(x => x.Entity.Domains.Count() == 0), nameof(Characters));
-                    ListUnsorted<ItemAppearance    , Item    >(Items     .Where(x => x.Entity.Domains.Count() == 0), nameof(Items     ));
+                    ListUnsorted<LocationAppearance, Location>(Locations.Where(x => x.Entity.Domains.Count() == 0), nameof(Locations));
+                    ListUnsorted<NPCAppearance, NPC>(Characters.Where(x => x.Entity.Domains.Count() == 0), nameof(Characters));
+                    ListUnsorted<ItemAppearance, Item>(Items.Where(x => x.Entity.Domains.Count() == 0), nameof(Items));
                     Cascade.contents.AppendLine("<br/>");
 
                     void ListUnsorted<T, U>(IQueryable<T> Unsorted, string title) where T : Appearance, IHasEntity<U> where U : UseVariableName
@@ -1225,12 +1235,10 @@ internal static class CreateHTML
             foreach (var item in totalnames)
             {
                 CreateOfficialHeader(item, 2);
-                sb.AppendLine($"<h3>{item}</h3><br/>");
+                sb.AppendLine($"<h3>{item}</h3>");
 
                 using (var subheader = new SubHeader())
                 {
-                    sb.AppendLine($"<b>Name:</b> {item}<br/>");
-
                     if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Item>(original)}<br/>");
 
                     //Domains, Groups, Creatures, Sources
@@ -1242,11 +1250,11 @@ internal static class CreateHTML
                     {
                         foreach (var source in Sources)
                         {
-                            sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
                             var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
-                            TotalSources.Add(SourceString);
-                            sb.AppendLine($"<b>Source:</b> {SourceString}<br/>");
+                            TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
+                            SplitSources.contents.AppendLine($"<font style='font-size:19px'><b>Source:</b> {CreateLink(source.Source)}</font> <i style='font-size:13px'>({source.PageNumbers})</i><hr/>");
 
                             SplitSources.AddSection(source.Entity.Domains, nameof(Domains), Domains);
 
@@ -1256,17 +1264,17 @@ internal static class CreateHTML
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
                             SplitSources.AddSection(creatures, nameof(Creatures), Creatures);
 
-                            sb.AppendLine("</div></div><br/>");
+                            SplitSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
                     using (var AllSources = subheader.CreatePage("All"))
                     {
-                        sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                        AllSources.AddSection(Domains    , nameof(Domains  ));
-                        AllSources.AddSection(Groups     , nameof(Groups   ));
-                        AllSources.AddSection(Creatures  , nameof(Creatures));
+                        AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                        AllSources.AddSection(Domains     , nameof(Domains  ));
+                        AllSources.AddSection(Groups      , nameof(Groups   ));
+                        AllSources.AddSection(Creatures   , nameof(Creatures));
                         AllSources.AddSection(TotalSources, nameof(Sources ));
-                        sb.AppendLine("</div></div><br/>");
+                        AllSources.contents.AppendLine("</div></div><br/>");
                     }
                 }
                 SaveHTML(nameof(Item) + "/" + item);

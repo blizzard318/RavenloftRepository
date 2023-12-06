@@ -210,9 +210,7 @@ internal static class AddToDatabase
             using var ctx = Factory.CreateSource("Commander Legends: Battle for Baldur's Gate", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
             if (ctx == null) return;
 
-            var Barovia = ctx.CreateDomain("Barovia").AddNPCs(
-                ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Creature.Human, Traits.Creature.Witch)
-                );
+            ctx.CreateDomain("Barovia").AddNPCs(ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Creature.Human, Traits.Creature.Witch));
         }
         void AddDiceMastersStrahd()
         {
@@ -221,7 +219,7 @@ internal static class AddToDatabase
             using var ctx = Factory.CreateSource("Dice Masters: Strahd", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
             if (ctx == null) return;
 
-            ctx.CreateNPC("Count Strahd von Zarovich").AddLocations(ctx.CreateLocation("Castle Ravenloft"));
+            ctx.InsideRavenloft.AddLocations(ctx.CreateLocation("Castle Ravenloft")).AddNPCs(ctx.CreateNPC("Count Strahd von Zarovich"));
         }
         void AddSpellfireMastertheMagic()
         {
@@ -260,51 +258,52 @@ internal static class AddToDatabase
                 ctx.CreateDomain("Souragne", "14/100");
                 ctx.CreateDomain("Sri Raji", "15/100");
 
-                ctx.CreateLocation("Castle Ravenloft", "16/100");
-                var AzalinGraveyard = ctx.CreateLocation("Azalin's Graveyard", "17/100").AddTraits(Traits.Creature.Zombie);
-                ctx.CreateLocation("Kargat Mausoleum", "18/100").AddTraits(Traits.Status.TheKargat);
+                ctx.CreateLocation("Castle Ravenloft", "16/100").AddDomains(ctx.InsideRavenloft);
+                var AzalinGraveyard = ctx.CreateLocation("Azalin's Graveyard", "17/100").AddTraits(Traits.Creature.Zombie).AddDomains(ctx.InsideRavenloft);
+                ctx.CreateLocation("Kargat Mausoleum", "18/100").AddTraits(Traits.Status.TheKargat).AddDomains(ctx.InsideRavenloft);
 
-                ctx.CreateDomain("Paridon", "19/100").AddTraits(Traits.Creature.Doppelganger);
+                ctx.CreateDomain("Paridon", "19/100").AddTraits(Traits.Creature.Doppelganger); //WHY IS PARIDON MISSING DOPPELGANGERS
 
-                ctx.CreateLocation("Pharaoh's Rest", "20/100");
+                ctx.CreateLocation("Pharaoh's Rest", "20/100").AddDomains(ctx.InsideRavenloft);
 
-                ctx.CreateItem("Spell Book of Drawmji", "29/100");
-                ctx.CreateItem("Tarokka Deck", "56/100");
-                ctx.CreateItem("Timepiece of Klorr", "57/100");
-                ctx.CreateItem("Ring of Regeneration", "58/100");
-                ctx.CreateItem("Sun Sword", "Sunsword", "59/100");
-                ctx.CreateItem("Blood Coin", "60/100");
-                ctx.CreateItem("Staff of Mimicry", "61/100");
-                ctx.CreateItem("Soul Searcher Medallion", "62/100");
-                ctx.CreateItem("Ring of Reversion", "63/100");
-                ctx.CreateItem("Amulet of the Beast", "64/100");
-
-                ctx.CreateItem("Cat of Felkovic", "65/100");
-                ctx.CreateItem("Apparatus", "66/100");
-                ctx.CreateItem("Crown of Souls", "67/100");
-                ctx.CreateItem("Holy Symbol of Ravenkind", "68/100");
-                ctx.CreateItem("Tapestry of Dark Souls", "69/100");
-                ctx.CreateItem("Fang of the Nosferatu", "70/100");
-
-                ctx.CreateNPC("Azalin", "Azalin Rex", "82/100").AddLocations(AzalinGraveyard);
-                ctx.CreateNPC("Adam", "83/100");
-                ctx.CreateNPC("Ankhtepot", "84/100");
-                ctx.CreateNPC("Ireena Kolyana", "85/100");
-                ctx.CreateNPC("Dr. Rudolph Van Richten", "86/100");
-                ctx.CreateNPC("Harkon Lukas", "87/100");
-                ctx.CreateNPC("Headless Horseman", "88/100").AddTraits(Traits.Creature.Horse);
-                ctx.CreateNPC("Arijani", "89/100");
-                ctx.CreateNPC("Wilfred Godefroy", "90/100");
-                ctx.CreateNPC("Tiyet", "91/100");
-                ctx.CreateNPC("Sir Tristen Hiregaard", "92/100");
-                ctx.CreateNPC("Gabrielle Aderre", "93/100");
-                ctx.CreateNPC("Hags of Tepest", "94/100").AddTraits(Traits.Creature.Hag);
-                ctx.CreateNPC("Sir Edmund Bloodsworth", "95/100").AddTraits(Traits.Creature.Doppelganger);
-                ctx.CreateNPC("High Master Illithid", "96/100").AddTraits(Traits.Creature.MindFlayer.Item1, Traits.Creature.MindFlayer.Item2);
-                ctx.CreateNPC("Dr. Victor Mordenheim", "97/100");
-                ctx.CreateNPC("Sergei Von Zarovich", "98/100");
-                ctx.CreateNPC("Lord Soth", "99/100");
-                ctx.CreateNPC("Count Strahd von Zarovich", "100/100");
+                ctx.InsideRavenloft.AddItems(
+                    ctx.CreateItem("Spell Book of Drawmji", "29/100"),
+                    ctx.CreateItem("Tarokka Deck", "56/100"),
+                    ctx.CreateItem("Timepiece of Klorr", "57/100"),
+                    ctx.CreateItem("Ring of Regeneration", "58/100"),
+                    ctx.CreateItem("Sun Sword", "Sunsword", "59/100"),
+                    ctx.CreateItem("Blood Coin", "60/100"),
+                    ctx.CreateItem("Staff of Mimicry", "61/100"),
+                    ctx.CreateItem("Soul Searcher Medallion", "62/100"),
+                    ctx.CreateItem("Ring of Reversion", "63/100"),
+                    ctx.CreateItem("Amulet of the Beast", "64/100"),
+                    ctx.CreateItem("Cat of Felkovic", "65/100"),
+                    ctx.CreateItem("Apparatus", "66/100"),
+                    ctx.CreateItem("Crown of Souls", "67/100"),
+                    ctx.CreateItem("Holy Symbol of Ravenkind", "68/100"),
+                    ctx.CreateItem("Tapestry of Dark Souls", "69/100"),
+                    ctx.CreateItem("Fang of the Nosferatu", "70/100")
+                ).AddNPCs(
+                    ctx.CreateNPC("Azalin", "Azalin Rex", "82/100").AddLocations(AzalinGraveyard),
+                    ctx.CreateNPC("Adam", "83/100"),
+                    ctx.CreateNPC("Ankhtepot", "84/100"),
+                    ctx.CreateNPC("Ireena Kolyana", "85/100"),
+                    ctx.CreateNPC("Dr. Rudolph Van Richten", "86/100"),
+                    ctx.CreateNPC("Harkon Lukas", "87/100"),
+                    ctx.CreateNPC("Headless Horseman", "88/100").AddTraits(Traits.Creature.Horse),
+                    ctx.CreateNPC("Arijani", "89/100"),
+                    ctx.CreateNPC("Wilfred Godefroy", "90/100"),
+                    ctx.CreateNPC("Tiyet", "91/100"),
+                    ctx.CreateNPC("Sir Tristen Hiregaard", "92/100"),
+                    ctx.CreateNPC("Gabrielle Aderre", "93/100"),
+                    ctx.CreateNPC("Hags of Tepest", "94/100").AddTraits(Traits.Creature.Hag),
+                    ctx.CreateNPC("Sir Edmund Bloodsworth", "95/100").AddTraits(Traits.Creature.Doppelganger),
+                    ctx.CreateNPC("High Master Illithid", "96/100").AddTraits(Traits.Creature.MindFlayer.Item1, Traits.Creature.MindFlayer.Item2),
+                    ctx.CreateNPC("Dr. Victor Mordenheim", "97/100"),
+                    ctx.CreateNPC("Sergei Von Zarovich", "98/100"),
+                    ctx.CreateNPC("Lord Soth", "99/100"),
+                    ctx.CreateNPC("Count Strahd von Zarovich", "100/100")
+                );
             }
             void AddArtifactsSet()
             {
@@ -312,14 +311,17 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Artifacts Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateItem("Seal of Lost Arak", "12/100");
-                ctx.CreateItem("Crystal of the Ebon Flame", "13/100");
-                ctx.CreateNPC("Yagno Petrovna", "82/100");
+                ctx.CreateItem("Seal of Lost Arak", "12/100").AddDomains(ctx.InsideRavenloft);
+                ctx.CreateItem("Crystal of the Ebon Flame", "13/100").AddDomains(ctx.InsideRavenloft);
+
+                ctx.CreateNPC("Yagno Petrovna", "82/100").AddDomains(ctx.InsideRavenloft);
                 ctx.CreateDomain("Bluet Spur", "Bluetspur", "88/100");
                 ctx.CreateDomain("Kalidnay", "92/100").AddTraits(Traits.CampaignSetting.DarkSun);
-                ctx.CreateItem("Death Rock", "2/20");
-                ctx.CreateNPC("Count Strahd von Zarovich", "8/20");
-                ctx.CreateNPC("Ghostly Piper", "10/20");
+
+                ctx.CreateItem("Death Rock", "2/20").AddDomains(ctx.InsideRavenloft);
+
+                ctx.CreateNPC("Count Strahd von Zarovich", "8/20").AddDomains(ctx.InsideRavenloft);
+                ctx.CreateNPC("Ghostly Piper", "10/20").AddDomains(ctx.InsideRavenloft);
             }
             void Add3rdEditionSet()
             {
@@ -327,7 +329,7 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, 3rd Edition Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateItem("Tapestry of the Stag", "426/440").AddTraits(Traits.Creature.VampireBat, Traits.CampaignSetting.Greyhawk);
+                ctx.CreateItem("Tapestry of the Stag", "426/440").AddTraits(Traits.Creature.VampireBat, Traits.CampaignSetting.Greyhawk).AddDomains(ctx.InsideRavenloft);
             }
             void AddUnderdarkSet()
             {
@@ -335,11 +337,15 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Underdark Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateLocation("UnderDread", "9/100");
-                ctx.CreateLocation("The Dread Chamber", "18/100");
-                ctx.CreateNPC("The Red Death", "68/100");
-                ctx.CreateNPC("Chantal the Banshee", "97/100").AddTraits(Traits.Creature.Banshee);
-                ctx.CreateNPC("Iseult", "99/100");
+                ctx.InsideRavenloft.AddLocations(
+                    ctx.CreateLocation("UnderDread", "9/100"),
+                    ctx.CreateLocation("The Dread Chamber", "18/100")
+                ).AddNPCs(
+                    ctx.CreateNPC("The Red Death", "68/100"),
+                    ctx.CreateNPC("Chantal the Banshee", "97/100").AddTraits(Traits.Creature.Banshee),
+                    ctx.CreateNPC("Iseult", "99/100")
+                );
+                
             }
             void AddRunesNRuinsSet()
             {
@@ -347,7 +353,7 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Runes & Ruins Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateLocation("Tower of Spirits", "15/25");
+                ctx.CreateLocation("Tower of Spirits", "15/25").AddDomains(ctx.InsideRavenloft);
             }
             void Add4thEditionSet()
             {
@@ -364,18 +370,20 @@ internal static class AddToDatabase
                 ctx.CreateDomain("Sithicus", "63/500");
                 ctx.CreateDomain("Nightmare Lands", "64/500");
 
-                ctx.CreateNPC("Red Jack", "113/500");
-                ctx.CreateNPC("Red Tide", "114/500").AddTraits(Traits.Creature.Vampire);
+                ctx.InsideRavenloft.AddNPCs(
+                    ctx.CreateNPC("Red Jack", "113/500"),
+                    ctx.CreateNPC("Red Tide", "114/500").AddTraits(Traits.Creature.Vampire),
 
-                ctx.CreateNPC("Pearl", "304/500");
-                ctx.CreateNPC("Amber", "305/500");
-                ctx.CreateNPC("Aquamarina", "306/500");
+                    ctx.CreateNPC("Pearl", "304/500"),
+                    ctx.CreateNPC("Amber", "305/500"),
+                    ctx.CreateNPC("Aquamarina", "306/500"),
 
-                ctx.CreateNPC("Ting Ling", "354/500");
+                    ctx.CreateNPC("Ting Ling", "354/500"),
 
-                ctx.CreateNPC("Bride of Malice", "357/500").AddTraits(Traits.Creature.Vampire, Traits.Creature.Dragon);
-                ctx.CreateNPC("Vulture of the Core", "358/500").AddTraits(Traits.Creature.Vulture);
-                ctx.CreateNPC("The Bog Monster", "360/500");
+                    ctx.CreateNPC("Bride of Malice", "357/500").AddTraits(Traits.Creature.Vampire, Traits.Creature.Dragon),
+                    ctx.CreateNPC("Vulture of the Core", "358/500").AddTraits(Traits.Creature.Vulture),
+                    ctx.CreateNPC("The Bog Monster", "360/500")
+                );
             }
             void AddNightstalkersSet()
             {
@@ -385,15 +393,20 @@ internal static class AddToDatabase
 
                 ctx.CreateDomain("Falkovnia", "5/100");
                 ctx.CreateDomain("Richemulot", "6/100");
-                ctx.CreateLocation("Haunted Graveyard", "11/100").AddTraits(Traits.Creature.Ghost);
-                ctx.CreateNPC("Jacqueline Renier", "32/100");
-                ctx.CreateNPC("Ratik Ubel", "33/100");
-                ctx.CreateNPC("Julio, Master Thief of Haslic", "34/100");
-                ctx.CreateNPC("Nemon Hotep", "67/100");
-                ctx.CreateNPC("Shera the Wise", "68/100");
-                ctx.CreateNPC("Varney the Vampire", "16/25").AddTraits(Traits.Creature.Vampire);
-                ctx.CreateNPC("Gib Lhadsemlo", "18/25").AddTraits(Traits.Creature.FleshGolem);
-                ctx.CreateLocation("Mad Scientist's Laboratory", "25/25");
+
+                ctx.CreateLocation("Haunted Graveyard", "11/100").AddTraits(Traits.Creature.Ghost).AddDomains(ctx.InsideRavenloft);
+
+                ctx.InsideRavenloft.AddNPCs(
+                    ctx.CreateNPC("Jacqueline Renier", "32/100"),
+                    ctx.CreateNPC("Ratik Ubel", "33/100"),
+                    ctx.CreateNPC("Julio, Master Thief of Haslic", "34/100"),
+                    ctx.CreateNPC("Nemon Hotep", "67/100"),
+                    ctx.CreateNPC("Shera the Wise", "68/100"),
+                    ctx.CreateNPC("Varney the Vampire", "16/25").AddTraits(Traits.Creature.Vampire),
+                    ctx.CreateNPC("Gib Lhadsemlo", "18/25").AddTraits(Traits.Creature.FleshGolem)
+                );
+
+                ctx.CreateLocation("Mad Scientist's Laboratory", "25/25").AddDomains(ctx.InsideRavenloft);
             }
             void AddDungeonsSet()
             {
@@ -401,9 +414,10 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Dungeons Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "7/100").AddTraits(Traits.Creature.VampireBat);
-                ctx.CreateLocation("The Ruins of Lololia", "32/100");
-                ctx.CreateItem("Borer", "61/100");
+                ctx.InsideRavenloft.AddLocations(
+                    ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "7/100").AddTraits(Traits.Creature.VampireBat),
+                    ctx.CreateLocation("The Ruins of Lololia", "32/100")
+                ).AddItems(ctx.CreateItem("Borer", "61/100"));
             }
             void AddMilleniumSet()
             {
@@ -412,7 +426,7 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Millenium Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
                 if (ctx == null) return;
 
-                ctx.CreateItem("Strahd's Medallion", "23/99").AddTraits(Traits.Creature.Vampire);
+                ctx.CreateItem("Strahd's Medallion", "23/99").AddTraits(Traits.Creature.Vampire).AddDomains(ctx.InsideRavenloft);
             }
             void AddConquestSet()
             {
@@ -421,7 +435,7 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Conquest Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
                 if (ctx == null) return;
 
-                ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "73/81").AddTraits(Traits.Creature.VampireBat);
+                ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "73/81").AddTraits(Traits.Creature.VampireBat).AddDomains(ctx.InsideRavenloft);
             }
         }
         Factory.db.SaveChanges();

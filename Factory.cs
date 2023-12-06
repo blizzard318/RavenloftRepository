@@ -64,8 +64,8 @@
         foreach (var trait in traits) trait.Sources.Add(Source);
     }
 
-    public Domain CreateDomain(string name, string? pageNumbers = null) => CreateDomain(name, name, pageNumbers);
-    public Domain CreateDomain(string name, string originalName, string? pageNumbers = null)
+    public Domain CreateDomain(string name, string pageNumbers = "Throughout") => CreateDomain(name, name, pageNumbers);
+    public Domain CreateDomain(string name, string originalName, string pageNumbers = "Throughout")
     {
         var retval = db.Domains.Add(new Domain()
         {
@@ -80,13 +80,13 @@
         { 
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
+            PageNumbers = pageNumbers
         });
         return retval;
     }
 
-    public Location CreateLocation(string name, string? pageNumbers = null) => CreateLocation(name, name, pageNumbers);
-    public Location CreateLocation(string name, string originalName, string? pageNumbers = null)
+    public Location CreateLocation(string name, string pageNumbers = "Throughout") => CreateLocation(name, name, pageNumbers);
+    public Location CreateLocation(string name, string originalName, string pageNumbers = "Throughout")
     {
         var retval = db.Locations.Add(new Location()
         {
@@ -99,13 +99,13 @@
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
+            PageNumbers = pageNumbers
         });
         return retval;
     }
 
-    public NPC CreateNPC(string name, string? pageNumbers = null) => CreateNPC(name, name, pageNumbers);
-    public NPC CreateNPC(string name, string originalName, string? pageNumbers = null)
+    public NPC CreateNPC(string name, string pageNumbers = "Throughout") => CreateNPC(name, name, pageNumbers);
+    public NPC CreateNPC(string name, string originalName, string pageNumbers = "Throughout")
     {
         var retval = db.NPCs.Add(new NPC()
         {
@@ -118,13 +118,13 @@
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
+            PageNumbers = pageNumbers
         });
         return retval;
     }
 
-    public Item CreateItem(string name, string? pageNumbers = null) => CreateItem(name, name, pageNumbers);
-    public Item CreateItem(string name, string originalName, string? pageNumbers = null)
+    public Item CreateItem(string name, string pageNumbers = "Throughout") => CreateItem(name, name, pageNumbers);
+    public Item CreateItem(string name, string originalName, string pageNumbers = "Throughout")
     {
         var retval = db.Items.Add(new Item()
         {
@@ -137,7 +137,7 @@
         {
             Source = Source,
             Entity = retval,
-            PageNumbers = pageNumbers == null ? "Throughout" : pageNumbers
+            PageNumbers = pageNumbers
         });
         return retval;
     }

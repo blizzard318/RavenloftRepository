@@ -76,6 +76,11 @@ div.textbox {
 	border-color: darkred;
 	background-color: darkred;
 	margin-top: -4px;
+	padding-left:4px;
+	padding-right:4px;
 	font-size: 110%;
+	color: #EAEAEA;
+}
+.darkred a {
 	color: #EAEAEA;
 }
