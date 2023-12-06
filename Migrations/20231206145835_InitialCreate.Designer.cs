@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ravenloft.Migrations
 {
     [DbContext(typeof(RavenloftContext))]
-    [Migration("20231126151811_InitialCreate")]
+    [Migration("20231206145835_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -68,6 +68,21 @@ namespace Ravenloft.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("Domains");
+                });
+
+            modelBuilder.Entity("DomainGroup", b =>
+                {
+                    b.Property<string>("DomainsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GroupsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DomainsKey", "GroupsKey");
+
+                    b.HasIndex("GroupsKey");
+
+                    b.ToTable("DomainGroup");
                 });
 
             modelBuilder.Entity("DomainItem", b =>
@@ -130,6 +145,88 @@ namespace Ravenloft.Migrations
                     b.ToTable("DomainTrait");
                 });
 
+            modelBuilder.Entity("Group", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExtraInfo")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OriginalName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("GroupItem", b =>
+                {
+                    b.Property<string>("GroupsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GroupsKey", "ItemsKey");
+
+                    b.HasIndex("ItemsKey");
+
+                    b.ToTable("GroupItem");
+                });
+
+            modelBuilder.Entity("GroupLocation", b =>
+                {
+                    b.Property<string>("GroupsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LocationsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GroupsKey", "LocationsKey");
+
+                    b.HasIndex("LocationsKey");
+
+                    b.ToTable("GroupLocation");
+                });
+
+            modelBuilder.Entity("GroupNPC", b =>
+                {
+                    b.Property<string>("GroupsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NPCsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GroupsKey", "NPCsKey");
+
+                    b.HasIndex("NPCsKey");
+
+                    b.ToTable("GroupNPC");
+                });
+
+            modelBuilder.Entity("GroupTrait", b =>
+                {
+                    b.Property<string>("GroupsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TraitsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GroupsKey", "TraitsKey");
+
+                    b.HasIndex("TraitsKey");
+
+                    b.ToTable("GroupTrait");
+                });
+
             modelBuilder.Entity("Item", b =>
                 {
                     b.Property<string>("Key")
@@ -150,6 +247,36 @@ namespace Ravenloft.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("ItemLocation", b =>
+                {
+                    b.Property<string>("ItemsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LocationsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ItemsKey", "LocationsKey");
+
+                    b.HasIndex("LocationsKey");
+
+                    b.ToTable("ItemLocation");
+                });
+
+            modelBuilder.Entity("ItemNPC", b =>
+                {
+                    b.Property<string>("ItemsKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NPCsKey")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ItemsKey", "NPCsKey");
+
+                    b.HasIndex("NPCsKey");
+
+                    b.ToTable("ItemNPC");
                 });
 
             modelBuilder.Entity("ItemTrait", b =>
@@ -366,6 +493,20 @@ namespace Ravenloft.Migrations
                     b.HasDiscriminator().HasValue("DomainAppearance");
                 });
 
+            modelBuilder.Entity("GroupAppearance", b =>
+                {
+                    b.HasBaseType("Appearance");
+
+                    b.Property<string>("EntityId")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Group");
+
+                    b.HasIndex("EntityId");
+
+                    b.HasDiscriminator().HasValue("GroupAppearance");
+                });
+
             modelBuilder.Entity("ItemAppearance", b =>
                 {
                     b.HasBaseType("Appearance");
@@ -417,6 +558,21 @@ namespace Ravenloft.Migrations
                         .IsRequired();
 
                     b.Navigation("Source");
+                });
+
+            modelBuilder.Entity("DomainGroup", b =>
+                {
+                    b.HasOne("Domain", null)
+                        .WithMany()
+                        .HasForeignKey("DomainsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DomainItem", b =>
@@ -475,6 +631,96 @@ namespace Ravenloft.Migrations
                     b.HasOne("Trait", null)
                         .WithMany()
                         .HasForeignKey("TraitsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GroupItem", b =>
+                {
+                    b.HasOne("Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GroupLocation", b =>
+                {
+                    b.HasOne("Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Location", null)
+                        .WithMany()
+                        .HasForeignKey("LocationsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GroupNPC", b =>
+                {
+                    b.HasOne("Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NPC", null)
+                        .WithMany()
+                        .HasForeignKey("NPCsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GroupTrait", b =>
+                {
+                    b.HasOne("Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Trait", null)
+                        .WithMany()
+                        .HasForeignKey("TraitsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ItemLocation", b =>
+                {
+                    b.HasOne("Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Location", null)
+                        .WithMany()
+                        .HasForeignKey("LocationsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ItemNPC", b =>
+                {
+                    b.HasOne("Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemsKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NPC", null)
+                        .WithMany()
+                        .HasForeignKey("NPCsKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -576,6 +822,17 @@ namespace Ravenloft.Migrations
             modelBuilder.Entity("DomainAppearance", b =>
                 {
                     b.HasOne("Domain", "Entity")
+                        .WithMany()
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Entity");
+                });
+
+            modelBuilder.Entity("GroupAppearance", b =>
+                {
+                    b.HasOne("Group", "Entity")
                         .WithMany()
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)

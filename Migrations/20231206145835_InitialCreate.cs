@@ -25,6 +25,20 @@ namespace Ravenloft.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Key = table.Column<string>(type: "TEXT", nullable: false),
+                    ExtraInfo = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    OriginalName = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Key);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
@@ -106,6 +120,30 @@ namespace Ravenloft.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DomainGroup",
+                columns: table => new
+                {
+                    DomainsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    GroupsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DomainGroup", x => new { x.DomainsKey, x.GroupsKey });
+                    table.ForeignKey(
+                        name: "FK_DomainGroup_Domains_DomainsKey",
+                        column: x => x.DomainsKey,
+                        principalTable: "Domains",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DomainGroup_Groups_GroupsKey",
+                        column: x => x.GroupsKey,
+                        principalTable: "Groups",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DomainItem",
                 columns: table => new
                 {
@@ -123,6 +161,30 @@ namespace Ravenloft.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DomainItem_Items_ItemsKey",
+                        column: x => x.ItemsKey,
+                        principalTable: "Items",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupItem",
+                columns: table => new
+                {
+                    GroupsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    ItemsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupItem", x => new { x.GroupsKey, x.ItemsKey });
+                    table.ForeignKey(
+                        name: "FK_GroupItem_Groups_GroupsKey",
+                        column: x => x.GroupsKey,
+                        principalTable: "Groups",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupItem_Items_ItemsKey",
                         column: x => x.ItemsKey,
                         principalTable: "Items",
                         principalColumn: "Key",
@@ -154,6 +216,54 @@ namespace Ravenloft.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GroupLocation",
+                columns: table => new
+                {
+                    GroupsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    LocationsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupLocation", x => new { x.GroupsKey, x.LocationsKey });
+                    table.ForeignKey(
+                        name: "FK_GroupLocation_Groups_GroupsKey",
+                        column: x => x.GroupsKey,
+                        principalTable: "Groups",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupLocation_Locations_LocationsKey",
+                        column: x => x.LocationsKey,
+                        principalTable: "Locations",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemLocation",
+                columns: table => new
+                {
+                    ItemsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    LocationsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemLocation", x => new { x.ItemsKey, x.LocationsKey });
+                    table.ForeignKey(
+                        name: "FK_ItemLocation_Items_ItemsKey",
+                        column: x => x.ItemsKey,
+                        principalTable: "Items",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemLocation_Locations_LocationsKey",
+                        column: x => x.LocationsKey,
+                        principalTable: "Locations",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DomainNPC",
                 columns: table => new
                 {
@@ -171,6 +281,54 @@ namespace Ravenloft.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DomainNPC_NPCs_NPCsKey",
+                        column: x => x.NPCsKey,
+                        principalTable: "NPCs",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupNPC",
+                columns: table => new
+                {
+                    GroupsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    NPCsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupNPC", x => new { x.GroupsKey, x.NPCsKey });
+                    table.ForeignKey(
+                        name: "FK_GroupNPC_Groups_GroupsKey",
+                        column: x => x.GroupsKey,
+                        principalTable: "Groups",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupNPC_NPCs_NPCsKey",
+                        column: x => x.NPCsKey,
+                        principalTable: "NPCs",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ItemNPC",
+                columns: table => new
+                {
+                    ItemsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    NPCsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ItemNPC", x => new { x.ItemsKey, x.NPCsKey });
+                    table.ForeignKey(
+                        name: "FK_ItemNPC_Items_ItemsKey",
+                        column: x => x.ItemsKey,
+                        principalTable: "Items",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItemNPC_NPCs_NPCsKey",
                         column: x => x.NPCsKey,
                         principalTable: "NPCs",
                         principalColumn: "Key",
@@ -238,6 +396,7 @@ namespace Ravenloft.Migrations
                     PageNumbers = table.Column<string>(type: "TEXT", nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", nullable: false),
                     Domain = table.Column<string>(type: "TEXT", nullable: true),
+                    Group = table.Column<string>(type: "TEXT", nullable: true),
                     Item = table.Column<string>(type: "TEXT", nullable: true),
                     Location = table.Column<string>(type: "TEXT", nullable: true),
                     NPC = table.Column<string>(type: "TEXT", nullable: true)
@@ -249,6 +408,12 @@ namespace Ravenloft.Migrations
                         name: "FK_Appearances_Domains_Domain",
                         column: x => x.Domain,
                         principalTable: "Domains",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appearances_Groups_Group",
+                        column: x => x.Group,
+                        principalTable: "Groups",
                         principalColumn: "Key",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -319,6 +484,30 @@ namespace Ravenloft.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DomainTrait_Traits_TraitsKey",
+                        column: x => x.TraitsKey,
+                        principalTable: "Traits",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GroupTrait",
+                columns: table => new
+                {
+                    GroupsKey = table.Column<string>(type: "TEXT", nullable: false),
+                    TraitsKey = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupTrait", x => new { x.GroupsKey, x.TraitsKey });
+                    table.ForeignKey(
+                        name: "FK_GroupTrait_Groups_GroupsKey",
+                        column: x => x.GroupsKey,
+                        principalTable: "Groups",
+                        principalColumn: "Key",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupTrait_Traits_TraitsKey",
                         column: x => x.TraitsKey,
                         principalTable: "Traits",
                         principalColumn: "Key",
@@ -403,6 +592,11 @@ namespace Ravenloft.Migrations
                 column: "Domain");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Appearances_Group",
+                table: "Appearances",
+                column: "Group");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Appearances_Item",
                 table: "Appearances",
                 column: "Item");
@@ -423,6 +617,11 @@ namespace Ravenloft.Migrations
                 column: "Source");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DomainGroup_GroupsKey",
+                table: "DomainGroup",
+                column: "GroupsKey");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DomainItem_ItemsKey",
                 table: "DomainItem",
                 column: "ItemsKey");
@@ -441,6 +640,36 @@ namespace Ravenloft.Migrations
                 name: "IX_DomainTrait_TraitsKey",
                 table: "DomainTrait",
                 column: "TraitsKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupItem_ItemsKey",
+                table: "GroupItem",
+                column: "ItemsKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupLocation_LocationsKey",
+                table: "GroupLocation",
+                column: "LocationsKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupNPC_NPCsKey",
+                table: "GroupNPC",
+                column: "NPCsKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GroupTrait_TraitsKey",
+                table: "GroupTrait",
+                column: "TraitsKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemLocation_LocationsKey",
+                table: "ItemLocation",
+                column: "LocationsKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemNPC_NPCsKey",
+                table: "ItemNPC",
+                column: "NPCsKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemTrait_TraitsKey",
@@ -485,6 +714,9 @@ namespace Ravenloft.Migrations
                 name: "Appearances");
 
             migrationBuilder.DropTable(
+                name: "DomainGroup");
+
+            migrationBuilder.DropTable(
                 name: "DomainItem");
 
             migrationBuilder.DropTable(
@@ -495,6 +727,24 @@ namespace Ravenloft.Migrations
 
             migrationBuilder.DropTable(
                 name: "DomainTrait");
+
+            migrationBuilder.DropTable(
+                name: "GroupItem");
+
+            migrationBuilder.DropTable(
+                name: "GroupLocation");
+
+            migrationBuilder.DropTable(
+                name: "GroupNPC");
+
+            migrationBuilder.DropTable(
+                name: "GroupTrait");
+
+            migrationBuilder.DropTable(
+                name: "ItemLocation");
+
+            migrationBuilder.DropTable(
+                name: "ItemNPC");
 
             migrationBuilder.DropTable(
                 name: "ItemTrait");
@@ -516,6 +766,9 @@ namespace Ravenloft.Migrations
 
             migrationBuilder.DropTable(
                 name: "Domains");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Items");

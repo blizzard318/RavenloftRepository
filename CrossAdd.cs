@@ -27,6 +27,24 @@
         }
         return location;
     }
+    public static Location AddItems(this Location location, params Item[] items)
+    {
+        foreach (var item in items)
+        {
+            location.Items.Add(item);
+            item.Locations.Add(location);
+        }
+        return location;
+    }
+    public static Location AddGroups (this Location location, params Group[] groups)
+    {
+        foreach (var group in groups)
+        {
+            location.Groups.Add(group);
+            group.Locations.Add(location);
+        }
+        return location;
+    }
     public static Location AddInfo (this Location location, string ExtraInfo)
     {
         location.ExtraInfo = ExtraInfo;

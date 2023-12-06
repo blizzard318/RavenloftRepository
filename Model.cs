@@ -8,6 +8,7 @@ public class RavenloftContext : DbContext
     public DbSet<NPCAppearance> npcAppearances { get; set; }
     public DbSet<DomainAppearance> domainAppearances { get; set; }
     public DbSet<ItemAppearance> itemAppearances { get; set; }
+    public DbSet<GroupAppearance> groupAppearances { get; set; }
     
     public DbSet<Relationship> Relationships { get; set; }
 
@@ -20,6 +21,7 @@ public class RavenloftContext : DbContext
     public DbSet<Domain> Domains { get; set; }
     public DbSet<NPC> NPCs { get; set; }
     public DbSet<Location> Locations { get; set; }
+    public DbSet<Group> Groups { get; set; }
 
     public string DbPath { get; }
     public RavenloftContext() => DbPath = Path.Join(Directory.GetCurrentDirectory(), "Ravenloft.db");
@@ -77,32 +79,49 @@ public class Trait : UseName
     public HashSet<Location> Locations { get; set; } = new();
     public HashSet<Item> Items { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
+    public HashSet<Group> Groups { get; set; } = new();
 }
 public class Domain : UseVariableName
 {
     public HashSet<Location> Locations { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
     public HashSet<Item> Items { get; set; } = new();
+    public HashSet<Group> Groups { get; set; } = new();
     //Recommended related media, recorded sessions
 }
 public class Location : UseVariableName
 {
     public HashSet<Domain> Domains { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
+    public HashSet<Item> Items { get; set; } = new();
+    public HashSet<Group> Groups { get; set; } = new();
 }
 public class Item : UseVariableName
 {
     public HashSet<Domain> Domains { get; set; } = new();
+    public HashSet<Location> Locations { get; set; } = new();
+    public HashSet<NPC> NPCs { get; set; } = new();
+    public HashSet<Group> Groups { get; set; } = new();
 }
 public class NPC : UseVariableName
 {
     public HashSet<Domain> Domains { get; set; } = new();
     public HashSet<Location> Locations { get; set; } = new();
+    public HashSet<Item> Items { get; set; } = new();
+    public HashSet<Group> Groups { get; set; } = new();
+
     public HashSet<Relationship> Relationships { get; set; } = new ();
     public HashSet<Relationship> IgnoreThis { get; set; } = new ();
     //string Damnation; //Event that damned them to their own Domain
     //string Curse; //What do they have to live with
     //string ClosedBorders; //When they close the borders, how does it manifest
+}
+public class Group : UseVariableName
+{
+    public HashSet<Domain> Domains { get; set; } = new();
+    public HashSet<NPC> NPCs { get; set; } = new();
+    public HashSet<Location> Locations { get; set; } = new();
+    public HashSet<Item> Items { get; set; } = new();
 }
 public class Relationship
 {
@@ -120,27 +139,29 @@ public abstract class Appearance
     [Column("Source")] public string SourceKey { get; set; }
     public string PageNumbers { get; set; }
 }
-public interface IHasEntity<T>
-{
-    T Entity { get; set; }
-}
+public interface IHasEntity<T> { T Entity { get; set; } }
 public class LocationAppearance : Appearance, IHasEntity<Location>
 {
     public Location Entity { get; set; }
-    [Column("Location")] public string EntityId { get; set; }
+    [Column(nameof(Location))] public string EntityId { get; set; }
 }
 public class NPCAppearance : Appearance, IHasEntity<NPC>
 {
     public NPC Entity { get; set; }
-    [Column("NPC")] public string EntityId { get; set; }
+    [Column(nameof(NPC))] public string EntityId { get; set; }
 }
 public class DomainAppearance : Appearance, IHasEntity<Domain>
 {
     public Domain Entity { get; set; }
-    [Column("Domain")] public string EntityId { get; set; }
+    [Column(nameof(Domain))] public string EntityId { get; set; }
 }
 public class ItemAppearance : Appearance, IHasEntity<Item>
 {
     public Item Entity { get; set; }
-    [Column("Item")] public string EntityId { get; set; }
+    [Column(nameof(Item))] public string EntityId { get; set; }
+}
+public class GroupAppearance : Appearance, IHasEntity<Group>
+{
+    public Group Entity { get; set; }
+    [Column(nameof(Group))] public string EntityId { get; set; }
 }
