@@ -7,18 +7,7 @@ using System.Text.RegularExpressions;
 internal static class CreateHTML
 {
     private static string CreateLink(string subdomain, string name) => $"<a href='/{subdomain}/{name.Replace(":",string.Empty)}'>{name}</a>";
-    private static string CreateLink<T>(string entity) where T : UseName
-    {
-        var type = typeof(T);
-        var subdomain = string.Empty;
-             if (type == typeof(Domain)) subdomain = nameof(Domain);
-        else if (type == typeof(NPC)) subdomain = "Character";
-        else if (type == typeof(Location)) subdomain = nameof(Location);
-        else if (type == typeof(Item)) subdomain = nameof(Item);
-        else if (type == typeof(Source)) subdomain = nameof(Source);
-        else throw new Exception();
-        return CreateLink(subdomain, entity);
-    }
+    private static string CreateLink (Source entity) => CreateLink(nameof(Source), entity.Key);
     private static string CreateLink(Trait trait)
     {
         string subdomain = string.Empty;
@@ -43,8 +32,8 @@ internal static class CreateHTML
     }
 
     #region PREGENERATED DATA
-    private static string InsideRavenloftLink = CreateLink<Domain>(Factory.InsideRavenloftOriginalName);
-    private static string OutsideRavenloftLink = CreateLink<Domain>(Factory.OutsideRavenloftOriginalName);
+    private static string InsideRavenloftLink  = CreateLink(nameof(Domain), Factory.InsideRavenloftOriginalName );
+    private static string OutsideRavenloftLink = CreateLink(nameof(Domain), Factory.OutsideRavenloftOriginalName);
 
     private static class Get
     {
@@ -210,15 +199,10 @@ internal static class CreateHTML
             }
             public void Dispose() => sb.AppendLine("</tr>");
         }
-        public void AddRows(string[] columns)
+        public void AddRows(string[] columns, string? HTMLclass = null)
         {
-            sb.AppendLine("<tr>");
-            foreach (var column in columns) sb.AppendLine($"<td>{column}</td>");
-            sb.AppendLine("</tr>");
-        }
-        public void AddRows(string HTMLclass, string[] columns)
-        {
-            sb.AppendLine($"<tr class='{HTMLclass}'>");
+            if (string.IsNullOrEmpty(HTMLclass)) sb.AppendLine("<tr>");
+            else sb.AppendLine($"<tr class='{HTMLclass}'>");
             foreach (var column in columns) sb.AppendLine($"<td>{column}</td>");
             sb.AppendLine("</tr>");
         }
@@ -343,34 +327,24 @@ internal static class CreateHTML
                 }
             }
             public void Dispose() => contents.AppendLine("</div>");
-
-            public StringBuilder AddDarkRedTitle(string title) => contents.Append($"<b class='darkred'>{title}</b><hr class='darkred'/>");
-            public StringBuilder RemoveTrailingComma() => contents.Remove(sb.Length - 2, 2).AppendLine("<br/><br/>");
-            public void AddSection<T>(IEnumerable<T> list, string title, HashSet<string>? ToAddTo = null) where T : UseVariableName
+            public void AddSection<T>(IEnumerable<T> list, string title, HashSet<string>? ToAddTo = null) where T : UseVariableName => AddSection(list, title, Get.LinksOf, ToAddTo);
+            public void AddSection(IEnumerable<Trait> list, string title, HashSet<string>? ToAddTo = null) => AddSection(list, title, CreateLink, ToAddTo);
+            private void AddSection<T>(IEnumerable<T> list, string title, Func<T, string> Linkify, HashSet<string>? ToAddTo = null)
             {
                 if (list.Count() == 0) return;
 
-                AddDarkRedTitle(title);
+                contents.Append($"<b class='darkred'>{title}</b><hr class='darkred'/>");
                 foreach (var instance in list)
                 {
-                    var String = Get.LinksOf(instance);
+                    var String = Linkify(instance);
                     ToAddTo?.Add(String);
                     contents.Append($"{String}, ");
                 }
-                RemoveTrailingComma();
-            }            
-            public void AddSection(IEnumerable<Trait> list, string title, HashSet<string>? ToAddTo = null) 
+                contents.Remove(contents.Length - 2, 2).AppendLine("<br/><br/>");
+            }
+            public void AddSection (IEnumerable<string> list, string title)
             {
-                if (list.Count() == 0) return;
-
-                AddDarkRedTitle(title);
-                foreach (var instance in list)
-                {
-                    var String = CreateLink(instance);
-                    ToAddTo?.Add(String);
-                    contents.Append($"{String}, ");
-                }
-                RemoveTrailingComma();
+                if (list.Count() != 0) contents.Append($"<b class='darkred'>{title}</b><hr class='darkred'/>").Append(string.Join(", ", list)).AppendLine("<br/><br/>");
             }
         }
     }
@@ -421,7 +395,7 @@ internal static class CreateHTML
                 var media = source.Traits.Single(s => s.Type == nameof(Traits.Media)).Key;
                 MaterialPerMedia[media] = MaterialPerMedia.ContainsKey(media) ? MaterialPerMedia[media] + 1 : 1;
 
-                table.AddRows(new[] { CreateLink<Source>(source.Key), edition, media, source.ReleaseDate});
+                table.AddRows(new[] { CreateLink(source), edition, media, source.ReleaseDate});
             }
         }
         const string EditionTableID = "Editions Breakdown";
@@ -467,7 +441,7 @@ internal static class CreateHTML
             var ClustersInDomain = Domain.Traits.Where(t => t.Type == nameof(Traits.Cluster));
 
             if (ClustersInDomain.Count() == 0) AddToCluster(Traits.Cluster.IslandOfTerror.Key);
-            else foreach (var Cluster in ClustersInDomain) AddToCluster(CreateLink(nameof(Cluster), Cluster.Key));
+            else foreach (var Cluster in ClustersInDomain) AddToCluster(Cluster.Key);
 
             void AddToCluster(string key)
             {
@@ -756,7 +730,7 @@ internal static class CreateHTML
                     {
                         var rowval = new List<string>() { Get.LinksOf<NPC>(character) };
                         rowval.AddRange(Get.EditionsOf<NPC>(character));
-                        table.AddRows("dead", rowval.ToArray());
+                        table.AddRows(rowval.ToArray(), "dead");
                     }
                 }
             }
@@ -1178,6 +1152,7 @@ internal static class CreateHTML
     }
     private static void CreateDomainPages()
     {
+        return;
         var Domains = Get.AllOriginalsOf(typeof(Domain));
         foreach (var original in Domains)
         {
@@ -1208,7 +1183,7 @@ internal static class CreateHTML
                         {
                             sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
-                            var SourceString = $"{CreateLink<Source>(source.SourceKey)} (<i>{source.PageNumbers}</i>)";
+                            var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
                             TotalSources.Add(SourceString);
                             sb.AppendLine($"<b>Source:</b> {SourceString}<br/>");
 
@@ -1229,16 +1204,11 @@ internal static class CreateHTML
                     using (var AllSources = subheader.CreatePage("All"))
                     {
                         sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                        AddList(Domains     , nameof(Domains  ));
-                        AddList(Groups      , nameof(Groups   ));
-                        AddList(Creatures   , nameof(Creatures));
-                        AddList(TotalSources, nameof(Sources  ));
+                        AllSources.AddSection(Domains     , nameof(Domains  ));
+                        AllSources.AddSection(Groups      , nameof(Groups   ));
+                        AllSources.AddSection(Creatures   , nameof(Creatures));
+                        AllSources.AddSection(TotalSources, nameof(Sources  ));
                         sb.AppendLine("</div></div><br/>");
-
-                        void AddList (IEnumerable<string> list, string title)
-                        {
-                            if (list.Count() > 0) AllSources.AddDarkRedTitle(title).Append(string.Join(", ", list));
-                        }
                     }
                 }
                 SaveHTML(nameof(Domain) + "/" + domain);
@@ -1274,7 +1244,7 @@ internal static class CreateHTML
                         {
                             sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
-                            var SourceString = $"{CreateLink<Source>(source.SourceKey)} (<i>{source.PageNumbers}</i>)";
+                            var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
                             TotalSources.Add(SourceString);
                             sb.AppendLine($"<b>Source:</b> {SourceString}<br/>");
 
@@ -1292,10 +1262,10 @@ internal static class CreateHTML
                     using (var AllSources = subheader.CreatePage("All"))
                     {
                         sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                        if (Domains  .Count() > 0) AllSources.AddDarkRedTitle(nameof(Domains  )).Append(string.Join(",", Domains  ));
-                        if (Groups   .Count() > 0) AllSources.AddDarkRedTitle(nameof(Groups   )).Append(string.Join(",", Groups   ));
-                        if (Creatures.Count() > 0) AllSources.AddDarkRedTitle(nameof(Creatures)).Append(string.Join(",", Creatures));
-                        if (Sources  .Count() > 0) AllSources.AddDarkRedTitle(nameof(Sources  )).Append(string.Join(",", Sources  ));
+                        AllSources.AddSection(Domains    , nameof(Domains  ));
+                        AllSources.AddSection(Groups     , nameof(Groups   ));
+                        AllSources.AddSection(Creatures  , nameof(Creatures));
+                        AllSources.AddSection(TotalSources, nameof(Sources ));
                         sb.AppendLine("</div></div><br/>");
                     }
                 }
