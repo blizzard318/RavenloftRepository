@@ -1,9 +1,12 @@
-﻿internal class Factory : IDisposable
+﻿//This script is for creating stuff to the database
+//Adding stuff to the newly created stuff is handled in CrossAdd.cs
+using NUglify.JavaScript.Syntax;
+using Microsoft.EntityFrameworkCore;
+
+internal class Factory : IDisposable
 {
-    public const string OutsideRavenloftOriginalName = "Outside Ravenloft", InsideRavenloftOriginalName = "Inside Ravenloft";
-    public readonly static RavenloftContext db = new RavenloftContext();
-    private readonly Source Source;
-    private readonly List<Domain> domains = new(); //For trait distribution
+    #region PREGENERATED DATA
+    public const string OutsideRavenloftOriginalName = "Outside Ravenloft", InsideRavenloftOriginalName = "Inside Ravenloft", DeceasedOriginalName = "Deceased";
 
     private Domain _OutsideRavenloft, _InsideRavenloft;
     public Domain OutsideRavenloft
@@ -30,23 +33,60 @@
             return _InsideRavenloft;
         }
     }
+    private Group _Deceased;
+    public Group Deceased
+    {
+        get
+        {
+            if (_Deceased == null)
+            {
+                _Deceased = CreateGroup(DeceasedOriginalName, string.Empty);
+                _Deceased.ExtraInfo = "It's not really a group but its easier to filter characters if I treat it as one";
+            }
+            return _Deceased;
+        }
+    }
+    #endregion
 
-    public void Dispose ()
+    public readonly static RavenloftContext db = new RavenloftContext();
+    private readonly Source Source;
+    private readonly List<Domain> domains = new(); //For trait distribution
+
+    public void Dispose () //There is a chance I miss stuff out if its nested more than one layer. So try not to nest more than one layer.
     {
         foreach (var domain in domains)
         {
-            foreach (var location in domain.Locations)
+            foreach (var entity in domain.Locations)
             {
-                foreach (var npc in location.NPCs) domain.NPCs.Add(npc);
-                foreach (var trait in location.Traits) domain.Traits.Add(trait);
+                domain.NPCs.UnionWith(entity.NPCs);
+                domain.Items.UnionWith(entity.Items);
+                domain.Groups.UnionWith(entity.Groups);
+                //domain.Locations.UnionWith(entity.Locations);
+                domain.Traits.UnionWith(entity.Traits);
             }
-            foreach (var item in domain.Items)
+            foreach (var entity in domain.Items)
             {
-                foreach (var trait in item.Traits) domain.Traits.Add(trait);
+                domain.NPCs.UnionWith(entity.NPCs);
+                //domain.Items.UnionWith(entity.Items);
+                domain.Groups.UnionWith(entity.Groups);
+                domain.Locations.UnionWith(entity.Locations);
+                domain.Traits.UnionWith(entity.Traits);
             }
-            foreach (var npc in domain.NPCs)
+            foreach (var entity in domain.Groups)
             {
-                foreach (var trait in npc.Traits) domain.Traits.Add(trait);
+                domain.NPCs.UnionWith(entity.NPCs);
+                domain.Items.UnionWith(entity.Items);
+                //domain.Groups.UnionWith(entity.Groups);
+                domain.Locations.UnionWith(entity.Locations);
+                domain.Traits.UnionWith(entity.Traits);
+            }
+            foreach (var entity in domain.NPCs)
+            {
+                //domain.NPCs.UnionWith(entity.NPCs);
+                domain.Items.UnionWith(entity.Items);
+                domain.Groups.UnionWith(entity.Groups);
+                domain.Locations.UnionWith(entity.Locations);
+                domain.Traits.UnionWith(entity.Traits);
             }
         }
     }
@@ -63,84 +103,64 @@
         }).Entity;
         foreach (var trait in traits) trait.Sources.Add(Source);
     }
-
-    public Domain CreateDomain(string name, string pageNumbers = "Throughout") => CreateDomain(name, name, pageNumbers);
-    public Domain CreateDomain(string name, string originalName, string pageNumbers = "Throughout")
+    private T Create<T,U>(string name, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, new() where U : Appearance, IHasEntity<T>, new()
     {
-        var retval = db.Domains.Add(new Domain()
+        T retval = GetSet().Add(new()
         {
             Key = Source.Key + "/" + name,
             Name = name,
             OriginalName = originalName
         }).Entity;
-
-        domains.Add(retval); //Important for trait distribution
-
-        db.domainAppearances.Add(new DomainAppearance()
-        { 
+        GetAppearanceSet().Add(new()
+        {
             Source = Source,
             Entity = retval,
             PageNumbers = pageNumbers
         });
+
+        return retval;
+
+        static DbSet<T>? GetSet ()
+        {
+            var type = typeof(T);
+            if (type == typeof(Domain  )) return db.Domains   as DbSet<T>;
+            if (type == typeof(Location)) return db.Locations as DbSet<T>;
+            if (type == typeof(Item    )) return db.Items     as DbSet<T>;
+            if (type == typeof(NPC     )) return db.NPCs      as DbSet<T>;
+            if (type == typeof(Group   )) return db.Groups    as DbSet<T>;
+            throw new NotImplementedException();
+        }
+        static DbSet<U>? GetAppearanceSet()
+        {
+            var type = typeof(T);
+            if (type == typeof(Domain  )) return db.domainAppearances   as DbSet<U>;
+            if (type == typeof(Location)) return db.locationAppearances as DbSet<U>;
+            if (type == typeof(Item    )) return db.itemAppearances     as DbSet<U>;
+            if (type == typeof(NPC     )) return db.npcAppearances      as DbSet<U>;
+            if (type == typeof(Group   )) return db.groupAppearances    as DbSet<U>;
+            throw new NotImplementedException();
+        }
+    }
+
+    public Domain CreateDomain(string name, string pageNumbers = "Throughout") => CreateDomain(name, name, pageNumbers);
+    public Domain CreateDomain(string name, string originalName, string pageNumbers)
+    {
+        var retval = Create<Domain, DomainAppearance>(name, originalName, pageNumbers);
+        domains.Add(retval); //Important for trait distribution
         return retval;
     }
 
     public Location CreateLocation(string name, string pageNumbers = "Throughout") => CreateLocation(name, name, pageNumbers);
-    public Location CreateLocation(string name, string originalName, string pageNumbers = "Throughout")
-    {
-        var retval = db.Locations.Add(new Location()
-        {
-            Key = Source.Key + "/" + name,
-            Name = name,
-            OriginalName = originalName
-        }).Entity;
-
-        db.locationAppearances.Add(new LocationAppearance()
-        {
-            Source = Source,
-            Entity = retval,
-            PageNumbers = pageNumbers
-        });
-        return retval;
-    }
+    public Location CreateLocation(string name, string originalName, string pageNumbers) => Create<Location, LocationAppearance>(name, originalName, pageNumbers);
 
     public NPC CreateNPC(string name, string pageNumbers = "Throughout") => CreateNPC(name, name, pageNumbers);
-    public NPC CreateNPC(string name, string originalName, string pageNumbers = "Throughout")
-    {
-        var retval = db.NPCs.Add(new NPC()
-        {
-            Key = Source.Key + "/" + name,
-            Name = name,
-            OriginalName = originalName
-        }).Entity;
-
-        db.npcAppearances.Add(new NPCAppearance()
-        {
-            Source = Source,
-            Entity = retval,
-            PageNumbers = pageNumbers
-        });
-        return retval;
-    }
+    public NPC CreateNPC(string name, string originalName, string pageNumbers) => Create<NPC, NPCAppearance>(name, originalName, pageNumbers);
 
     public Item CreateItem(string name, string pageNumbers = "Throughout") => CreateItem(name, name, pageNumbers);
-    public Item CreateItem(string name, string originalName, string pageNumbers = "Throughout")
-    {
-        var retval = db.Items.Add(new Item()
-        {
-            Key = Source.Key + "/" + name,
-            Name = name,
-            OriginalName = originalName
-        }).Entity;
+    public Item CreateItem(string name, string originalName, string pageNumbers) => Create<Item, ItemAppearance>(name, originalName, pageNumbers);
 
-        db.itemAppearances.Add(new ItemAppearance()
-        {
-            Source = Source,
-            Entity = retval,
-            PageNumbers = pageNumbers
-        });
-        return retval;
-    }
+    public Group CreateGroup(string name, string pageNumbers = "Throughout") => CreateGroup(name, name, pageNumbers);
+    public Group CreateGroup(string name, string originalName, string pageNumbers) => Create<Group, GroupAppearance>(name, originalName, pageNumbers);
 
     public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {

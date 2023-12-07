@@ -62,17 +62,17 @@ internal static class Traits
             Ravenloft.ExtraInfo = "Assume everything that doesn't have a listed campaign setting belongs here.";
         }
         private static Trait CreateSetting(string name) => traits.Add(name, nameof(CampaignSetting));
-        public static Trait Ravenloft = CreateSetting("Ravenloft");
-        public static Trait Mystara = CreateSetting("Mystara");
-        public static Trait Planescape = CreateSetting("Planescape");
-        public static Trait Greyhawk = CreateSetting("Greyhawk");
-        public static Trait NentirVale = CreateSetting("Nentir Vale");
-        public static Trait ForgottonRealms = CreateSetting("Forgotton Realms");
-        public static Trait Spelljammer = CreateSetting("Spelljammer");
-        public static Trait DarkSun = CreateSetting("Dark Sun");
-        public static Trait Birthright = CreateSetting("Birthright");
-        public static Trait Dragonlance = CreateSetting("Dragonlance");
-        public static Trait Eberron = CreateSetting("Eberron");
+        public static Trait Ravenloft        = CreateSetting("Ravenloft"          );
+        public static Trait Mystara          = CreateSetting("Mystara"            );
+        public static Trait Planescape       = CreateSetting("Planescape"         );
+        public static Trait Greyhawk         = CreateSetting("Greyhawk"           );
+        public static Trait NentirVale       = CreateSetting("Nentir Vale"        );
+        public static Trait ForgottonRealms  = CreateSetting("Forgotton Realms"   );
+        public static Trait Spelljammer      = CreateSetting("Spelljammer"        );
+        public static Trait DarkSun          = CreateSetting("Dark Sun"           );
+        public static Trait Birthright       = CreateSetting("Birthright"         );
+        public static Trait Dragonlance      = CreateSetting("Dragonlance"        );
+        public static Trait Eberron          = CreateSetting("Eberron"            );
         public static Trait MasqueOfRedDeath = CreateSetting("Masque of Red Death");
     }
 
@@ -82,9 +82,16 @@ internal static class Traits
         private static Trait CreateLocation(string name) => traits.Add(name, nameof(Location));
         public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
         public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
+        public static Trait Darklord   = CreateLocation("Darklord"               );
+    }
+    internal static class Item 
+    {
+        public static List<Trait> traits = new List<Trait>();
+        private static Trait CreateLocation(string name) => traits.Add(name, nameof(Item));
+        public static Trait Vistani = CreateLocation("Vistani");
     }
 
-    internal static class Status //Includes Groups
+    /*internal static class Status //Includes Groups
     {
         public static List<Trait> traits = new List<Trait>();
         static Status ()
@@ -94,7 +101,7 @@ internal static class Traits
             traits.Add(Vistani);
         }
         private static Trait CreateStatus(string name) => traits.Add(name, nameof(Status));
-        public static Trait Vistani = Factory.CreateTrait("Vistani", nameof(Status), nameof(Item));
+        public static Trait Vistani  = Factory.CreateTrait("Vistani" , nameof(Status), nameof(Item));
         public static Trait Darklord = Factory.CreateTrait("Darklord", nameof(Status), nameof(Location));
 
         public static Trait Deceased = CreateStatus("Deceased");
@@ -105,7 +112,7 @@ internal static class Traits
 
         public static (Trait, Trait) Raunie = (CreateStatus("Raunie"), Vistani);
         public static (Trait, Trait) HagsOfTepest = (CreateStatus("Hags of Tepest"), Creature.Hag);
-    }
+    }*/
 
     internal static class Alignment //Don't create a page for this.
     {
@@ -194,6 +201,7 @@ internal static class Traits
         public static Trait Wraith        = CreateCreature("Wraith"        );
         public static Trait Spectre       = CreateCreature("Spectre"       );
         public static Trait Banshee       = CreateCreature("Banshee"       );
+        public static Trait Shade         = CreateCreature("Shade"         );
 
         public static Trait StrahdZombie = CreateCreature("Strahd Zombie");
         public static Trait Zombie       = CreateCreature("Zombie"       );
@@ -210,6 +218,10 @@ internal static class Traits
         public static Trait Hag       = CreateCreature("Hag"     );
         public static Trait Witch     = CreateCreature("Witch"   );
         public static Trait Werewolf  = CreateCreature("Werewolf");
+        public static Trait Werebat   = CreateCreature("Werebat");
+        public static Trait LoupGarou = CreateCreature("Loup-Garou");
+
+        public static Trait GhostShip  = CreateCreature("Ghost Ship");
 
         #region Alternate Names
         public static (Trait, Trait) MindFlayer = (CreateCreature("Illithid"), CreateCreature("Mind Flayer"));

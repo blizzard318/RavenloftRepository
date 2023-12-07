@@ -1,193 +1,46 @@
 ﻿internal static class Cross
 {
-    public static Location AddTraits (this Location location, params Trait[] traits)
+    private static T Add<T,U>(this T entity, params U[] array) where T : UseVariableName where U : UseName
     {
-        foreach (var trait in traits)
-        {
-            location.Traits.Add(trait);
-            trait.Locations.Add(location);
-        }
-        return location;
-    }
-    public static Location AddNPCs (this Location location, params NPC[] npcs)
-    {
-        foreach (var npc in npcs)
-        {
-            location.NPCs.Add(npc);
-            npc.Locations.Add(location);
-        }
-        return location;
-    }
-    public static Location AddDomains (this Location location, params Domain[] domains)
-    {
-        foreach (var domain in domains)
-        {
-            location.Domains.Add(domain);
-            domain.Locations.Add(location);
-        }
-        return location;
-    }
-    public static Location AddItems(this Location location, params Item[] items)
-    {
-        foreach (var item in items)
-        {
-            location.Items.Add(item);
-            item.Locations.Add(location);
-        }
-        return location;
-    }
-    public static Location AddGroups (this Location location, params Group[] groups)
-    {
-        foreach (var group in groups)
-        {
-            location.Groups.Add(group);
-            group.Locations.Add(location);
-        }
-        return location;
-    }
-    public static Location AddInfo (this Location location, string ExtraInfo)
-    {
-        location.ExtraInfo = ExtraInfo;
-        return location;
-    }
+        var list = GetSetFromArray(array);
+        foreach (var set in list) set.Add(entity);
 
-    public static NPC AddTraits (this NPC npc, params Trait[] traits)
-    {
-        foreach (var trait in traits)
-        {
-            npc.Traits.Add(trait);
-            trait.NPCs.Add(npc);
-        }
-        return npc;
-    }
-    public static NPC AddLocations (this NPC npc, params Location[] locations)
-    {
-        foreach (var location in locations)
-        {
-            npc.Locations.Add(location);
-            location.NPCs.Add(npc);
-        }
-        return npc;
-    }
-    public static NPC AddDomains (this NPC npc, params Domain[] domains)
-    {
-        foreach (var domain in domains)
-        {
-            npc.Domains.Add(domain);
-            domain.NPCs.Add(npc);
-        }
-        return npc;
-    }
-    public static NPC AddInfo(this NPC npc, string ExtraInfo)
-    {
-        npc.ExtraInfo = ExtraInfo;
-        return npc;
-    }
+        var otherlist = GetSetFromEntity(entity);
+        foreach (var instance in array) otherlist.Add(instance);
 
+        return entity;
 
-
-    public static Domain AddTraits(this Domain domain, params Trait[] traits)
-    {
-        foreach (var trait in traits)
+        static IEnumerable<HashSet<T>>? GetSetFromArray(U[] array)
         {
-            domain.Traits.Add(trait);
-            trait.Domains.Add(domain);
+            var type = typeof(T);
+            if (type == typeof(Location)) return ((IHasLocations[])array).Select(t => t.Locations) as IEnumerable<HashSet<T>>;
+            if (type == typeof(Domain  )) return ((IHasDomains  [])array).Select(t => t.Domains  ) as IEnumerable<HashSet<T>>;
+            if (type == typeof(NPC     )) return ((IHasNPCs     [])array).Select(t => t.NPCs     ) as IEnumerable<HashSet<T>>;
+            if (type == typeof(Item    )) return ((IHasItems    [])array).Select(t => t.Items    ) as IEnumerable<HashSet<T>>;
+            if (type == typeof(Group   )) return ((IHasGroups   [])array).Select(t => t.Groups   ) as IEnumerable<HashSet<T>>;
+            throw new NotImplementedException();
         }
-        return domain;
-    }
-    public static Domain AddLocations (this Domain domain, params Location[] locations)
-    {
-        foreach (var location in locations)
+        static HashSet<U>? GetSetFromEntity (T entity) 
         {
-            domain.Locations.Add(location);
-            location.Domains.Add(domain);
+            var type = typeof(T);
+            if (type == typeof(Trait   )) return                 entity .Traits    as HashSet<U>;
+            if (type == typeof(Location)) return ((IHasLocations)entity).Locations as HashSet<U>;
+            if (type == typeof(Domain  )) return ((IHasDomains  )entity).Domains   as HashSet<U>;
+            if (type == typeof(NPC     )) return ((IHasNPCs     )entity).NPCs      as HashSet<U>;
+            if (type == typeof(Item    )) return ((IHasItems    )entity).Items     as HashSet<U>;
+            if (type == typeof(Group   )) return ((IHasGroups   )entity).Groups    as HashSet<U>;
+            throw new NotImplementedException();
         }
-        return domain;
     }
-    public static Domain AddNPCs (this Domain domain, params NPC[] npcs)
+    public static T AddTraits   <T>(this T entity, params Trait   [] array) where T : UseVariableName                => entity.Add(array);
+    public static T AddLocations<T>(this T entity, params Location[] array) where T : UseVariableName, IHasLocations => entity.Add(array);
+    public static T AddDomains  <T>(this T entity, params Domain  [] array) where T : UseVariableName, IHasDomains   => entity.Add(array);
+    public static T AddNPCs     <T>(this T entity, params NPC     [] array) where T : UseVariableName, IHasNPCs      => entity.Add(array);
+    public static T AddItems    <T>(this T entity, params Item    [] array) where T : UseVariableName, IHasItems     => entity.Add(array);
+    public static T AddGroups   <T>(this T entity, params Group   [] array) where T : UseVariableName, IHasGroups    => entity.Add(array);
+    public static T AddInfo     <T>(this T entity, string info) where T : UseName
     {
-        foreach (var npc in npcs)
-        {
-            domain.NPCs.Add(npc);
-            npc.Domains.Add(domain);
-        }
-        return domain;
+        entity.ExtraInfo += info;
+        return entity;
     }
-    public static Domain AddItems (this Domain domain, params Item[] items)
-    {
-        foreach (var item in items)
-        {
-            domain.Items.Add(item);
-            item.Domains.Add(domain);
-        }
-        return domain;
-    }
-    public static Domain AddInfo(this Domain domain, string ExtraInfo)
-    {
-        domain.ExtraInfo += ExtraInfo;
-        return domain;
-    }
-
-
-
-    public static Item AddTraits (this Item item, params Trait[] traits)
-    {
-        foreach (var trait in traits)
-        {
-            item.Traits.Add(trait);
-            trait.Items.Add(item);
-        }
-        return item;
-    }
-    public static Item AddDomains (this Item item, params Domain[] domains)
-    {
-        foreach (var domain in domains)
-        {
-            item.Domains.Add(domain);
-            domain.Items.Add(item);
-        }
-        return item;
-    }
-    public static Item AddInfo(this Item item, string ExtraInfo)
-    {
-        item.ExtraInfo = ExtraInfo;
-        return item;
-    }
-
-    /*public static Trait AddDomains (this Trait trait, params Domain[] domains)
-    {
-        foreach (var domain in domains)
-        {
-            trait.Domains.Add(domain);
-            domain.Traits.Add(trait);
-        }
-        return trait;
-    }
-    public static Trait AddLocations (this Trait trait, params Location[] locations)
-    {
-        foreach (var location in locations)
-        {
-            trait.Locations.Add(location);
-            location.Traits.Add(trait);
-        }
-        return trait;
-    }
-    public static Trait AddItems (this Trait trait, params Item[] items)
-    {
-        foreach (var item in items)
-        {
-            trait.Items.Add(item);
-            item.Traits.Add(trait);
-        }
-        return trait;
-    }
-    public static Trait AddNPCs (this Trait trait, params NPC[] npcs)
-    {
-        foreach (var npc in npcs)
-        {
-            trait.NPCs.Add(npc);
-            npc.Traits.Add(trait);
-        }
-        return trait;
-    }*/
 }

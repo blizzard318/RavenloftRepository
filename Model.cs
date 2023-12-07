@@ -50,12 +50,7 @@ public class RavenloftContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 }
-public abstract class UseVariableName : UseName
-{
-    public string Name { get; set; } //Can be different in different sources
-    public string OriginalName { get; set; } //For searching purposes
-    public HashSet<Trait> Traits { get; set; } = new();
-}
+
 public abstract class UseName
 {
     [Key] public string Key { get; set; } //Key
@@ -72,7 +67,8 @@ public class Source : UseName
         public HashSet<Source> Sources { get; set; } = new();
     }
 }
-public class Trait : UseName
+
+public class Trait : UseName, IHasDomains, IHasLocations, IHasItems, IHasNPCs, IHasGroups
 {
     public string Type { get; set; }
     public HashSet<Domain> Domains { get; set; } = new();
@@ -81,7 +77,14 @@ public class Trait : UseName
     public HashSet<NPC> NPCs { get; set; } = new();
     public HashSet<Group> Groups { get; set; } = new();
 }
-public class Domain : UseVariableName
+
+public abstract class UseVariableName : UseName
+{
+    public string Name { get; set; } //Can be different in different sources
+    public string OriginalName { get; set; } //For searching purposes
+    public HashSet<Trait> Traits { get; set; } = new();
+}
+public class Domain : UseVariableName, IHasLocations, IHasItems, IHasNPCs, IHasGroups
 {
     public HashSet<Location> Locations { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
@@ -89,21 +92,21 @@ public class Domain : UseVariableName
     public HashSet<Group> Groups { get; set; } = new();
     //Recommended related media, recorded sessions
 }
-public class Location : UseVariableName
+public class Location : UseVariableName, IHasDomains, IHasItems, IHasNPCs, IHasGroups
 {
     public HashSet<Domain> Domains { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
     public HashSet<Item> Items { get; set; } = new();
     public HashSet<Group> Groups { get; set; } = new();
 }
-public class Item : UseVariableName
+public class Item : UseVariableName, IHasDomains, IHasLocations, IHasNPCs, IHasGroups
 {
     public HashSet<Domain> Domains { get; set; } = new();
     public HashSet<Location> Locations { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
     public HashSet<Group> Groups { get; set; } = new();
 }
-public class NPC : UseVariableName
+public class NPC : UseVariableName, IHasDomains, IHasLocations, IHasItems, IHasGroups
 {
     public HashSet<Domain> Domains { get; set; } = new();
     public HashSet<Location> Locations { get; set; } = new();
@@ -116,7 +119,7 @@ public class NPC : UseVariableName
     //string Curse; //What do they have to live with
     //string ClosedBorders; //When they close the borders, how does it manifest
 }
-public class Group : UseVariableName
+public class Group : UseVariableName, IHasDomains, IHasLocations, IHasItems, IHasNPCs
 {
     public HashSet<Domain> Domains { get; set; } = new();
     public HashSet<NPC> NPCs { get; set; } = new();
@@ -139,7 +142,6 @@ public abstract class Appearance
     [Column("Source")] public string SourceKey { get; set; }
     public string PageNumbers { get; set; }
 }
-public interface IHasEntity<T> { T Entity { get; set; } }
 public class LocationAppearance : Appearance, IHasEntity<Location>
 {
     public Location Entity { get; set; }

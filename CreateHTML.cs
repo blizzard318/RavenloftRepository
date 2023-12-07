@@ -2,7 +2,6 @@
 using NUglify;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 
 internal static class CreateHTML
 {
@@ -25,16 +24,18 @@ internal static class CreateHTML
         private static readonly Dictionary<string, Entity> Characters = new Dictionary<string, Entity>();
         private static readonly Dictionary<string, Entity> Locations  = new Dictionary<string, Entity>();
         private static readonly Dictionary<string, Entity> Items      = new Dictionary<string, Entity>();
+        private static readonly Dictionary<string, Entity> Groups     = new Dictionary<string, Entity>();
 
         public static void Pregenerate() //I don't trust this to be a static constructor. This has to run after the db is filled.
         {
             if (Pregenerated) return;
             Pregenerated = true;
 
-            Fill("Domain"   , Domains   , Factory.db.Domains  , Factory.db.domainAppearances  );
-            Fill("Character", Characters, Factory.db.NPCs     , Factory.db.npcAppearances     );
-            Fill("Location" , Locations , Factory.db.Locations, Factory.db.locationAppearances);
-            Fill("Item"     , Items     , Factory.db.Items    , Factory.db.itemAppearances    );
+            Fill(nameof(Domain)  , Domains   , Factory.db.Domains  , Factory.db.domainAppearances  );
+            Fill("Character"     , Characters, Factory.db.NPCs     , Factory.db.npcAppearances     );
+            Fill(nameof(Location), Locations , Factory.db.Locations, Factory.db.locationAppearances);
+            Fill(nameof(Item)    , Items     , Factory.db.Items    , Factory.db.itemAppearances    );
+            Fill(nameof(Group)   , Items     , Factory.db.Groups   , Factory.db.groupAppearances   );
 
             void Fill<T, U>(string Subdomain, Dictionary<string, Entity> ToFill, DbSet<T> ToRead, DbSet<U> Appearances) 
                 where T : UseVariableName where U : Appearance, IHasEntity<T>
@@ -82,6 +83,7 @@ internal static class CreateHTML
             else if (type == typeof(NPC     )) return Characters;
             else if (type == typeof(Location)) return Locations ;
             else if (type == typeof(Item    )) return Items     ;
+            else if (type == typeof(Group   )) return Groups     ;
             return null;
         }
     }
@@ -92,8 +94,6 @@ internal static class CreateHTML
         string subdomain = string.Empty;
         switch (trait.Type)
         {
-            case nameof(Traits.Status): return CreateLink("Group", trait.Key);
-
             case nameof(Traits.Canon): //Hidden page
             case nameof(Traits.CampaignSetting):
             case nameof(Traits.Language):
@@ -152,15 +152,18 @@ internal static class CreateHTML
         sb.AppendLine("</h2><hr />");
 
         sb.AppendLine("<h2>");
-        sb.Append("<a href='").Append(db).AppendLine("Source'>Sources</a> | ");
-        sb.Append("<a href='").Append(db).AppendLine("Domain'>Domains</a> | ");
-        sb.Append("<a href='").Append(db).AppendLine("Location'>Locations</a> | ");
-        sb.Append("<a href='").Append(db).AppendLine("Character'>Characters</a> | ");
-        sb.Append("<a href='").Append(db).Append("Item'>Items</a>").AppendLine("<br/>");
-        sb.Append("<a href='").Append(db).AppendLine("Creature'>Creatures</a> | ");
-        sb.Append("<a href='").Append(db).AppendLine("Group'>Groups</a> | ");
-        sb.Append("<a href='").Append(db).AppendLine("Setting'>Campaign Settings</a> | ");
-        sb.Append("<a href='").Append(db).AppendLine("Language'>Languages</a>");
+        sb.Append("<a href='").Append(db).Append("Source'>Sources</a> | ");
+        sb.Append("<a href='").Append(db).Append("Domain'>Domains</a> | ");
+        sb.Append("<a href='").Append(db).Append("Location'>Locations</a> | ");
+        sb.Append("<a href='").Append(db).Append("Character'>Characters</a> | ");
+        sb.Append("<a href='").Append(db).Append("Item'>Items</a> | ");
+        sb.Append("<a href='").Append(db).Append("Group'>Groups</a>");
+
+        sb.AppendLine("<br/>");
+
+        sb.Append("<a href='").Append(db).Append("Creature'>Creatures</a> | ");
+        sb.Append("<a href='").Append(db).Append("Setting'>Campaign Settings</a> | ");
+        sb.Append("<a href='").Append(db).Append("Language'>Languages</a>");
         sb.AppendLine("</h2><hr />");
     }
     private static void SaveHTML(params string[] DirectoryNames)
@@ -437,7 +440,7 @@ internal static class CreateHTML
             if (Domain.OriginalName == Factory.InsideRavenloftOriginalName || Domain.OriginalName == Factory.OutsideRavenloftOriginalName) continue;
             Domains.TryAdd(Domain.OriginalName, new HashSet<string>());
 
-            var AllDarklords = Domain.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord));
+            var AllDarklords = Domain.Groups.Single(g => g.OriginalName == "Darklord").NPCs;
             foreach (var Darklord in AllDarklords) Domains[Domain.OriginalName].Add(Get.LinksOf(Darklord));
 
             var ClustersInDomain = Domain.Traits.Where(t => t.Type == nameof(Traits.Cluster));
@@ -502,6 +505,7 @@ internal static class CreateHTML
     public static void CreateLocationPage()
     {
         CreateOfficialHeader("Locations of Ravenloft", 1);
+        sb.AppendLine("I only track buildings, so individual rooms will not be listed.");
 
         using (var subheader = new SubHeader())
         {
@@ -578,7 +582,7 @@ internal static class CreateHTML
                     using (var headerRow = table.CreateHeaderRow())
                         headerRow.CreateHeader("Name(s)", "Domain(s)", "Darklord").CreateEditionHeaders();
 
-                    var DarkLordLairsCopies = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Status.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(s => s.Traits).GroupBy(s => s.OriginalName);
+                    var DarkLordLairsCopies = Factory.db.Locations.Where(s => s.Traits.Any(s => s == Traits.Location.Darklord)).Include(s => s.Domains).Include(s => s.NPCs).ThenInclude(s => s.Traits).GroupBy(s => s.OriginalName);
 
                     foreach (var SingleSetOfLairCopies in DarkLordLairsCopies)
                     {
@@ -589,7 +593,7 @@ internal static class CreateHTML
                         {
                             foreach (var domain in CopyOfLair.Domains) TotalNamesofTotalDomains.Add(Get.LinksOf(domain));
 
-                            var DomainDarklords = CopyOfLair.NPCs.Where(n => n.Traits.Contains(Traits.Status.Darklord));
+                            var DomainDarklords = CopyOfLair.NPCs.Where(n => n.Traits.Contains(Traits.Location.Darklord));
                             foreach (var DomainDarklord in DomainDarklords) TotalNamesofTotalDarklords.Add(Get.LinksOf(DomainDarklord));
                         }
 
@@ -650,10 +654,11 @@ internal static class CreateHTML
             var DomainedCharacter = new HashSet<string>();
             foreach (var character in AllCharacters)
             {
-                var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
-                var offset = StatusTraits.Remove(Traits.Status.Deceased) ? DEAD : ALIVE;
+                var Groups = character.Groups;
 
-                foreach (var statusTrait in StatusTraits)
+                int offset = Groups.Remove(Groups.SingleOrDefault(g => g.OriginalName == Factory.DeceasedOriginalName)) ? DEAD : ALIVE;
+
+                foreach (var statusTrait in character.Groups)
                 {
                     CharactersPerGroup.TryAdd(statusTrait.Key, Init());
                     CharactersPerGroup[statusTrait.Key][offset].Add(character.OriginalName);

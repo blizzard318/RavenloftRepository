@@ -8,8 +8,8 @@ CreateHTML.CreateLocationPage();
 CreateHTML.CreateDomainPage();
 CreateHTML.CreateItemPage();
 CreateHTML.CreateCharacterPage();
-
 CreateHTML.CreateGroupPage();
+
 CreateHTML.CreateCreaturePage();
 CreateHTML.CreateCampaignSettingPage();
 CreateHTML.CreateLanguagesPage();
