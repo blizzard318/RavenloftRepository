@@ -5,12 +5,15 @@ internal static class AddToDatabase
     public static void Add () 
     {
         //Domains, NPCs, Items and Locations are Source-locked, but not Traits.
-
+        //Consider not making new instances within Create, so that adding can be better structured.
         AddI6Ravenloft();
         AddBeforeIWake();
         AddCommanderLegendsBattleforBaldursGate();
         AddDiceMastersStrahd();
         AddSpellfireMastertheMagic();
+        AddTSRCollectorCards();
+
+        Factory.db.SaveChanges();
 
         void AddI6Ravenloft()
         {
@@ -236,6 +239,7 @@ internal static class AddToDatabase
             AddNightstalkersSet();
             AddDungeonsSet();
 
+            AddInquisitionSet();
             AddMilleniumSet();
             AddConquestSet();
 
@@ -245,29 +249,29 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Ravenloft Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateDomain("Barovia", "1/100");
-                ctx.CreateDomain("Darkon", "2/100");
+                var Barovia = ctx.CreateDomain("Barovia", "1/100");
+                var Darkon = ctx.CreateDomain("Darkon", "2/100");
                 ctx.CreateDomain("Lamordia", "3/100");
                 ctx.CreateDomain("Mordent", "4/100");
                 ctx.CreateDomain("Kartakass", "5/100");
                 ctx.CreateDomain("Keening", "6/100");
-                ctx.CreateDomain("Tepest", "7/100");
+                var Tepest = ctx.CreateDomain("Tepest", "7/100");
                 ctx.CreateDomain("Verbrek", "8/100").AddTraits(Traits.Creature.Wolf);
                 ctx.CreateDomain("Invidia", "9/100");
                 ctx.CreateDomain("Nova Vaasa", "10/100");
                 ctx.CreateDomain("Dementlieu", "11/100");
                 ctx.CreateDomain("Valachan", "12/100");
-                ctx.CreateDomain("Har'Akir", "13/100");
+                var HarAkir = ctx.CreateDomain("Har'Akir", "13/100");
                 ctx.CreateDomain("Souragne", "14/100");
                 ctx.CreateDomain("Sri Raji", "15/100");
 
-                ctx.CreateLocation("Castle Ravenloft", "16/100").AddDomains(ctx.InsideRavenloft);
-                var AzalinGraveyard = ctx.CreateLocation("Azalin's Graveyard", "17/100").AddTraits(Traits.Creature.Zombie).AddDomains(ctx.InsideRavenloft);
-                ctx.CreateLocation("Kargat Mausoleum", "18/100").AddGroups(ctx.CreateGroup("The Kargat", "18/100")).AddDomains(ctx.InsideRavenloft);
+                ctx.CreateLocation("Castle Ravenloft", "16/100").AddDomains(ctx.InsideRavenloft, Barovia);
+                var AzalinGraveyard = ctx.CreateLocation("Azalin's Graveyard", "17/100").AddTraits(Traits.Creature.Zombie).AddDomains(ctx.InsideRavenloft, Darkon);
+                ctx.CreateLocation("Kargat Mausoleum", "18/100").AddGroups(ctx.CreateGroup("The Kargat", "18/100")).AddDomains(ctx.InsideRavenloft, Darkon);
 
                 ctx.CreateDomain("Paridon", "19/100").AddTraits(Traits.Creature.Doppelganger); //WHY IS PARIDON MISSING DOPPELGANGERS
 
-                ctx.CreateLocation("Pharaoh's Rest", "20/100").AddDomains(ctx.InsideRavenloft);
+                ctx.CreateLocation("Pharaoh's Rest", "20/100").AddDomains(ctx.InsideRavenloft, HarAkir);
 
                 ctx.CreateGroup("Dark Powers", "22/100").AddDomains(ctx.InsideRavenloft);
                 ctx.CreateItem("Spell Book of Drawmji", "29/100").AddTraits(Traits.CampaignSetting.Greyhawk).AddDomains(ctx.InsideRavenloft);
@@ -277,7 +281,7 @@ internal static class AddToDatabase
                     Traits.Creature.Shade // 47/100
                 ).AddItems(
                     ctx.CreateItem("Tarokka Deck", "56/100"),
-                    ctx.CreateItem("Timepiece of Klorr", "57/100"),
+                    ctx.CreateItem("Timepiece of Klorr", "57/100").AddNPCs(ctx.CreateNPC("Klorr","57/100")),
                     ctx.CreateItem("Ring of Regeneration", "58/100"),
                     ctx.CreateItem("Sun Sword", "Sunsword", "59/100"),
                     ctx.CreateItem("Blood Coin", "60/100"),
@@ -285,7 +289,7 @@ internal static class AddToDatabase
                     ctx.CreateItem("Soul Searcher Medallion", "62/100"),
                     ctx.CreateItem("Ring of Reversion", "63/100"),
                     ctx.CreateItem("Amulet of the Beast", "64/100"),
-                    ctx.CreateItem("Cat of Felkovic", "65/100"),
+                    ctx.CreateItem("Cat of Felkovic", "65/100").AddNPCs(ctx.CreateNPC("Felkovic", "65/100")),
                     ctx.CreateItem("Apparatus", "66/100"),
                     ctx.CreateItem("Crown of Souls", "67/100"),
                     ctx.CreateItem("Holy Symbol of Ravenkind", "68/100"),
@@ -304,7 +308,7 @@ internal static class AddToDatabase
                     Traits.Creature.LoupGarou, // 79/100
                     Traits.Creature.Werebat //90/100
                 ).AddNPCs(
-                    ctx.CreateNPC("Azalin", "Azalin Rex", "82/100").AddLocations(AzalinGraveyard),
+                    ctx.CreateNPC("Azalin Rex", "82/100").AddLocations(AzalinGraveyard),
                     ctx.CreateNPC("Adam", "83/100"),
                     ctx.CreateNPC("Ankhtepot", "84/100"),
                     ctx.CreateNPC("Ireena Kolyana", "85/100"),
@@ -317,7 +321,7 @@ internal static class AddToDatabase
                     ctx.CreateNPC("Sir Tristen Hiregaard", "92/100"),
                     ctx.CreateNPC("Gabrielle Aderre", "93/100")
                 ).AddGroups(
-                    ctx.CreateGroup("Hags Of Tepest", "94/100").AddTraits(Traits.Creature.Hag)
+                    ctx.CreateGroup("Hags Of Tepest", "94/100").AddTraits(Traits.Creature.Hag).AddDomains(Tepest)
                 ).AddNPCs(
                     ctx.CreateNPC("Sir Edmund Bloodsworth", "95/100").AddTraits(Traits.Creature.Doppelganger),
                     ctx.CreateNPC("High Master Illithid", "96/100").AddTraits(Traits.Creature.MindFlayer.Item1, Traits.Creature.MindFlayer.Item2),
@@ -333,8 +337,12 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Artifacts Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
-                ctx.CreateItem("Seal of Lost Arak", "12/100").AddDomains(ctx.InsideRavenloft);
-                ctx.CreateItem("Crystal of the Ebon Flame", "13/100").AddDomains(ctx.InsideRavenloft);
+                ctx.CreateItem("Seal of Lost Arak", "12/100").AddDomains(ctx.InsideRavenloft, ctx.CreateDomain("Arak", "12/100"));
+                ctx.CreateItem("Crystal of the Ebon Flame", "13/100").AddDomains(ctx.InsideRavenloft).AddTraits(Traits.CampaignSetting.Greyhawk);
+
+                ctx.CreateGroup("Darklord", "33/100");
+
+                ctx.InsideRavenloft.AddTraits(Traits.Creature.InvisibleStalker); //80/100
 
                 ctx.CreateNPC("Yagno Petrovna", "82/100").AddDomains(ctx.InsideRavenloft);
                 ctx.CreateDomain("Bluet Spur", "Bluetspur", "88/100");
@@ -398,10 +406,16 @@ internal static class AddToDatabase
 
                     ctx.CreateNPC("Pearl", "304/500"),
                     ctx.CreateNPC("Amber", "305/500"),
-                    ctx.CreateNPC("Aquamarina", "306/500"),
-
-                    ctx.CreateNPC("Ting Ling", "354/500"),
-
+                    ctx.CreateNPC("Aquamarina", "306/500")
+                ).AddTraits(
+                    Traits.Creature.Mummy, //352/500
+                    Traits.Creature.Ghoul //353/500
+                ).AddNPCs(
+                    ctx.CreateNPC("Ting Ling", "354/500")
+                ).AddLocations(
+                    ctx.CreateLocation("The Death Ship", "355/500")
+                //Traits.Creature.Mummy, //356/500
+                ).AddNPCs(
                     ctx.CreateNPC("Bride of Malice", "357/500").AddTraits(Traits.Creature.Vampire, Traits.Creature.Dragon),
                     ctx.CreateNPC("Vulture of the Core", "358/500").AddTraits(Traits.Creature.Vulture),
                     ctx.CreateNPC("The Bog Monster", "360/500")
@@ -441,6 +455,15 @@ internal static class AddToDatabase
                     ctx.CreateLocation("The Ruins of Lololia", "32/100")
                 ).AddItems(ctx.CreateItem("Borer", "61/100"));
             }
+            void AddInquisitionSet()
+            {
+                var releaseDate = "01/03/2001";
+                var AddedExtraInfo = ExtraInfo + Environment.NewLine + "This set was made by fans, but was still using Spellfire trademark.";
+                using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Inquisition Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
+                if (ctx == null) return;
+
+                ctx.CreateItem("Soth's Steed", "87/99").AddTraits(Traits.Creature.Horse).AddDomains(ctx.InsideRavenloft).AddNPCs(ctx.CreateNPC("Lord Soth", "87/99"));
+            }
             void AddMilleniumSet()
             {
                 var releaseDate = "01/03/2002";
@@ -448,7 +471,7 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Millenium Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
                 if (ctx == null) return;
 
-                ctx.CreateItem("Strahd's Medallion", "23/99").AddTraits(Traits.Creature.Vampire).AddDomains(ctx.InsideRavenloft);
+                ctx.CreateItem("Strahd's Medallion", "23/99").AddTraits(Traits.Creature.Vampire).AddDomains(ctx.InsideRavenloft).AddNPCs(ctx.CreateNPC("Count Strahd von Zarovich", "23/99"));
             }
             void AddConquestSet()
             {
@@ -460,6 +483,189 @@ internal static class AddToDatabase
                 ctx.CreateLocation("Castle Strahd", "Castle Ravenloft", "73/81").AddTraits(Traits.Creature.VampireBat).AddDomains(ctx.InsideRavenloft);
             }
         }
-        Factory.db.SaveChanges();
+        void AddTSRCollectorCards()
+        {
+            const string ExtraInfo = "Cards not listed are either not related to Ravenloft or too generic to add.";
+
+            Add1991Cards();
+            Add1992Cards();
+            Add1993Cards();
+
+            void Add1991Cards()
+            {
+                var releaseDate = "01/01/1991";
+                using var ctx = Factory.CreateSource("TSR Collector Cards, 1991 Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
+
+                var Darklord = ctx.CreateGroup("Darklord", "481-489/737, 611/737");
+
+                var CloakOfProtection = ctx.CreateItem("Cloak of Protection", "381/737, 489/737, 611/737, 680/737");
+
+                ctx.InsideRavenloft.AddNPCs(
+                    ctx.CreateNPC("Meredoth", "381/737").AddItems(
+                        ctx.CreateItem("Bracers of Defense", "381/737"),
+                        CloakOfProtection,
+                        ctx.CreateItem("Ring of Shooting Stars", "381/737"),
+                        ctx.CreateItem("Rod of Smiting", "381/737"),
+                        ctx.CreateItem("Staff of the Serpent", "381/737")
+                    ).AddTraits(Traits.Creature.Human, Traits.Alignment.CE)
+                ).AddTraits(
+                    Traits.Creature.GrimReaper, //382/737
+                    Traits.Creature.Werebat, //383/737
+                    Traits.Creature.Bussengeist //384/737
+                );
+
+                ctx.CreateNPC("Gabrielle Aderre", "481/737").AddDomains(
+                    ctx.CreateDomain("Invidia", "481/737")
+                ).AddGroups(
+                    ctx.CreateGroup("Vistani", "481/737"), Darklord
+                ).AddTraits(Traits.Creature.Human, Traits.Alignment.NE);
+
+                    ctx.CreateNPC("Azalin Rex", "482/737").AddDomains(
+                        ctx.CreateDomain("Darkon", "482/737")
+                    ).AddGroups(Darklord).AddTraits(Traits.Creature.Human, Traits.Creature.Lich, Traits.Alignment.LE);
+
+                    ctx.CreateNPC("Vlad Drakov", "483/737").AddDomains(
+                        ctx.CreateDomain("Falkovnia", "483/737")
+                    ).AddItems(
+                        ctx.CreateItem("Ring of Free Action", "483/737"),
+                        ctx.CreateItem("Rod of Flailing", "483/737"),
+                        ctx.CreateItem("Gauntlets of Ogre Power", "483/737")
+                    ).AddGroups(Darklord).AddTraits(Traits.Creature.Human, Traits.Alignment.NE, Traits.CampaignSetting.Dragonlance);
+
+                    ctx.CreateNPC("Lord Wilfred Godefroy", "484/737").AddDomains(
+                        ctx.CreateDomain("Mordent", "484/737")
+                    ).AddGroups(Darklord).AddTraits(Traits.Creature.Human, Traits.Creature.Ghost, Traits.Alignment.CE);
+
+                ctx.CreateNPC("Hazlik", "485/737").AddDomains(
+                    ctx.CreateDomain("Hazlan", "485/737")
+                ).AddGroups(
+                    ctx.CreateGroup("Red Wizard of Thay", "485/737").AddDomains(ctx.OutsideRavenloft).AddTraits(Traits.CampaignSetting.ForgottonRealms), Darklord
+                ).AddTraits(Traits.Creature.Human, Traits.Creature.Ghost, Traits.Alignment.CE, Traits.CampaignSetting.ForgottonRealms);
+
+                var Barovia = ctx.CreateDomain("Barovia", "486/737, 488/737, 489/737, 611/737");
+
+                    ctx.CreateNPC("Harkon Lukas", "486/737").AddDomains(
+                        ctx.CreateDomain("Kartakass", "486/737"), Barovia
+                    ).AddItems(
+                        ctx.CreateItem("Sword Cursed Berserker", "486/737"),
+                        ctx.CreateItem("Elixir of Madness", "486/737")
+                    ).AddGroups(
+                        Darklord
+                    ).AddTraits(Traits.Creature.Human, Traits.Creature.Wolfwere, Traits.Alignment.NE);
+
+                var Ludmilla = ctx.CreateNPC("Ludmilla", "487/737").AddTraits(Traits.Creature.Human).AddDomains(ctx.InsideRavenloft);
+                var FrantisekMarkov = ctx.CreateNPC("Frantisek Markov", "487/737").AddDomains(
+                    ctx.CreateDomain("Markovia", "487/737")
+                ).AddGroups(
+                    Darklord
+                ).AddTraits(Traits.Creature.Human, Traits.Alignment.LE, Traits.Creature.Pig);
+
+                ctx.CreateRelationship(FrantisekMarkov, "Husband", Ludmilla);
+                ctx.CreateRelationship(Ludmilla, "Wife", FrantisekMarkov);
+
+                var WorshipperOfZhakata = ctx.CreateGroup("Worshipper of Zhakata", "488/737");
+                var God = ctx.CreateGroup("God", "488/737");
+                var GHenna = ctx.CreateDomain("G'henna", "488/737");
+
+                ctx.CreateNPC("Zhakata", "488/737").AddGroups(WorshipperOfZhakata, God).AddDomains(GHenna);
+                ctx.CreateNPC("Yagno Petrovna", "488/737").AddDomains(
+                    GHenna, Barovia
+                ).AddGroups(
+                    Darklord, WorshipperOfZhakata
+                ).AddTraits(Traits.Creature.Human, Traits.Alignment.LE);
+
+                var Tatyana = ctx.CreateNPC("Tatyana", "489/737, 611/737").AddGroups(ctx.Deceased);
+                var Strahd = ctx.CreateNPC("Count Strahd von Zarovich", "489/737, 611/737").AddDomains(
+                    Barovia
+                ).AddItems(
+                    CloakOfProtection,
+                    ctx.CreateItem("Amulet of Proof against Detection and Location", "489/737, 611/737")
+                ).AddGroups(
+                    Darklord
+                ).AddTraits(Traits.Creature.Human, Traits.Creature.Vampire, Traits.Alignment.LE);
+
+                ctx.CreateRelationship(Strahd, "Loves", Tatyana);
+
+                ctx.CreateNPC("Eleazer Clyde", "680/737").AddItems(
+                    ctx.CreateItem("Ring of Spell Storing", "680/737"),
+                    ctx.CreateItem("Staff of Thunder and Lightning", "680/737"),
+                    CloakOfProtection,
+                    ctx.CreateItem("Talisman of Ultimate Evil", "680/737")
+                ).AddTraits(Traits.Creature.Vampire, Traits.Creature.Human, Traits.Alignment.LE).AddDomains(ctx.InsideRavenloft);
+
+
+                var Kitiara = ctx.CreateNPC("Kitiara", "710/737").AddDomains(ctx.OutsideRavenloft);
+                var LordSoth = ctx.CreateNPC("Lord Soth", "710/737").AddTraits(
+                    Traits.Creature.DeathKnight, Traits.Creature.Human, Traits.Alignment.CE, Traits.CampaignSetting.Dragonlance
+                ).AddDomains(ctx.InsideRavenloft).AddGroups(
+                    ctx.CreateGroup("Knights of Solamnia", "710/737").AddDomains(ctx.OutsideRavenloft).AddTraits(Traits.CampaignSetting.Dragonlance),
+                    ctx.CreateGroup("Knights of the Rose", "710/737").AddDomains(ctx.OutsideRavenloft).AddTraits(Traits.CampaignSetting.Dragonlance)
+                );
+
+                ctx.CreateRelationship(LordSoth, "Desires", Kitiara);
+
+                var Tlaan = ctx.CreateNPC("T'Laan", "723/737").AddTraits(Traits.Alignment.CE, Traits.Creature.Vampire, Traits.CampaignSetting.Spelljammer).AddDomains(ctx.InsideRavenloft);
+            }
+            void Add1992Cards()
+            {
+                var releaseDate = "01/01/1992";
+                using var ctx = Factory.CreateSource("TSR Collector Cards, 1992 Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
+
+                var TarlVanovitch = ctx.CreateNPC("Tarl Vanovitch", "23/750").AddDomains(ctx.InsideRavenloft);
+                ctx.CreateItem("Tarl Vanovitch's Sun Blade", "23/750").AddDomains(ctx.InsideRavenloft).AddNPCs(TarlVanovitch).AddTraits(Traits.Alignment.NG, Traits.Creature.Vampire);
+
+                var QuebeHauntedMansion = ctx.CreateLocation("Quebe's Haunted Mansion", "51/750").AddDomains(ctx.InsideRavenloft).AddTraits(Traits.Creature.Ghoul, Traits.Creature.Vampire, Traits.Creature.Snake);
+
+                ctx.InsideRavenloft.AddTraits(Traits.Creature.LivingWall); //53/750
+
+                ctx.CreateNPC("Hoelgar Arnutsson", "61/750").AddDomains(ctx.InsideRavenloft)
+                    .AddItems(ctx.CreateItem("Dragonslayer", "61/750"))
+                    .AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.GoldDragon);
+
+                var BracersOfDefence = ctx.CreateItem("Bracers of Defence", "68/750, 86/750");
+                ctx.CreateNPC("Rafe Willowand", "68/750").AddDomains(ctx.InsideRavenloft)
+                    .AddItems(
+                        ctx.CreateItem("Brooch of Protection from Magic Missile", "68/750"),
+                        BracersOfDefence
+                    ).AddTraits(Traits.Alignment.CN, Traits.Creature.HalfElf);
+
+                var Darkon = ctx.CreateDomain("Darkon", "86/750, 149/750, 151/750, 199/750, 326/750");
+                var MarionRobinsdottir = ctx.CreateNPC("Marion Robinsdottir", "86/750, 149/750").AddDomains(Darkon)
+                    .AddItems(
+                        BracersOfDefence,
+                        ctx.CreateItem("Incense of Meditation", "86/750"),
+                        ctx.CreateItem("Ring of Free Action", "86/750")
+                    ).AddTraits(Traits.Alignment.CG, Traits.Creature.Human, Traits.Creature.Zombie);
+
+                ctx.CreateNPC("Symbuk Torul", "90/750").AddDomains(ctx.CreateDomain("Falkovnia", "90/750"))
+                    .AddItems(
+                        ctx.CreateItem("Armor of Blending", "90/750"),
+                        ctx.CreateItem("Earring Set with Periapt of Wound Closure", "90/750")
+                    ).AddTraits(Traits.Alignment.TN, Traits.Creature.Human, Traits.Creature.Tiger);
+
+                ctx.CreateItem("Marion Robinsdottir's Robe of Blending", "86/750, 149/750")
+                    .AddNPCs(MarionRobinsdottir).AddDomains(Darkon);
+
+                var AzalinRex = ctx.CreateNPC("Azalin Rex", "151/750").AddDomains(Darkon);
+                var ScarabOfDeath = ctx.CreateItem("Mazrikoth's Scarab of Death", "151/750")
+                    .AddNPCs(AzalinRex).AddDomains(Darkon);
+
+                ctx.CreateNPC("Alanik Ray", "199/750").AddTraits(Traits.Creature.Elf, Traits.Alignment.LN)
+                    .AddDomains(Darkon);
+
+                ctx.CreateNPC("Dorotha Kenig", "200/750").AddTraits(Traits.Creature.HalfElf, Traits.Alignment.LG)
+                    .AddDomains(Darkon).AddLocations(ctx.CreateLocation("Viaka", "Viaki", "200/750").AddDomains(Darkon).AddTraits(Traits.Location.Settlement));
+
+                ctx.CreateNPC("Mazrikoth", "326/750").AddItems(ScarabOfDeath).AddDomains(Darkon); ;
+            }
+            void Add1993Cards()
+            {
+                var releaseDate = "01/01/1993";
+                using var ctx = Factory.CreateSource("TSR Collector Cards, 1993 Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
+                if (ctx == null) return;
+            }
+        }
     }
 }

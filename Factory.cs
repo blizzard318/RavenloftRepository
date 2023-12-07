@@ -54,39 +54,42 @@ internal class Factory : IDisposable
 
     public void Dispose () //There is a chance I miss stuff out if its nested more than one layer. So try not to nest more than one layer.
     {
-        foreach (var domain in domains)
+        for (int i = 0; i < 2; i++)
         {
-            foreach (var entity in domain.Locations)
+            foreach (var domain in domains)
             {
-                domain.NPCs.UnionWith(entity.NPCs);
-                domain.Items.UnionWith(entity.Items);
-                domain.Groups.UnionWith(entity.Groups);
-                //domain.Locations.UnionWith(entity.Locations);
-                domain.Traits.UnionWith(entity.Traits);
-            }
-            foreach (var entity in domain.Items)
-            {
-                domain.NPCs.UnionWith(entity.NPCs);
-                //domain.Items.UnionWith(entity.Items);
-                domain.Groups.UnionWith(entity.Groups);
-                domain.Locations.UnionWith(entity.Locations);
-                domain.Traits.UnionWith(entity.Traits);
-            }
-            foreach (var entity in domain.Groups)
-            {
-                domain.NPCs.UnionWith(entity.NPCs);
-                domain.Items.UnionWith(entity.Items);
-                //domain.Groups.UnionWith(entity.Groups);
-                domain.Locations.UnionWith(entity.Locations);
-                domain.Traits.UnionWith(entity.Traits);
-            }
-            foreach (var entity in domain.NPCs)
-            {
-                //domain.NPCs.UnionWith(entity.NPCs);
-                domain.Items.UnionWith(entity.Items);
-                domain.Groups.UnionWith(entity.Groups);
-                domain.Locations.UnionWith(entity.Locations);
-                domain.Traits.UnionWith(entity.Traits);
+                foreach (var entity in domain.Locations)
+                {
+                    domain.NPCs.UnionWith(entity.NPCs);
+                    domain.Items.UnionWith(entity.Items);
+                    domain.Groups.UnionWith(entity.Groups);
+                    //domain.Locations.UnionWith(entity.Locations);
+                    domain.Traits.UnionWith(entity.Traits);
+                }
+                foreach (var entity in domain.Items)
+                {
+                    domain.NPCs.UnionWith(entity.NPCs);
+                    //domain.Items.UnionWith(entity.Items);
+                    domain.Groups.UnionWith(entity.Groups);
+                    domain.Locations.UnionWith(entity.Locations);
+                    domain.Traits.UnionWith(entity.Traits);
+                }
+                foreach (var entity in domain.Groups)
+                {
+                    domain.NPCs.UnionWith(entity.NPCs);
+                    domain.Items.UnionWith(entity.Items);
+                    //domain.Groups.UnionWith(entity.Groups);
+                    domain.Locations.UnionWith(entity.Locations);
+                    domain.Traits.UnionWith(entity.Traits);
+                }
+                foreach (var entity in domain.NPCs)
+                {
+                    //domain.NPCs.UnionWith(entity.NPCs);
+                    domain.Items.UnionWith(entity.Items);
+                    domain.Groups.UnionWith(entity.Groups);
+                    domain.Locations.UnionWith(entity.Locations);
+                    domain.Traits.UnionWith(entity.Traits);
+                }
             }
         }
     }
