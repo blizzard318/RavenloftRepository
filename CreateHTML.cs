@@ -775,7 +775,7 @@ internal static class CreateHTML
                     ItemsPerDomain[domain.OriginalName].Add(item.OriginalName);
                 }
 
-                var StatusTraits = item.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
+                var StatusTraits = item.Traits.Where(c => c.Groups.Count > 0).ToList();
                 foreach (var statusTrait in StatusTraits)
                 {
                     ItemsPerGroup.TryAdd(statusTrait.Key, new HashSet<string>());
@@ -829,7 +829,7 @@ internal static class CreateHTML
         CreateItemPages();
     }
 
-    public static void CreateGroupPage()
+    public static void CreateGroupPage() //Fix this some day
     {
         CreateOfficialHeader("Groups/Titles of Ravenloft", 1);
 

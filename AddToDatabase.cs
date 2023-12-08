@@ -813,8 +813,8 @@ internal static class AddToDatabase
                 Viaki.AddNPCs(DorothaKenig);
 
                 var Deity = ctx.CreateGroup("Deity", "262/750");
-                var ReligionOfLathander = ctx.CreateGroup("Religion of Lathander", "262/750");
-                var Lathander = ctx.CreateNPC("Lathander", "262/750");
+                var ReligionOfLathander = ctx.CreateGroup("Religion of Lathander", "262/750").AddTraits(Traits.CampaignSetting.ForgottonRealms);
+                var Lathander = ctx.CreateNPC("Lathander", "262/750").AddTraits(Traits.CampaignSetting.ForgottonRealms);
                 Deity.AddNPCs(Lathander);
                 ctx.InsideRavenloft.AddGroups(Deity, ReligionOfLathander);
                 ctx.OutsideRavenloft.AddNPCs(Lathander);
@@ -1166,7 +1166,7 @@ internal static class AddToDatabase
                 var Tyr = ctx.CreateNPC("Tyr", "319/495").AddTraits(Traits.CampaignSetting.ForgottonRealms);
                 ctx.OutsideRavenloft.AddNPCs(Tyr);
                 var Deity = ctx.CreateGroup("Deity", "319/495");
-                var ReligionOfTyr = ctx.CreateGroup("Religion of Tyr", "319/495");
+                var ReligionOfTyr = ctx.CreateGroup("Religion of Tyr", "319/495").AddTraits(Traits.CampaignSetting.ForgottonRealms);
                 Tyr.AddGroups(Deity, ReligionOfTyr);
                 var Latislav = ctx.CreateNPC("Latislav of Darkon", "319/495").AddTraits(Traits.Creature.Human, Traits.Alignment.LG, Traits.CampaignSetting.ForgottonRealms);
                 ReligionOfTyr.AddNPCs(Latislav);
@@ -1192,9 +1192,9 @@ internal static class AddToDatabase
                 JurgenVastish.AddItems(BlessedBolt);
                 Markovia.AddItems(BlessedBolt);
 
-                var WeeJas = ctx.CreateNPC("Wee Jas", "373/495");
+                var WeeJas = ctx.CreateNPC("Wee Jas", "373/495").AddTraits(Traits.CampaignSetting.Greyhawk);
                 ctx.OutsideRavenloft.AddNPCs(WeeJas);
-                var ReligionOfWeeJas = ctx.CreateGroup("Religion of Wee Jas", "373/495");
+                var ReligionOfWeeJas = ctx.CreateGroup("Religion of Wee Jas", "373/495").AddTraits(Traits.CampaignSetting.Greyhawk);
                 WeeJas.AddGroups(Deity, ReligionOfWeeJas);
                 var Vashtar = ctx.CreateNPC("Vashtar", "373/495").AddTraits(Traits.Creature.Human, Traits.Alignment.LE, Traits.CampaignSetting.Greyhawk);
                 ReligionOfWeeJas.AddNPCs(Vashtar);
@@ -1241,8 +1241,45 @@ internal static class AddToDatabase
                 using var ctx = Factory.CreateSource("TSR Collector Cards, 1993 GenCon Promo Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
                 if (ctx == null) return;
 
+                var Milil = ctx.CreateNPC("Milil", "10/60");
+                ctx.OutsideRavenloft.AddNPCs(Milil);
+                var Deity = ctx.CreateGroup("Deity", "10/60");
+                var ReligionOfMilil = ctx.CreateGroup("Religion of Milil", "10/60").AddTraits(Traits.CampaignSetting.ForgottonRealms);
+                Milil.AddGroups(Deity, ReligionOfMilil);
+                var Kartakass = ctx.CreateDomain("Kartkass","10/60");
+                var ChurchOfMilil = ctx.CreateLocation("Church of Milil", "10/60").AddTraits(Traits.Settlement.Harmonia);
+                ChurchOfMilil.AddNPCs(Milil);
+                ChurchOfMilil.AddGroups(ReligionOfMilil);
+                Kartakass.AddGroups(ReligionOfMilil);
+                var Harmonia = ctx.CreateLocation("Harmonia", "10/60").AddTraits(Traits.Location.Settlement, Traits.Settlement.Harmonia);
+                var MeistersingerMansion = ctx.CreateLocation("Meistersinger Mansion", "10/60").AddTraits(Traits.Settlement.Harmonia);
+                Kartakass.AddLocations(ChurchOfMilil, Harmonia, MeistersingerMansion);
                 var Casimiar = ctx.CreateNPC("Meistersinger Casimiar of Harmonia", "10/60").AddTraits(Traits.Creature.Human, Traits.Creature.Wolfwere, Traits.Alignment.NE);
-                var ChurchOfMili
+                Kartakass.AddNPCs(Casimiar);
+                Casimiar.AddLocations(ChurchOfMilil, Harmonia, MeistersingerMansion);
+
+                var Sithicus = ctx.CreateDomain("Sithicus", "13/60");
+                var LordSoth = ctx.CreateNPC("Lord Soth", "13/60").AddTraits(Traits.Creature.DeathKnight, Traits.Alignment.CE, Traits.CampaignSetting.Dragonlance);
+                Sithicus.AddNPCs(LordSoth);
+                var Darklord = ctx.CreateGroup("Darklord", "13/60");
+                Darklord.AddNPCs(LordSoth);
+                ctx.CreateDarklordGroup(Sithicus, LordSoth);
+                ctx.InsideRavenloft.AddNPCs(ctx.CreateNPC("Count Strahd von Zarovich", "13/60"));
+
+                var Bluetspur = ctx.CreateDomain("Bluetspur", "15/60");
+                var HighMaster = ctx.CreateNPC("High Master Illithid", "15/60").AddTraits(Traits.Creature.Illithid.Item1, Traits.Creature.Illithid.Item2, Traits.Alignment.LE, Traits.Creature.Vampire);
+                Bluetspur.AddNPCs(HighMaster);
+                var Apparatus = ctx.CreateItem("Apparatus", "15/60");
+                Bluetspur.AddItems(Apparatus);
+                HighMaster.AddItems(Apparatus);
+
+                var Jaraq = ctx.CreateNPC("Jaraq the Deceiver", "18/60").AddTraits(Traits.Creature.HalfElf, Traits.Alignment.CE, Traits.Creature.Vampire);
+                ctx.InsideRavenloft.AddNPCs(Jaraq);
+                var RingOfSpellStore = ctx.CreateItem("Ring of Spell Storing", "18/60");
+                var LensOfSpeedRead = ctx.CreateItem("Lens of SpeedReading", "18/60");
+                var DeckOfIllusions = ctx.CreateItem("Deck of Illusions", "18/60");
+                Jaraq.AddItems(RingOfSpellStore, LensOfSpeedRead, DeckOfIllusions);
+                ctx.InsideRavenloft.AddItems(RingOfSpellStore, LensOfSpeedRead, DeckOfIllusions);
             }
         }
     }

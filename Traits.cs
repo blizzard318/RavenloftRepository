@@ -146,6 +146,7 @@ internal static class Traits
         public static Trait Viaki = CreateSettlement("Viaki");
         public static Trait IlAluk = CreateSettlement("Il Aluk");
         public static Trait Nartok = CreateSettlement("Nartok");
+        public static Trait Harmonia = CreateSettlement("Harmonia");
     }
 
     internal static class Mistway //Everything here has to use Location.Mistway.Key
