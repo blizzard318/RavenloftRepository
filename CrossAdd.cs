@@ -32,13 +32,13 @@
             throw new NotImplementedException();
         }
     }
-    public static T AddTraits   <T>(this T entity, params Trait   [] array) where T : UseVariableName                => entity.Add(array);
-    public static T AddLocations<T>(this T entity, params Location[] array) where T : UseVariableName, IHasLocations => entity.Add(array);
-    public static T AddDomains  <T>(this T entity, params Domain  [] array) where T : UseVariableName, IHasDomains   => entity.Add(array);
-    public static T AddNPCs     <T>(this T entity, params NPC     [] array) where T : UseVariableName, IHasNPCs      => entity.Add(array);
-    public static T AddItems    <T>(this T entity, params Item    [] array) where T : UseVariableName, IHasItems     => entity.Add(array);
-    public static T AddGroups   <T>(this T entity, params Group   [] array) where T : UseVariableName, IHasGroups    => entity.Add(array);
-    public static T AddInfo     <T>(this T entity, string info) where T : UseName
+    public static T    AddTraits   <T>(this T entity, params Trait   [] array) where T : UseVariableName                => entity.Add(array);
+    public static void AddLocations<T>(this T entity, params Location[] array) where T : UseVariableName, IHasLocations => entity.Add(array);
+    public static void AddDomains  <T>(this T entity, params Domain  [] array) where T : UseVariableName, IHasDomains   => entity.Add(array);
+    public static void AddNPCs     <T>(this T entity, params NPC     [] array) where T : UseVariableName, IHasNPCs      => entity.Add(array);
+    public static void AddItems    <T>(this T entity, params Item    [] array) where T : UseVariableName, IHasItems     => entity.Add(array);
+    public static void AddGroups   <T>(this T entity, params Group   [] array) where T : UseVariableName, IHasGroups    => entity.Add(array);
+    public static T    AddInfo     <T>(this T entity, string info) where T : UseName
     {
         entity.ExtraInfo += info;
         return entity;

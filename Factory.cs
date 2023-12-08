@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 internal class Factory : IDisposable
 {
     #region PREGENERATED DATA
-    public const string OutsideRavenloftOriginalName = "Outside Ravenloft", InsideRavenloftOriginalName = "Inside Ravenloft", DeceasedOriginalName = "Deceased";
+    public const string OutsideRavenloftOriginalName = "Outside Ravenloft", InsideRavenloftOriginalName = "Inside Ravenloft";
 
     private Domain _OutsideRavenloft, _InsideRavenloft;
     public Domain OutsideRavenloft
@@ -33,6 +33,8 @@ internal class Factory : IDisposable
             return _InsideRavenloft;
         }
     }
+
+    public const string DeceasedOriginalName = "Deceased";
     private Group _Deceased;
     public Group Deceased
     {
@@ -46,51 +48,30 @@ internal class Factory : IDisposable
             return _Deceased;
         }
     }
+    public const string DarklordGroupPrefix = "Darklords of ";
+    public void CreateDarklordGroup(Domain domain, params NPC[] darklords)
+    {
+        var darklordgroup = CreateGroup(DarklordGroupPrefix + domain.OriginalName);
+        if (darklords.Length > 0)
+        {
+            domain.AddNPCs(darklords);
+            darklordgroup.AddNPCs(darklords);
+        }
+    }
     #endregion
 
     public readonly static RavenloftContext db = new RavenloftContext();
     private readonly Source Source;
     private readonly List<Domain> domains = new(); //For trait distribution
 
-    public void Dispose () //There is a chance I miss stuff out if its nested more than one layer. So try not to nest more than one layer.
+    public void Dispose () //There is a chance I miss stuff out if its nested more than one layer.
     {
-        for (int i = 0; i < 2; i++)
+        foreach (var domain in domains)
         {
-            foreach (var domain in domains)
-            {
-                foreach (var entity in domain.Locations)
-                {
-                    domain.NPCs.UnionWith(entity.NPCs);
-                    domain.Items.UnionWith(entity.Items);
-                    domain.Groups.UnionWith(entity.Groups);
-                    //domain.Locations.UnionWith(entity.Locations);
-                    domain.Traits.UnionWith(entity.Traits);
-                }
-                foreach (var entity in domain.Items)
-                {
-                    domain.NPCs.UnionWith(entity.NPCs);
-                    //domain.Items.UnionWith(entity.Items);
-                    domain.Groups.UnionWith(entity.Groups);
-                    domain.Locations.UnionWith(entity.Locations);
-                    domain.Traits.UnionWith(entity.Traits);
-                }
-                foreach (var entity in domain.Groups)
-                {
-                    domain.NPCs.UnionWith(entity.NPCs);
-                    domain.Items.UnionWith(entity.Items);
-                    //domain.Groups.UnionWith(entity.Groups);
-                    domain.Locations.UnionWith(entity.Locations);
-                    domain.Traits.UnionWith(entity.Traits);
-                }
-                foreach (var entity in domain.NPCs)
-                {
-                    //domain.NPCs.UnionWith(entity.NPCs);
-                    domain.Items.UnionWith(entity.Items);
-                    domain.Groups.UnionWith(entity.Groups);
-                    domain.Locations.UnionWith(entity.Locations);
-                    domain.Traits.UnionWith(entity.Traits);
-                }
-            }
+            foreach (var entity in domain.Locations) domain.Traits.UnionWith(entity.Traits);
+            foreach (var entity in domain.NPCs) domain.Traits.UnionWith(entity.Traits);
+            foreach (var entity in domain.Groups) domain.Traits.UnionWith(entity.Traits);
+            foreach (var entity in domain.Items) domain.Traits.UnionWith(entity.Traits);
         }
     }
     public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
