@@ -1,9 +1,8 @@
-﻿using static Source;
-
-internal static class Traits
+﻿internal static class Traits
 {
     //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
+    public static Trait Deceased = Factory.CreateTrait("Deceased", "Deceased");
 
     #region Universal Traits
     private static Source.Trait Add(this List<Source.Trait> traits, string name, string TraitType)
@@ -81,7 +80,7 @@ internal static class Traits
         public static List<Trait> traits = new List<Trait>();
         private static Trait CreateLocation(string name) => traits.Add(name, nameof(Location));
         public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
-        public static Trait Settlement = CreateLocation(nameof(Traits.Settlement));
+        public static Trait Settlement = CreateLocation("Settlment"              );
         public static Trait Darklord   = CreateLocation("Darklord"               );
     }
     internal static class Item 
@@ -90,29 +89,6 @@ internal static class Traits
         private static Trait CreateLocation(string name) => traits.Add(name, nameof(Item));
         public static Trait Vistani = CreateLocation("Vistani");
     }
-
-    /*internal static class Status //Includes Groups
-    {
-        public static List<Trait> traits = new List<Trait>();
-        static Status ()
-        {
-            Darklord.ExtraInfo = "Locations tagged as Darklord are their Lairs.";
-            traits.Add(Darklord);
-            traits.Add(Vistani);
-        }
-        private static Trait CreateStatus(string name) => traits.Add(name, nameof(Status));
-        public static Trait Vistani  = Factory.CreateTrait("Vistani" , nameof(Status), nameof(Item));
-        public static Trait Darklord = Factory.CreateTrait("Darklord", nameof(Status), nameof(Location));
-
-        public static Trait Deceased = CreateStatus("Deceased");
-        public static Trait Tatyana = CreateStatus("Reincarnations of Tatyana");
-        public static Trait BarovianWineDistillersBrotherhood = CreateStatus("Barovian Wine Distillers Brotherhood");
-        public static Trait TheKargat = CreateStatus("The Kargat");
-        public static Trait DarkPowers = CreateStatus("The Dark Powers");
-
-        public static (Trait, Trait) Raunie = (CreateStatus("Raunie"), Vistani);
-        public static (Trait, Trait) HagsOfTepest = (CreateStatus("Hags of Tepest"), Creature.Hag);
-    }*/
 
     internal static class Alignment //Don't create a page for this.
     {
@@ -135,18 +111,6 @@ internal static class Traits
         public static List<Trait> traits = new List<Trait>();
         private static Trait CreateLanguage(string name) => traits.Add(name, nameof(Language));
         public static Trait Common = CreateLanguage("Common");
-    }
-
-    internal static class Settlement //Everything here has to use Location.Settlement.Key
-    {
-        public static List<Trait> traits = new List<Trait>();
-        private static Trait CreateSettlement(string name) => traits.Add(name, nameof(Settlement));
-        public static Trait VillageOfBarovia   = CreateSettlement("Village of Barovia"  );
-        public static Trait TserPoolEncampment = CreateSettlement("Tser Pool Encampment");
-        public static Trait Viaki = CreateSettlement("Viaki");
-        public static Trait IlAluk = CreateSettlement("Il Aluk");
-        public static Trait Nartok = CreateSettlement("Nartok");
-        public static Trait Harmonia = CreateSettlement("Harmonia");
     }
 
     internal static class Mistway //Everything here has to use Location.Mistway.Key

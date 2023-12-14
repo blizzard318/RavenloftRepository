@@ -34,27 +34,15 @@ internal class Factory : IDisposable
         }
     }
 
-    public const string DeceasedOriginalName = "Deceased";
-    private Group _Deceased;
-    public Group Deceased
-    {
-        get
-        {
-            if (_Deceased == null)
-            {
-                _Deceased = CreateGroup(DeceasedOriginalName, string.Empty);
-                _Deceased.ExtraInfo = "It's not really a group but its easier to filter characters if I treat it as one";
-            }
-            return _Deceased;
-        }
-    }
-    public const string DarklordGroupPrefix = "Darklords of ";
+    public Group Darklords;
     public void CreateDarklordGroup(Domain domain, params NPC[] darklords)
     {
-        var darklordgroup = CreateGroup(DarklordGroupPrefix + domain.OriginalName);
+        var darklordgroup = CreateGroup("Darklord(s) of " + domain.OriginalName);
+        domain.AddGroups(Darklords, darklordgroup);
         if (darklords.Length > 0)
         {
             domain.AddNPCs(darklords);
+            Darklords.AddNPCs(darklords);
             darklordgroup.AddNPCs(darklords);
         }
     }

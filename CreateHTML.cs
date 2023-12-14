@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NUglify;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -152,7 +153,6 @@ internal static class CreateHTML
         sb.AppendLine("</h2><hr />");
 
         sb.AppendLine("<h2>");
-        sb.Append("<a href='").Append(db).Append("Source'>Sources</a> | ");
         sb.Append("<a href='").Append(db).Append("Domain'>Domains</a> | ");
         sb.Append("<a href='").Append(db).Append("Location'>Locations</a> | ");
         sb.Append("<a href='").Append(db).Append("Character'>Characters</a> | ");
@@ -160,10 +160,13 @@ internal static class CreateHTML
         sb.Append("<a href='").Append(db).Append("Group'>Groups</a>");
 
         sb.AppendLine("<br/>");
-
         sb.Append("<a href='").Append(db).Append("Creature'>Creatures</a> | ");
         sb.Append("<a href='").Append(db).Append("Setting'>Campaign Settings</a> | ");
         sb.Append("<a href='").Append(db).Append("Language'>Languages</a>");
+
+        sb.AppendLine("<br/>");
+        sb.Append("<a href='").Append(db).Append("Source'>Sources</a>");
+
         sb.AppendLine("</h2><hr />");
     }
     private static void SaveHTML(params string[] DirectoryNames)
@@ -509,35 +512,28 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
-            //Key is domain, entries are all location names
-            var LocationsPerDomain   = new Dictionary<string, HashSet<string>>();
-            var SettlementsPerDomain = new Dictionary<string, HashSet<string>>();
-
-            var AllLocations = Factory.db.Locations.Include(s => s.Domains).Include(s => s.Traits);
-            var DomainlessLocations = new HashSet<string>(); //Catch stragglers
-            var DomainedLocations = new HashSet<string>(); //Catch stragglers
-            foreach (var location in AllLocations)
-            {
-                if (location.Domains.Count == 0) DomainlessLocations.Add(location.OriginalName);
-                else DomainedLocations.Add(location.OriginalName);
-                
-                foreach (var domain in location.Domains)
-                {
-                    LocationsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                    LocationsPerDomain[domain.OriginalName].Add(location.OriginalName);
-
-                    if (location.Traits.Contains(Traits.Location.Settlement))
-                    {
-                        SettlementsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                        SettlementsPerDomain[domain.OriginalName].Add(location.OriginalName);
-                    }
-                }
-            }
-            //Filter out all locations that eventually have domains.
-            DomainlessLocations = DomainlessLocations.Except(DomainedLocations).ToHashSet();
-
             using (var AllPage = subheader.CreatePage("Domains"))
             {
+                //Key is domain, entries are all location names
+                var LocationsPerDomain = new Dictionary<string, HashSet<string>>();
+
+                var AllLocations = Factory.db.Locations.Include(s => s.Domains).Include(s => s.Traits);
+                var DomainlessLocations = new HashSet<string>(); //Catch stragglers
+                var DomainedLocations = new HashSet<string>(); //Catch stragglers
+                foreach (var location in AllLocations)
+                {
+                    if (location.Domains.Count == 0) DomainlessLocations.Add(location.OriginalName);
+                    else DomainedLocations.Add(location.OriginalName);
+
+                    foreach (var domain in location.Domains)
+                    {
+                        LocationsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                        LocationsPerDomain[domain.OriginalName].Add(location.OriginalName);
+                    }
+                }
+                //Filter out all locations that eventually have domains.
+                DomainlessLocations = DomainlessLocations.Except(DomainedLocations).ToHashSet();
+
                 var Inside = LocationsPerDomain.TryGetValue(Factory.InsideRavenloftOriginalName, out var UnknownDomainLocations);
                 if (Inside) LocationsPerDomain.Remove(Factory.InsideRavenloftOriginalName); //Last table
                 var Outside = LocationsPerDomain.TryGetValue(Factory.OutsideRavenloftOriginalName, out var OutsideRavenloftLocations);
@@ -560,6 +556,24 @@ internal static class CreateHTML
 
             using (var SettlementPage = subheader.CreatePage("Settlements"))
             {
+                var SettlementsPerDomain = new Dictionary<string, HashSet<string>>();
+                var AllSettlements = Factory.db.Groups.Where(s => s.Traits.Contains(Traits.Location.Settlement)).Include(s => s.Domains);
+                var DomainlessSettlements = new HashSet<string>(); //Catch stragglers
+                var DomainedSettlements = new HashSet<string>(); //Catch stragglers
+                foreach (var settlement in AllSettlements)
+                {
+                    if (settlement.Domains.Count == 0) DomainlessSettlements.Add(settlement.OriginalName);
+                    else DomainlessSettlements.Add(settlement.OriginalName);
+
+                    foreach (var domain in settlement.Domains)
+                    {
+                        SettlementsPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                        SettlementsPerDomain[domain.OriginalName].Add(settlement.OriginalName);
+                    }
+                }
+                //Filter out all settlements that eventually have domains.
+                DomainlessSettlements = DomainlessSettlements.Except(DomainedSettlements).ToHashSet();
+
                 var Inside = SettlementsPerDomain.TryGetValue(Factory.InsideRavenloftOriginalName, out var UnknownDomainSettlements);
                 if (Inside) SettlementsPerDomain.Remove(Factory.InsideRavenloftOriginalName); //Last table
                 var Outside = SettlementsPerDomain.TryGetValue(Factory.OutsideRavenloftOriginalName, out var OutsideRavenloftSettlements);
@@ -568,11 +582,11 @@ internal static class CreateHTML
                 var Keys = SettlementsPerDomain.Keys.ToList();
                 Keys.Sort();
                 foreach (var DomainNames in Keys) 
-                    SettlementPage.SetTable<Location>($"Settlements of {DomainNames}", null, SettlementsPerDomain[DomainNames]);
+                    SettlementPage.SetTable<Group>($"Settlements of {DomainNames}", null, SettlementsPerDomain[DomainNames]);
                 if (Inside)
-                    SettlementPage.SetTable<Location>($"Settlements {InsideRavenloftLink}", "The domain of the settlement is unknown.", UnknownDomainSettlements);
+                    SettlementPage.SetTable<Group>($"Settlements {InsideRavenloftLink}", "The domain of the settlement is unknown.", UnknownDomainSettlements);
                 if (Outside)
-                    SettlementPage.SetTable<Location>($"Settlements {OutsideRavenloftLink}", "This place is related to Ravenloft somehow.", OutsideRavenloftSettlements);
+                    SettlementPage.SetTable<Group>($"Settlements {OutsideRavenloftLink}", "This place is related to Ravenloft somehow.", OutsideRavenloftSettlements);
             }
 
             using (var LairPage = subheader.CreatePage("Darklord Lairs"))
@@ -835,24 +849,22 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
-            var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits);
+            var AllCharacters = Factory.db.NPCs.Include(s => s.Groups).Include(s => s.Domains);
             var GroupMembersPerDomain = new Dictionary<string, Dictionary<string, HashSet<string>>>(); //Domain <Group, Members>
             var GroupMembersPerGroup = new Dictionary<string, HashSet<string>>(); //From all domains
             foreach (var character in AllCharacters)
             {
-                var StatusTraits = character.Traits.Where(c => c.Type.Contains(nameof(Traits.Status))).ToList();
-                StatusTraits.Remove(Traits.Status.Deceased); //I don't see a point tracking the dead.
-                foreach (var statusTrait in StatusTraits)
+                foreach (var group in character.Groups)
                 {
-                    GroupMembersPerGroup.TryAdd(statusTrait.Key, new HashSet<string>());
-                    GroupMembersPerGroup[statusTrait.Key].Add(character.OriginalName);
+                    GroupMembersPerGroup.TryAdd(group.OriginalName, new HashSet<string>());
+                    GroupMembersPerGroup[group.OriginalName].Add(character.OriginalName);
 
                     foreach (var domain in character.Domains)
                     {
                         if (domain.OriginalName == Factory.InsideRavenloftOriginalName || domain.OriginalName == Factory.OutsideRavenloftOriginalName) continue;
                         GroupMembersPerDomain.TryAdd(domain.OriginalName, new Dictionary<string, HashSet<string>>());
-                        GroupMembersPerDomain[domain.OriginalName].TryAdd(statusTrait.Key, new HashSet<string>());
-                        GroupMembersPerDomain[domain.OriginalName][statusTrait.Key].Add(character.OriginalName);
+                        GroupMembersPerDomain[domain.OriginalName].TryAdd(group.OriginalName, new HashSet<string>());
+                        GroupMembersPerDomain[domain.OriginalName][group.OriginalName].Add(character.OriginalName);
                     }
                 }
             }
