@@ -22,7 +22,7 @@
         }
         static HashSet<U>? GetSetFromEntity (T entity) 
         {
-            var type = typeof(T);
+            var type = typeof(U);
             if (type == typeof(Trait   )) return                 entity .Traits    as HashSet<U>;
             if (type == typeof(Location)) return ((IHasLocations)entity).Locations as HashSet<U>;
             if (type == typeof(Domain  )) return ((IHasDomains  )entity).Domains   as HashSet<U>;

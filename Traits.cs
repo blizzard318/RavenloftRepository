@@ -3,6 +3,7 @@
     //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
     public static Trait Deceased = Factory.CreateTrait("Deceased", "Deceased");
+    public static Trait Deity = Factory.CreateTrait("Deity", "Deity");
 
     #region Universal Traits
     private static Source.Trait Add(this List<Source.Trait> traits, string name, string TraitType)
@@ -79,9 +80,10 @@
     {
         public static List<Trait> traits = new List<Trait>();
         private static Trait CreateLocation(string name) => traits.Add(name, nameof(Location));
-        public static Trait Mistway    = CreateLocation(nameof(Traits.Mistway   )); //Subject to removal?
-        public static Trait Settlement = CreateLocation("Settlment"              );
-        public static Trait Darklord   = CreateLocation("Darklord"               );
+        public static Trait Mistway    = CreateLocation("Mistway"  );
+        public static Trait Cluster    = CreateLocation("Cluster"  );
+        public static Trait Settlement = CreateLocation("Settlment");
+        public static Trait Darklord   = CreateLocation("Darklord" );
     }
     internal static class Item 
     {
@@ -111,18 +113,6 @@
         public static List<Trait> traits = new List<Trait>();
         private static Trait CreateLanguage(string name) => traits.Add(name, nameof(Language));
         public static Trait Common = CreateLanguage("Common");
-    }
-
-    internal static class Mistway //Everything here has to use Location.Mistway.Key
-    {
-        public static List<Trait> traits = new List<Trait>(2); //Usually just 2.
-        private static Trait CreateMistway(string name) => traits.Add(name, nameof(Mistway));
-    }
-    internal static class Cluster //Everything here has to use Location.Cluster.Key
-    {
-        public static List<Trait> traits = new List<Trait>();
-        private static Trait CreateCluster(string name) => traits.Add(name, nameof(Cluster));
-        public static Trait IslandOfTerror = CreateCluster("Islands of Terror");
     }
 
     internal static class Creature

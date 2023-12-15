@@ -35,16 +35,14 @@ internal class Factory : IDisposable
     }
 
     public Group Darklords;
+    public static string DarklordGroupName(string domain) => $"Darklord(s) of {domain}";
     public void CreateDarklordGroup(Domain domain, params NPC[] darklords)
     {
-        var darklordgroup = CreateGroup("Darklord(s) of " + domain.OriginalName);
+        var darklordgroup = CreateGroup(DarklordGroupName(domain.OriginalName));
         domain.AddGroups(Darklords, darklordgroup);
-        if (darklords.Length > 0)
-        {
-            domain.AddNPCs(darklords);
-            Darklords.AddNPCs(darklords);
-            darklordgroup.AddNPCs(darklords);
-        }
+        domain.AddNPCs(darklords);
+        Darklords.AddNPCs(darklords);
+        darklordgroup.AddNPCs(darklords);
     }
     #endregion
 
@@ -56,10 +54,10 @@ internal class Factory : IDisposable
     {
         foreach (var domain in domains)
         {
-            foreach (var entity in domain.Locations) domain.Traits.UnionWith(entity.Traits);
-            foreach (var entity in domain.NPCs) domain.Traits.UnionWith(entity.Traits);
-            foreach (var entity in domain.Groups) domain.Traits.UnionWith(entity.Traits);
-            foreach (var entity in domain.Items) domain.Traits.UnionWith(entity.Traits);
+            domain.Traits.UnionWith(domain.Locations.SelectMany(e => e.Traits));
+            domain.Traits.UnionWith(domain.NPCs     .SelectMany(e => e.Traits));
+            domain.Traits.UnionWith(domain.Groups   .SelectMany(e => e.Traits));
+            domain.Traits.UnionWith(domain.Items    .SelectMany(e => e.Traits));
         }
     }
     public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
