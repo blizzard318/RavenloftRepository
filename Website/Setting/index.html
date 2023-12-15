@@ -26,10 +26,11 @@
 <a href='../Source'>Sources</a></h2><hr />
 <h2>
 <input type='button' onclick="OpenPage('Characters')" value='Characters'> | 
-<input type='button' onclick="OpenPage('Items')" value='Items'>
+<input type='button' onclick="OpenPage('Items')" value='Items'> | 
+<input type='button' onclick="OpenPage('Groups')" value='Groups'>
 </h2><br/>
 <div class='page' id='Characters' style='display:block'>
-<details><summary><b style='font-size:25px'>Characters of <a href='/CampaignSetting/Dragonlance'>Dragonlance</a></b></summary>
+<details open><summary><b style='font-size:25px'>Characters of <a href='/CampaignSetting/Dragonlance'>Dragonlance</a></b></summary>
 <table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Characters0'>
 <tr style='background-color:var(--header)'>
 <th scope='col'>
@@ -347,6 +348,165 @@
 </tr>
 </table></details><br/>
 </div>
+<div class='page' id='Groups' style='display:none'>
+<details><summary><b style='font-size:25px'>Groups of <a href='/CampaignSetting/Dragonlance'>Dragonlance</a></b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Groups0'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Knights of the Rose'>Knights of the Rose</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Group/Knights of Solamnia'>Knights of Solamnia</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Groups of <a href='/CampaignSetting/Forgotton Realms'>Forgotton Realms</a></b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Groups1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Religion of Tyr'>Religion of Tyr</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Group/Religion of Milil'>Religion of Milil</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Group/Religion of Lathander'>Religion of Lathander</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td><a href='/Group/Red Wizard of Thay'>Red Wizard of Thay</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Groups of <a href='/CampaignSetting/Greyhawk'>Greyhawk</a></b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Groups2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name(s)</b>
+</th>
+<th scope='col'>
+<b>1st Ed</b>
+</th>
+<th scope='col'>
+<b>2nd Ed</b>
+</th>
+<th scope='col'>
+<b>3rd Ed</b>
+</th>
+<th scope='col'>
+<b>3.5th Ed</b>
+</th>
+<th scope='col'>
+<b>4th Ed</b>
+</th>
+<th scope='col'>
+<b>5th Ed</b>
+</th>
+<th scope='col'>
+<b>Editionless</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Group/Religion of Wee Jas'>Religion of Wee Jas</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>X</td>
+</tr>
+</table></details><br/>
+</div>
 <br/><br/><br/><i style='font-size:10px;line-height:0'>Disclaimer: The registered trademarks and other intellectual property related to Ravenloft and owned by TSR, Arthaus, White Wolf SSI, Sony, Hasbro, Ral Partha, Paizo, and/or Wizards of the Coast are used for the purpose of identification only. Ravenloft Catalogue is not affiliated with/or endorsed by these manufacturers.</i>
 </body>
 <script>init();
@@ -355,5 +515,8 @@ sortTable('Characters1',0);
 sortTable('Characters2',0);
 sortTable('Characters3',0);
 sortTable('Items0',0);
+sortTable('Groups0',0);
+sortTable('Groups1',0);
+sortTable('Groups2',0);
 </script>
 </html>

@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NUglify;
-using System;
-using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Text;
 
 internal static class CreateHTML
 {
     #region PREGENERATED DATA
     private const string WebsiteTitle = "Ravenloft Catalogue";
+    private const string GroupTitle = "Groups/Titles";
+    private const string IslandsOfTerror = "Islands of Terror";
     private static string InsideRavenloftLink  = CreateLink(nameof(Domain), Factory.InsideRavenloftOriginalName );
     private static string OutsideRavenloftLink = CreateLink(nameof(Domain), Factory.OutsideRavenloftOriginalName);
 
@@ -216,9 +217,10 @@ internal static class CreateHTML
         private readonly StringBuilder sb;
         public Table(string id, string title, string? caption = null, StringBuilder? stringBuilder = null)
         {
+            var addon = TablesToSort.Count() == 0 ? " open" : string.Empty;
             TablesToSort.Add(TableID = FixLink(id), (SortMethod.alphabet, 0));
             sb = stringBuilder ?? CreateHTML.sb;
-            sb.AppendLine($"<details><summary><b style='font-size:25px'>{title}</b></summary>");
+            sb.AppendLine($"<details{addon}><summary><b style='font-size:25px'>{title}</b></summary>");
             sb.AppendLine($"<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='{id}'>");
             if (!string.IsNullOrWhiteSpace(caption)) sb.AppendLine($"<caption>{caption}</caption>");
         }
@@ -437,7 +439,6 @@ internal static class CreateHTML
         CreateOfficialHeader("Domains of Ravenloft", 1);
         sb.AppendLine($"Quick-link for {InsideRavenloftLink} | {OutsideRavenloftLink}");
 
-
         using (var subheader = new SubHeader())
         {
             using (var Domain = subheader.CreatePage("All Domain"))
@@ -468,8 +469,8 @@ internal static class CreateHTML
             using (var Group = subheader.CreatePage("By Cluster/Type"))
             {
                 var Clusters = Factory.db.Groups.Where(g => g.Traits.Any(t => t == Traits.Location.Cluster));
-                const string IslandsOfTerror = "Islands of Terror";
                 var DomainsPerCluster = new Dictionary<string, HashSet<string>>() { { IslandsOfTerror, new HashSet<string>() } };
+
                 using (var table = Group.CreateTable("Domains per Cluster"))
                 {
                     using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name", "Domains");
@@ -492,7 +493,8 @@ internal static class CreateHTML
                 }
                 foreach (var cluster in DomainsPerCluster)
                 {
-                    using (var table = Group.CreateTable(cluster.Key))
+                    Group.SetTable<Domain>(CreateLink(nameof(Group), cluster.Key), null, cluster.Value);
+                    /*using (var table = Group.CreateTable(cluster.Key))
                     {
                         using (var headerRow = table.CreateHeaderRow())
                             headerRow.CreateHeader(cluster.Key).CreateEditionHeaders();
@@ -503,7 +505,7 @@ internal static class CreateHTML
                             rowval.AddRange(Get.EditionsOf<Domain>(domain));
                             table.AddRows(rowval.ToArray());
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -669,8 +671,8 @@ internal static class CreateHTML
                 if (Domains.Count() == 0) DomainlessCharacters.Add(characterName);
                 else foreach (var domain in Domains)
                 {
-                CharactersPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
-                CharactersPerDomain[domain.OriginalName].Add(characterName);
+                    CharactersPerDomain.TryAdd(domain.OriginalName, new HashSet<string>());
+                    CharactersPerDomain[domain.OriginalName].Add(characterName);
                 }
 
                 var Groups = SameCharacter.SelectMany(c => c.Groups).Distinct();
@@ -803,7 +805,7 @@ internal static class CreateHTML
     }
     public static void CreateGroupPage() //Fix this some day
     {
-        CreateOfficialHeader("Groups/Titles of Ravenloft", 1);
+        CreateOfficialHeader($"{GroupTitle} of Ravenloft", 1);
 
         using (var subheader = new SubHeader())
         {
@@ -814,7 +816,7 @@ internal static class CreateHTML
 
             using (var Total = subheader.CreatePage("Total")) 
             {
-                using (var table = Total.CreateTable("All Groups/Titles in Ravenloft"))
+                using (var table = Total.CreateTable($"All {GroupTitle} in Ravenloft"))
                 {
                     using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name(s)", "Pop.").CreateEditionHeaders();
                     foreach (var groupName in Groups)
@@ -851,7 +853,7 @@ internal static class CreateHTML
                 var Domains = GroupsPerDomain.Keys.ToList();
                 Domains.Sort();
                 foreach (var domain in Domains)
-                    Domain.SetTable<Group>($"Groups/Titles within {Get.LinksOf<Domain>(domain)}", null, GroupsPerDomain[domain]);
+                    Domain.SetTable<Group>($"{GroupTitle} within {Get.LinksOf<Domain>(domain)}", null, GroupsPerDomain[domain]);
                 Domain.SetTable<Group>($"Groups {InsideRavenloftLink}", "The domain of the item is unknown.", InsideGroups);
                 Domain.SetTable<Group>($"Groups {OutsideRavenloftLink}", "Related to Ravenloft.", OutsideGroups);
                 Domain.SetTable<Group>("Unsorted Groups", "Please contact site owner to rectify", DomainlessGroups);
@@ -868,6 +870,7 @@ internal static class CreateHTML
         var CreaturesPerDomain = new Dictionary<string, Dictionary<string, string[]>>();
         foreach (var domain in AllDomains)
         {
+            if (domain.OriginalName == Factory.InsideRavenloftOriginalName || domain.OriginalName == Factory.OutsideRavenloftOriginalName) continue;
             var Edition = Factory.db.domainAppearances.Single(a => a.EntityId == domain.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
 
             CreaturesPerDomain.TryAdd(domain.OriginalName, new Dictionary<string, string[]>());
@@ -904,42 +907,61 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
-            var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-            var CharactersPerSetting = new Dictionary<string, HashSet<string>>();
-            foreach (var character in AllCharacters)
-            {
-                var setting = character.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
-
-                var Edition = Factory.db.npcAppearances.Single(a => a.EntityId == character.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-
-                CharactersPerSetting.TryAdd(setting, new HashSet<string>());
-                CharactersPerSetting[setting].Add(character.OriginalName);
-            }
             using (var Character = subheader.CreatePage("Characters"))
             {
+                var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
+                var CharactersPerSetting = new Dictionary<string, HashSet<string>>();
+                foreach (var character in AllCharacters)
+                {
+                    var setting = character.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
+
+                    var Edition = Factory.db.npcAppearances.Single(a => a.EntityId == character.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+                    CharactersPerSetting.TryAdd(setting, new HashSet<string>());
+                    CharactersPerSetting[setting].Add(character.OriginalName);
+                }
                 var Keys = CharactersPerSetting.Keys.ToList();
                 Keys.Sort();
                 foreach (var Key in Keys)
                     Character.SetTable<NPC>($"Characters of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, CharactersPerSetting[Key]);
             }
 
-            var AllItems = Factory.db.Items.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-            var ItemsPerSetting = new Dictionary<string, HashSet<string>>();
-            foreach (var item in AllItems)
-            {
-                var setting = item.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
-
-                var Edition = Factory.db.itemAppearances.Single(a => a.EntityId == item.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-
-                ItemsPerSetting.TryAdd(setting, new HashSet<string>());
-                ItemsPerSetting[setting].Add(item.OriginalName);
-            }
             using (var Item = subheader.CreatePage("Items"))
             {
+                var AllItems = Factory.db.Items.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
+                var ItemsPerSetting = new Dictionary<string, HashSet<string>>();
+                foreach (var item in AllItems)
+                {
+                    var setting = item.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
+
+                    var Edition = Factory.db.itemAppearances.Single(a => a.EntityId == item.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+                    ItemsPerSetting.TryAdd(setting, new HashSet<string>());
+                    ItemsPerSetting[setting].Add(item.OriginalName);
+                }
                 var Keys = ItemsPerSetting.Keys.ToList();
                 Keys.Sort();
                 foreach (var Key in Keys)
                     Item.SetTable<Item>($"Items of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, ItemsPerSetting[Key]);
+            }
+
+            using (var Group = subheader.CreatePage("Groups"))
+            {
+                var AllGroups = Factory.db.Groups.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
+                var GroupsPerSetting = new Dictionary<string, HashSet<string>>();
+                foreach (var group in AllGroups)
+                {
+                    var setting = group.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
+
+                    var Edition = Factory.db.groupAppearances.Single(a => a.EntityId == group.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+
+                    GroupsPerSetting.TryAdd(setting, new HashSet<string>());
+                    GroupsPerSetting[setting].Add(group.OriginalName);
+                }
+                var Keys = GroupsPerSetting.Keys.ToList();
+                Keys.Sort();
+                foreach (var Key in Keys)
+                    Group.SetTable<Group>($"Groups of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, GroupsPerSetting[Key]);
             }
         }
 
@@ -988,7 +1010,7 @@ internal static class CreateHTML
     #region CHILD PAGES
     private static void CreateSourcePages()
     {
-        var Sources = Factory.db.Sources;
+        var Sources = Factory.db.Sources.Include(s => s.Traits);
 
         foreach (var source in Sources)
         {
@@ -1032,7 +1054,7 @@ internal static class CreateHTML
                     Category.AddSection(Locations .Select(d => d.Entity), nameof(Locations ));
                     Category.AddSection(Characters.Select(d => d.Entity), nameof(Characters));
                     Category.AddSection(Items     .Select(d => d.Entity), nameof(Items     ));
-                    Category.AddSection(Groups    .Select(d => d.Entity), "Status/Groups"   );
+                    Category.AddSection(Groups    .Select(d => d.Entity), GroupTitle        );
 
                     GenerateTraits(nameof(Traits.Language), "Languages");
                     GenerateTraits(nameof(Traits.Creature), "Creatures");
@@ -1095,7 +1117,7 @@ internal static class CreateHTML
                             }
                             if (GroupsInDomain.Count() > 0)
                             {
-                                Cascade.contents.Append("<li><b>Status/Groups:</b></li>");
+                                Cascade.contents.Append($"<li><b>{GroupTitle}:</b></li>");
                                 CreateList<GroupAppearance, Group>(GroupsInDomain);
                             }
                             CreateListOfTraits(Languages, nameof(Languages));
@@ -1148,16 +1170,19 @@ internal static class CreateHTML
         foreach (var original in Domains)
         {
             var totalnames = Get.TotalNamesOf<Domain>(original);
-            var Sources = Factory.db.domainAppearances.Where(i => i.Entity.OriginalName == original);
+            var Sources = Factory.db.domainAppearances.Where(i => i.Entity.OriginalName == original).Include(d => d.Entity.Locations)
+                .Include(d => d.Entity.NPCs).Include(d => d.Entity.Items).Include(d => d.Entity.Groups).Include(d => d.Entity.Traits);
             foreach (var domain in totalnames)
             {
-                CreateOfficialHeader(domain, 2);
-                sb.AppendLine($"<h3>{domain}</h3><br/>");
-
                 using (var subheader = new SubHeader())
                 {
-                    sb.AppendLine($"<b>Name:</b> {domain}<br/>");
+                    var Clusters = Sources.SelectMany(l => l.Entity.Groups).Where(g => g.Traits.Any(g => g == Traits.Location.Cluster));
+                    var ClusterNames = Clusters.Count() > 0 ? new string[] { IslandsOfTerror } : Clusters.Select(d => d.OriginalName).Distinct().ToArray();
+                    for (int i = 0; i < ClusterNames.Length; i++) ClusterNames[i] = CreateLink(nameof(Group), ClusterNames[i]);
 
+                    CreateOfficialHeader(domain, 2);
+                    sb.AppendLine($"<h3>{domain}</h3><br/>");
+                    sb.AppendLine($"<b>Cluster:</b> {string.Join(",", ClusterNames)}<br/>");
                     if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Domain>(original)}<br/>");
 
                     //Location, NPCs, Items, Groups, Languages, Creatures, Sources
@@ -1173,11 +1198,11 @@ internal static class CreateHTML
                     {
                         foreach (var source in Sources)
                         {
-                            sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
                             var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
                             TotalSources.Add(SourceString);
-                            sb.AppendLine($"<b>Source:</b> {SourceString}<br/>");
+                            SplitSources.contents.AppendLine($"<b>Source:</b> {SourceString}<br/>");
 
                             var groups = source.Entity.Groups.Where(g => !g.Traits.Contains(Traits.Location.Settlement));
                             var languages = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Language));
@@ -1189,13 +1214,12 @@ internal static class CreateHTML
                             SplitSources.AddSection(groups                 , nameof(Groups)    , Groups    );
                             SplitSources.AddSection(languages              , nameof(Languages) , Languages );
                             SplitSources.AddSection(creatures              , nameof(Creatures) , Creatures );
-
-                            sb.AppendLine("</div></div><br/>");
+                            SplitSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
                     using (var AllSources = subheader.CreatePage("All"))
                     {
-                        sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                        AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                         AllSources.AddSection(Locations   , nameof(Locations ));
                         AllSources.AddSection(Characters  , nameof(Characters));
                         AllSources.AddSection(Items       , nameof(Items     ));
@@ -1203,10 +1227,83 @@ internal static class CreateHTML
                         AllSources.AddSection(Languages   , nameof(Languages ));
                         AllSources.AddSection(Creatures   , nameof(Creatures ));
                         AllSources.AddSection(TotalSources, nameof(Sources   ));
-                        sb.AppendLine("</div></div><br/>");
+                        AllSources.contents.AppendLine("</div></div><br/>");
                     }
                 }
                 SaveHTML(nameof(Domain) + "/" + domain);
+            }
+        }
+    }
+    private static void CreateLocationPages()
+    {
+        var Locations = Get.AllOriginalsOf(typeof(Location));
+        foreach (var original in Locations)
+        {
+            var totalnames = Get.TotalNamesOf<Location>(original);
+            var Sources = Factory.db.locationAppearances.Where(i => i.Entity.OriginalName == original).Include(d => d.Entity.Traits)
+                .Include(d => d.Entity.Domains).Include(d => d.Entity.NPCs).Include(d => d.Entity.Items).Include(d => d.Entity.Groups);
+            foreach (var location in totalnames)
+            {
+                using (var subheader = new SubHeader())
+                {
+                    var locationType = string.Empty;
+                    var totalTraits = Sources.SelectMany(s => s.Entity.Traits);
+                         if (totalTraits.Contains(Traits.Location.Settlement)) locationType = $" ({nameof(Traits.Location.Settlement)})";
+                    else if (totalTraits.Contains(Traits.Location.Mistway   )) locationType = $" ({nameof(Traits.Location.Mistway   )})";
+                    else if (totalTraits.Contains(Traits.Location.Darklord  )) locationType = $" ({nameof(Traits.Location.Darklord  )} Lair)";
+
+                    var domainNames = Sources.SelectMany(l => l.Entity.Domains).Select(d => d.OriginalName).Distinct().ToArray();
+                    var domains = new string[domainNames.Count()];
+                    for (int i = 0; i < domainNames.Count(); i++) domains[i] = Get.LinksOf<Domain>(domainNames[i]);
+
+                    CreateOfficialHeader(location, 2);
+                    sb.AppendLine($"<h3>{location}{locationType}</h3><br/>");
+                    sb.AppendLine($"<b>Domain(s):</b> {string.Join(", ", domains)}<br/>");
+                    if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Location>(original)}<br/>");
+
+                    //Domain, NPCs, Items, Groups, Languages, Creatures, Sources
+                    var TotalSources = new HashSet<string>();
+                    var Characters = new HashSet<string>();
+                    var Domains = new HashSet<string>();
+                    var Items = new HashSet<string>();
+                    var Groups = new HashSet<string>();
+                    var Creatures = new HashSet<string>();
+
+                    using (var SplitSources = subheader.CreatePage("Per Source"))
+                    {
+                        foreach (var source in Sources)
+                        {
+                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+
+                            var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
+                            TotalSources.Add(SourceString);
+                            SplitSources.contents.AppendLine($"<b>Source:</b> {SourceString}<br/>");
+
+                            var groups = source.Entity.Groups.Where(g => !g.Traits.Contains(Traits.Location.Settlement));
+                            var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
+
+                            SplitSources.AddSection(source.Entity.Domains, nameof(Domains), Domains);
+                            SplitSources.AddSection(source.Entity.NPCs, nameof(Characters), Characters);
+                            SplitSources.AddSection(source.Entity.Items, nameof(Items), Items);
+                            SplitSources.AddSection(groups, nameof(Groups), Groups);
+                            SplitSources.AddSection(creatures, nameof(Creatures), Creatures);
+                            SplitSources.contents.AppendLine("</div></div><br/>");
+                        }
+                    }
+                    using (var AllSources = subheader.CreatePage("All"))
+                    {
+                        AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                        AllSources.AddSection(Locations, nameof(Locations));
+                        AllSources.AddSection(Characters, nameof(Characters));
+                        AllSources.AddSection(Items, nameof(Items));
+                        AllSources.AddSection(Groups, nameof(Groups));
+                        AllSources.AddSection(Languages, nameof(Languages));
+                        AllSources.AddSection(Creatures, nameof(Creatures));
+                        AllSources.AddSection(TotalSources, nameof(Sources));
+                        AllSources.contents.AppendLine("</div></div><br/>");
+                    }
+                }
+                SaveHTML(nameof(Location) + "/" + domain);
             }
         }
     }
@@ -1216,7 +1313,8 @@ internal static class CreateHTML
         foreach (var original in Items)
         {
             var totalnames = Get.TotalNamesOf<Item>(original);
-            var Sources = Factory.db.itemAppearances.Where(i => i.Entity.OriginalName == original);
+            var Sources = Factory.db.itemAppearances.Where(i => i.Entity.OriginalName == original).Include(i => i.Entity.Domains)
+                .Include(i => i.Entity.Locations).Include(i => i.Entity.NPCs).Include(i => i.Entity.Groups).Include(i => i.Entity.Traits);
             foreach (var item in totalnames)
             {
                 CreateOfficialHeader(item, 2);
@@ -1226,9 +1324,11 @@ internal static class CreateHTML
                 {
                     if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Item>(original)}<br/>");
 
-                    //Domains, Groups, Creatures, Sources
+                    //Domains, Locations, Characters, Groups, Creatures, Sources
                     var TotalSources = new HashSet<string>();
                     var Domains = new HashSet<string>();
+                    var Locations = new HashSet<string>();
+                    var Characters = new HashSet<string>();
                     var Groups = new HashSet<string>();
                     var Creatures = new HashSet<string>();
                     using (var SplitSources = subheader.CreatePage("Per Source"))
@@ -1237,24 +1337,27 @@ internal static class CreateHTML
                         {
                             SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
-                            var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
                             TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
                             SplitSources.contents.AppendLine($"<font style='font-size:19px'><b>Source:</b> {CreateLink(source.Source)}</font> <i style='font-size:13px'>({source.PageNumbers})</i><hr/>");
 
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
-                            SplitSources.AddSection(source.Entity.Domains, nameof(Domains)  , Domains  );
-                            SplitSources.AddSection(source.Entity.Groups , "Status/Groups"  , Groups   );
-                            SplitSources.AddSection(creatures            , nameof(Creatures), Creatures);
+                            SplitSources.AddSection(source.Entity.Domains  , nameof(Domains)   , Domains   );
+                            SplitSources.AddSection(source.Entity.Locations, nameof(Locations) , Locations );
+                            SplitSources.AddSection(source.Entity.NPCs     , nameof(Characters), Characters);
+                            SplitSources.AddSection(source.Entity.Groups   , GroupTitle        , Groups    );
+                            SplitSources.AddSection(creatures              , nameof(Creatures) , Creatures );
                             SplitSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
                     using (var AllSources = subheader.CreatePage("All"))
                     {
                         AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                        AllSources.AddSection(Domains     , nameof(Domains  ));
-                        AllSources.AddSection(Groups      , "Status/Groups"  );
-                        AllSources.AddSection(Creatures   , nameof(Creatures));
-                        AllSources.AddSection(TotalSources, nameof(Sources  ));
+                        AllSources.AddSection(Domains     , nameof(Domains   ));
+                        AllSources.AddSection(Locations   , nameof(Locations ));
+                        AllSources.AddSection(Characters  , nameof(Characters));
+                        AllSources.AddSection(Groups      , GroupTitle        );
+                        AllSources.AddSection(Creatures   , nameof(Creatures ));
+                        AllSources.AddSection(TotalSources, nameof(Sources   ));
                         AllSources.contents.AppendLine("</div></div><br/>");
                     }
                 }
