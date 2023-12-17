@@ -1217,14 +1217,12 @@ internal static class CreateHTML
                             var canontrait = source.Source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
                             if (canontrait == Traits.Canon.PotentialCanon) canonaddon = $" <b style='color:yellow'>[{canontrait.Key}]</b>";
                             else if (canontrait == Traits.Canon.NotCanon) canonaddon = $" <b style='color:red'>[{canontrait.Key}]</b>";
+                            var editiontrait = source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key;
 
                             tempsb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-
                             tempsb.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
-                            var editiontrait = source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key;
-                            tempsb.Append($"<b>Edition:</b> {editiontrait}<br/>");
+                            tempsb.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                            var groups = source.Entity.Groups.Where(g => g.Traits.Any(t => t == Traits.Location.Settlement || t == Traits.Location.Cluster));
                             var languages = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Language));
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
                             if (domain != Factory.InsideRavenloftOriginalName)
@@ -1238,7 +1236,7 @@ internal static class CreateHTML
                                 SplitSources.AddSection(source.Entity.Locations, nameof(Locations) , Locations);
                                 SplitSources.AddSection(source.Entity.NPCs     , nameof(Characters), Characters);
                                 SplitSources.AddSection(source.Entity.Items    , nameof(Items     ), Items     );
-                                SplitSources.AddSection(groups                 , nameof(Groups    ), Groups    );
+                                SplitSources.AddSection(source.Entity.Groups   , nameof(Groups    ), Groups    );
                                 SplitSources.AddSection(languages              , nameof(Languages ), Languages );
                                 SplitSources.AddSection(creatures              , nameof(Creatures ), Creatures );
                             }
@@ -1253,8 +1251,8 @@ internal static class CreateHTML
                                 var items = RemoveReferences(source.Entity.Items, Factory.db.Items);
                                 Items.UnionWith(items);
 
-                                var _groups = RemoveReferences(groups, Factory.db.Groups);
-                                Groups.UnionWith(_groups);
+                                var groups = RemoveReferences(source.Entity.Groups, Factory.db.Groups);
+                                Groups.UnionWith(groups);
 
                                 var _languages = RemoveReferencesForTraits(languages);
                                 Languages.UnionWith(_languages);
@@ -1262,12 +1260,12 @@ internal static class CreateHTML
                                 var _creatures = RemoveReferencesForTraits(creatures);
                                 Creatures.UnionWith(_creatures);
 
-                                if (locations.Count() + characters.Count() + items.Count() + _groups.Count() + _languages.Count() + _creatures.Count() == 0) continue;
+                                if (locations.Count() + characters.Count() + items.Count() + groups.Count() + _languages.Count() + _creatures.Count() == 0) continue;
                                 SplitSources.contents.Append(tempsb);
                                 SplitSources.AddSection(locations , nameof(Locations ));
                                 SplitSources.AddSection(characters, nameof(Characters));
                                 SplitSources.AddSection(items     , nameof(Items     ));
-                                SplitSources.AddSection(_groups   , nameof(Groups    ));
+                                SplitSources.AddSection(groups    , nameof(Groups    ));
                                 SplitSources.AddSection(_languages, nameof(Languages ));
                                 SplitSources.AddSection(_creatures, nameof(Creatures ));
 
@@ -1336,7 +1334,7 @@ internal static class CreateHTML
                     for (int i = 0; i < domainNames.Count(); i++) domains[i] = Get.LinksOf<Domain>(domainNames[i]);
 
                     CreateOfficialHeader(location, 2);
-                    sb.AppendLine($"<h3>{location}{locationType}</h3><br/>");
+                    sb.AppendLine($"<h3>{location}{locationType}</h3>");
                     sb.AppendLine($"<b>Domain(s):</b> {string.Join(", ", domains)}<br/>");
                     if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Location>(original)}<br/>");
 
@@ -1354,9 +1352,17 @@ internal static class CreateHTML
                         {
                             SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
-                            var SourceString = $"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)";
-                            TotalSources.Add(SourceString);
-                            SplitSources.contents.AppendLine($"<b>Source:</b> {SourceString}<br/>");
+                            var canonaddon = string.Empty;
+                            var canontrait = source.Source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
+                            if (canontrait == Traits.Canon.PotentialCanon) canonaddon = $" <b style='color:yellow'>[{canontrait.Key}]</b>";
+                            else if (canontrait == Traits.Canon.NotCanon) canonaddon = $" <b style='color:red'>[{canontrait.Key}]</b>";
+                            var editiontrait = source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key;
+
+                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                            SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
+                            SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
+                            SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {source.PageNumbers}<br/>");
+                            TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
 
                             var groups = source.Entity.Groups.Where(g => !g.Traits.Contains(Traits.Location.Settlement));
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
@@ -1372,11 +1378,11 @@ internal static class CreateHTML
                     using (var AllSources = subheader.CreatePage("All"))
                     {
                         AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                        AllSources.AddSection(Locations, nameof(Locations));
-                        AllSources.AddSection(Characters, nameof(Characters));
-                        AllSources.AddSection(Items, nameof(Items));
-                        AllSources.AddSection(Groups, nameof(Groups));
-                        AllSources.AddSection(Creatures, nameof(Creatures));
+                        AllSources.AddSection(Locations   , nameof(Locations));
+                        AllSources.AddSection(Characters  , nameof(Characters));
+                        AllSources.AddSection(Items       , nameof(Items));
+                        AllSources.AddSection(Groups      , nameof(Groups));
+                        AllSources.AddSection(Creatures   , nameof(Creatures));
                         AllSources.AddSection(TotalSources, nameof(Sources));
                         AllSources.contents.AppendLine("</div></div><br/>");
                     }
@@ -1413,10 +1419,17 @@ internal static class CreateHTML
                     {
                         foreach (var source in Sources)
                         {
-                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                            var canonaddon = string.Empty;
+                            var canontrait = source.Source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
+                            if (canontrait == Traits.Canon.PotentialCanon) canonaddon = $" <b style='color:yellow'>[{canontrait.Key}]</b>";
+                            else if (canontrait == Traits.Canon.NotCanon) canonaddon = $" <b style='color:red'>[{canontrait.Key}]</b>";
+                            var editiontrait = source.Source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key;
 
+                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                            SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
+                            SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
+                            SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {source.PageNumbers}<br/>");
                             TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
-                            SplitSources.contents.AppendLine($"<font style='font-size:19px'><b>Source:</b> {CreateLink(source.Source)}</font> <i style='font-size:13px'>({source.PageNumbers})</i><hr/>");
 
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
                             SplitSources.AddSection(source.Entity.Domains  , nameof(Domains)   , Domains   );
