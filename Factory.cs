@@ -64,6 +64,7 @@ internal class Factory : IDisposable
         => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
     private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
     {
+        Console.WriteLine($"Adding: {name}");
         Source = db.Sources.Add(new Source()
         {
             Key = name,

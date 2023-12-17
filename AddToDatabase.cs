@@ -569,7 +569,7 @@ internal static class AddToDatabase
             void AddInquisitionSet()
             {
                 var releaseDate = "01/03/2001";
-                var AddedExtraInfo = ExtraInfo + Environment.NewLine + "This set was made by fans, but was still using Spellfire trademark.";
+                var AddedExtraInfo = ExtraInfo + "<br/>This set was made by fans, but was still using Spellfire trademark.";
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Inquisition Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
                 if (ctx == null) return;
 
@@ -581,7 +581,7 @@ internal static class AddToDatabase
             void AddMilleniumSet()
             {
                 var releaseDate = "01/03/2002";
-                var AddedExtraInfo = ExtraInfo + Environment.NewLine + "This set was made by fans, but was still using Spellfire trademark.";
+                var AddedExtraInfo = ExtraInfo + "<br/>This set was made by fans, but was still using Spellfire trademark.";
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Millenium Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
                 if (ctx == null) return;
 
@@ -593,7 +593,7 @@ internal static class AddToDatabase
             void AddConquestSet()
             {
                 var releaseDate = "01/08/2004";
-                var AddedExtraInfo = ExtraInfo + Environment.NewLine + "This set was made by fans, but was still using Spellfire trademark.";
+                var AddedExtraInfo = ExtraInfo + "<br/>This set was made by fans, but was still using Spellfire trademark.";
                 using var ctx = Factory.CreateSource("Spellfire: Master the Magic, Conquest Set", releaseDate, AddedExtraInfo, Traits.Edition.e0, Traits.Media.boardgame, Traits.Canon.NotCanon);
                 if (ctx == null) return;
 

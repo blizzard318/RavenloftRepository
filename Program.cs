@@ -3,11 +3,10 @@
 CreateHTML.CreateHomepage();
 
 CreateHTML.CreateSourcePage();
-
-CreateHTML.CreateLocationPage();
 CreateHTML.CreateDomainPage();
-CreateHTML.CreateItemPage();
+CreateHTML.CreateLocationPage();
 CreateHTML.CreateCharacterPage();
+CreateHTML.CreateItemPage();
 CreateHTML.CreateGroupPage();
 
 CreateHTML.CreateCreaturePage();
