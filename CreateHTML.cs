@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NUglify;
 using System.Text;
+using static Traits;
 
 internal static class CreateHTML
 {
@@ -865,35 +866,58 @@ internal static class CreateHTML
     {
         CreateOfficialHeader("Creatures of Ravenloft", 1);
 
-        var AllDomains = Factory.db.Domains.Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.Creature)));
+        var AllDomains = Factory.db.domainAppearances.Include(d => d.Entity.Traits).Where(d => d.Entity.Traits.Any(t => t.Type == nameof(Traits.Creature)));
+        var AllCreatures = new Dictionary<string, string[]>();
         var CreaturesPerDomain = new Dictionary<string, Dictionary<string, string[]>>();
         foreach (var domain in AllDomains)
         {
-            if (domain.OriginalName == Factory.InsideRavenloftOriginalName || domain.OriginalName == Factory.OutsideRavenloftOriginalName) continue;
-            var Edition = Factory.db.domainAppearances.Single(a => a.EntityId == domain.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+            var Edition = domain.Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
 
-            CreaturesPerDomain.TryAdd(domain.OriginalName, new Dictionary<string, string[]>());
-            var creatures = domain.Traits.Where(t => t.Type == nameof(Traits.Creature)).Select(c => c.Key);
+            CreaturesPerDomain.TryAdd(domain.Entity.OriginalName, new Dictionary<string, string[]>());
+            var creatures = domain.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature)).Select(c => c.Key);
             foreach (var creature in creatures)
             {
-                CreaturesPerDomain[domain.OriginalName].TryAdd(creature, new string[Traits.Edition.traits.Count]);
-                CreaturesPerDomain[domain.OriginalName][creature][Traits.Edition.traits.IndexOf(Edition)] = "X";
+                var EditionIndex = Traits.Edition.traits.IndexOf(Edition);
+
+                AllCreatures.TryAdd(creature, new string[Traits.Edition.traits.Count]);
+                AllCreatures[creature][EditionIndex] = "X";
+
+                CreaturesPerDomain[domain.Entity.OriginalName].TryAdd(creature, new string[Traits.Edition.traits.Count]);
+                CreaturesPerDomain[domain.Entity.OriginalName][creature][EditionIndex] = "X";
             }
         }
-        var Domains = CreaturesPerDomain.Keys.ToList();
-        Domains.Sort();
-        foreach (var domain in Domains)
-        {
-            using (var table = new Table(domain, $"Creatures in {Get.LinksOf<Domain>(domain)}"))
-            {
-                using (var headerRow = table.CreateHeaderRow())
-                    headerRow.CreateHeader("Name").CreateEditionHeaders();
 
-                foreach (var creature in CreaturesPerDomain[domain].Keys)
+        using (var subheader = new SubHeader())
+        {
+            using (var Total = subheader.CreatePage("Total"))
+            {
+                using (var table = Total.CreateTable("Creatures in Ravenloft"))
                 {
-                    var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
-                    rowval.AddRange(CreaturesPerDomain[domain][creature]);
-                    table.AddRows(rowval.ToArray());
+                    using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name").CreateEditionHeaders();
+                    foreach (var creature in AllCreatures.Keys)
+                    {
+                        var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
+                        rowval.AddRange(AllCreatures[creature]);
+                        table.AddRows(rowval.ToArray());
+                    }
+                }
+            }
+            var Domains = CreaturesPerDomain.Keys.ToList();
+            Domains.Sort();
+            using (var PerDomains = subheader.CreatePage("Per Domain"))
+            {
+                foreach (var domain in Domains)
+                {
+                    using (var table = PerDomains.CreateTable($"Creatures in {Get.LinksOf<Domain>(domain)}"))
+                    {
+                        using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name").CreateEditionHeaders();
+                        foreach (var creature in CreaturesPerDomain[domain].Keys)
+                        {
+                            var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
+                            rowval.AddRange(CreaturesPerDomain[domain][creature]);
+                            table.AddRows(rowval.ToArray());
+                        }
+                    }
                 }
             }
         }
@@ -1657,10 +1681,7 @@ internal static class CreateHTML
 
                 using (var SplitSources = subheader.CreatePage("Per Source"))
                 {
-                    foreach (var source in Sources)
-                    {
 
-                    }
                 }
                 using (var AllSources = subheader.CreatePage("All"))
                 {
