@@ -29,6 +29,7 @@ internal static class AddToDatabase
         AddDiceMastersStrahd();
         AddSpellfireMastertheMagic();
         AddTSRCollectorCards();
+        AddMasterOfRavenloft();
 
         Factory.db.SaveChanges();
 
@@ -40,7 +41,6 @@ internal static class AddToDatabase
             ExtraInfo += "<br/>&emsp;Graphic Designer: Debra Stubbe";
             ExtraInfo += "<br/>&emsp;Illustrator: Clyde Caldwell";
             ExtraInfo += "<br/>&emsp;Module Info: An adventure for 6-8 characters of levels 5-7";
-            ExtraInfo += "<br/>&emsp;Personal Notes: The term 'Vistani' had not been coined yet, instead the term 'gypsy' was used in this book. I've used 'Vistani' in its place.";
             using var ctx = Factory.CreateSource("I6: Ravenloft", releaseDate, ExtraInfo, Traits.Edition.e1, Traits.Media.module);
             if (ctx == null) return;
 
@@ -121,7 +121,7 @@ internal static class AddToDatabase
 
             var AnnaPetrovna = ctx.CreateNPC("Anna Petrovna", "28").AddInfo("Probably deceased but they never explicitly said so.");
             var Arik = ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Creature.Human);
-            var Donavich = ctx.CreateNPC("Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human);
+            var Donavich = ctx.CreateNPC("Father Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human);
 
             var Strahd = ctx.CreateNPC("Count Strahd von Zarovich").AddTraits(
                 Traits.Creature.Vampire, Traits.Creature.Human, Traits.Alignment.CE,
@@ -130,8 +130,8 @@ internal static class AddToDatabase
 
             var Sergei = ctx.CreateNPC("Sergei von Zarovich", "1, 4, 30, 31").AddTraits(Traits.Deceased,Traits.Creature.Human);
 
-            var KingBarov = ctx.CreateNPC("King Barov", "28, 30").AddTraits(Traits.Creature.Human, Traits.Deceased);
-            var Ravenovia = ctx.CreateNPC("Queen Ravenovia", "5, 28, 30").AddTraits(Traits.Creature.Human, Traits.Deceased);
+            var KingBarov = ctx.CreateNPC("King Barov von Zarovich", "28, 30").AddTraits(Traits.Creature.Human, Traits.Deceased);
+            var Ravenovia = ctx.CreateNPC("Queen Ravenovia von Zarovich", "5, 28, 30").AddTraits(Traits.Creature.Human, Traits.Deceased);
             
             var Marya = ctx.CreateNPC("Marya Markovia", "27, 28").AddTraits(Traits.Deceased);
             var Endorovich = ctx.CreateNPC("Endorovich the Terrible", "27, 28").AddTraits(Traits.Alignment.LE, Traits.Creature.Spectre);
@@ -162,6 +162,8 @@ internal static class AddToDatabase
             var BarovianWine = ctx.CreateGroup("Barovian Wine Distillers Brotherhood", "27");
             var BridesOfStrahd = ctx.CreateGroup("Brides of Strahd", "28").AddInfo("Count Strahd has collected a few partners over the years.").AddTraits(Traits.Creature.Vampire);
             var ReincarnationsOfTatyana = ctx.CreateGroup("Reincarnations of Tatyana", "30, 31");
+            var Gypsy = ctx.CreateGroup("Gypsy", "1, 4, 7, 11, 28");
+            var BurgomasterOfBarovia = ctx.CreateGroup("Burgomaster of Barovia", "1, 7, 8, 9");
             #endregion
 
             #region Domain Add
@@ -185,7 +187,7 @@ internal static class AddToDatabase
                 AnnaPetrovna, Arik, Donavich, Strahd, Sergei, KingBarov, Ravenovia, Marya, Endorovich, SashaIvliskova, PatrinaVelikovna,
                 Tatyana, KolyanIndirovich, IreenaKolyana, Ismark, MadMary, Gertruda, Bildrath, Parriwimple);
             Barovia.AddItems(Sunsword, IconOfRavenloft, SymbolOfRavenloft, TomeOfStrahd);
-            Barovia.AddGroups(BarovianWine, BridesOfStrahd, ReincarnationsOfTatyana, VillageOfBaroviaGroup, TserPoolEncampnentGroup);
+            Barovia.AddGroups(BarovianWine, BridesOfStrahd, ReincarnationsOfTatyana, VillageOfBaroviaGroup, TserPoolEncampnentGroup, Gypsy);
 
             ctx.OutsideRavenloft.AddNPCs(AnnaPetrovna);
             ctx.OutsideRavenloft.AddItems(Sunsword);
@@ -218,8 +220,14 @@ internal static class AddToDatabase
             BridesOfStrahd.AddNPCs(SashaIvliskova, PatrinaVelikovna);
             ReincarnationsOfTatyana.AddNPCs(Tatyana, IreenaKolyana);
 
+            BurgomasterOfBarovia.AddNPCs(KolyanIndirovich);
+            BurgomasterOfBarovia.AddLocations(BurgomasterHome, BurgomasterGuestHouse);
+
             VillageOfBaroviaGroup.PopulateSettlement(BildrathMercantile, BloodVineTavern, MaryHouse, BurgomasterHome, BurgomasterGuestHouse, BarovianChurch, BaroviaCemetery);
             TserPoolEncampnentGroup.PopulateSettlement(MadamEvasTent);
+
+            Gypsy.AddLocations(TserPoolEncampnent, MadamEvasTent);
+            Gypsy.AddNPCs(MadamEva);
             #endregion
 
             #region Item Add
@@ -249,6 +257,83 @@ internal static class AddToDatabase
 
             ctx.CreateRelationship(Bildrath, "Uncle", Parriwimple);
             ctx.CreateRelationship(Parriwimple, "Nephew", Bildrath);
+        }
+        void AddMasterOfRavenloft()
+        {
+            var releaseDate = "01/01/1986";
+            string ExtraInfo = "<br/>&emsp;Author: Jean Blashfield Black";
+            ExtraInfo += "<br/>&emsp;Cover Art: Clyde Caldwell";
+            ExtraInfo += "<br/>&emsp;Interior Art: Gary Williams";
+            using var ctx = Factory.CreateSource("Master of Ravneloft", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
+            if (ctx == null) return;
+
+            #region Domains
+            var Barovia = ctx.CreateDomain("Barovia").AddTraits(
+                Traits.Creature.Wolf
+                );
+            #endregion
+
+            #region Locations
+            var CastleRavenloft = ctx.CreateLocation("Castle Ravenloft").AddTraits(Traits.Creature.Bat, Traits.Creature.Vampire, Traits.Creature.Gargoyle);
+            (var VillageOfBarovia, var VillageOfBaroviaGroup) = ctx.CreateSettlement("Village of Barovia");
+            VillageOfBarovia.AddTraits(Traits.Creature.VampireBat, Traits.Creature.Bat, Traits.Creature.Horse);
+            VillageOfBaroviaGroup.AddTraits(Traits.Creature.VampireBat, Traits.Creature.Bat, Traits.Creature.Horse);
+            #endregion
+
+            #region Characters
+            var JerenSureblade = ctx.CreateNPC("Jeren Sureblade").AddTraits(Traits.Alignment.LG, Traits.Creature.Human, Traits.Creature.Horse);
+            var CountStrahd = ctx.CreateNPC("Count Strahd von Zarovich").AddTraits(Traits.Creature.Human, Traits.Creature.Vampire, Traits.Creature.Bat);
+            var Mikhash = ctx.CreateNPC("Mikhash", "17");
+            var Ireena = ctx.CreateNPC("Ireena Kolyana");
+            var Tatyana = ctx.CreateNPC("Tatyana", "25");
+            var Donavich = ctx.CreateNPC("Father Donavich", "25");
+            var KingBarov = ctx.CreateNPC("King Barov von Zarovich", "45").AddTraits(Traits.Creature.Human, Traits.Deceased);
+            var Ravenovia = ctx.CreateNPC("Queen Ravenovia von Zarovich", "45").AddTraits(Traits.Creature.Human, Traits.Deceased);
+            #endregion
+
+            #region Items
+            var Chosen = ctx.CreateItem("Chosen", "1, 6, 7, 15, 23, 24, 34, 54, 105, 171");
+            Chosen.ExtraInfo = "It is Jeren Sureblade's Rod of Lordly Might";
+            var WandOfMM = ctx.CreateItem("Wand of Magic Missile", "43");
+            var Luckstone = ctx.CreateItem("Luckstone", "36, 189");
+            var Decanter = ctx.CreateItem("Decanter of Endless Water", "189");
+            var Medallion = ctx.CreateItem("Holy Medallion of Ravenkind", "Holy Symbol of Ravenkind", "34, 136, 145, 146, 171, 189");
+            var Icon = ctx.CreateItem("Icon of Ravenloft", "34, 100, 138, 139, 146, 159, 189").AddTraits(Traits.Alignment.LG);
+            var Sunsword = ctx.CreateItem("Sunsword", "46, 49, 92, 106, 119, 143, 145, 148, 149, 159, 161, 162, 189");
+            var PotOfHeal = ctx.CreateItem("Potion of Healing", "189");
+            var VialOfHolyWater = ctx.CreateItem("Vial of Holy Water", "189");
+            var AmuletOfLight = ctx.CreateItem("Amulet of Light", "20, 37, 80, 91, 105, 118, 126, 133, 149");
+            #endregion
+
+            #region Groups
+            var Gypsy = ctx.CreateGroup("Gypsy", "17, 162");
+            var BurgomasterOfBarovia = ctx.CreateGroup("Burgomaster of Barovia", "42");
+            #endregion
+
+            #region Domain Add
+            Barovia.AddLocations(CastleRavenloft, VillageOfBarovia);
+            Barovia.AddNPCs(JerenSureblade, CountStrahd, Mikhash, Ireena, Tatyana, Donavich);
+            Barovia.AddItems(Chosen, WandOfMM, Luckstone, Decanter, Medallion, Icon, Sunsword, PotOfHeal, VialOfHolyWater, AmuletOfLight);
+            #endregion
+
+            #region Location Add
+            CastleRavenloft.AddNPCs(CountStrahd, JerenSureblade, Ireena, Tatyana);
+            CastleRavenloft.AddItems(Medallion, Icon, Sunsword);
+            VillageOfBarovia.AddNPCs(CountStrahd, JerenSureblade, Ireena, Donavich);
+            #endregion
+
+            #region Item Add
+            Chosen.AddNPCs(JerenSureblade);
+            WandOfMM.AddNPCs(JerenSureblade, Ireena);
+            Luckstone.AddNPCs(JerenSureblade, Ireena);
+            AmuletOfLight.AddNPCs(JerenSureblade);
+            Sunsword.AddNPCs(JerenSureblade);
+            #endregion
+
+            #region Group Add
+            Gypsy.AddNPCs(Mikhash);
+            VillageOfBaroviaGroup.PopulateSettlement(VillageOfBarovia);
+            #endregion
         }
         void AddBeforeIWake()
         {

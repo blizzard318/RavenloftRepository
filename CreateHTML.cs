@@ -1,8 +1,7 @@
-﻿using Humanizer.Localisation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using NUglify;
+using System.Collections.Generic;
 using System.Text;
-using static Traits;
 
 internal static class CreateHTML
 {
@@ -94,7 +93,6 @@ internal static class CreateHTML
     private static string CreateLink(Source entity) => CreateLink(nameof(Source), entity.Key);
     private static string CreateLink(Trait trait)
     {
-        string subdomain = string.Empty;
         switch (trait.Type)
         {
             case nameof(Traits.Canon): //Hidden page
@@ -889,34 +887,30 @@ internal static class CreateHTML
 
         using (var subheader = new SubHeader())
         {
-            using (var Total = subheader.CreatePage("Total"))
-            {
-                using (var table = Total.CreateTable("Creatures in Ravenloft"))
-                {
-                    using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name").CreateEditionHeaders();
-                    foreach (var creature in AllCreatures.Keys)
-                    {
-                        var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
-                        rowval.AddRange(AllCreatures[creature]);
-                        table.AddRows(rowval.ToArray());
-                    }
-                }
-            }
-            var Domains = CreaturesPerDomain.Keys.ToList();
-            Domains.Sort();
+            using (var Total = subheader.CreatePage("Total")) CreateCreatureTable(Total, "Creatures in Ravenloft", AllCreatures);
             using (var PerDomains = subheader.CreatePage("Per Domain"))
             {
+                var InsideCreatures = CreaturesPerDomain[Factory.InsideRavenloftOriginalName];
+                CreaturesPerDomain.Remove(Factory.InsideRavenloftOriginalName); //Last table
+                var DomainedCreatures = CreaturesPerDomain.SelectMany(l => l.Value.Select(v => v.Key)).Distinct();
+                foreach (var creature in DomainedCreatures) InsideCreatures.Remove(creature);
+
+                var Domains = CreaturesPerDomain.Keys.ToList();
+                Domains.Sort();
                 foreach (var domain in Domains)
+                    CreateCreatureTable(PerDomains, $"Creatures in {Get.LinksOf<Domain>(domain)}", CreaturesPerDomain[domain]);
+                CreateCreatureTable(PerDomains, $"Creatures {Factory.InsideRavenloftOriginalName}", InsideCreatures);
+            }
+            static void CreateCreatureTable(SubHeader.Page page, string title, Dictionary<string, string[]> Creatures)
+            {
+                using (var table = page.CreateTable(title))
                 {
-                    using (var table = PerDomains.CreateTable($"Creatures in {Get.LinksOf<Domain>(domain)}"))
+                    using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name").CreateEditionHeaders();
+                    foreach (var creature in Creatures.Keys)
                     {
-                        using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name").CreateEditionHeaders();
-                        foreach (var creature in CreaturesPerDomain[domain].Keys)
-                        {
-                            var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
-                            rowval.AddRange(CreaturesPerDomain[domain][creature]);
-                            table.AddRows(rowval.ToArray());
-                        }
+                        var rowval = new List<string>() { CreateLink(nameof(Traits.Creature), creature) };
+                        rowval.AddRange(Creatures[creature]);
+                        table.AddRows(rowval.ToArray());
                     }
                 }
             }
@@ -926,68 +920,36 @@ internal static class CreateHTML
     }
     public static void CreateCampaignSettingPage()
     {
-        CreateOfficialHeader("Characters and Items from other Campaign Settings in Ravenloft", 1);
+        CreateOfficialHeader("Other Campaign Settings in Ravenloft", 1);
 
         using (var subheader = new SubHeader())
         {
-            using (var Character = subheader.CreatePage("Characters"))
+            AddPage("Characters", Factory.db.NPCs, Factory.db.npcAppearances);
+            AddPage("Items", Factory.db.Items, Factory.db.itemAppearances);
+            AddPage("Groups", Factory.db.Groups, Factory.db.groupAppearances);
+
+            void AddPage<T,U> (string PageTitle, DbSet<T> set, DbSet<U> appearances) where T : UseVariableName, IHasDomains where U : Appearance, IHasEntity<T>
             {
-                var AllCharacters = Factory.db.NPCs.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-                var CharactersPerSetting = new Dictionary<string, HashSet<string>>();
-                foreach (var character in AllCharacters)
+                using (var page = subheader.CreatePage(PageTitle))
                 {
-                    var setting = character.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
+                    var All = set.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
+                    var EntitiesPerSetting = new Dictionary<string, HashSet<string>>();
+                    foreach (var entity in All)
+                    {
+                        var setting = entity.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
 
-                    var Edition = Factory.db.npcAppearances.Single(a => a.EntityId == character.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
+                        var Edition = appearances.Single(a => a.Entity.Key == entity.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
 
-                    CharactersPerSetting.TryAdd(setting, new HashSet<string>());
-                    CharactersPerSetting[setting].Add(character.OriginalName);
+                        EntitiesPerSetting.TryAdd(setting, new HashSet<string>());
+                        EntitiesPerSetting[setting].Add(entity.OriginalName);
+                    }
+                    var Keys = EntitiesPerSetting.Keys.ToList();
+                    Keys.Sort();
+                    foreach (var Key in Keys)
+                        page.SetTable<T>($"{PageTitle} of {CreateLink("Setting", Key)}", null, EntitiesPerSetting[Key]);
                 }
-                var Keys = CharactersPerSetting.Keys.ToList();
-                Keys.Sort();
-                foreach (var Key in Keys)
-                    Character.SetTable<NPC>($"Characters of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, CharactersPerSetting[Key]);
-            }
-
-            using (var Item = subheader.CreatePage("Items"))
-            {
-                var AllItems = Factory.db.Items.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-                var ItemsPerSetting = new Dictionary<string, HashSet<string>>();
-                foreach (var item in AllItems)
-                {
-                    var setting = item.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
-
-                    var Edition = Factory.db.itemAppearances.Single(a => a.EntityId == item.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-
-                    ItemsPerSetting.TryAdd(setting, new HashSet<string>());
-                    ItemsPerSetting[setting].Add(item.OriginalName);
-                }
-                var Keys = ItemsPerSetting.Keys.ToList();
-                Keys.Sort();
-                foreach (var Key in Keys)
-                    Item.SetTable<Item>($"Items of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, ItemsPerSetting[Key]);
-            }
-
-            using (var Group = subheader.CreatePage("Groups"))
-            {
-                var AllGroups = Factory.db.Groups.Include(s => s.Domains).Include(s => s.Traits).Where(c => c.Traits.Any(t => t.Type == nameof(Traits.CampaignSetting)));
-                var GroupsPerSetting = new Dictionary<string, HashSet<string>>();
-                foreach (var group in AllGroups)
-                {
-                    var setting = group.Traits.Single(t => t.Type == nameof(Traits.CampaignSetting)).Key;
-
-                    var Edition = Factory.db.groupAppearances.Single(a => a.EntityId == group.Key).Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
-
-                    GroupsPerSetting.TryAdd(setting, new HashSet<string>());
-                    GroupsPerSetting[setting].Add(group.OriginalName);
-                }
-                var Keys = GroupsPerSetting.Keys.ToList();
-                Keys.Sort();
-                foreach (var Key in Keys)
-                    Group.SetTable<Group>($"Groups of {CreateLink(nameof(Traits.CampaignSetting), Key)}", null, GroupsPerSetting[Key]);
             }
         }
-
         SaveHTML("Setting");
         CreateSettingPages();
     }
@@ -1046,7 +1008,7 @@ internal static class CreateHTML
             var editiontrait = source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key;
 
             CreateOfficialHeader(source.Key, 2);
-            sb.AppendLine($"<h3>{source.Key}{canonaddon}</h3>");
+            sb.AppendLine($"<h3>{nameof(Source)}<br/>{source.Key}{canonaddon}</h3>");
             sb.AppendLine($"<h3><i style='color:grey'>{editiontrait}</i></h3><br/>");
 
             sb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
@@ -1065,7 +1027,7 @@ internal static class CreateHTML
                 sb.AppendLine($"<b>Release Date:</b> {source.ReleaseDate}<br/>");
                 sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
 
-                var Domains    = GetAppearances<DomainAppearance, Domain    >(Factory.db.domainAppearances  );
+                var Domains    = GetAppearances<DomainAppearance  , Domain  >(Factory.db.domainAppearances  );
                 var Locations  = GetAppearances<LocationAppearance, Location>(Factory.db.locationAppearances);
                 var Characters = GetAppearances<NPCAppearance     , NPC     >(Factory.db.npcAppearances     );
                 var Items      = GetAppearances<ItemAppearance    , Item    >(Factory.db.itemAppearances    );
@@ -1211,7 +1173,7 @@ internal static class CreateHTML
                 using (var subheader = new SubHeader())
                 {
                     CreateOfficialHeader(domain, 2);
-                    sb.AppendLine($"<h3>{domain}</h3>");
+                    sb.AppendLine($"<h3>{nameof(Domain)}<br/>{domain}</h3>");
 
                     if (domain == Factory.InsideRavenloftOriginalName)
                         sb.AppendLine($"These never had a domain stated.<br/>");
@@ -1358,7 +1320,7 @@ internal static class CreateHTML
             foreach (var character in totalnames)
             {
                 CreateOfficialHeader(character, 2);
-                sb.AppendLine($"<h3>{character}</h3>");
+                sb.AppendLine($"<h3>Character<br/>{character}</h3>");
 
                 using (var subheader = new SubHeader())
                 {
@@ -1447,9 +1409,12 @@ internal static class CreateHTML
                     for (int i = 0; i < domainNames.Count(); i++) domains[i] = Get.LinksOf<Domain>(domainNames[i]);
 
                     CreateOfficialHeader(location, 2);
-                    sb.AppendLine($"<h3>{location}{locationType}</h3>");
+                    sb.AppendLine($"<h3>{nameof(Location)}<br/>{location}{locationType}</h3>");
                     sb.AppendLine($"<b>Domain(s):</b> {string.Join(", ", domains)}<br/>");
                     if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Location>(original)}<br/>");
+
+                    if (totalTraits.Contains(Traits.Location.Settlement))
+                        sb.AppendLine($"<b>Related:</b> {Get.LinksOf<Group>(original)}<br/>");
 
                     //Domain, NPCs, Items, Groups, Languages, Creatures, Sources
                     var TotalSources = new HashSet<string>();
@@ -1463,8 +1428,6 @@ internal static class CreateHTML
                     {
                         foreach (var source in Sources)
                         {
-                            SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-
                             var canonaddon = string.Empty;
                             var canontrait = source.Source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
                             if (canontrait == Traits.Canon.PotentialCanon) canonaddon = $" <b style='color:yellow'>[{canontrait.Key}]</b>";
@@ -1480,11 +1443,11 @@ internal static class CreateHTML
                             var groups = source.Entity.Groups.Where(g => !g.Traits.Contains(Traits.Location.Settlement));
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
 
-                            SplitSources.AddSection(source.Entity.Domains, nameof(Domains), Domains);
-                            SplitSources.AddSection(source.Entity.NPCs, nameof(Characters), Characters);
-                            SplitSources.AddSection(source.Entity.Items, nameof(Items), Items);
-                            SplitSources.AddSection(groups, nameof(Groups), Groups);
-                            SplitSources.AddSection(creatures, nameof(Creatures), Creatures);
+                            SplitSources.AddSection(source.Entity.Domains, nameof(Domains   ), Domains   );
+                            SplitSources.AddSection(source.Entity.NPCs   , nameof(Characters), Characters);
+                            SplitSources.AddSection(source.Entity.Items  , nameof(Items     ), Items     );
+                            SplitSources.AddSection(groups               , nameof(Groups    ), Groups    );
+                            SplitSources.AddSection(creatures            , nameof(Creatures ), Creatures );
                             SplitSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
@@ -1518,7 +1481,7 @@ internal static class CreateHTML
             foreach (var item in totalnames)
             {
                 CreateOfficialHeader(item, 2);
-                sb.AppendLine($"<h3>{item}</h3>");
+                sb.AppendLine($"<h3>{nameof(Item)}<br/>{item}</h3>");
 
                 using (var subheader = new SubHeader())
                 {
@@ -1595,14 +1558,11 @@ internal static class CreateHTML
             foreach (var group in totalnames)
             {
                 CreateOfficialHeader(group, 2);
-                sb.AppendLine($"<h3>{group}</h3>");
-
+                sb.AppendLine($"<h3>{nameof(Group)}<br/>{group}</h3>");
                 using (var subheader = new SubHeader())
                 {
                     if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<NPC>(original)}<br/>");
-
                     if (Settings.Count() > 0) sb.AppendLine($"<b>Campaign Setting Origin:</b> {string.Join(", ", SettingNames)}<br/>");
-
                     //Domains, Locations, Characters, Groups, Creatures, Sources
                     var TotalSources = new HashSet<string>();
                     var Domains = new HashSet<string>();
@@ -1662,91 +1622,118 @@ internal static class CreateHTML
         }
     }
 
-    private static void CreateCreaturePages()
+    private static void CreateCreaturePages() => CreateTraitPages(nameof(Traits.Creature));
+    private static void CreateSettingPages()  => CreateTraitPages("Setting", nameof(Traits.CampaignSetting));
+    private static void CreateLanguagePages() => CreateTraitPages(nameof(Traits.Language));
+    private static void CreateTraitPages(string title, string? TraitType = null)
     {
-        var Creatures = Factory.db.Traits.Where(c => c.Type == nameof(Traits.Creature));
-        foreach (var creature in Creatures)
+        if (string.IsNullOrEmpty(TraitType)) TraitType = title;
+
+        var Domains    = GetTraitsPerSource<DomainAppearance  , Domain  >(Factory.db.domainAppearances  );
+        var Locations  = GetTraitsPerSource<LocationAppearance, Location>(Factory.db.locationAppearances);
+        var Characters = GetTraitsPerSource<NPCAppearance     , NPC     >(Factory.db.npcAppearances     );
+        var Items      = GetTraitsPerSource<ItemAppearance    , Item    >(Factory.db.itemAppearances    );
+        var Groups     = GetTraitsPerSource<GroupAppearance   , Group   >(Factory.db.groupAppearances   );
+        Dictionary<string, Dictionary<Source, HashSet<string>>> GetTraitsPerSource<T, U>(IQueryable<T> dbSet)
+            where T : Appearance, IHasEntity<U> where U : UseVariableName
         {
-            CreateOfficialHeader(creature.Key, 2);
-            sb.AppendLine($"<h3>{creature.Key}</h3>");
-
-            using (var subheader = new SubHeader())
+            var retval = new Dictionary<string, Dictionary<Source, HashSet<string>>>();
+            var Sources = dbSet.Where(d => d.Entity.Traits.Any(t => t.Type == TraitType)).GroupBy(d => d.Source);
+            foreach (var source in Sources)
             {
-                var TotalSources = new HashSet<string>();
-                var Domains = new HashSet<string>();
-                var Locations = new HashSet<string>();
-                var Items = new HashSet<string>();
-                var Characters = new HashSet<string>();
-                var Groups = new HashSet<string>();
-
-                using (var SplitSources = subheader.CreatePage("Per Source"))
+                foreach (var appearance in source)
                 {
-
-                }
-                using (var AllSources = subheader.CreatePage("All"))
-                {
-
+                    var traits = appearance.Entity.Traits.Where(t => t.Type == TraitType);
+                    foreach (var trait in traits)
+                    {
+                        retval.TryAdd(trait.Key, new Dictionary<Source, HashSet<string>>());
+                        retval[trait.Key].TryAdd(appearance.Source, new HashSet<string>());
+                        retval[trait.Key][appearance.Source].Add(Get.LinksOf<U>(appearance.Entity.OriginalName));
+                    }
                 }
             }
-            SaveHTML($"{nameof(Traits.Creature)}/{creature.Key}");
+            return retval;
         }
-    }
-    private static void CreateSettingPages()
-    {
-        var Settings = Factory.db.Traits.Where(c => c.Type == nameof(Traits.CampaignSetting));
-        foreach (var setting in Settings)
+
+        var traits = new HashSet<string>();
+        traits.UnionWith(Domains   .Keys);
+        traits.UnionWith(Locations .Keys);
+        traits.UnionWith(Characters.Keys);
+        traits.UnionWith(Items     .Keys);
+        traits.UnionWith(Groups    .Keys);
+
+        foreach (var trait in traits)
         {
-            CreateOfficialHeader(setting.Key, 2);
-            sb.AppendLine($"<h3>{setting.Key}</h3>");
+            CreateOfficialHeader(trait, 2);
+            sb.AppendLine($"<h3>{title}<br/>{trait}</h3>");
 
             using (var subheader = new SubHeader())
             {
-                var TotalSources = new HashSet<string>();
-                var Domains = new HashSet<string>();
-                var Locations = new HashSet<string>();
-                var Items = new HashSet<string>();
-                var Characters = new HashSet<string>();
-                var Groups = new HashSet<string>();
-
+                bool HasContent = false;
                 using (var SplitSources = subheader.CreatePage("Per Source"))
                 {
+                    var sources = new HashSet<Source>();
+                    var iDomains    = AddKeys(Domains   );
+                    var iLocations  = AddKeys(Locations );
+                    var iCharacters = AddKeys(Characters);
+                    var iItems      = AddKeys(Items     );
+                    var iGroups     = AddKeys(Groups    );
+                    Dictionary<Source, HashSet<string>> AddKeys (Dictionary<string, Dictionary<Source, HashSet<string>>> dict)
+                    {
+                        if (dict.TryGetValue(trait, out var idict)) sources.UnionWith(idict.Keys);
+                        return idict;
+                    }
 
+                    foreach (var source in sources)
+                    {
+                        var canonaddon = string.Empty;
+                        var canontrait = source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
+                        if (canontrait == Traits.Canon.PotentialCanon) canonaddon = $" <b style='color:yellow'>[{canontrait.Key}]</b>";
+                        else if (canontrait == Traits.Canon.NotCanon) canonaddon = $" <b style='color:red'>[{canontrait.Key}]</b>";
+                        var editiontrait = source.Traits.Single(t => t.Type == nameof(Traits.Edition)).Key;
+
+                        SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                        SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                        SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
+
+                        if (iDomains?.ContainsKey(source) == true)
+                        {
+                            iDomains[source].Remove(Get.LinksOf<Domain>(Factory.InsideRavenloftOriginalName));
+                            iDomains[source].Remove(Get.LinksOf<Domain>(Factory.OutsideRavenloftOriginalName));
+                            AddSection(iDomains, nameof(Domains));
+                        }
+                        AddSection(iLocations , nameof(Locations ));
+                        AddSection(iCharacters, nameof(Characters));
+                        AddSection(iItems     , nameof(Items     ));
+                        AddSection(iGroups    , nameof(Groups    ));
+                        SplitSources.contents.AppendLine("</div></div><br/>");
+                        void AddSection (Dictionary<Source, HashSet<string>> idict, string title)
+                        {
+                            if (idict?.TryGetValue(source, out var value) == true)
+                            {
+                                if (value.Count() > 0) HasContent = true;
+                                SplitSources.AddSection(value, title);
+                            }
+                        }
+                    }
                 }
-                using (var AllSources = subheader.CreatePage("All"))
+                if (HasContent)
                 {
-
+                    using var AllSources = subheader.CreatePage("All");
+                    AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
+                    AddSection(Domains   , nameof(Domains   ));
+                    AddSection(Locations , nameof(Locations ));
+                    AddSection(Characters, nameof(Characters));
+                    AddSection(Items     , nameof(Items     ));
+                    AddSection(Groups    , nameof(Groups    ));
+                    AllSources.contents.AppendLine("</div></div><br/>");
+                    void AddSection(Dictionary<string, Dictionary<Source, HashSet<string>>> dict, string title)
+                    {
+                        if (dict.TryGetValue(trait, out var idict)) AllSources.AddSection(idict.SelectMany(e => e.Value).Distinct(), title);
+                    }
                 }
             }
-            SaveHTML($"Setting/{setting.Key}");
-        }
-    }
-    private static void CreateLanguagePages()
-    {
-        var Languages = Factory.db.Traits.Where(c => c.Type == nameof(Traits.Language));
-        foreach (var language in Languages)
-        {
-            CreateOfficialHeader(language.Key, 2);
-            sb.AppendLine($"<h3>{language.Key}</h3>");
-
-            using (var subheader = new SubHeader())
-            {
-                var TotalSources = new HashSet<string>();
-                var Domains = new HashSet<string>();
-                var Locations = new HashSet<string>();
-                var Items = new HashSet<string>();
-                var Characters = new HashSet<string>();
-                var Groups = new HashSet<string>();
-
-                using (var SplitSources = subheader.CreatePage("Per Source"))
-                {
-
-                }
-                using (var AllSources = subheader.CreatePage("All"))
-                {
-
-                }
-            }
-            SaveHTML($"{nameof(Traits.Language)}/{language.Key}");
+            SaveHTML($"{title}/{trait}");
         }
     }
     #endregion

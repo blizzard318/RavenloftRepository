@@ -1,6 +1,5 @@
 ﻿//This script is for creating stuff to the database
 //Adding stuff to the newly created stuff is handled in CrossAdd.cs
-using NUglify.JavaScript.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 internal class Factory : IDisposable

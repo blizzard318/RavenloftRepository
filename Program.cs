@@ -1,4 +1,4 @@
-﻿AddToDatabase.Add();
+﻿/*AddToDatabase.Add();
 
 CreateHTML.CreateHomepage();
 
@@ -7,7 +7,7 @@ CreateHTML.CreateDomainPage();
 CreateHTML.CreateLocationPage();
 CreateHTML.CreateCharacterPage();
 CreateHTML.CreateItemPage();
-CreateHTML.CreateGroupPage();
+CreateHTML.CreateGroupPage();*/
 
 CreateHTML.CreateCreaturePage();
 CreateHTML.CreateCampaignSettingPage();
