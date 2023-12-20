@@ -1,65 +1,12 @@
-﻿internal static class AddToDatabase1
+﻿internal static partial class AddToDatabase
 {
-    private static (Location location, Group settlement) CreateSettlement(this Factory ctx, string name, string pageNumbers = "Throughout") => ctx.CreateSettlement(name, name, pageNumbers); 
-    private static (Location, Group) CreateSettlement(this Factory ctx, string name, string originalName, string pageNumbers)
+    public static void Add1()
     {
-        var location = ctx.CreateLocation(name, originalName, pageNumbers).AddTraits(Traits.Location.Settlement);
-        var group = ctx.CreateGroup(name, originalName, pageNumbers).AddTraits(Traits.Location.Settlement);
-        group.AddLocations(location);
-        return (location, group);
-    }
-    private static void PopulateSettlement(this Group Settlement, params Location[] locations)
-    {
-        Settlement.AddLocations(locations);
-        foreach (var location in Settlement.Locations)
-        {
-            Settlement.AddNPCs(location.NPCs.ToArray());
-            Settlement.AddItems(location.Items.ToArray());
-        }
-    }
-    public static void Add()
-    {
-        AddBeforeIWake();
         AddCommanderLegendsBattleforBaldursGate();
         AddDiceMastersStrahd();
         AddSpellfireMastertheMagic();
         AddTSRCollectorCards();
 
-        void AddBeforeIWake()
-        {
-            var releaseDate = "31/10/2007";
-            string ExtraInfo = "<br/>&emsp;Author: Air Marmell";
-            using var ctx = Factory.CreateSource("Before I Wake", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
-            if (ctx == null) return;
-
-            var Darkon = ctx.CreateDomain("Darkon");
-            var Bluetspur = ctx.CreateDomain("Bluetspur");
-            var Lamordia = ctx.CreateDomain("Lamordia");
-
-            (var Nartok, var NartokGroup) = ctx.CreateSettlement("Nartok");
-            var MillsOfNartok = ctx.CreateLocation("Mills of Nartok").AddInfo("For Darkonian Lumber");
-            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddInfo("Whilst not stated in the story, Ari Marmell said the Asylum is located in Lamordia.<a href='https://bsky.app/profile/mouseferatu.bsky.social/post/3kelemhzy2l2n'>Bluesky Link</a>");
-
-            var Clarke = ctx.CreateNPC("Clarke").AddTraits(Traits.Creature.Human).AddInfo("Probably deceased");
-            var Phillips = ctx.CreateNPC("Phillips").AddTraits(Traits.Creature.Human, Traits.Deceased);
-
-            var Augustus = ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Creature.Human);
-            var Roberts = ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Creature.Human, Traits.Deceased);
-            var HowardAshton = ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Creature.Human);
-
-            Darkon.AddLocations(Nartok, MillsOfNartok);
-            Darkon.AddGroups(NartokGroup);
-            Darkon.AddNPCs(HowardAshton, Clarke, Phillips);
-            Bluetspur.AddNPCs(HowardAshton, Clarke, Phillips);
-            Lamordia.AddLocations(DharlaethAsylum);
-            Lamordia.AddNPCs(HowardAshton, Augustus, Roberts);
-
-            MillsOfNartok.AddNPCs(HowardAshton, Clarke, Phillips);
-            DharlaethAsylum.AddNPCs(HowardAshton, Augustus, Roberts);
-
-            NartokGroup.PopulateSettlement(Nartok, MillsOfNartok);
-
-        }
         void AddCommanderLegendsBattleforBaldursGate()
         {
             var releaseDate = "10/06/2022";

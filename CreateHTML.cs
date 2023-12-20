@@ -148,7 +148,7 @@ internal static class CreateHTML
         sb.AppendLine($"<h1>{WebsiteTitle}</h1><hr/>");
 
         sb.AppendLine("<h2>");
-        sb.Append("<a href='").Append(db).AppendLine("'>Official</a> | ");
+        sb.Append("<a href='/home'>Official</a> | ");
         sb.AppendLine("<a href='../3rdParty'>3rd Party</a>");
         sb.AppendLine("</h2><hr />");
 
@@ -727,6 +727,7 @@ internal static class CreateHTML
     public static void CreateItemPage()
     {
         CreateOfficialHeader("Items of Ravenloft", 1);
+        sb.AppendLine("I track magic and significant mundane items.");
 
         using (var subheader = new SubHeader())
         {

@@ -135,36 +135,49 @@
         public static Trait Kender    = CreateCreature("Kender");
         public static Trait Gnome     = CreateCreature("Gnome");
         public static Trait Drow      = CreateCreature("Drow");
+        public static Trait Orc       = CreateCreature("Orc");
 
-        public static Trait Vulture     = CreateCreature("Vulture"     );
-        public static Trait Wolf        = CreateCreature("Wolf"        );
-        public static Trait Bat         = CreateCreature("Bat"         );
-        public static Trait VampireBat  = CreateCreature("Vampire Bat" );
-        public static Trait Horse       = CreateCreature("Horse"       );
-        public static Trait Cat         = CreateCreature("Cat"         );
-        public static Trait Dog         = CreateCreature("Dog"         );
-        public static Trait Fox         = CreateCreature("Fox"         );
-        public static Trait Pig         = CreateCreature("Pig"         );
-        public static Trait Snake       = CreateCreature("Snake"       );
-        public static Trait Tiger       = CreateCreature("Tiger"       );
-        public static Trait Raven       = CreateCreature("Raven"       );
-        public static Trait Panther     = CreateCreature("Panther"     );
-        public static Trait GiantRat    = CreateCreature("Giant Rat"   );
+        public static Trait Vulture  = CreateCreature("Vulture" );
+        public static Trait Horse    = CreateCreature("Horse"   );
+        public static Trait Cat      = CreateCreature("Cat"     );
+        public static Trait Dog      = CreateCreature("Dog"     );
+        public static Trait Fox      = CreateCreature("Fox"     );
+        public static Trait Pig      = CreateCreature("Pig"     );
+        public static Trait Snake    = CreateCreature("Snake"   );
+        public static Trait Tiger    = CreateCreature("Tiger"   );
+        public static Trait Raven    = CreateCreature("Raven"   );
+        public static Trait Panther  = CreateCreature("Panther" );
+        public static Trait Mouse    = CreateCreature("Mouse"   );
+        public static Trait Deer     = CreateCreature("Deer"    );
+        public static Trait Rabbit   = CreateCreature("Rabbit"  );
+        public static Trait Squirrel = CreateCreature("Squirrel");
+        public static Trait Skunk    = CreateCreature("Skunk"   );
+
+        public static Trait GiantRat  = CreateCreature("Giant Rat" );
+        public static Trait GiantToad = CreateCreature("Giant Toad");
+
+        public static Trait Wolf     = CreateCreature("Wolf"     );
+        public static Trait DireWolf = CreateCreature("Dire Wolf");
+
+        public static Trait Bat        = CreateCreature("Bat"        );
+        public static Trait VampireBat = CreateCreature("Vampire Bat");
 
         public static Trait GiantSpider = CreateCreature("Giant Spider");
         public static Trait HugeSpider  = CreateCreature("Huge Spider" );
         public static Trait Spider      = CreateCreature("Spider"      );
 
-        public static Trait Unicorn = CreateCreature("Unicorn");
+        public static Trait Stirge      = CreateCreature("Stirge");
 
-        public static Trait Goblyn     = CreateCreature("Goblyn"      );
-        public static Trait GreenSlime = CreateCreature("Green Slime" );
-        public static Trait Gargoyle   = CreateCreature("Gargoyle"    );
-        public static Trait RustMonster= CreateCreature("Rust Monster");
-        public static Trait Trapper    = CreateCreature("Trapper"     );
-        public static Trait LurkerAbove= CreateCreature("Lurker Above");
+        public static Trait Goblyn      = CreateCreature("Goblyn"      );
+        public static Trait GreenSlime  = CreateCreature("Green Slime" );
+        public static Trait Gargoyle    = CreateCreature("Gargoyle"    );
+        public static Trait RustMonster = CreateCreature("Rust Monster");
+        public static Trait Trapper     = CreateCreature("Trapper"     );
+        public static Trait LurkerAbove = CreateCreature("Lurker Above");
 
+        public static Trait Unicorn        = CreateCreature("Unicorn"        );
         public static Trait Worg           = CreateCreature("Worg"           );
+        public static Trait Griffon        = CreateCreature("Griffon"        );
         public static Trait Nightmare      = CreateCreature("Nightmare"      );
         public static Trait ShadowMastiff  = CreateCreature("Shadow Mastiff" );
         public static Trait DisplacerBeast = CreateCreature("Displacer Beast");
@@ -181,25 +194,31 @@
         public static Trait Doppelganger     = CreateCreature("Doppelganger"     );
         public static Trait InvisibleStalker = CreateCreature("Invisible Stalker");
 
+        public static Trait Shade  = CreateCreature("Shade" );
+        public static Trait Shadow = CreateCreature("Shadow");
+
         public static Trait Spirit      = CreateCreature("Spirit"     );
         public static Trait Ghost       = CreateCreature("Ghost"      );
         public static Trait Wraith      = CreateCreature("Wraith"     );
         public static Trait Spectre     = CreateCreature("Spectre"    );
         public static Trait Banshee     = CreateCreature("Banshee"    );
-        public static Trait Shade       = CreateCreature("Shade"      );
-        public static Trait Shadow      = CreateCreature("Shadow"     );
         public static Trait GrimReaper  = CreateCreature("Grim Reaper");
         public static Trait Bussengeist = CreateCreature("Bussengeist");
         public static Trait Odem        = CreateCreature("Odem"       );
         public static Trait Geist       = CreateCreature("Geist"      );
         public static Trait Haunt       = CreateCreature("Haunt"      );
         public static Trait Drelb       = CreateCreature("Drelb"      );
+        public static Trait WillOWisp   = CreateCreature("Will-o-Wisp");
 
-        public static Trait StrahdZombie = CreateCreature("Strahd Zombie");
-        public static Trait StrahdSteed  = CreateCreature("Strahd's Skeletal Steed");
-        public static Trait Zombie       = CreateCreature("Zombie"       );
-        public static Trait SeaZombie    = CreateCreature("Sea Zombie"   );
-        public static Trait Skeleton     = CreateCreature("Skeleton"     );
+        public static Trait StrahdZombie   = CreateCreature("Strahd Zombie"  );
+        public static Trait StrahdSkeleton = CreateCreature("Strahd Skeleton");
+        public static Trait StrahdSteed    = CreateCreature("Strahd's Skeletal Steed");
+
+        public static Trait Zombie         = CreateCreature("Zombie"        );
+        public static Trait SeaZombie      = CreateCreature("Sea Zombie"    );
+        public static Trait Skeleton       = CreateCreature("Skeleton"      );
+        public static Trait SkeletonSteed  = CreateCreature("Skeleton Steed");
+        public static Trait Bodak          = CreateCreature("Bodak"         );
 
         public static Trait GraveElemental   = CreateCreature("Grave Elemental"  );
         public static Trait AnimatedRock     = CreateCreature("Animated Rock"    );
@@ -209,8 +228,12 @@
         public static Trait Mimic            = CreateCreature("Mimic"            );
 
         public static Trait IronGolem  = CreateCreature("Iron Golem" );
+        public static Trait StoneGolem = CreateCreature("Stone Golem");
         public static Trait BoneGolem  = CreateCreature("Bone Golem" );
         public static Trait FleshGolem = CreateCreature("Flesh Golem");
+
+        public static Trait QuasiElementalLightning = CreateCreature("Quasi-Elemental Lightning");
+        public static Trait Mihstu = CreateCreature("Mihstug");
 
         public static Trait Vampyre   = CreateCreature("Vampyre");
         public static Trait Vampire   = CreateCreature("Vampire");
@@ -227,6 +250,8 @@
 
         public static Trait Hag       = CreateCreature("Hag"     );
         public static Trait Witch     = CreateCreature("Witch"   );
+        public static Trait Harpy     = CreateCreature("Harpy"   );
+        public static Trait Ogre      = CreateCreature("Ogre");
 
         public static Trait Werewolf  = CreateCreature("Werewolf");
         public static Trait Wolfwere  = CreateCreature("Wolfwere");
