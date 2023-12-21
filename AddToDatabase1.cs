@@ -480,7 +480,7 @@
 
                 var HoelgarArnutsson = ctx.CreateNPC("Hoelgar Arnutsson", "61/750").AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.GoldDragon);
                 ctx.InsideRavenloft.AddNPCs(HoelgarArnutsson);
-                var DragonSlayer = ctx.CreateItem("Dragonslayer", "61/750");
+                var DragonSlayer = ctx.CreateItem("Dragonslayer", "Dragon Slayer", "61/750");
                 HoelgarArnutsson.AddItems(DragonSlayer);
                 ctx.InsideRavenloft.AddItems(HoelgarArnutsson.Items.ToArray());
 
@@ -664,7 +664,8 @@
                     Traits.Creature.AssassinImp, //604/750
                     Traits.Creature.Quickwood, //605/750
                     Traits.Creature.Reaver, //606/750
-                    Traits.Creature.StrahdSteed, //608/750
+                    Traits.Creature.StrahdSteed.Item1, //608/750
+                    Traits.Creature.StrahdSteed.Item2, //608/750
                     Traits.Creature.Horse, //608/750
                     Traits.Creature.GreaterWolfwere, //609/750
                     Traits.Creature.SeaZombie //620/750

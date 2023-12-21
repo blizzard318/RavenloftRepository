@@ -488,21 +488,7 @@ internal static class CreateHTML
                     }
                 }
                 foreach (var cluster in DomainsPerCluster)
-                {
                     Group.SetTable<Domain>(CreateLink(nameof(Group), cluster.Key), null, cluster.Value);
-                    /*using (var table = Group.CreateTable(cluster.Key))
-                    {
-                        using (var headerRow = table.CreateHeaderRow())
-                            headerRow.CreateHeader(cluster.Key).CreateEditionHeaders();
-
-                        foreach (var domain in cluster.Value)
-                        {
-                            var rowval = new List<string>() { Get.LinksOf<Domain>(domain) };
-                            rowval.AddRange(Get.EditionsOf<Domain>(domain));
-                            table.AddRows(rowval.ToArray());
-                        }
-                    }*/
-                }
             }
         }
         SaveHTML(nameof(Domain));
@@ -1026,7 +1012,9 @@ internal static class CreateHTML
                 if (canontrait != null) sb.AppendLine($"<b>Canon:</b> {canontrait.Key}<br/>");
 
                 sb.AppendLine($"<b>Release Date:</b> {source.ReleaseDate}<br/>");
-                sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
+
+                if (!string.IsNullOrEmpty(source.ExtraInfo))
+                    sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
 
                 var Domains    = GetAppearances<DomainAppearance  , Domain  >(Factory.db.domainAppearances  );
                 var Locations  = GetAppearances<LocationAppearance, Location>(Factory.db.locationAppearances);
@@ -1161,13 +1149,25 @@ internal static class CreateHTML
         var Domains = Get.AllOriginalsOf(typeof(Domain));
         foreach (var original in Domains)
         {
-            var totalnames = Get.TotalNamesOf<Domain>(original);
             var Sources = Factory.db.domainAppearances.Where(i => i.Entity.OriginalName == original).Include(d => d.Entity.Locations)
-                .Include(d => d.Entity.NPCs).Include(d => d.Entity.Items).Include(d => d.Entity.Groups).Include(d => d.Entity.Traits);
+                .Include(d => d.Entity.NPCs).Include(d => d.Entity.Items).Include(d => d.Entity.Groups).Include(d => d.Entity.Traits).ToArray();
 
-            var Clusters = Sources.SelectMany(l => l.Entity.Groups).Where(g => g.Traits.Any(g => g == Traits.Location.Cluster));
-            var ClusterNames = Clusters.Count() == 0 ? new string[] { IslandsOfTerror } : Clusters.Select(d => d.OriginalName).Distinct().ToArray();
-            for (int i = 0; i < ClusterNames.Length; i++) ClusterNames[i] = CreateLink(nameof(Group), ClusterNames[i]);
+            var totalnames = Get.TotalNamesOf<Domain>(original);
+
+            string ClusterAppend = string.Empty;
+            if (original == Factory.InsideRavenloftOriginalName)
+                ClusterAppend = "These never had a domain stated.<br/>";
+            else if (original == Factory.OutsideRavenloftOriginalName)
+                ClusterAppend = "These exist outside of Ravenloft but have some relation to it.<br/>";
+            else
+            {
+                var Clusters = Sources.SelectMany(l => l.Entity.Groups).Where(g => g.Traits.Any(g => g == Traits.Location.Cluster));
+                var ClusterNames = Clusters.Count() == 0 ? new string[] { IslandsOfTerror } : Clusters.Select(d => d.OriginalName).Distinct();
+                for (int i = 0; i < ClusterNames.Length; i++) ClusterNames[i] = CreateLink(nameof(Group), ClusterNames[i]);
+
+                ClusterAppend = $"<b>Cluster:</b> {string.Join(",", ClusterNames)}<br/>";
+                if (totalnames.Length > 1) ClusterAppend += $"<b>Other Names:</b> {Get.LinksOf<Domain>(original)}<br/>";
+            }
 
             foreach (var domain in totalnames)
             {
@@ -1176,15 +1176,7 @@ internal static class CreateHTML
                     CreateOfficialHeader(domain, 2);
                     sb.AppendLine($"<h3>{nameof(Domain)}<br/>{domain}</h3>");
 
-                    if (domain == Factory.InsideRavenloftOriginalName)
-                        sb.AppendLine($"These never had a domain stated.<br/>");
-                    else if (domain == Factory.OutsideRavenloftOriginalName)
-                        sb.AppendLine($"These exist outside of Ravenloft but have some relation to it.<br/>");
-                    else
-                    {
-                        sb.AppendLine($"<b>Cluster:</b> {string.Join(",", ClusterNames)}<br/>");
-                        if (totalnames.Length > 1) sb.AppendLine($"<b>Other Names:</b> {Get.LinksOf<Domain>(original)}<br/>");
-                    }
+                    sb.AppendLine(ClusterAppend);
 
                     //Sources, Location, NPCs, Items, Groups, Languages, Creatures, 
                     var TotalSources = new HashSet<string>();
@@ -1199,8 +1191,10 @@ internal static class CreateHTML
                     using (var SplitSources = subheader.CreatePage("Per Source"))
                     {
                         var tempsb = new StringBuilder(); //This is just for the InsideRavenloft page.
+                        Console.WriteLine($"SplitSources page created");
                         foreach (var source in Sources) //All sources with the domain's original name
                         {
+                            Console.WriteLine($"Going through source {source.SourceKey}");
                             tempsb.Clear();
                             var canonaddon = string.Empty;
                             var canontrait = source.Source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
@@ -1211,6 +1205,8 @@ internal static class CreateHTML
                             tempsb.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                             tempsb.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
                             tempsb.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
+                            if (!string.IsNullOrEmpty(source.Entity.ExtraInfo)) 
+                                tempsb.AppendLine($"<b>Extra Info:</b> {source.Entity.ExtraInfo}<br/>");
 
                             var languages = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Language       ));
                             var creatures = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature       ));
@@ -1353,6 +1349,8 @@ internal static class CreateHTML
                             SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
                             SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
                             SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {source.PageNumbers}<br/>");
+                            if (!string.IsNullOrEmpty(source.Entity.ExtraInfo)) 
+                                SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.Entity.ExtraInfo}<br/>");
                             TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
 
                             var languages  = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Language ));
@@ -1439,6 +1437,8 @@ internal static class CreateHTML
                             SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
                             SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
                             SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {source.PageNumbers}<br/>");
+                            if (!string.IsNullOrEmpty(source.Entity.ExtraInfo)) 
+                                SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.Entity.ExtraInfo}<br/>");
                             TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
 
                             var groups = source.Entity.Groups.Where(g => !g.Traits.Contains(Traits.Location.Settlement));
@@ -1513,6 +1513,8 @@ internal static class CreateHTML
                             SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
                             SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
                             SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {source.PageNumbers}<br/>");
+                            if (!string.IsNullOrEmpty(source.Entity.ExtraInfo))
+                                SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.Entity.ExtraInfo}<br/>");
                             TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
 
                             var creatures  = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Creature));
@@ -1588,6 +1590,8 @@ internal static class CreateHTML
                             SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source.Source)}{canonaddon}<br/>");
                             SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
                             SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {source.PageNumbers}<br/>");
+                            if (!string.IsNullOrEmpty(source.Entity.ExtraInfo))
+                                SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.Entity.ExtraInfo}<br/>");
                             TotalSources.Add($"{CreateLink(source.Source)} (<i>{source.PageNumbers}</i>)");
 
                             var languages  = source.Entity.Traits.Where(t => t.Type == nameof(Traits.Language ));
@@ -1665,8 +1669,11 @@ internal static class CreateHTML
 
         foreach (var trait in traits)
         {
+            var ExtraInfo = Factory.db.Traits.Single(t => t.Type == TraitType && t.Key == trait).ExtraInfo;
+
             CreateOfficialHeader(trait, 2);
             sb.AppendLine($"<h3>{title}<br/>{trait}</h3>");
+            if (!string.IsNullOrEmpty(ExtraInfo)) sb.AppendLine($"<b>Extra Info:</b> {ExtraInfo}<br/>");
 
             using (var subheader = new SubHeader())
             {
@@ -1696,6 +1703,7 @@ internal static class CreateHTML
                         SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                         SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                         SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
+                        SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
 
                         if (iDomains?.ContainsKey(source) == true)
                         {

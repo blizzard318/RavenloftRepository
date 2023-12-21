@@ -1,5 +1,6 @@
 ﻿AddToDatabase.Add0();
 AddToDatabase.Add1();
+AddToDatabase.Add2();
 
 CreateHTML.CreateHomepage();
 

@@ -1,4 +1,6 @@
-﻿internal static class Traits
+﻿using Microsoft.EntityFrameworkCore;
+
+internal static class Traits
 {
     //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
@@ -113,6 +115,32 @@
         public static List<Trait> traits = new List<Trait>();
         private static Trait CreateLanguage(string name) => traits.Add(name, nameof(Language));
         public static Trait Common = CreateLanguage("Common");
+        public static (Trait, Trait) Elf = (CreateLanguage("Elf"), CreateLanguage("Elvish"));
+        public static (Trait, Trait) Elvish = (Elf.Item1, Elf.Item2);
+        public static (Trait, Trait) Gnome = (CreateLanguage("Gnome"), CreateLanguage("Gnomish"));
+        public static (Trait, Trait) Gnomish = (Gnome.Item1, Gnome.Item2);
+        public static Trait Dwarvish = CreateLanguage("Dwarvish");
+        public static Trait Halfling = CreateLanguage("Halfling");
+
+        public static Trait Illithid = CreateLanguage("Illithid");
+        public static Trait Orcish = CreateLanguage("Orcish");
+        public static Trait Goblin = CreateLanguage("Goblin");
+        public static Trait Hobgoblin = CreateLanguage("Hobgoblin");
+        public static Trait Ogre = CreateLanguage("Ogre");
+        public static Trait Drow = CreateLanguage("Drow");
+        public static Trait Troll = CreateLanguage("Troll");
+        public static Trait Gnoll = CreateLanguage("Gnoll");
+        public static Trait KuoToan = CreateLanguage("Kuo-Toan");
+
+        public static Trait Treantish = CreateLanguage("Treantish");
+
+        public static Trait HillGiant = CreateLanguage("Hill Giant");
+        public static Trait MountainGiant = CreateLanguage("Mountain Giant");
+
+        public static Trait RedDragon = CreateLanguage("Red Dragon");
+
+        public static Trait BurrowingMammals = CreateLanguage("Burrowing Mammals");
+        public static Trait DesertNomad = CreateLanguage("Desert Nomad");
     }
 
     internal static class Creature
@@ -136,12 +164,13 @@
         public static Trait Gnome     = CreateCreature("Gnome");
         public static Trait Drow      = CreateCreature("Drow");
         public static Trait Orc       = CreateCreature("Orc");
+        public static Trait HalfOrc   = CreateCreature("Half-Orc");
 
         public static Trait Vulture  = CreateCreature("Vulture" );
         public static Trait Horse    = CreateCreature("Horse"   );
-        public static Trait Cat      = CreateCreature("Cat"     );
         public static Trait Dog      = CreateCreature("Dog"     );
         public static Trait Fox      = CreateCreature("Fox"     );
+        public static Trait Rat      = CreateCreature("Rat"     );
         public static Trait Pig      = CreateCreature("Pig"     );
         public static Trait Snake    = CreateCreature("Snake"   );
         public static Trait Tiger    = CreateCreature("Tiger"   );
@@ -152,6 +181,8 @@
         public static Trait Rabbit   = CreateCreature("Rabbit"  );
         public static Trait Squirrel = CreateCreature("Squirrel");
         public static Trait Skunk    = CreateCreature("Skunk"   );
+
+        public static Trait BlackCat = CreateCreature("Black Cat");
 
         public static Trait GiantRat  = CreateCreature("Giant Rat" );
         public static Trait GiantToad = CreateCreature("Giant Toad");
@@ -166,7 +197,8 @@
         public static Trait HugeSpider  = CreateCreature("Huge Spider" );
         public static Trait Spider      = CreateCreature("Spider"      );
 
-        public static Trait Stirge      = CreateCreature("Stirge");
+        public static Trait Stirge = CreateCreature("Stirge");
+        public static Trait Maggot = CreateCreature("Maggot");
 
         public static Trait Goblyn      = CreateCreature("Goblyn"      );
         public static Trait GreenSlime  = CreateCreature("Green Slime" );
@@ -212,12 +244,10 @@
 
         public static Trait StrahdZombie   = CreateCreature("Strahd Zombie"  );
         public static Trait StrahdSkeleton = CreateCreature("Strahd Skeleton");
-        public static Trait StrahdSteed    = CreateCreature("Strahd's Skeletal Steed");
 
         public static Trait Zombie         = CreateCreature("Zombie"        );
         public static Trait SeaZombie      = CreateCreature("Sea Zombie"    );
         public static Trait Skeleton       = CreateCreature("Skeleton"      );
-        public static Trait SkeletonSteed  = CreateCreature("Skeleton Steed");
         public static Trait Bodak          = CreateCreature("Bodak"         );
 
         public static Trait GraveElemental   = CreateCreature("Grave Elemental"  );
@@ -276,6 +306,14 @@
 
         public static (Trait,Trait) VampiricMist = (CreateCreature("Vampiric Mist"), CreateCreature("Crimson Death"));
         public static (Trait,Trait) CrimsonDeath = (VampiricMist.Item1, VampiricMist.Item2);
+
+        public static (Trait, Trait) SkeletonSteed = (CreateCreature("Skeleton Steed"), CreateCreature("Skeletal Steed"));
+        public static (Trait, Trait) SkeletalSteed = (SkeletonSteed.Item1, SkeletonSteed.Item2);
+
+        public static (Trait, Trait) Quasit = (CreateCreature("Quasit"), CreateCreature("Quazit"));
+        public static (Trait, Trait) Quazit = (Quasit.Item1, Quasit.Item2);
+
+        public static (Trait, Trait) StrahdSteed = (CreateCreature("Strahd's Skeletal Steed"), CreateCreature("Strahd Skeleton Steed"));
         #endregion
     }
     #endregion

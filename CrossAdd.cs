@@ -1,4 +1,6 @@
-﻿internal static class Cross
+﻿using System.Collections.Generic;
+
+internal static class Cross
 {
     private static T Add<T,U>(this T entity, params U[] array) where T : UseVariableName where U : UseName
     {
