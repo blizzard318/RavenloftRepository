@@ -12,6 +12,12 @@ internal static class CreateHTML
     private static string InsideRavenloftLink  = CreateLink(nameof(Domain), Factory.InsideRavenloftOriginalName );
     private static string OutsideRavenloftLink = CreateLink(nameof(Domain), Factory.OutsideRavenloftOriginalName);
 
+    private static HashSet<Source  > _Sources   = Factory.db.Sources  .Include(s => s.Traits).AsNoTracking().ToHashSet();
+    private static HashSet<Domain  > _Domains   = Factory.db.Domains  .Include(s => s.Traits).AsNoTracking().ToHashSet();
+    private static HashSet<NPC     > _NPCs      = Factory.db.NPCs     .Include(s => s.Traits).AsNoTracking().ToHashSet();
+    private static HashSet<Location> _Locations = Factory.db.Locations.Include(s => s.Traits).AsNoTracking().ToHashSet();
+    private static HashSet<Item    > _Items     = Factory.db.Items    .Include(s => s.Traits).AsNoTracking().ToHashSet();
+    private static HashSet<Group   > _Groups    = Factory.db.Groups   .Include(s => s.Traits).AsNoTracking().ToHashSet();
     private static class Get
     {
         private sealed class Entity
@@ -28,26 +34,27 @@ internal static class CreateHTML
         private static readonly Dictionary<string, Entity> Items      = new Dictionary<string, Entity>();
         private static readonly Dictionary<string, Entity> Groups     = new Dictionary<string, Entity>();
 
+        private static readonly Dictionary<string, string[]> Darklords = new Dictionary<string, string[]>();
+
         public static void Pregenerate() //I don't trust this to be a static constructor. This has to run after the db is filled.
         {
             if (Pregenerated) return;
             Pregenerated = true;
 
-            Fill(nameof(Domain)  , Domains   , Factory.db.Domains  , Factory.db.domainAppearances  );
-            Fill("Character"     , Characters, Factory.db.NPCs     , Factory.db.npcAppearances     );
-            Fill(nameof(Location), Locations , Factory.db.Locations, Factory.db.locationAppearances);
-            Fill(nameof(Item)    , Items     , Factory.db.Items    , Factory.db.itemAppearances    );
-            Fill(nameof(Group)   , Groups    , Factory.db.Groups   , Factory.db.groupAppearances   );
+            Fill(nameof(Domain)  , Domains   , _Domains  , Factory.db.domainAppearances  );
+            Fill("Character"     , Characters, _NPCs     , Factory.db.npcAppearances     );
+            Fill(nameof(Location), Locations , _Locations, Factory.db.locationAppearances);
+            Fill(nameof(Item)    , Items     , _Items    , Factory.db.itemAppearances    );
+            Fill(nameof(Group)   , Groups    , _Groups   , Factory.db.groupAppearances   );
 
-            void Fill<T, U>(string Subdomain, Dictionary<string, Entity> ToFill, DbSet<T> ToRead, DbSet<U> Appearances) 
+            void Fill<T, U>(string Subdomain, Dictionary<string, Entity> ToFill, HashSet<T> ToRead, DbSet<U> Appearances) 
                 where T : UseVariableName where U : Appearance, IHasEntity<T>
             {
-                var All = ToRead.ToHashSet();
-                var OriginalNames = ToRead.Select(s => s.OriginalName).ToHashSet();
+                var OriginalNames = ToRead.Select(s => s.OriginalName);
 
                 foreach (var OriginalName in OriginalNames)
                 {
-                    var AllVersions = All.Where(d => d.OriginalName == OriginalName);
+                    var AllVersions = ToRead.Where(d => d.OriginalName == OriginalName);
 
                     string[] NamesOfSame = AllVersions.Select(s => s.Name).Distinct().ToArray();
                     string combinedLinks;
@@ -70,6 +77,20 @@ internal static class CreateHTML
                     ToFill.Add(OriginalName, new Entity(NamesOfSame, Editions, combinedLinks));
                 }
             }
+
+            foreach (var DomainName in Domains.Keys)
+            {
+                if (DomainName == Factory.InsideRavenloftOriginalName || DomainName == Factory.OutsideRavenloftOriginalName) continue;
+
+                var DarklordGroupName = Factory.DarklordGroupName(DomainName);
+                var _Darklords = _Groups.Where(g => g.OriginalName == DarklordGroupName)?.SelectMany(g => g.NPCs).Distinct();
+                if (_Darklords != null)
+                    foreach (var Darklord in _Darklords)
+                    {
+                        Darklords.TryAdd(DomainName, new string[0]);
+                        Darklords[DomainName].Add(Characters[Darklord.OriginalName].CombinedLink);
+                    }
+            }
         }
         public static string[] AllOriginalsOf (Type type) => GetEntity(type).Keys.ToArray();
         public static string[] TotalNamesOf<T>(T i) where T : UseVariableName => TotalNamesOf<T>(i.OriginalName);
@@ -78,6 +99,9 @@ internal static class CreateHTML
         public static string LinksOf<T>(string OriginalName) where T : UseVariableName => GetEntity(typeof(T))[OriginalName].CombinedLink;
         public static string[] EditionsOf<T>(T i) where T : UseVariableName => EditionsOf<T>(i.OriginalName);
         public static string[] EditionsOf<T>(string OriginalName) where T : UseVariableName => GetEntity(typeof(T))[OriginalName].Editions;
+
+        public static string[] DarklordsOf(Domain domain) => Darklords(domain.OriginalName);
+        public static string[] DarklordsOf (string OriginalName)
 
         private static Dictionary<string, Entity> GetEntity (Type type)
         {
@@ -393,8 +417,7 @@ internal static class CreateHTML
             using (var headerRow = table.CreateHeaderRow())
                 headerRow.CreateHeader("Name").CreateSortHeader("Edition", "Media Type").CreateSortDateHeader("Release Date");
 
-            var Sources = Factory.db.Sources.Include(s => s.Traits);
-            foreach (var source in Sources)
+            foreach (var source in _Sources)
             {
                 var edition = source.Traits.Single(s => s.Type == nameof(Traits.Edition)).Key;
                 MaterialPerEdition[edition] = MaterialPerEdition.ContainsKey(edition) ? MaterialPerEdition[edition] + 1 : 1;
@@ -450,7 +473,7 @@ internal static class CreateHTML
                         if (DomainName == Factory.InsideRavenloftOriginalName || DomainName == Factory.OutsideRavenloftOriginalName) continue;
 
                         var DarklordGroupName = Factory.DarklordGroupName(DomainName);
-                        var Darklords = Factory.db.Groups.Where(g => g.OriginalName == DarklordGroupName)?.SelectMany(g => g.NPCs).Distinct();
+                        var Darklords = _Groups.Where(g => g.OriginalName == DarklordGroupName)?.SelectMany(g => g.NPCs).Distinct();
                         var DarkLordLinks = new HashSet<string>();
                         if (Darklords != null)
                             foreach (var Darklord in Darklords)
@@ -983,9 +1006,7 @@ internal static class CreateHTML
     #region CHILD PAGES
     private static void CreateSourcePages()
     {
-        var Sources = Factory.db.Sources.Include(s => s.Traits);
-
-        foreach (var source in Sources)
+        foreach (var source in _Sources)
         {
             var canonaddon = string.Empty;
             var canontrait = source.Traits.SingleOrDefault(t => t.Type == nameof(Traits.Canon));
@@ -1162,7 +1183,7 @@ internal static class CreateHTML
             else
             {
                 var Clusters = Sources.SelectMany(l => l.Entity.Groups).Where(g => g.Traits.Any(g => g == Traits.Location.Cluster));
-                var ClusterNames = Clusters.Count() == 0 ? new string[] { IslandsOfTerror } : Clusters.Select(d => d.OriginalName).Distinct();
+                var ClusterNames = Clusters.Count() == 0 ? new string[] { IslandsOfTerror } : Clusters.Select(d => d.OriginalName).Distinct().ToArray();
                 for (int i = 0; i < ClusterNames.Length; i++) ClusterNames[i] = CreateLink(nameof(Group), ClusterNames[i]);
 
                 ClusterAppend = $"<b>Cluster:</b> {string.Join(",", ClusterNames)}<br/>";
