@@ -12,12 +12,12 @@ internal static class CreateHTML
     private static string InsideRavenloftLink  = CreateLink(nameof(Domain), Factory.InsideRavenloftOriginalName );
     private static string OutsideRavenloftLink = CreateLink(nameof(Domain), Factory.OutsideRavenloftOriginalName);
 
-    private static HashSet<Source  > _Sources   = Factory.db.Sources  .Include(s => s.Traits).AsNoTracking().ToHashSet();
-    private static HashSet<Domain  > _Domains   = Factory.db.Domains  .Include(s => s.Traits).AsNoTracking().ToHashSet();
-    private static HashSet<NPC     > _NPCs      = Factory.db.NPCs     .Include(s => s.Traits).AsNoTracking().ToHashSet();
-    private static HashSet<Location> _Locations = Factory.db.Locations.Include(s => s.Traits).AsNoTracking().ToHashSet();
-    private static HashSet<Item    > _Items     = Factory.db.Items    .Include(s => s.Traits).AsNoTracking().ToHashSet();
-    private static HashSet<Group   > _Groups    = Factory.db.Groups   .Include(s => s.Traits).AsNoTracking().ToHashSet();
+    private static HashSet<Source  > _Sources   = Factory.db.Sources  /*.Include(s => s.Traits).AsNoTracking().ToHashSet()*/;
+    private static HashSet<Domain  > _Domains   = Factory.db.Domains  /*.Include(s => s.Traits).AsNoTracking().ToHashSet()*/;
+    private static HashSet<NPC     > _NPCs      = Factory.db.NPCs     /*.Include(s => s.Traits).AsNoTracking().ToHashSet()*/;
+    private static HashSet<Location> _Locations = Factory.db.Locations/*.Include(s => s.Traits).AsNoTracking().ToHashSet()*/;
+    private static HashSet<Item    > _Items     = Factory.db.Items    /*.Include(s => s.Traits).AsNoTracking().ToHashSet()*/;
+    private static HashSet<Group   > _Groups    = Factory.db.Groups   /*.Include(s => s.Traits).AsNoTracking().ToHashSet()*/;
     private static class Get
     {
         private sealed class Entity
@@ -47,7 +47,7 @@ internal static class CreateHTML
             Fill(nameof(Item)    , Items     , _Items    , Factory.db.itemAppearances    );
             Fill(nameof(Group)   , Groups    , _Groups   , Factory.db.groupAppearances   );
 
-            void Fill<T, U>(string Subdomain, Dictionary<string, Entity> ToFill, HashSet<T> ToRead, DbSet<U> Appearances) 
+            void Fill<T, U>(string Subdomain, Dictionary<string, Entity> ToFill, HashSet<T> ToRead, HashSet<U> Appearances) 
                 where T : UseVariableName where U : Appearance, IHasEntity<T>
             {
                 var OriginalNames = ToRead.Select(s => s.OriginalName);
@@ -67,7 +67,8 @@ internal static class CreateHTML
                     else combinedLinks = string.Join("/", NamesOfSame);
 
                     var Editions = new string[Traits.Edition.traits.Count];
-                    var Sources = Appearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == OriginalName).Select(a => a.Source);
+                    //var Sources = Appearances.Include(a => a.Source.Traits).Where(a => a.Entity.OriginalName == OriginalName).Select(a => a.Source);
+                    var Sources = Appearances.Where(a => a.Entity.OriginalName == OriginalName).Select(a => a.Source);
                     foreach (var Source in Sources)
                     {
                         var Edition = Source.Traits.Single(t => t.Type == nameof(Traits.Edition));
@@ -85,11 +86,11 @@ internal static class CreateHTML
                 var DarklordGroupName = Factory.DarklordGroupName(DomainName);
                 var _Darklords = _Groups.Where(g => g.OriginalName == DarklordGroupName)?.SelectMany(g => g.NPCs).Distinct();
                 if (_Darklords != null)
-                    foreach (var Darklord in _Darklords)
-                    {
-                        Darklords.TryAdd(DomainName, new string[0]);
-                        Darklords[DomainName].Add(Characters[Darklord.OriginalName].CombinedLink);
-                    }
+                {
+                    var darklords = new HashSet<string>();
+                    foreach (var Darklord in _Darklords) darklords.Add(Characters[Darklord.OriginalName].CombinedLink);
+                    Darklords.Add(DomainName, darklords.ToArray());
+                }
             }
         }
         public static string[] AllOriginalsOf (Type type) => GetEntity(type).Keys.ToArray();
@@ -100,8 +101,8 @@ internal static class CreateHTML
         public static string[] EditionsOf<T>(T i) where T : UseVariableName => EditionsOf<T>(i.OriginalName);
         public static string[] EditionsOf<T>(string OriginalName) where T : UseVariableName => GetEntity(typeof(T))[OriginalName].Editions;
 
-        public static string[] DarklordsOf(Domain domain) => Darklords(domain.OriginalName);
-        public static string[] DarklordsOf (string OriginalName)
+        public static string[] DarklordsOf(Domain domain) => DarklordsOf(domain.OriginalName);
+        public static string[] DarklordsOf(string OriginalDomainName) => Darklords[OriginalDomainName];
 
         private static Dictionary<string, Entity> GetEntity (Type type)
         {
@@ -138,9 +139,8 @@ internal static class CreateHTML
     #endregion
 
     #region PAGE CREATOR
-    private static StringBuilder sb = new StringBuilder();
     private enum SortMethod { alphabet, date }
-    private static void CreateOfficialHeader(string title, int depth = 0)
+    private static void CreateOfficialHeader(this StringBuilder sb, string title, int depth = 0)
     {
         Get.Pregenerate();
         const string DepthText = "../";
@@ -193,7 +193,7 @@ internal static class CreateHTML
 
         sb.AppendLine("</h2><hr />");
     }
-    private static void SaveHTML(string DirectoryName)
+    private static void SaveHTML(this StringBuilder sb, string DirectoryName)
     {
         Console.WriteLine($"Creating {DirectoryName} page");
         sb.AppendLine($"<br/><br/><br/><i style='font-size:10px;line-height:0'>Disclaimer: The registered trademarks and other intellectual property related to Ravenloft and owned by TSR, Arthaus, White Wolf SSI, Sony, Hasbro, Ral Partha, Paizo, and/or Wizards of the Coast are used for the purpose of identification only. {WebsiteTitle} is not affiliated with/or endorsed by these manufacturers.</i>");
@@ -235,11 +235,10 @@ internal static class CreateHTML
 
         private readonly string TableID;
         private readonly StringBuilder sb;
-        public Table(string id, string title, string? caption = null, StringBuilder? stringBuilder = null)
+        public Table(StringBuilder stringBuilder, string id, string title, string? caption = null)
         {
             var addon = TablesToSort.Count() == 0 ? " open" : string.Empty;
             TablesToSort.Add(TableID = FixLink(id), (SortMethod.alphabet, 0));
-            sb = stringBuilder ?? CreateHTML.sb;
             sb.AppendLine($"<details{addon}><summary><b style='font-size:25px'>{title}</b></summary>");
             sb.AppendLine($"<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='{id}'>");
             if (!string.IsNullOrWhiteSpace(caption)) sb.AppendLine($"<caption>{caption}</caption>");

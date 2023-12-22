@@ -9,8 +9,6 @@ internal static partial class AddToDatabase
         AddI6Ravenloft();
         AddI10TheHouseOnGryphonHill();
 
-        Factory.db.SaveChanges();
-
         void AddI6Ravenloft()
         {
             var releaseDate = "01/11/1983";

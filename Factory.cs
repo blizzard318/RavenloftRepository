@@ -60,17 +60,19 @@ internal class Factory : IDisposable
         }
     }
     public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
-        => (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
+        //=> (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
+        => (db.Sources.SingleOrDefault(s => s.Key == name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
     private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
     {
         Console.WriteLine($"Adding: {name}");
-        Source = db.Sources.Add(new Source()
+        Source = new Source()
         {
             Key = name,
             Traits = new(traits),
             ReleaseDate = releaseDate,
             ExtraInfo = extraInfo
-        }).Entity;
+        };
+        //db.Sources.Add(Source).Entity;
         foreach (var trait in traits) trait.Sources.Add(Source);
     }
     private T Create<T,U>(string name, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, new() where U : Appearance, IHasEntity<T>, new()
@@ -144,11 +146,19 @@ internal class Factory : IDisposable
         other.IgnoreThis.Add(relationship);
     }
 
-    public static Source.Trait CreateSourceTrait(string name, string type) =>
-        db.SourceTraits.Find(name) ??
-        db.SourceTraits.Add(new Source.Trait() { Key = name, Type = type }).Entity;
+    public static Source.Trait CreateSourceTrait(string name, string type)
+    {
+        //db.SourceTraits.Find(name) ?? db.SourceTraits.Add(new Source.Trait() { Key = name, Type = type }).Entity;
+        var retval = db.SourceTraits.SingleOrDefault(s => s.Key == name);
+        if (retval == null) db.SourceTraits.Add(retval = new Source.Trait() { Key = name, Type = type });
+        return retval;
+    }
 
-    public static Trait CreateTrait(string name, params string[] types) =>
-        db.Traits.Find(name) ??
-        db.Traits.Add(new Trait() { Key = name, Type = string.Join(',', types) }).Entity;
+    public static Trait CreateTrait(string name, params string[] types)
+    {
+        //db.Traits.Find(name) ?? db.Traits.Add(new Trait() { Key = name, Type = string.Join(',', types) }).Entity;
+        var retval = db.Traits.SingleOrDefault(s => s.Key == name);
+        if (retval == null) db.Traits.Add(retval = new Trait() { Key = name, Type = string.Join(',', types) });
+        return retval;
+    }
 }

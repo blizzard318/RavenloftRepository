@@ -2,28 +2,28 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class RavenloftContext : DbContext
+public class RavenloftContext// : DbContext
 {
-    public DbSet<LocationAppearance> locationAppearances { get; set; }
-    public DbSet<NPCAppearance> npcAppearances { get; set; }
-    public DbSet<DomainAppearance> domainAppearances { get; set; }
-    public DbSet<ItemAppearance> itemAppearances { get; set; }
-    public DbSet<GroupAppearance> groupAppearances { get; set; }
+    public HashSet<LocationAppearance> locationAppearances { get; set; }
+    public HashSet<NPCAppearance> npcAppearances { get; set; }
+    public HashSet<DomainAppearance> domainAppearances { get; set; }
+    public HashSet<ItemAppearance> itemAppearances { get; set; }
+    public HashSet<GroupAppearance> groupAppearances { get; set; }
     
-    public DbSet<Relationship> Relationships { get; set; }
+    public HashSet<Relationship> Relationships { get; set; }
 
-    public DbSet<Source> Sources { get; set; }
-    public DbSet<Source.Trait> SourceTraits { get; set; }
+    public HashSet<Source> Sources { get; set; }
+    public HashSet<Source.Trait> SourceTraits { get; set; }
 
-    public DbSet<Trait> Traits { get; set; }
+    public HashSet<Trait> Traits { get; set; }
 
-    public DbSet<Item> Items { get; set; }
-    public DbSet<Domain> Domains { get; set; }
-    public DbSet<NPC> NPCs { get; set; }
-    public DbSet<Location> Locations { get; set; }
-    public DbSet<Group> Groups { get; set; }
+    public HashSet<Item> Items { get; set; }
+    public HashSet<Domain> Domains { get; set; }
+    public HashSet<NPC> NPCs { get; set; }
+    public HashSet<Location> Locations { get; set; }
+    public HashSet<Group> Groups { get; set; }
 
-    public string DbPath { get; }
+    /*public string DbPath { get; }
     public RavenloftContext() => DbPath = Path.Join(Directory.GetCurrentDirectory(), "Ravenloft.db");
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -48,7 +48,7 @@ public class RavenloftContext : DbContext
         modelBuilder.Entity<Appearance>().ToTable("Appearances");
 
         base.OnModelCreating(modelBuilder);
-    }
+    }*/
 }
 
 public abstract class UseName
