@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-internal static class Cross
+﻿internal static class Cross
 {
-    private static T Add<T,U>(this T entity, params U[] array) where T : UseVariableName where U : UseName
+    private static T Add<T,U>(this T entity, string Source, params U[] array) where T : UseVariableName where U : UseName
     {
         var list = GetSetFromArray(array);
-        foreach (var set in list) set.Add(entity);
+        foreach (var set in list) set[Source].Add(entity);
 
         var otherlist = GetSetFromEntity(entity);
         foreach (var instance in array) otherlist.Add(instance);
@@ -15,11 +13,11 @@ internal static class Cross
         static IEnumerable<HashSet<T>>? GetSetFromArray(U[] array)
         {
             var type = typeof(T);
-            if (type == typeof(Location)) return ((IHasLocations[])array).Select(t => t.Locations) as IEnumerable<HashSet<T>>;
-            if (type == typeof(Domain  )) return ((IHasDomains  [])array).Select(t => t.Domains  ) as IEnumerable<HashSet<T>>;
-            if (type == typeof(NPC     )) return ((IHasNPCs     [])array).Select(t => t.NPCs     ) as IEnumerable<HashSet<T>>;
-            if (type == typeof(Item    )) return ((IHasItems    [])array).Select(t => t.Items    ) as IEnumerable<HashSet<T>>;
-            if (type == typeof(Group   )) return ((IHasGroups   [])array).Select(t => t.Groups   ) as IEnumerable<HashSet<T>>;
+            if (type == typeof(Location)) return ((IHasLocations[])array).Select(t => t.Locations) as Dictionary<string,T>;
+            if (type == typeof(Domain  )) return ((IHasDomains  [])array).Select(t => t.Domains  ) as Dictionary<string,T>;
+            if (type == typeof(NPC     )) return ((IHasNPCs     [])array).Select(t => t.NPCs     ) as Dictionary<string,T>;
+            if (type == typeof(Item    )) return ((IHasItems    [])array).Select(t => t.Items    ) as Dictionary<string,T>;
+            if (type == typeof(Group   )) return ((IHasGroups   [])array).Select(t => t.Groups   ) as Dictionary<string,T>;
             throw new NotImplementedException();
         }
         static HashSet<U>? GetSetFromEntity (T entity) 

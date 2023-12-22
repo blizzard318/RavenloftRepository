@@ -72,17 +72,18 @@ internal class Factory : IDisposable
             ReleaseDate = releaseDate,
             ExtraInfo = extraInfo
         };
-        //db.Sources.Add(Source).Entity;
+        db.Sources.Add(Source);//.Entity;
         foreach (var trait in traits) trait.Sources.Add(Source);
     }
     private T Create<T,U>(string name, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, new() where U : Appearance, IHasEntity<T>, new()
     {
-        T retval = GetSet().Add(new()
+        T retval = new()
         {
             Key = Source.Key + "/" + name,
             Name = name,
             OriginalName = originalName
-        }).Entity;
+        };
+        GetSet().Add(retval);
         GetAppearanceSet().Add(new()
         {
             Source = Source,
@@ -92,7 +93,27 @@ internal class Factory : IDisposable
 
         return retval;
 
-        static DbSet<T>? GetSet ()
+        static HashSet<T>? GetSet ()
+        {
+            var type = typeof(T);
+            if (type == typeof(Domain  )) return db.Domains   as HashSet<T>;
+            if (type == typeof(Location)) return db.Locations as HashSet<T>;
+            if (type == typeof(Item    )) return db.Items     as HashSet<T>;
+            if (type == typeof(NPC     )) return db.NPCs      as HashSet<T>;
+            if (type == typeof(Group   )) return db.Groups    as HashSet<T>;
+            throw new NotImplementedException();
+        }
+        static HashSet<U>? GetAppearanceSet()
+        {
+            var type = typeof(T);
+            if (type == typeof(Domain  )) return db.domainAppearances   as HashSet<U>;
+            if (type == typeof(Location)) return db.locationAppearances as HashSet<U>;
+            if (type == typeof(Item    )) return db.itemAppearances     as HashSet<U>;
+            if (type == typeof(NPC     )) return db.npcAppearances      as HashSet<U>;
+            if (type == typeof(Group   )) return db.groupAppearances    as HashSet<U>;
+            throw new NotImplementedException();
+        }
+        /*static DbSet<T>? GetSet ()
         {
             var type = typeof(T);
             if (type == typeof(Domain  )) return db.Domains   as DbSet<T>;
@@ -111,7 +132,7 @@ internal class Factory : IDisposable
             if (type == typeof(NPC     )) return db.npcAppearances      as DbSet<U>;
             if (type == typeof(Group   )) return db.groupAppearances    as DbSet<U>;
             throw new NotImplementedException();
-        }
+        }*/
     }
 
     public Domain CreateDomain(string name, string pageNumbers = "Throughout") => CreateDomain(name, name, pageNumbers);
