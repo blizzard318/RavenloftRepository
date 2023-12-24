@@ -53,111 +53,70 @@ internal class Factory : IDisposable
     {
         foreach (var domain in domains)
         {
-            domain.Traits.UnionWith(domain.Locations.SelectMany(e => e.Traits));
-            domain.Traits.UnionWith(domain.NPCs     .SelectMany(e => e.Traits));
-            domain.Traits.UnionWith(domain.Groups   .SelectMany(e => e.Traits));
-            domain.Traits.UnionWith(domain.Items    .SelectMany(e => e.Traits));
+            domain.Appearances[Source].Traits.UnionWith(domain.Locations[Source].SelectMany(e => e.Appearances[Source].Traits));
+            domain.Appearances[Source].Traits.UnionWith(domain.NPCs     [Source].SelectMany(e => e.Appearances[Source].Traits));
+            domain.Appearances[Source].Traits.UnionWith(domain.Groups   [Source].SelectMany(e => e.Appearances[Source].Traits));
+            domain.Appearances[Source].Traits.UnionWith(domain.Items    [Source].SelectMany(e => e.Appearances[Source].Traits));
         }
     }
-    public static Factory? CreateSource(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
-        //=> (db.Sources.Find(name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
-        => (db.Sources.SingleOrDefault(s => s.Key == name) != null) ? null : new Factory(name, releaseDate, extraInfo, traits);
-    private Factory(string name, string releaseDate, string extraInfo, params Source.Trait[] traits)
+    public static Factory? CreateSource(string name, string releaseDate, string extraInfo, Source.Trait Edition, Source.Trait Media, Source.Trait? Canon = null)
+        => new Factory(name, releaseDate, extraInfo, Edition, Media, Canon);
+    private Factory(string name, string releaseDate, string extraInfo, Source.Trait Edition, Source.Trait Media, Source.Trait? Canon)
     {
         Console.WriteLine($"Adding: {name}");
-        Source = new Source()
-        {
-            Key = name,
-            Traits = new(traits),
-            ReleaseDate = releaseDate,
-            ExtraInfo = extraInfo
-        };
-        db.Sources.Add(Source);//.Entity;
-        foreach (var trait in traits) trait.Sources.Add(Source);
-    }
-    private T Create<T,U>(string name, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, new() where U : Appearance, IHasEntity<T>, new()
-    {
-        T retval = new()
-        {
-            Key = Source.Key + "/" + name,
-            Name = name,
-            OriginalName = originalName
-        };
-        GetSet().Add(retval);
-        GetAppearanceSet().Add(new()
-        {
-            Source = Source,
-            Entity = retval,
-            PageNumbers = pageNumbers
-        });
+        Source = new Source(name, releaseDate, Edition, Media, Canon) { ExtraInfo = extraInfo };
 
+        db.Sources.Add(Source);
+        Edition.Sources.Add(Source);
+        Media.Sources.Add(Source);
+        Canon?.Sources.Add(Source);
+    }
+    private T Create<T>(string type, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, IHasAppearances<T>, new()
+    {
+        var set = GetSet();
+        set.TryGetValue(originalName, out var retval);
+        if (retval == null) set.Add(originalName, retval = (T)new UseVariableName(originalName));
+        retval.Appearances.Add(Source, new InSource<T>(retval, Source, pageNumbers));
         return retval;
 
-        static HashSet<T>? GetSet ()
+        SortedDictionary<string, T>? GetSet ()
         {
-            var type = typeof(T);
-            if (type == typeof(Domain  )) return db.Domains   as HashSet<T>;
-            if (type == typeof(Location)) return db.Locations as HashSet<T>;
-            if (type == typeof(Item    )) return db.Items     as HashSet<T>;
-            if (type == typeof(NPC     )) return db.NPCs      as HashSet<T>;
-            if (type == typeof(Group   )) return db.Groups    as HashSet<T>;
+            switch (type)
+            {
+                case "Domain"  : return db.Domains   as SortedDictionary<string, T>;
+                case "Location": return db.Locations as SortedDictionary<string, T>;
+                case "Item"    : return db.Items     as SortedDictionary<string, T>;
+                case "NPC"     : return db.NPCs      as SortedDictionary<string, T>;
+                case "Group"   : return db.Groups    as SortedDictionary<string, T>;
+            }
             throw new NotImplementedException();
         }
-        static HashSet<U>? GetAppearanceSet()
-        {
-            var type = typeof(T);
-            if (type == typeof(Domain  )) return db.domainAppearances   as HashSet<U>;
-            if (type == typeof(Location)) return db.locationAppearances as HashSet<U>;
-            if (type == typeof(Item    )) return db.itemAppearances     as HashSet<U>;
-            if (type == typeof(NPC     )) return db.npcAppearances      as HashSet<U>;
-            if (type == typeof(Group   )) return db.groupAppearances    as HashSet<U>;
-            throw new NotImplementedException();
-        }
-        /*static DbSet<T>? GetSet ()
-        {
-            var type = typeof(T);
-            if (type == typeof(Domain  )) return db.Domains   as DbSet<T>;
-            if (type == typeof(Location)) return db.Locations as DbSet<T>;
-            if (type == typeof(Item    )) return db.Items     as DbSet<T>;
-            if (type == typeof(NPC     )) return db.NPCs      as DbSet<T>;
-            if (type == typeof(Group   )) return db.Groups    as DbSet<T>;
-            throw new NotImplementedException();
-        }
-        static DbSet<U>? GetAppearanceSet()
-        {
-            var type = typeof(T);
-            if (type == typeof(Domain  )) return db.domainAppearances   as DbSet<U>;
-            if (type == typeof(Location)) return db.locationAppearances as DbSet<U>;
-            if (type == typeof(Item    )) return db.itemAppearances     as DbSet<U>;
-            if (type == typeof(NPC     )) return db.npcAppearances      as DbSet<U>;
-            if (type == typeof(Group   )) return db.groupAppearances    as DbSet<U>;
-            throw new NotImplementedException();
-        }*/
     }
 
-    public Domain CreateDomain(string name, string pageNumbers = "Throughout") => CreateDomain(name, name, pageNumbers);
-    public Domain CreateDomain(string name, string originalName, string pageNumbers)
+    public Domain CreateDomain(string originalName, string pageNumbers = "Throughout")
     {
-        var retval = Create<Domain, DomainAppearance>(name, originalName, pageNumbers);
+        var retval = Create<Domain>("Domain", originalName, pageNumbers);
         domains.Add(retval); //Important for trait distribution
         return retval;
     }
 
-    public Location CreateLocation(string name, string pageNumbers = "Throughout") => CreateLocation(name, name, pageNumbers);
-    public Location CreateLocation(string name, string originalName, string pageNumbers) => Create<Location, LocationAppearance>(name, originalName, pageNumbers);
+    public UseVariableName CreateLocation(string originalName, string pageNumbers = "Throughout")
+    {
+        db.Locations.TryGetValue(originalName, out var retval);
+        if (retval == null) db.Locations.Add(originalName, retval = new UseVariableName(originalName));
+        retval.Appearances.Add(Source, new InSource<UseVariableName>(retval, Source, pageNumbers));
+        return retval;
+    }
 
-    public NPC CreateNPC(string name, string pageNumbers = "Throughout") => CreateNPC(name, name, pageNumbers);
-    public NPC CreateNPC(string name, string originalName, string pageNumbers) => Create<NPC, NPCAppearance>(name, originalName, pageNumbers);
+    public NPC CreateNPC(string originalName, string pageNumbers = "Throughout") => CreateNPC(name, name, pageNumbers);
 
-    public Item CreateItem(string name, string pageNumbers = "Throughout") => CreateItem(name, name, pageNumbers);
-    public Item CreateItem(string name, string originalName, string pageNumbers) => Create<Item, ItemAppearance>(name, originalName, pageNumbers);
+    public UseVariableName CreateItem(string originalName, string pageNumbers = "Throughout") => CreateItem(name, name, pageNumbers);
 
-    public Group CreateGroup(string name, string pageNumbers = "Throughout") => CreateGroup(name, name, pageNumbers);
-    public Group CreateGroup(string name, string originalName, string pageNumbers) => Create<Group, GroupAppearance>(name, originalName, pageNumbers);
+    public UseVariableName CreateGroup(string originalName, string pageNumbers = "Throughout") => CreateGroup(name, name, pageNumbers);
 
     public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {
-        var relationship = new Relationship()
+        var relationship = new NPC.Relationship()
         {
             Primary = primary,
             RelationshipType = RelationshipType,

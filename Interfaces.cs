@@ -1,2 +1,2 @@
 ﻿interface IHasEntity<T> {  T Entity { get; set; } }
-interface IHasEntities<T> { Dictionary<string, List<T>> Domains { get; set; } };
+interface IHasAppearances<T> { Dictionary<Source, InSource<T>> Appearances { get; set; }  }
