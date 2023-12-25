@@ -4,10 +4,10 @@
     public List<Source.Trait> Canons   = new();
     public List<Source.Trait> Medias   = new();
 
-    public SortedSet<Trait> CampaignSettings = new();
-    public SortedSet<Trait> Languages        = new();
-    public SortedSet<Trait> Creatures        = new();
-    public List     <Trait> Alignments       = new();
+    public List<Trait> CampaignSettings = new();
+    public List<Trait> Languages        = new();
+    public List<Trait> Creatures        = new();
+    public List<Trait> Alignments       = new();
 
     public List<Source> Sources = new();
 
