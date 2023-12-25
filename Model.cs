@@ -1,30 +1,28 @@
-﻿public static class RavenloftContext
+﻿public static class Ravenloftdb
 {
-    public List<Source.Trait> Editions = new();
-    public List<Source.Trait> Canons   = new();
-    public List<Source.Trait> Medias   = new();
+    public static Dictionary<string, List<Source>> Editions = new();
+    public static Dictionary<string, List<Source>> Canons   = new();
+    public static Dictionary<string, List<Source>> Medias   = new();
 
-    public List<Trait> CampaignSettings = new();
-    public List<Trait> Languages        = new();
-    public List<Trait> Creatures        = new();
-    public List<Trait> Alignments       = new();
+    public static List<Trait> CampaignSettings = new();
+    public static List<Trait> Languages        = new();
+    public static List<Trait> Creatures        = new();
+    public static List<Trait> Alignments       = new();
 
-    public List<Source> Sources = new();
+    public static List<Source> Sources = new();
 
-    public SortedDictionary<string, Domain         > Domains   = new();
-    public SortedDictionary<string, UseVariableName> Locations = new();
-    public SortedDictionary<string, UseVariableNames> Mistways = new();
-    public SortedDictionary<string, UseVariableName> Items     = new();
-    public SortedDictionary<string, NPC            > NPCs      = new();
-    public SortedDictionary<string, Domain.Darklord> Darklords = new();
-    public SortedDictionary<string, UseVariableName> Groups    = new();
+    public static SortedDictionary<string, Domain         > Domains   = new();
+    public static SortedDictionary<string, Entity         > Locations = new();
+    public static SortedDictionary<string, Entity         > Mistways = new();
+    public static SortedDictionary<string, Entity         > Items     = new();
+    public static SortedDictionary<string, NPC            > NPCs      = new();
+    public static SortedDictionary<string, Domain.Darklord> Darklords = new();
+    public static SortedDictionary<string, Entity         > Groups    = new();
 }
 
 public abstract class UseName
 {
-    public readonly string OriginalName; //For searching purposes
-    public string ExtraInfo = string.Empty; //external links
-    public UseName(string originalName) => OriginalName = originalName;
+    public string OriginalName, ExtraInfo = string.Empty; //external links
     public override bool Equals(object obj)
     {
         if (obj == null || obj is not UseName) return false;
@@ -34,25 +32,24 @@ public abstract class UseName
 }
 public class Source : UseName
 {
-    public SortedSet<InSource<Domain         >> Domains   = new();
-    public SortedSet<InSource<UseVariableName>> Locations = new();
-    public SortedSet<InSource<NPC            >> NPCs      = new();
-    public SortedSet<InSource<UseVariableName>> Items     = new();
-    public SortedSet<InSource<UseVariableName>> Groups    = new();
+    public SortedSet<InSource<Domain>> Domains   = new();
+    public SortedSet<InSource<Entity>> Locations = new();
+    public SortedSet<InSource<NPC   >> NPCs      = new();
+    public SortedSet<InSource<Entity>> Items     = new();
+    public SortedSet<InSource<Entity>> Groups    = new();
 
-    public readonly Trait Edition, Media;
-    public readonly Trait? Canon;
-    public readonly string ReleaseDate = string.Empty;
-    
-    public Source (string originalName, string ReleaseDate, Trait Edition, Trait Media, Trait? Canon = null) : base(originalName)
-    {  this.Edition = Edition; this.ReleaseDate = ReleaseDate; this.Media = Media; this.Canon = Canon; }
+    public readonly string ReleaseDate, Edition, Media;
+    public readonly string? Canon;
 
-    //Levels, contributors, release date
-    public class Trait : UseName
-    {
-        public List<Source> Sources = new();
-        public Trait (string originalName) : base (originalName) { }
+    public Source (string originalName, string ReleaseDate, string Edition, string Media, string? Canon = null)
+    { 
+        OriginalName = originalName;
+        this.ReleaseDate = ReleaseDate;
+        this.Edition = Edition;
+        this.Media = Media;
+        if (Canon != null) this.Canon = Canon;
     }
+    //Levels, contributors, release date
 }
 public class InSource<T>
 {
@@ -70,54 +67,49 @@ public class InSource<T>
 }
 public class Trait : UseName
 {
-    public SortedSet<Domain         > Domains   = new();
-    public SortedSet<UseVariableName> Locations = new();
-    public SortedSet<NPC            > NPCs      = new();
-    public SortedSet<UseVariableName> Items     = new();
-    public SortedSet<UseVariableName> Groups    = new();
-    public Trait(string originalName) : base(originalName) { }
+    public SortedSet<Domain> Domains   = new();
+    public SortedSet<Entity> Locations = new();
+    public SortedSet<NPC   > NPCs      = new();
+    public SortedSet<Entity> Items     = new();
+    public SortedSet<Entity> Groups    = new();
 }
-public class UseVariableName : UseName//Domain, Location, NPC, Item, Group
+public abstract class UseVariableName : UseName //Domain, Location, NPC, Item, Group
 {
     public HashSet<string> Names = new();
     public HashSet<Trait> Traits = new();
-    public Dictionary<Source, SortedSet<Domain         >> Domains    = new();
-    public Dictionary<Source, SortedSet<UseVariableName>> Locations  = new();
-    public Dictionary<Source, SortedSet<UseVariableName>> Items      = new();
-    public Dictionary<Source, SortedSet<NPC            >> NPCs       = new();
-    public Dictionary<Source, SortedSet<UseVariableName>> Groups     = new();
-    public UseVariableName(string originalName) : base(originalName) { }
+    public Dictionary<Source, SortedSet<Domain>> Domains    = new();
+    public Dictionary<Source, SortedSet<Entity>> Locations  = new();
+    public Dictionary<Source, SortedSet<Entity>> Items      = new();
+    public Dictionary<Source, SortedSet<NPC   >> NPCs       = new();
+    public Dictionary<Source, SortedSet<Entity>> Groups     = new();
 }
-public class Entity : UseVariableName, IHasAppearances<Entity>
+public class Entity : UseVariableName, IHasAppearances<Entity> //Location, Item, Group
 {
     public Dictionary<Source, InSource<Entity>> Appearances { get; set; } = new();
-    public Entity(string originalName) : base(originalName) { }
 }
 public class Domain : UseVariableName, IHasAppearances<Domain>
 {
-    public Dictionary<Source, InSource<Domain  >> Appearances { get; set; } = new();
-    public     Dictionary<Source, SortedSet<Darklord    >> Darklords   = new(); //Convenience
-    public     Dictionary<Source, SortedSet<Cluster>> Clusters    = new(); //Convenience
+    public Dictionary<Source, InSource <Domain  >> Appearances { get; set; } = new();
+    public Dictionary<Source, SortedSet<Darklord>> Darklords = new(); //Convenience
+    public Dictionary<Source, SortedSet<Cluster >> Clusters  = new(); //Convenience
                                                                //Recommended related media, recorded sessions
-    public Domain(string originalName) : base(originalName) { }
     public class Cluster : UseName
     {
         public SortedSet<Domain> Domains = new();
-        public Cluster(string originalName) : base(originalName) { }
     }
 
     public class Darklord : NPC
     {
-        public Location DarklordLair;
-        public string Curse, CloseBorder;
+        public Entity? DarklordLair;
+        public string Curse = string.Empty, CloseBorder = string.Empty;
     }
 }
 public class NPC : UseVariableName, IHasAppearances<NPC>
 {
     public Dictionary<Source, InSource<NPC     >> Appearances { get; set; } = new();
-    public     Dictionary<Source, HashSet<Trait    >> RelatedTraits = new();
-    public     Dictionary<Source, List<Relationship>> Relationships = new();
-    public NPC(string originalName) : base(originalName) { }
+    public Dictionary<Source, HashSet<Trait    >> RelatedTraits = new();
+    public Dictionary<Source, bool              > Deceased      = new();
+    public Dictionary<Source, List<Relationship>> Relationships = new();
     public class Relationship
     {
         public readonly NPC Primary, Other;

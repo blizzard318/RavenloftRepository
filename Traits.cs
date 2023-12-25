@@ -1,58 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-internal static class Traits
+﻿internal static class Traits
 {
-private enum SourceTraitType { Media, Edition, Canon };
-private static Source.Trait CreateSourceTrait(SourceTraitType type, string name)
-    {
-        var retval = new Source.Trait(name);
-GetList(type).Add(retval);
-        return retval;
-
-List<Source.Trait> GetList (SourceTraitType type)
-{
-   switch (type)
-{
-   case SourceTraitType.Media: return db. Medias;
-   case SourceTraitType.Edition : return db.Editions;
-    case SourceTraitType.Canon : return db.Canons;
-}
-throw new NotImplementedException();
-}
-    }
-    private static Source.Trait CreateMediaTrait(string name) => CreateSourceTrait(SourceTraitType.Media, name);
-
-private static Source.Trait CreateEditionTrait(string name) => CreateSourceTrait(SourceTraitType.Edition, name);
-
-private static Source.Trait CreateCanonTrait(string name) => CreateSourceTrait(SourceTraitType.Canon, name);
-
-private enum TraitType { CampaignSetting, Language, Creature, Alignment };
+    private enum TraitType { CampaignSetting, Language, Creature, Alignment };
     private static Trait CreateTrait(TraitType type, string name)
     {
-        var retval = new Source.Trait(name);
-GetList(type).Add(retval);
+        var retval = new Trait() { OriginalName = name };
+        GetList(type).Add(retval);
         return retval;
 
-List<Source.Trait> GetList (SourceTraitType type)
-{
-   switch (type)
-{
-   case TraitType.CampaignSetting: return db.CampaignSettings;
-   case TraitType.Language: return db.Languages;
-    case TraitType.Creature : return db.Creatures;
-case TraitType.Alignment : return db.Alignments;
-}
-throw new NotImplementedException();
-}
+        List<Trait> GetList (TraitType type)
+        {
+            switch (type)
+            {
+                case TraitType.CampaignSetting: return Ravenloftdb.CampaignSettings;
+                case TraitType.Language       : return Ravenloftdb.Languages;
+                case TraitType.Creature       : return Ravenloftdb.Creatures;
+                case TraitType.Alignment      : return Ravenloftdb.Alignments;
+            }
+            throw new NotImplementedException();
+        }
     }
 
-private static Trait CreateCampaignSettingTrait(string name) => CreateTrait(TraitType.CampaignSetting, name);
-
-private static Trait CreateCreatureTrait(string name) => CreateTrait(TraitType.Creature, name);
-
-private static Trait CreateAlignmentTrait(string name) => CreateTrait(TraitType.Alignment, name);
-
-private static Trait CreateLanguageTrait(string name) => CreateTrait(TraitType.Language, name);
+    private static Trait CreateCampaignSettingTrait(string name) => CreateTrait(TraitType.CampaignSetting, name);
+    private static Trait CreateCreatureTrait(string name) => CreateTrait(TraitType.Creature, name);
+    private static Trait CreateAlignmentTrait(string name) => CreateTrait(TraitType.Alignment, name);
+    private static Trait CreateLanguageTrait(string name) => CreateTrait(TraitType.Language, name);
 
     //Trait Types: Edition, Canon, Media, Location, Status, Alignment, Item, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
@@ -60,48 +31,6 @@ private static Trait CreateLanguageTrait(string name) => CreateTrait(TraitType.L
     public static Trait Deity = Factory.CreateTrait("Deity", "Deity");
 
     #region Universal Traits
-    private static Source.Trait Add(this List<Source.Trait> traits, string name, string TraitType)
-    {
-        var retval = Factory.CreateSourceTrait(name, TraitType);
-        traits.Add(retval);
-        return retval;
-    }
-    internal static class Edition
-    {
-        static Edition() => e0.ExtraInfo = "'Editionless' are official products that do not belong to any edition of Dungeons and Dragons.";
-        public static List<Source.Trait> traits = new List<Source.Trait>(7);
-        private static Source.Trait CreateEdition(string name) => traits.Add(name, nameof(Edition));
-        public static Source.Trait e1  = CreateEdition("1st Ed"  );
-        public static Source.Trait e2  = CreateEdition("2nd Ed"  );
-        public static Source.Trait e3  = CreateEdition("3rd Ed"  );
-        public static Source.Trait e35 = CreateEdition("3.5th Ed");
-        public static Source.Trait e4  = CreateEdition("4th Ed"  );
-        public static Source.Trait e5  = CreateEdition("5th Ed"  );
-        public static Source.Trait e0  = CreateEdition("Editionless");
-    }
-    internal static class Canon //Annoying to create a page for this, maybe don't.
-    {
-        static Canon() => NotCanon.ExtraInfo = PotentialCanon.ExtraInfo = "Unless explicity stated as 'Potentially Canon' or 'Not Canon', everything else is treated Canon.";
-        public static List<Source.Trait> traits = new List<Source.Trait>(2);
-        private static Source.Trait CreateCanon(string name) => traits.Add(name, nameof(Canon));
-        public static Source.Trait PotentialCanon = CreateCanon("Potentially Canon");
-        public static Source.Trait NotCanon       = CreateCanon("Not Canon"        );
-    }
-    internal static class Media
-    {
-        public static List<Source.Trait> traits = new List<Source.Trait>(9);
-        private static Source.Trait CreateMedia(string name) => traits.Add(name, nameof(Media));
-        public static Source.Trait sourcebook = CreateMedia("Sourcebook");
-        public static Source.Trait module     = CreateMedia("Module"    );
-        public static Source.Trait magazine   = CreateMedia("Magazine"  );
-        public static Source.Trait novel      = CreateMedia("Novel"     );
-        public static Source.Trait gamebook   = CreateMedia("Gamebook"  );
-        public static Source.Trait audiobook  = CreateMedia("Audiobook" );
-        public static Source.Trait videogame  = CreateMedia("Video Game");
-        public static Source.Trait comic      = CreateMedia("Comic"     );
-        public static Source.Trait boardgame  = CreateMedia("Board Game");
-        public static Source.Trait miniature  = CreateMedia("Miniature" );
-    }
     private static Trait Add (this List<Trait> traits, string name, string TraitType)
     {
         var retval = Factory.CreateTrait(name, TraitType);
