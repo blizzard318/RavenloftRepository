@@ -45,7 +45,6 @@ internal class Factory : IDisposable
     }
     #endregion
 
-    public readonly static RavenloftContext db = new RavenloftContext();
     private readonly Source Source;
     private readonly List<Domain> domains = new(); //For trait distribution
 
