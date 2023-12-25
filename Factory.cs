@@ -139,24 +139,37 @@ List<Source.Trait> GetList (SourceTraitType type)
 throw new NotImplementedException();
 }
     }
-    public static Source.Trait CreateMediaTrait(string name) => 
-public static Source.Trait CreateMediaTrait(string name)
+    public static Source.Trait CreateMediaTrait(string name) => CreateSourceTrait(SourceTraitType.Media, name);
+
+public static Source.Trait CreateEditionTrait(string name) => CreateSourceTrait(SourceTraitType.Edition, name);
+
+public static Source.Trait CreateCanonTrait(string name) => CreateSourceTrait(SourceTraitType.Canon, name);
+
+private enum TraitType { CampaignSetting, Language, Creature, Alignment };
+    private static Trait CreateTrait(TraitType type, string name)
     {
         var retval = new Source.Trait(name);
-db.Medias.Add(retval);
+GetList(type).Add(retval);
         return retval;
+
+List<Source.Trait> GetList (SourceTraitType type)
+{
+   switch (type)
+{
+   case TraitType.CampaignSetting: return db.CampaignSettings;
+   case TraitType.Language: return db.Languages;
+    case TraitType.Creature : return db.Creatures;
+case TraitType.Alignment : return db.Alignments;
+}
+throw new NotImplementedException();
+}
     }
-public static Source.Trait CreateMediaTrait(string name)
-    {
-        var retval = new Source.Trait(name);
-db.Medias.Add(retval);
-        return retval;
-    }
-    public static Trait CreateTrait(string name, params string[] types)
-    {
-        //db.Traits.Find(name) ?? db.Traits.Add(new Trait() { Key = name, Type = string.Join(',', types) }).Entity;
-        var retval = db.Traits.SingleOrDefault(s => s.Key == name);
-        if (retval == null) db.Traits.Add(retval = new Trait() { Key = name, Type = string.Join(',', types) });
-        return retval;
-    }
+
+public static Trait CreateCampaignSettingTrait(string name) => CreateTrait(TraitType.CampaignSetting, name);
+
+public static Trait CreateCreatureTrait(string name) => CreateTrait(TraitType.Creature, name);
+
+public static Trait CreateAlignmentTrait(string name) => CreateTrait(TraitType.Alignment, name);
+
+public static Trait CreateLanguageTrait(string name) => CreateTrait(TraitType.Language, name);
 }
