@@ -71,23 +71,25 @@ internal class Factory : IDisposable
         Media.Sources.Add(Source);
         Canon?.Sources.Add(Source);
     }
-    private T Create<T>(string type, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, IHasAppearances<T>, new()
+    private Enum EntityType { Domain, Location, Item, NPC, Group };
+
+    private T Create<T>(EntityType type, string originalName, string pageNumbers = "Throughout") where T : UseVariableName, IHasAppearances<T>, new()
     {
-        var set = GetSet();
+        var set = GetSet(type);
         set.TryGetValue(originalName, out var retval);
         if (retval == null) set.Add(originalName, retval = (T)new UseVariableName(originalName));
         retval.Appearances.Add(Source, new InSource<T>(retval, Source, pageNumbers));
         return retval;
 
-        SortedDictionary<string, T>? GetSet ()
+        static SortedDictionary<string, T>? GetSet (EntityType type)
         {
             switch (type)
             {
-                case "Domain"  : return db.Domains   as SortedDictionary<string, T>;
+                case EntityType.Domain  : return db.Domains   as SortedDictionary<string, T>;
                 case "Location": return db.Locations as SortedDictionary<string, T>;
-                case "Item"    : return db.Items     as SortedDictionary<string, T>;
-                case "NPC"     : return db.NPCs      as SortedDictionary<string, T>;
-                case "Group"   : return db.Groups    as SortedDictionary<string, T>;
+                case EntityType.Item    : return db.Items     as SortedDictionary<string, T>;
+                case EntityType.NPC     : return db.NPCs      as SortedDictionary<string, T>;
+                case EntityType.Group   : return db.Groups    as SortedDictionary<string, T>;
             }
             throw new NotImplementedException();
         }
@@ -95,24 +97,18 @@ internal class Factory : IDisposable
 
     public Domain CreateDomain(string originalName, string pageNumbers = "Throughout")
     {
-        var retval = Create<Domain>("Domain", originalName, pageNumbers);
+        var retval = Create<Domain>(EntityType.Domain, originalName, pageNumbers);
         domains.Add(retval); //Important for trait distribution
         return retval;
     }
 
-    public UseVariableName CreateLocation(string originalName, string pageNumbers = "Throughout")
-    {
-        db.Locations.TryGetValue(originalName, out var retval);
-        if (retval == null) db.Locations.Add(originalName, retval = new UseVariableName(originalName));
-        retval.Appearances.Add(Source, new InSource<UseVariableName>(retval, Source, pageNumbers));
-        return retval;
-    }
+    public UseVariableName CreateLocation(string originalName, string pageNumbers = "Throughout") => Create<UseVariableName>(EntityType.Location, originalName, pageNumbers);
 
-    public NPC CreateNPC(string originalName, string pageNumbers = "Throughout") => CreateNPC(name, name, pageNumbers);
+    public NPC CreateNPC(string originalName, string pageNumbers = "Throughout") => Create<NPC>(EntityType.NPC, originalName, pageNumbers);
 
-    public UseVariableName CreateItem(string originalName, string pageNumbers = "Throughout") => CreateItem(name, name, pageNumbers);
+    public UseVariableName CreateItem(string originalName, string pageNumbers = "Throughout") => Create<UseVariableName>(EntityType.Item, originalName, pageNumbers);
 
-    public UseVariableName CreateGroup(string originalName, string pageNumbers = "Throughout") => CreateGroup(name, name, pageNumbers);
+    public UseVariableName CreateGroup(string originalName, string pageNumbers = "Throughout") => Create<UseVariableName>(EntityType.Group, originalName, pageNumbers);
 
     public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {
@@ -123,17 +119,40 @@ internal class Factory : IDisposable
             Other = other,
         };
         primary.Relationships.Add(relationship);
-        other.IgnoreThis.Add(relationship);
+other.Relationshops.Add(relationship);
     }
 
-    public static Source.Trait CreateSourceTrait(string name, string type)
+private enum SourceTraitType { Media, Edition, Canon };
+private static Source.Trait CreateSourceTrait(SourceTraitType type, string name)
     {
-        //db.SourceTraits.Find(name) ?? db.SourceTraits.Add(new Source.Trait() { Key = name, Type = type }).Entity;
-        var retval = db.SourceTraits.SingleOrDefault(s => s.Key == name);
-        if (retval == null) db.SourceTraits.Add(retval = new Source.Trait() { Key = name, Type = type });
+        var retval = new Source.Trait(name);
+GetList(type).Add(retval);
+        return retval;
+
+List<Source.Trait> GetList (SourceTraitType type)
+{
+   switch (type)
+{
+   case SourceTraitType.Media: return db. Medias;
+   case SourceTraitType.Edition : return db.Editions;
+    case SourceTraitType.Canon : return db.Canons;
+}
+throw new NotImplementedException();
+}
+    }
+    public static Source.Trait CreateMediaTrait(string name) => 
+public static Source.Trait CreateMediaTrait(string name)
+    {
+        var retval = new Source.Trait(name);
+db.Medias.Add(retval);
         return retval;
     }
-
+public static Source.Trait CreateMediaTrait(string name)
+    {
+        var retval = new Source.Trait(name);
+db.Medias.Add(retval);
+        return retval;
+    }
     public static Trait CreateTrait(string name, params string[] types)
     {
         //db.Traits.Find(name) ?? db.Traits.Add(new Trait() { Key = name, Type = string.Join(',', types) }).Entity;
