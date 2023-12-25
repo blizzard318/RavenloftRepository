@@ -2,7 +2,59 @@
 
 internal static class Traits
 {
-    //Trait Types: Edition, Canon, Media, Location, Status, Item, Group, Alignment, Item, Class, Race, Creature, Language, Mistway, Cluster
+private enum SourceTraitType { Media, Edition, Canon };
+private static Source.Trait CreateSourceTrait(SourceTraitType type, string name)
+    {
+        var retval = new Source.Trait(name);
+GetList(type).Add(retval);
+        return retval;
+
+List<Source.Trait> GetList (SourceTraitType type)
+{
+   switch (type)
+{
+   case SourceTraitType.Media: return db. Medias;
+   case SourceTraitType.Edition : return db.Editions;
+    case SourceTraitType.Canon : return db.Canons;
+}
+throw new NotImplementedException();
+}
+    }
+    private static Source.Trait CreateMediaTrait(string name) => CreateSourceTrait(SourceTraitType.Media, name);
+
+private static Source.Trait CreateEditionTrait(string name) => CreateSourceTrait(SourceTraitType.Edition, name);
+
+private static Source.Trait CreateCanonTrait(string name) => CreateSourceTrait(SourceTraitType.Canon, name);
+
+private enum TraitType { CampaignSetting, Language, Creature, Alignment };
+    private static Trait CreateTrait(TraitType type, string name)
+    {
+        var retval = new Source.Trait(name);
+GetList(type).Add(retval);
+        return retval;
+
+List<Source.Trait> GetList (SourceTraitType type)
+{
+   switch (type)
+{
+   case TraitType.CampaignSetting: return db.CampaignSettings;
+   case TraitType.Language: return db.Languages;
+    case TraitType.Creature : return db.Creatures;
+case TraitType.Alignment : return db.Alignments;
+}
+throw new NotImplementedException();
+}
+    }
+
+private static Trait CreateCampaignSettingTrait(string name) => CreateTrait(TraitType.CampaignSetting, name);
+
+private static Trait CreateCreatureTrait(string name) => CreateTrait(TraitType.Creature, name);
+
+private static Trait CreateAlignmentTrait(string name) => CreateTrait(TraitType.Alignment, name);
+
+private static Trait CreateLanguageTrait(string name) => CreateTrait(TraitType.Language, name);
+
+    //Trait Types: Edition, Canon, Media, Location, Status, Alignment, Item, Creature, Language, Mistway, Cluster
     public static Trait NoLink = Factory.CreateTrait("NoLink", "NoLink"); //Do not generate a link or a reference.
     public static Trait Deceased = Factory.CreateTrait("Deceased", "Deceased");
     public static Trait Deity = Factory.CreateTrait("Deity", "Deity");
@@ -86,12 +138,6 @@ internal static class Traits
         public static Trait Cluster    = CreateLocation("Cluster"  );
         public static Trait Settlement = CreateLocation("Settlment");
         public static Trait Darklord   = CreateLocation("Darklord" );
-    }
-    internal static class Item 
-    {
-        public static List<Trait> traits = new List<Trait>();
-        private static Trait CreateLocation(string name) => traits.Add(name, nameof(Item));
-        public static Trait Vistani = CreateLocation("Vistani");
     }
 
     internal static class Alignment //Don't create a page for this.
