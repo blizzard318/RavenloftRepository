@@ -13,8 +13,10 @@
 
     public SortedDictionary<string, Domain         > Domains   = new();
     public SortedDictionary<string, UseVariableName> Locations = new();
+    public SortedDictionary<string, UseVariableNames> Mistways = new();
     public SortedDictionary<string, UseVariableName> Items     = new();
     public SortedDictionary<string, NPC            > NPCs      = new();
+    public SortedDictionary<string, Domain.Darklord> Darklords = new();
     public SortedDictionary<string, UseVariableName> Groups    = new();
 }
 
@@ -94,7 +96,7 @@ public class Entity : UseVariableName, IHasAppearances<Entity>
 public class Domain : UseVariableName, IHasAppearances<Domain>
 {
     public Dictionary<Source, InSource<Domain  >> Appearances { get; set; } = new();
-    public     Dictionary<Source, SortedSet<NPC    >> Darklords   = new(); //Convenience
+    public     Dictionary<Source, SortedSet<Darklord    >> Darklords   = new(); //Convenience
     public     Dictionary<Source, SortedSet<Cluster>> Clusters    = new(); //Convenience
                                                                //Recommended related media, recorded sessions
     public Domain(string originalName) : base(originalName) { }
@@ -102,6 +104,12 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
     {
         public SortedSet<Domain> Domains = new();
         public Cluster(string originalName) : base(originalName) { }
+    }
+
+    public class Darklord : NPC
+    {
+        public Location DarklordLair;
+        public string Curse, CloseBorder;
     }
 }
 public class NPC : UseVariableName, IHasAppearances<NPC>
