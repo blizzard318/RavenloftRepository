@@ -1,4 +1,4 @@
-﻿public class RavenloftContext// : DbContext
+﻿public static class RavenloftContext
 {
     public List<Source.Trait> Editions = new();
     public List<Source.Trait> Canons   = new();
