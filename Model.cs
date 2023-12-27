@@ -33,6 +33,7 @@ public static class Ravenloftdb
     public static readonly SortedDictionary<Entity, SortedSet<Item>> ItemsPerGroup = new();
     public static readonly SortedDictionary<Trait, SortedSet<Item>> ItemsPerCreature= new();
 
+    public static HashSet<Group> Groups => GroupsPerDomain.SelectMany(kv => kv.Value).ToHashSet();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Group>> GroupsPerDomain = new();
 
     public static readonly Dictionary<MistwayEnum, Mistway> Mistways = new();
@@ -58,8 +59,6 @@ public abstract class UseVariableName //Domain, Location, NPC, Item, Group
     public readonly Dictionary<Source, SortedSet<Item    >> Items      = new();
     public readonly Dictionary<Source, SortedSet<NPC     >> Characters = new();
     public readonly Dictionary<Source, SortedSet<Group   >> Groups     = new();
-    public readonly Dictionary<Source, SortedSet<Cluster >> Clusters   = new();
-    public readonly Dictionary<Source, SortedSet<Mistway >> Mistways   = new();
 
     public string ExtraInfo = string.Empty;
     public Edition editions;
@@ -69,7 +68,6 @@ public class InSource<T>
     public readonly T entity;
     public readonly Source source;
     public readonly string PageNumbers;
-    public readonly HashSet<Trait> Traits = new();
     public string ExtraInfo = string.Empty;
     public InSource(T entity, Source source, string pageNumbers)
     {
