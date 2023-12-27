@@ -1,7 +1,6 @@
 ﻿AddToDatabase.Add0();
 AddToDatabase.Add1();
 AddToDatabase.Add2();
-//Factory.db.SaveChanges();
 
 var tasks = new List<Task>
 {

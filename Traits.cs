@@ -1,9 +1,9 @@
 ﻿internal static class Traits
 {
     private enum TraitType { CampaignSetting, Language, Creature, Alignment };
-    private static Trait CreateTrait(TraitType type, string name)
+    private static Trait CreateTrait(TraitType type, string name, string ExtraInfo = "")
     {
-        var retval = new Trait() { OriginalName = name };
+        var retval = new Trait(name, ExtraInfo);
         GetList(type).Add(retval);
         return retval;
 
