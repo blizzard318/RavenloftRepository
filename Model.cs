@@ -19,21 +19,21 @@ public static class Ravenloftdb
 
     public static readonly SortedDictionary<DomainEnum, Domain> Domains = new();
 
-    public static readonly HashSet<Location> Locations = new();
+    public static readonly Dictionary<string, Location> Locations = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Location>> LocationsPerDomain = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Location>> SettlementsPerDomain = new(); //Towns, Villages
 
-    public static readonly HashSet<NPC> Characters = new ();
+    public static readonly Dictionary<string, NPC> Characters = new ();
     public static readonly SortedDictionary<DomainEnum, SortedSet<NPC>> CharactersPerDomain = new();
-    public static readonly SortedDictionary<Entity    , SortedSet<NPC>> CharactersPerGroup = new();
+    public static readonly SortedDictionary<NPC    , SortedSet<NPC>> CharactersPerGroup = new();
     public static readonly SortedDictionary<Trait     , SortedSet<NPC>> CharactersPerCreature = new();
 
-    public static readonly HashSet<Item> Items = new();
+    public static readonly Dictionary<string, Item> Items = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Item>> ItemsPerDomain = new();
-    public static readonly SortedDictionary<Entity, SortedSet<Item>> ItemsPerGroup = new();
+    public static readonly SortedDictionary<Item, SortedSet<Item>> ItemsPerGroup = new();
     public static readonly SortedDictionary<Trait, SortedSet<Item>> ItemsPerCreature= new();
 
-    public static HashSet<Group> Groups => GroupsPerDomain.SelectMany(kv => kv.Value).ToHashSet();
+    public static readonly Dictionary<string, Group> Groups = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Group>> GroupsPerDomain = new();
 
     public static readonly Dictionary<MistwayEnum, Mistway> Mistways = new();
@@ -53,12 +53,18 @@ public abstract class UseVariableName //Domain, Location, NPC, Item, Group
     public readonly HashSet<Trait> Creatures = new();
     public readonly HashSet<Trait> Settings  = new();
 
+    public readonly SortedSet<Domain  > Domains    = new();
+    public readonly SortedSet<Location> Locations  = new();
+    public readonly SortedSet<Item    > Items      = new();
+    public readonly SortedSet<NPC     > Characters = new();
+    public readonly SortedSet<Group   > Groups     = new();
+
     public readonly HashSet<Source> Sources = new(); //Tracks all sources that has this entity
-    public readonly Dictionary<Source, SortedSet<Domain  >> Domains    = new();
-    public readonly Dictionary<Source, SortedSet<Location>> Locations  = new();
-    public readonly Dictionary<Source, SortedSet<Item    >> Items      = new();
-    public readonly Dictionary<Source, SortedSet<NPC     >> Characters = new();
-    public readonly Dictionary<Source, SortedSet<Group   >> Groups     = new();
+    public readonly Dictionary<Source, SortedSet<Domain  >> DomainsPerSource    = new();
+    public readonly Dictionary<Source, SortedSet<Location>> LocationsPerSource  = new();
+    public readonly Dictionary<Source, SortedSet<Item    >> ItemsPerSource      = new();
+    public readonly Dictionary<Source, SortedSet<NPC     >> CharactersPerSource = new();
+    public readonly Dictionary<Source, SortedSet<Group   >> GroupsPerSource     = new();
 
     public string ExtraInfo = string.Empty;
     public Edition editions;
@@ -79,11 +85,11 @@ public class InSource<T>
 public class Trait
 {
     public readonly string Name, ExtraInfo;
-    public readonly SortedSet<Domain> Domains     = new();
-    public readonly SortedSet<Entity> Locations   = new();
-    public readonly SortedSet<NPC   > Characters  = new();
-    public readonly SortedSet<Entity> Items       = new();
-    public readonly SortedSet<Entity> Groups      = new();
+    public readonly SortedSet<Domain  > Domains     = new();
+    public readonly SortedSet<Location> Locations   = new();
+    public readonly SortedSet<NPC     > Characters  = new();
+    public readonly SortedSet<Item    > Items       = new();
+    public readonly SortedSet<Group   > Groups      = new();
     public Trait(string Name, string ExtraInfo) { this.Name = Name; this.ExtraInfo = ExtraInfo; }
 }
 
@@ -115,31 +121,48 @@ public class Source : UseName
     }
     //Levels, contributors, release date
 }
-public abstract class Entity : UseVariableName, IHasAppearances<Entity> //Location, Item, Group, Cluster, Mistway
+public class Location : UseVariableName, IHasAppearances<Location>
 {
-    public Dictionary<Source, InSource<Entity>> Appearances { get; init; } = new();
+    public Dictionary<Source, InSource<Location>> Appearances { get; init; } = new();
 }
-public class Location : Entity { }
-public class Item : Entity { }
-public class Group : Entity { }
-public class Cluster : Entity { }
-public class Mistway : Entity { }
+public class Item : UseVariableName, IHasAppearances<Item>
+{
+    public Dictionary<Source, InSource<Item>> Appearances { get; init; } = new();
+}
+public class Group : UseVariableName, IHasAppearances<Group>
+{
+    public Dictionary<Source, InSource<Group>> Appearances { get; init; } = new();
+}
+public class Cluster : UseVariableName, IHasAppearances<Cluster>
+{
+    public Dictionary<Source, InSource<Cluster>> Appearances { get; init; } = new();
+}
+public class Mistway : UseVariableName, IHasAppearances<Mistway>
+{
+    public Dictionary<Source, InSource<Mistway>> Appearances { get; init; } = new();
+}
 public class Domain : UseVariableName, IHasAppearances<Domain>
 {
     public          Dictionary<Source, InSource <Domain  >> Appearances { get; init; } = new();
-    public readonly Dictionary<Source, SortedSet<Darklord>> Darklords = new(); //Convenience
-    public readonly Dictionary<Source, SortedSet<Cluster >> Clusters  = new(); //Convenience
-    public readonly Dictionary<Source, SortedSet<Mistway >> Mistways  = new(); //Convenience
+    public readonly SortedSet<Darklord> Darklords = new();
+    public readonly SortedSet<Cluster > Clusters  = new();
+    public readonly SortedSet<Mistway > Mistways  = new();
+    public readonly Dictionary<Source, SortedSet<Darklord>> DarklordsPerSource = new();
+    public readonly Dictionary<Source, SortedSet<Cluster >> ClustersPerSource  = new();
+    public readonly Dictionary<Source, SortedSet<Mistway >> MistwaysPerSource  = new();
     public class Darklord : NPC
     {
-        public Entity? DarklordLair;
+        public Location? DarklordLair; //I uhh, haven't heard of any darklord having more than one lair
         public string Curse = string.Empty, CloseBorder = string.Empty;
     }
 }
 public class NPC : UseVariableName, IHasAppearances<NPC>
 {
     public          Dictionary<Source, InSource<NPC     >> Appearances { get; init; } = new();
-    public readonly Dictionary<Source, HashSet<Trait    >> RelatedTraits = new();
+
+    public readonly HashSet<Trait> RelatedTraits = new();
+    public readonly Dictionary<Source, HashSet<Trait    >> RelatedTraitsPerSource = new();
+
     public readonly Dictionary<Source, bool              > Deceased      = new();
     public readonly Dictionary<Source, List<Relationship>> Relationships = new();
     public readonly HashSet<Trait> Alignments = new ();

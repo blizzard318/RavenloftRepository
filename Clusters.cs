@@ -37,11 +37,11 @@
         { ClusterEnum.MobileDomains   , new[] { "Mobile Domains"                        }},
         { ClusterEnum.Shadowfell      , new[] { "Shadowfell Domains"                    }},
     };
-    public Entity TrackCluster(ClusterEnum Name, string pageNumbers)
+    public Cluster TrackCluster(ClusterEnum Name, string pageNumbers)
     {
         var retval = Ravenloftdb.Clusters[Name]; //All domains already pregenerated
 
-        retval.Appearances.Add(Source, new InSource<Entity>(retval, Source, pageNumbers));
+        retval.Appearances.Add(Source, new InSource<Cluster>(retval, Source, pageNumbers));
         retval.editions |= Source.editions;
 
         return retval;
@@ -49,10 +49,10 @@
     public void AddDomainsToCluster(ClusterEnum clusterEnum, params Domain[] domains)
     {
         var Cluster = Ravenloftdb.Clusters[clusterEnum];
-        Cluster.Domains.TryAdd(Source, new());
+        Cluster.DomainsPerSource.TryAdd(Source, new());
         foreach (var domain in domains)
         {
-            Cluster.Domains[Source].Add(domain);
+            Cluster.DomainsPerSource[Source].Add(domain);
             domain.Clusters.TryAdd(Source, new());
             domain.Clusters[Source].Add(Cluster);
         }

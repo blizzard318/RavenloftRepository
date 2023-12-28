@@ -92,23 +92,23 @@ public partial class Factory : IDisposable
         {
             switch (type)
             {
-                case EntityType.Domain  : return Ravenloftdb.Domains   as SortedDictionary<string, T>;
-                case EntityType.Location: return Ravenloftdb.Locations as SortedDictionary<string, T>;
-                case EntityType.Item    : return Ravenloftdb.Items     as SortedDictionary<string, T>;
-                case EntityType.NPC     : return Ravenloftdb.NPCs      as SortedDictionary<string, T>;
-                case EntityType.Group   : return Ravenloftdb.Groups    as SortedDictionary<string, T>;
+                case EntityType.Domain  : return Ravenloftdb.Domains    as SortedDictionary<string, T>;
+                case EntityType.Location: return Ravenloftdb.Locations  as SortedDictionary<string, T>;
+                case EntityType.Item    : return Ravenloftdb.Items      as SortedDictionary<string, T>;
+                case EntityType.NPC     : return Ravenloftdb.Characters as SortedDictionary<string, T>;
+                case EntityType.Group   : return Ravenloftdb.Groups     as SortedDictionary<string, T>;
             }
             throw new NotImplementedException();
         }
     }
 
-    public UseVariableName CreateLocation(string originalName, string pageNumbers = "Throughout") => Create<Entity>(EntityType.Location, originalName, pageNumbers);
+    public UseVariableName CreateLocation(string originalName, string pageNumbers = "Throughout") => Create<Location>(EntityType.Location, originalName, pageNumbers);
 
     public NPC CreateNPC(string originalName, string pageNumbers = "Throughout") => Create<NPC>(EntityType.NPC, originalName, pageNumbers);
 
-    public UseVariableName CreateItem(string originalName, string pageNumbers = "Throughout") => Create<Entity>(EntityType.Item, originalName, pageNumbers);
+    public UseVariableName CreateItem(string originalName, string pageNumbers = "Throughout") => Create<Item>(EntityType.Item, originalName, pageNumbers);
 
-    public UseVariableName CreateGroup(string originalName, string pageNumbers = "Throughout") => Create<Entity>(EntityType.Group, originalName, pageNumbers);
+    public UseVariableName CreateGroup(string originalName, string pageNumbers = "Throughout") => Create<Group>(EntityType.Group, originalName, pageNumbers);
 
     public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {

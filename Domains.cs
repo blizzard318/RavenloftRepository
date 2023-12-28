@@ -6,12 +6,17 @@
     {
         foreach (var domain in domains)
         {
-            domain.Appearances[Source].Traits.UnionWith(domain.Locations[Source].SelectMany(e => e.Appearances[Source].Traits));
-            domain.Appearances[Source].Traits.UnionWith(domain.Characters[Source].SelectMany(e => e.Appearances[Source].Traits));
-            domain.Appearances[Source].Traits.UnionWith(domain.Groups[Source].SelectMany(e => e.Appearances[Source].Traits));
-            domain.Appearances[Source].Traits.UnionWith(domain.Items[Source].SelectMany(e => e.Appearances[Source].Traits));
-            domain.Appearances[Source].Traits.UnionWith(domain.Mistways[Source].SelectMany(e => e.Appearances[Source].Traits));
-            domain.Appearances[Source].Traits.UnionWith(domain.Clusters[Source].SelectMany(e => e.Appearances[Source].Traits));
+            domain.Languages.UnionWith(domain.LocationsPerSource[Source].SelectMany(e => e.Languages));
+            domain.Languages.UnionWith(domain.CharactersPerSource[Source].SelectMany(e => e.Languages));
+            domain.Languages.UnionWith(domain.GroupsPerSource[Source].SelectMany(e => e.Languages));
+            domain.Languages.UnionWith(domain.ItemsPerSource[Source].SelectMany(e => e.Languages));
+
+            domain.Creatures.UnionWith(domain.LocationsPerSource[Source].SelectMany(e => e.Creatures));
+            domain.Creatures.UnionWith(domain.CharactersPerSource[Source].SelectMany(e => e.Creatures));
+            domain.Creatures.UnionWith(domain.GroupsPerSource[Source].SelectMany(e => e.Creatures));
+            domain.Creatures.UnionWith(domain.ItemsPerSource[Source].SelectMany(e => e.Creatures));
+            //domain.Appearances[Source].Traits.UnionWith(domain.Mistways[Source].SelectMany(e => e.Appearances[Source].Traits));
+            //domain.Appearances[Source].Traits.UnionWith(domain.Clusters[Source].SelectMany(e => e.Appearances[Source].Traits));
         }
     }
     private static void SetUpDomains()
