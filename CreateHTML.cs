@@ -739,11 +739,32 @@ internal static class CreateHTML
         {
             using (var Domain = subheader.CreatePage("Per Domain"))
             {
-
+                foreach (var kv in Ravenloftdb.LanguagesPerDomain)
+                {
+                    if (kv.Key == DomainEnum.InsideRavenloft) continue;
+                    Domain.SetTable($"Languages of {CreateLink(kv.Key)}", null, kv.Value);
+                }
+                Domain.SetTable($"Languages {InsideRavenloftLink}", null, Ravenloftdb.LanguagesPerDomain[DomainEnum.InsideRavenloft]);
             }
             using (var Language = subheader.CreatePage("Per Language"))
             {
+                foreach (var kv in Ravenloftdb.DomainsPerLanguage)
+                {
+                    Language.SetTable($"Domains that speak {CreateLink(EntityType.Language, kv.Key.Names)}", null, kv.Value);
 
+                    using (var table = Language.CreateTable(title, caption))
+                    {
+                        using (var headerRow = table.CreateHeaderRow())
+                            headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
+
+                        foreach (var entity in Entities)
+                        {
+                            var rowval = new List<string>() { CreateLink(entity) };
+                            rowval.AddRange(GetEditionsOf(entity.editions));
+                            table.AddRows(rowval.ToArray());
+                        }
+                    }
+                }
             }
             using (var Character = subheader.CreatePage("Per Character"))
             {
