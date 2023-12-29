@@ -6,14 +6,14 @@ public static class Ravenloftdb
     public static readonly Dictionary<Canon  , List<Source>> Canons   = new();
     public static readonly Dictionary<Media  , List<Source>> Medias   = new();
 
-    public static readonly SortedDictionary<Trait, SortedSet<string>> NPCsPerCampaignSetting   = new();
-    public static readonly SortedDictionary<Trait, SortedSet<string>> ItemsPerCampaignSetting  = new();
-    public static readonly SortedDictionary<Trait, SortedSet<string>> GroupsPerCampaignSetting = new();
+    public static readonly Dictionary<Traits.CampaignSetting, Trait> CampaignSettings = new();
 
-    public static readonly SortedDictionary<Trait, SortedSet<string>> DomainsPerLanguage = new();
-    public static readonly SortedDictionary<Trait, SortedSet<string>> NPCsPerLanguage    = new();
+    public static readonly SortedDictionary<DomainEnum, SortedSet<Trait>> LanguagesPerDomain = new();
+    public static readonly SortedDictionary<Trait, SortedSet<DomainEnum>> DomainsPerLanguage = new();
+    public static readonly SortedDictionary<Trait, SortedSet<NPC>> CharactersPerLanguage     = new();
 
-    public static readonly SortedDictionary<Trait, SortedSet<string>> DomainsPerCreature = new();
+    public static readonly SortedDictionary<DomainEnum, SortedSet<Trait>> CreaturesPerDomain = new();
+    public static readonly SortedDictionary<Trait, SortedSet<DomainEnum>> DomainsPerCreature = new();
 
     public static readonly List<Source> Sources = new();
 
@@ -25,131 +25,111 @@ public static class Ravenloftdb
 
     public static readonly Dictionary<string, NPC> Characters = new ();
     public static readonly SortedDictionary<DomainEnum, SortedSet<NPC>> CharactersPerDomain = new();
-    public static readonly SortedDictionary<NPC    , SortedSet<NPC>> CharactersPerGroup = new();
+    public static readonly SortedDictionary<NPC       , SortedSet<NPC>> CharactersPerGroup = new();
     public static readonly SortedDictionary<Trait     , SortedSet<NPC>> CharactersPerCreature = new();
 
     public static readonly Dictionary<string, Item> Items = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Item>> ItemsPerDomain = new();
     public static readonly SortedDictionary<Item, SortedSet<Item>> ItemsPerGroup = new();
     public static readonly SortedDictionary<Trait, SortedSet<Item>> ItemsPerCreature= new();
+    public static readonly SortedDictionary<DomainEnum, SortedSet<Item>> MistTalismansPerDomain = new();
 
     public static readonly Dictionary<string, Group> Groups = new();
+    public static readonly Dictionary<MistwayEnum, Group> Mistways = new(); //Group with only 2 domains
+    public static readonly Dictionary<ClusterEnum, Group> Clusters = new(); //Group with multiple domains
     public static readonly SortedDictionary<DomainEnum, SortedSet<Group>> GroupsPerDomain = new();
-
-    public static readonly Dictionary<MistwayEnum, Mistway> Mistways = new();
-    public static readonly Dictionary<ClusterEnum, Cluster> Clusters = new();
 }
-
-public abstract class UseName
+public class ToTrack<T>
 {
-    public string Name, ExtraInfo = string.Empty;
-    public Edition editions;
+    public readonly SortedSet<T> Total = new();
+    public readonly Dictionary<Source, SortedSet<T>> PerSource = new();
+    public void Add(Source source, IEnumerable<T> entities) => Add(source, entities.ToArray());
+    public void Add(Source source, params T[] entities)
+    {
+        PerSource.TryAdd(source, new());
+        Total.UnionWith(entities);
+        PerSource[source].UnionWith(entities);
+    }
 }
 public abstract class UseVariableName //Domain, Location, NPC, Item, Group
 {
     public readonly HashSet<string> Names = new();
 
-    public readonly HashSet<Trait> Languages = new();
-    public readonly HashSet<Trait> Creatures = new();
-    public readonly HashSet<Trait> Settings  = new();
-
-    public readonly SortedSet<Domain  > Domains    = new();
-    public readonly SortedSet<Location> Locations  = new();
-    public readonly SortedSet<Item    > Items      = new();
-    public readonly SortedSet<NPC     > Characters = new();
-    public readonly SortedSet<Group   > Groups     = new();
+    public readonly Trait? Settings; //You can kinda only really be from one campaign setting
 
     public readonly HashSet<Source> Sources = new(); //Tracks all sources that has this entity
-    public readonly Dictionary<Source, SortedSet<Domain  >> DomainsPerSource    = new();
-    public readonly Dictionary<Source, SortedSet<Location>> LocationsPerSource  = new();
-    public readonly Dictionary<Source, SortedSet<Item    >> ItemsPerSource      = new();
-    public readonly Dictionary<Source, SortedSet<NPC     >> CharactersPerSource = new();
-    public readonly Dictionary<Source, SortedSet<Group   >> GroupsPerSource     = new();
+
+    public readonly ToTrack<Domain  > Domains    = new();
+    public readonly ToTrack<Location> Locations  = new();
+    public readonly ToTrack<Item    > Items      = new();
+    public readonly ToTrack<NPC     > Characters = new();
+    public readonly ToTrack<Group   > Groups     = new();
+    public readonly ToTrack<Trait   > Languages  = new();
+    public readonly ToTrack<Trait   > Creatures  = new();
 
     public string ExtraInfo = string.Empty;
     public Edition editions;
 }
-public class InSource<T>
+public class TrackPage<T>
 {
     public readonly T entity;
     public readonly Source source;
     public readonly string PageNumbers;
     public string ExtraInfo = string.Empty;
-    public InSource(T entity, Source source, string pageNumbers)
-    {
-        this.entity = entity;
-        this.source = source;
-        PageNumbers = pageNumbers;
-    }
+    public TrackPage(T entity, Source source, string pageNumbers)
+    { this.entity = entity; this.source = source; PageNumbers = pageNumbers; }
 }
-public class Trait
+public class Source
 {
-    public readonly string Name, ExtraInfo;
-    public readonly SortedSet<Domain  > Domains     = new();
-    public readonly SortedSet<Location> Locations   = new();
-    public readonly SortedSet<NPC     > Characters  = new();
-    public readonly SortedSet<Item    > Items       = new();
-    public readonly SortedSet<Group   > Groups      = new();
-    public Trait(string Name, string ExtraInfo) { this.Name = Name; this.ExtraInfo = ExtraInfo; }
-}
-
-public class Source : UseName
-{
-    public readonly SortedSet<InSource<Domain  >> Domains    = new();
-    public readonly SortedSet<InSource<Location>> Locations  = new();
-    public readonly SortedSet<InSource<NPC     >> Characters = new();
-    public readonly SortedSet<InSource<Item    >> Items      = new();
-    public readonly SortedSet<InSource<Group   >> Groups     = new();
-    public readonly SortedSet<InSource<Cluster >> Clusters   = new();
-    public readonly SortedSet<InSource<Mistway >> Mistways   = new();
+    public readonly SortedSet<TrackPage<Domain  >> Domains    = new();
+    public readonly SortedSet<TrackPage<Location>> Locations  = new();
+    public readonly SortedSet<TrackPage<NPC     >> Characters = new();
+    public readonly SortedSet<TrackPage<Item    >> Items      = new();
+    public readonly SortedSet<TrackPage<Group   >> Groups     = new();
+    public readonly SortedSet<TrackPage<Group   >> Clusters   = new();
+    public readonly SortedSet<TrackPage<Group   >> Mistways   = new();
 
     public readonly SortedSet<Trait> Creatures = new();
     public readonly SortedSet<Trait> Languages = new();
     public readonly SortedSet<Trait> Settings = new();
 
+    public string Name, ExtraInfo = string.Empty;
     public readonly string ReleaseDate;
+    public readonly Edition editions;
     public readonly Media Media;
     public readonly Canon? Canon;
 
     public Source (string Name, string ReleaseDate, Edition Edition, Media Media, Canon? Canon = null)
     { 
-        this.Name = Name;
-        this.ReleaseDate = ReleaseDate;
-        editions = Edition;
-        this.Media = Media;
-        this.Canon = Canon;
+        this.Name = Name; this.ReleaseDate = ReleaseDate;
+        editions = Edition; this.Media = Media; this.Canon = Canon;
     }
     //Levels, contributors, release date
 }
+public class Trait : UseVariableName //Don't track page numbers?
+{
+    public Trait(params string[] names) => Names.UnionWith(names);
+}
 public class Location : UseVariableName, IHasAppearances<Location>
 {
-    public Dictionary<Source, InSource<Location>> Appearances { get; init; } = new();
+    public Dictionary<Source, TrackPage<Location>> Appearances { get; init; } = new();
 }
 public class Item : UseVariableName, IHasAppearances<Item>
 {
-    public Dictionary<Source, InSource<Item>> Appearances { get; init; } = new();
+    public Dictionary<Source, TrackPage<Item>> Appearances { get; init; } = new();
 }
 public class Group : UseVariableName, IHasAppearances<Group>
 {
-    public Dictionary<Source, InSource<Group>> Appearances { get; init; } = new();
-}
-public class Cluster : UseVariableName, IHasAppearances<Cluster>
-{
-    public Dictionary<Source, InSource<Cluster>> Appearances { get; init; } = new();
-}
-public class Mistway : UseVariableName, IHasAppearances<Mistway>
-{
-    public Dictionary<Source, InSource<Mistway>> Appearances { get; init; } = new();
+    public Dictionary<Source, TrackPage<Group>> Appearances { get; init; } = new();
 }
 public class Domain : UseVariableName, IHasAppearances<Domain>
 {
-    public          Dictionary<Source, InSource <Domain  >> Appearances { get; init; } = new();
-    public readonly SortedSet<Darklord> Darklords = new();
-    public readonly SortedSet<Cluster > Clusters  = new();
-    public readonly SortedSet<Mistway > Mistways  = new();
-    public readonly Dictionary<Source, SortedSet<Darklord>> DarklordsPerSource = new();
-    public readonly Dictionary<Source, SortedSet<Cluster >> ClustersPerSource  = new();
-    public readonly Dictionary<Source, SortedSet<Mistway >> MistwaysPerSource  = new();
+    public          Dictionary<Source, TrackPage<Domain  >> Appearances { get; init; } = new();
+    public readonly ToTrack<Darklord> Darklords = new();
+    public readonly ToTrack<Group   > Clusters     = new();
+    public readonly ToTrack<Group   > Mistways     = new();
+    public readonly ToTrack<Item    > MistTalismans = new();
+    public Domain (string[] names) => Names.UnionWith(names);
     public class Darklord : NPC
     {
         public Location? DarklordLair; //I uhh, haven't heard of any darklord having more than one lair
@@ -158,10 +138,9 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
 }
 public class NPC : UseVariableName, IHasAppearances<NPC>
 {
-    public          Dictionary<Source, InSource<NPC     >> Appearances { get; init; } = new();
+    public          Dictionary<Source, TrackPage<NPC     >> Appearances { get; init; } = new();
 
-    public readonly HashSet<Trait> RelatedTraits = new();
-    public readonly Dictionary<Source, HashSet<Trait    >> RelatedTraitsPerSource = new();
+    public readonly ToTrack<Trait> RelatedCreatures = new();
 
     public readonly Dictionary<Source, bool              > Deceased      = new();
     public readonly Dictionary<Source, List<Relationship>> Relationships = new();

@@ -6,28 +6,73 @@
     {
         foreach (var domain in domains)
         {
-            domain.Languages.UnionWith(domain.LocationsPerSource[Source].SelectMany(e => e.Languages));
-            domain.Languages.UnionWith(domain.CharactersPerSource[Source].SelectMany(e => e.Languages));
-            domain.Languages.UnionWith(domain.GroupsPerSource[Source].SelectMany(e => e.Languages));
-            domain.Languages.UnionWith(domain.ItemsPerSource[Source].SelectMany(e => e.Languages));
+            //Do not bother doing this for Darklords cause they're already tracked within Characters.
+            //so why does darklords exist? Its a cache cause darklords is referenced so often.
+            AddLanguages(domain.Locations);
+            AddLanguages(domain.Characters);
+            AddLanguages(domain.Groups);
+            AddLanguages(domain.Items);
+            void AddLanguages<T> (ToTrack<T> entity) where T : UseVariableName =>
+                domain.Languages.Add(Source, entity.PerSource[Source].SelectMany(e => e.Languages.PerSource[Source]));
 
-            domain.Creatures.UnionWith(domain.LocationsPerSource[Source].SelectMany(e => e.Creatures));
-            domain.Creatures.UnionWith(domain.CharactersPerSource[Source].SelectMany(e => e.Creatures));
-            domain.Creatures.UnionWith(domain.GroupsPerSource[Source].SelectMany(e => e.Creatures));
-            domain.Creatures.UnionWith(domain.ItemsPerSource[Source].SelectMany(e => e.Creatures));
-            //domain.Appearances[Source].Traits.UnionWith(domain.Mistways[Source].SelectMany(e => e.Appearances[Source].Traits));
-            //domain.Appearances[Source].Traits.UnionWith(domain.Clusters[Source].SelectMany(e => e.Appearances[Source].Traits));
+            AddCreatures(domain.Locations);
+            AddCreatures(domain.Characters); //Do not add related creatures traits
+            AddCreatures(domain.Groups);
+            AddCreatures(domain.Items);
+            void AddCreatures<T>(ToTrack<T> entity) where T : UseVariableName =>
+                domain.Creatures.Add(Source, entity.PerSource[Source].SelectMany(e => e.Creatures.PerSource[Source]));
+
+            //Consider doing this for Clusters, Mistways, MistTalismans and anything else ToTrack.
+            //That's if they ever get traits.
         }
     }
     private static void SetUpDomains()
     {
+        var DomainToString = new Dictionary<DomainEnum, string[]>()
+        { //Only contain domains that have 2+ words or strange characters in their names
+            { DomainEnum.LMorai, new[] {"L`Morai", "The Carnival" } },
+            { DomainEnum.HarAkir, new[] { "Har`Akir" }},
+            { DomainEnum.ICath, new[] { "I`Cath" }},
+            { DomainEnum.SriRaji, new[] { "Sri Raji", "Kalakeri" }},
+            { DomainEnum.GHenna, new[] { "G`Henna" }},
+            { DomainEnum.NightmareLands, new[] { "Nightmare Lands" }},
+            { DomainEnum.NovaVaasa, new[] { "Nova Vaasa" }},
+            { DomainEnum.Odiare, new[] { "Odiare", "Odaire" }},
+            { DomainEnum.WindingRoad, new[] { "Winding Road", "Rider`s Bridge", "Endless Road" }},
+            { DomainEnum.SeaOfSorrows, new[] { "Sea of Sorrows" }},
+            { DomainEnum.IsleOfTheRavens, new[] { "Isle of the Ravens" }},
+            { DomainEnum.TheLighthouse, new[] { "The Lighthouse", "L`ile de la Tempete" }},
+            { DomainEnum.ShadowbornManor, new[] { "Shadowborn Manor", "Shadowlands" }},
+            { DomainEnum.StauntonBluffs, new[] { "Staunton Bluffs" }},
+            { DomainEnum.Paridon, new[] { "Paridon", "Zherisia" }},
+            { DomainEnum.HouseOfLament, new[] { "House of Lament" }},
+            { DomainEnum.Cyre1313, new[] { "Cyre 1313", "The Mourning Rail" }},
+            { DomainEnum.VhageAgency, new[] { "Vhage Agency" }},
+            { DomainEnum.VigilantsBluff, new[] { "Vigilant`s Bluff" }},
+            { DomainEnum.TheBakumora, new[] { "The Bakumora" }},
+            { DomainEnum.CastleIsland, new[] { "Castle Island" }},
+            { DomainEnum.Nebligtode, new[] { "Nebligtode", "Nocturnal Sea" }},
+            { DomainEnum.RokushimaTaiyoo, new[] { "Rokushima Taiyoo" }},
+            { DomainEnum.ShadowRift, new[] { "Shadow Rift" }},
+            { DomainEnum.TheEyrie, new[] { "The Eyrie" }},
+            { DomainEnum.TheIsle, new[] { "The Isle" }},
+            { DomainEnum.TheWildlands, new[] { "The Wildlands" }},
+            { DomainEnum.LeederiksTower, new[] { "Leederik`s Tower" }},
+            { DomainEnum.RichtenHaus, new[] { "Richten Haus" }},
+            { DomainEnum.MithrasCourt, new[] { "Mithras Court" }},
+            { DomainEnum.DonskoysLand, new[] { "Donskoy`s Land" }},
+            { DomainEnum.AlKathos, new[] { "Al-Kathos" }},
+
+            { DomainEnum.InsideRavenloft, new[] { "Inside Ravenloft" }},
+            { DomainEnum.OutsideRavenloft, new[] { "Outside Ravenloft" }}
+        };
+
         foreach (var domain in Enum.GetValues<DomainEnum>())
         {
             DomainToString.TryGetValue(domain, out var domainNames);
             domainNames ??= new[] { domain.ToString() };
 
-            var ToAdd = new Domain();
-            foreach (var domainName in domainNames) ToAdd.Names.Add(domainName);
+            var ToAdd = new Domain(domainNames);
 
             Ravenloftdb.Domains.Add(domain, ToAdd);
         }
@@ -64,49 +109,11 @@
 
         InsideRavenloft, OutsideRavenloft //Special meta domains
     }
-    public static readonly Dictionary<DomainEnum, string[]> DomainToString = new Dictionary<DomainEnum, string[]>()
-    { //Only contain domains that have 2+ words or strange characters in their names
-        { DomainEnum.LMorai, new[] {"L`Morai", "The Carnival" } },
-        { DomainEnum.HarAkir, new[] { "Har`Akir" }},
-        { DomainEnum.ICath, new[] { "I`Cath" }},
-        { DomainEnum.SriRaji, new[] { "Sri Raji", "Kalakeri" }},
-        { DomainEnum.GHenna, new[] { "G`Henna" }},
-        { DomainEnum.NightmareLands, new[] { "Nightmare Lands" }},
-        { DomainEnum.NovaVaasa, new[] { "Nova Vaasa" }},
-        { DomainEnum.Odiare, new[] { "Odiare", "Odaire" }},
-        { DomainEnum.WindingRoad, new[] { "Winding Road", "Rider`s Bridge", "Endless Road" }},
-        { DomainEnum.SeaOfSorrows, new[] { "Sea of Sorrows" }},
-        { DomainEnum.IsleOfTheRavens, new[] { "Isle of the Ravens" }},
-        { DomainEnum.TheLighthouse, new[] { "The Lighthouse", "L`ile de la Tempete" }},
-        { DomainEnum.ShadowbornManor, new[] { "Shadowborn Manor", "Shadowlands" }},
-        { DomainEnum.StauntonBluffs, new[] { "Staunton Bluffs" }},
-        { DomainEnum.Paridon, new[] { "Paridon", "Zherisia" }},
-        { DomainEnum.HouseOfLament, new[] { "House of Lament" }},
-        { DomainEnum.Cyre1313, new[] { "Cyre 1313", "The Mourning Rail" }},
-        { DomainEnum.VhageAgency, new[] { "Vhage Agency" }},
-        { DomainEnum.VigilantsBluff, new[] { "Vigilant`s Bluff" }},
-        { DomainEnum.TheBakumora, new[] { "The Bakumora" }},
-        { DomainEnum.CastleIsland, new[] { "Castle Island" }},
-        { DomainEnum.Nebligtode, new[] { "Nebligtode", "Nocturnal Sea" }},
-        { DomainEnum.RokushimaTaiyoo, new[] { "Rokushima Taiyoo" }},
-        { DomainEnum.ShadowRift, new[] { "Shadow Rift" }},
-        { DomainEnum.TheEyrie, new[] { "The Eyrie" }},
-        { DomainEnum.TheIsle, new[] { "The Isle" }},
-        { DomainEnum.TheWildlands, new[] { "The Wildlands" }},
-        { DomainEnum.LeederiksTower, new[] { "Leederik`s Tower" }},
-        { DomainEnum.RichtenHaus, new[] { "Richten Haus" }},
-        { DomainEnum.MithrasCourt, new[] { "Mithras Court" }},
-        { DomainEnum.DonskoysLand, new[] { "Donskoy`s Land" }},
-        { DomainEnum.AlKathos, new[] { "Al-Kathos" }},
-
-        { DomainEnum.InsideRavenloft, new[] { "Inside Ravenloft" }},
-        { DomainEnum.OutsideRavenloft, new[] { "Outside Ravenloft" }}
-    };
     public Domain TrackDomain(DomainEnum Name, string pageNumbers)
     {
         var retval = Ravenloftdb.Domains[Name]; //All domains already pregenerated
 
-        retval.Appearances.Add(Source, new InSource<Domain>(retval, Source, pageNumbers));
+        retval.Appearances.Add(Source, new TrackPage<Domain>(retval, Source, pageNumbers));
 
         domains.Add(retval); //Important for trait distribution
         return retval;

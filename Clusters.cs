@@ -2,12 +2,27 @@
 {
     private static void SetUpClusters() //Important, call this one after SetUpDomains()
     {
+        var ClusterToString = new Dictionary<ClusterEnum, string[]>()
+        {
+            { ClusterEnum.IslandsOfTerror , new[] { "Islands of Terror"                     }},
+            { ClusterEnum.Core            , new[] { "Core", "Core (Post Grand Conjunction)" }},
+            { ClusterEnum.PreGCCore       , new[] { "Core (Pre Grand Conjunction)"          }},
+            { ClusterEnum.AmberWastes     , new[] { "Amber Wastes"                          }},
+            { ClusterEnum.BurningPeaks    , new[] { "Burning Peaks"                         }},
+            { ClusterEnum.FrozenReaches   , new[] { "Frozen Reaches"                        }},
+            { ClusterEnum.VerdurousLands  , new[] { "Verdurous Lands"                       }},
+            { ClusterEnum.NovelOnlyDomains, new[] { "Novel only Domains"                    }},
+            { ClusterEnum.FormerDomains   , new[] { "Former Domains"                        }},
+            { ClusterEnum.MobileDomains   , new[] { "Mobile Domains"                        }},
+            { ClusterEnum.Shadowfell      , new[] { "Shadowfell Domains"                    }},
+        };
+
         foreach (var cluster in Enum.GetValues<ClusterEnum>())
         {
             ClusterToString.TryGetValue(cluster, out var clusterNames);
             clusterNames ??= new[] { cluster.ToString() };
 
-            var ToAdd = new Cluster();
+            var ToAdd = new Group();
             foreach (var clusterName in clusterNames) ToAdd.Names.Add(clusterName);
 
             Ravenloftdb.Clusters.Add(cluster, ToAdd);
@@ -23,25 +38,11 @@
         VerdurousLands, Shadowlands, Zherisia, NovelOnlyDomains, FormerDomains,
         MobileDomains, Shadowfell, SeaOfSorrows, Kalakeri //Are pocket domains worth tracking?
     }
-    public static readonly Dictionary<ClusterEnum, string[]> ClusterToString = new Dictionary<ClusterEnum, string[]>()
-    {
-        { ClusterEnum.IslandsOfTerror , new[] { "Islands of Terror"                     }},
-        { ClusterEnum.Core            , new[] { "Core", "Core (Post Grand Conjunction)" }},
-        { ClusterEnum.PreGCCore       , new[] { "Core (Pre Grand Conjunction)"  }},
-        { ClusterEnum.AmberWastes     , new[] { "Amber Wastes"                          }},
-        { ClusterEnum.BurningPeaks    , new[] { "Burning Peaks"                         }},
-        { ClusterEnum.FrozenReaches   , new[] { "Frozen Reaches"                        }},
-        { ClusterEnum.VerdurousLands  , new[] { "Verdurous Lands"                       }},
-        { ClusterEnum.NovelOnlyDomains, new[] { "Novel only Domains"                    }},
-        { ClusterEnum.FormerDomains   , new[] { "Former Domains"                        }},
-        { ClusterEnum.MobileDomains   , new[] { "Mobile Domains"                        }},
-        { ClusterEnum.Shadowfell      , new[] { "Shadowfell Domains"                    }},
-    };
-    public Cluster TrackCluster(ClusterEnum Name, string pageNumbers)
+    public Group TrackCluster(ClusterEnum Name, string pageNumbers)
     {
         var retval = Ravenloftdb.Clusters[Name]; //All domains already pregenerated
 
-        retval.Appearances.Add(Source, new InSource<Cluster>(retval, Source, pageNumbers));
+        retval.Appearances.Add(Source, new TrackPage<Group>(retval, Source, pageNumbers));
         retval.editions |= Source.editions;
 
         return retval;
@@ -49,12 +50,12 @@
     public void AddDomainsToCluster(ClusterEnum clusterEnum, params Domain[] domains)
     {
         var Cluster = Ravenloftdb.Clusters[clusterEnum];
-        Cluster.DomainsPerSource.TryAdd(Source, new());
+        Cluster.Domains.PerSource.TryAdd(Source, new());
         foreach (var domain in domains)
         {
-            Cluster.DomainsPerSource[Source].Add(domain);
-            domain.Clusters.TryAdd(Source, new());
-            domain.Clusters[Source].Add(Cluster);
+            Cluster.Domains.PerSource[Source].Add(domain);
+            domain.Clusters.PerSource.TryAdd(Source, new());
+            domain.Clusters.PerSource[Source].Add(Cluster);
         }
     }
 }

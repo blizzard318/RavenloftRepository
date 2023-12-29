@@ -1,5 +1,6 @@
 ﻿internal static class Traits
 {
+    public enum CampaignSetting { Ravenloft, Mystara, Planescape, Greyhawk, NentirVale, ForgottonRealms, Spelljammer, DarkSun, Birthright, Dragonlance, Eberron, MasqueOfRedDeath, }
     private enum TraitType { CampaignSetting, Language, Creature, Alignment };
     private static Trait CreateTrait(TraitType type, string name, string ExtraInfo = "")
     {

@@ -6,20 +6,17 @@ var tasks = new List<Task>
 {
     CreateHTML.CreateHomepage(),
     CreateHTML.CreateSourcePage(),
-    CreateHTML.CreateDomainPage()
+    CreateHTML.CreateDomainPage(),
+    CreateHTML.CreateLocationPage(),
+    CreateHTML.CreateCharacterPage(),
+    CreateHTML.CreateItemPage(),
+    CreateHTML.CreateGroupPage(),
 };
 
-/*;
-CreateHTML.CreateLocationPage();
-CreateHTML.CreateCharacterPage();
-CreateHTML.CreateItemPage();
-CreateHTML.CreateGroupPage();
-
-CreateHTML.CreateCreaturePage();
-CreateHTML.CreateCampaignSettingPage();
-CreateHTML.CreateLanguagesPage();*/
-
-tasks.AddRange(CreateHTML.CreateSourcePages());
-tasks.AddRange(CreateHTML.CreateDomainPages());
+tasks.AddRange(CreateHTML.CreateSourcePages        ());
+tasks.AddRange(CreateHTML.CreateDomainPages        ());
+tasks.AddRange(CreateHTML.CreateCreaturePage       ());
+tasks.AddRange(CreateHTML.CreateCampaignSettingPage());
+tasks.AddRange(CreateHTML.CreateLanguagesPage      ());
 
 Task.WaitAll(tasks.ToArray());
