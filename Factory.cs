@@ -1,6 +1,8 @@
 ﻿//This script is for creating stuff to the database
 //Adding stuff to the newly created stuff is handled in CrossAdd.cs
 
+using System.Xml.Linq;
+
 public partial class Factory : IDisposable
 {
     static Factory()
@@ -28,7 +30,6 @@ public partial class Factory : IDisposable
         {
             switch (type)
             {
-                case EntityType.Domain  : return Ravenloftdb.Domains    as SortedDictionary<string, T>;
                 case EntityType.Location: return Ravenloftdb.Locations  as SortedDictionary<string, T>;
                 case EntityType.Item    : return Ravenloftdb.Items      as SortedDictionary<string, T>;
                 case EntityType.NPC     : return Ravenloftdb.Characters as SortedDictionary<string, T>;
@@ -38,13 +39,25 @@ public partial class Factory : IDisposable
         }
     }
 
-    public UseVariableName CreateLocation(string originalName, string pageNumbers = "Throughout") => Create<Location>(EntityType.Location, originalName, pageNumbers);
+    public Domain AddDomain(DomainEnum denum, string pageNumbers = "Throughout")
+    {
+        var original = Ravenloftdb.Domains[denum];
+        original.Appearances.Add(Source, new TrackPage<Domain>(original, Source, pageNumbers));
+        return original;
+    }
 
-    public NPC CreateNPC(string originalName, string pageNumbers = "Throughout") => Create<NPC>(EntityType.NPC, originalName, pageNumbers);
+    public Location CreateLocation(string Name, string pageNumbers = "Throughout") => Create<Location>(EntityType.Location, Name, pageNumbers);
+    public Location CreateSettlement(string Name, string pageNumbers = "Throughout")
+    {
+        var settlement = Create<Location>(EntityType.Location, Name, pageNumbers);
+        return settlement;
+    }
 
-    public UseVariableName CreateItem(string originalName, string pageNumbers = "Throughout") => Create<Item>(EntityType.Item, originalName, pageNumbers);
+    public NPC CreateNPC(string Name, string pageNumbers = "Throughout") => Create<NPC>(EntityType.NPC, Name, pageNumbers);
 
-    public UseVariableName CreateGroup(string originalName, string pageNumbers = "Throughout") => Create<Group>(EntityType.Group, originalName, pageNumbers);
+    public Item CreateItem(string Name, string pageNumbers = "Throughout") => Create<Item>(EntityType.Item, Name, pageNumbers);
+
+    public Group CreateGroup(string Name, string pageNumbers = "Throughout") => Create<Group>(EntityType.Group, Name, pageNumbers);
 
     public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {

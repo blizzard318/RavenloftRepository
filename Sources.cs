@@ -26,7 +26,7 @@
             { Media.boardgame  , "Board Game"},
             { Media.miniature  , "Miniature" }
         };
-    public enum Canon { pc, nc };
+    public enum Canon { c, pc, nc };
     public static readonly Dictionary<Canon, string> CanonToString = new Dictionary<Canon, string>()
         {
             { Canon.pc , "Potentially Canon"},

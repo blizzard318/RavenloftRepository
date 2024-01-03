@@ -63,7 +63,7 @@
             { DomainEnum.DonskoysLand, new[] { "Donskoy`s Land" }},
             { DomainEnum.AlKathos, new[] { "Al-Kathos" }},
 
-            { DomainEnum.InsideRavenloft, new[] { "Inside Ravenloft" }},
+            { DomainEnum.InsideRavenloft , new[] { "Inside Ravenloft"  }},
             { DomainEnum.OutsideRavenloft, new[] { "Outside Ravenloft" }}
         };
 
@@ -72,9 +72,7 @@
             DomainToString.TryGetValue(domain, out var domainNames);
             domainNames ??= new[] { domain.ToString() };
 
-            var ToAdd = new Domain(domainNames);
-
-            Ravenloftdb.Domains.Add(domain, ToAdd);
+            Ravenloftdb.Domains.Add(domain, new Domain(domainNames));
         }
 
         Ravenloftdb.Domains[DomainEnum.Estrangia].ExtraInfo = Ravenloftdb.Domains[DomainEnum.AlKathos].ExtraInfo = "It's never explicitly stated that these are domains, but due to convenience they have been designated as such.";

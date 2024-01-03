@@ -1,22 +1,7 @@
-﻿internal static partial class AddToDatabase
+﻿using static Factory;
+
+internal static partial class AddToDatabase
 {
-    private static (Location location, Group settlement) CreateSettlement(this Factory ctx, string name, string pageNumbers = "Throughout") => ctx.CreateSettlement(name, name, pageNumbers);
-    private static (Location, Group) CreateSettlement(this Factory ctx, string name, string originalName, string pageNumbers)
-    {
-        var location = ctx.CreateLocation(name, originalName, pageNumbers).AddTraits(Traits.Location.Settlement);
-        var group = ctx.CreateGroup(name, originalName, pageNumbers).AddTraits(Traits.Location.Settlement);
-        group.AddLocations(location);
-        return (location, group);
-    }
-    private static void PopulateSettlement(this Group Settlement, params Location[] locations)
-    {
-        Settlement.AddLocations(locations);
-        foreach (var location in Settlement.Locations)
-        {
-            Settlement.AddNPCs(location.NPCs.ToArray());
-            Settlement.AddItems(location.Items.ToArray());
-        }
-    }
     public static void Add2()
     {
         AddBeforeIWake();
@@ -25,12 +10,12 @@
         {
             var releaseDate = "31/10/2007";
             string ExtraInfo = "<br/>&emsp;Author: Air Marmell";
-            using var ctx = Factory.CreateSource("Before I Wake", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
+            using var ctx = CreateSource("Before I Wake", releaseDate, ExtraInfo, Edition.e0, Media.novel);
             if (ctx == null) return;
 
-            var Darkon = ctx.CreateDomain("Darkon");
-            var Bluetspur = ctx.CreateDomain("Bluetspur");
-            var Lamordia = ctx.CreateDomain("Lamordia");
+            var Darkon = ctx.AddDomain(DomainEnum.Darkon);
+            var Bluetspur = ctx.AddDomain(DomainEnum.Bluetspur);
+            var Lamordia = ctx.AddDomain(DomainEnum.Lamordia);
 
             (var Nartok, var NartokGroup) = ctx.CreateSettlement("Nartok");
             var MillsOfNartok = ctx.CreateLocation("Mills of Nartok").AddInfo("For Darkonian Lumber");
