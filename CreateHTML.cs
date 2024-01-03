@@ -624,11 +624,11 @@ internal static class CreateHTML
                     using (var headerRow = table.CreateHeaderRow()) headerRow.CreateHeader("Name(s)", "Pop.").CreateEditionHeaders();
                     foreach (var kv in Ravenloftdb.Groups)
                     {
-                        var links = CreateLink(EntityType.Group, kv.Value);
-                        var population = kv.Value.Characters.Total.Count().ToString();
+                        var links = CreateLink(EntityType.Group, kv);
+                        var population = kv.Characters.Total.Count().ToString();
 
                         var rowval = new List<string>() { links, population };
-                        rowval.AddRange(GetEditionsOf(kv.Value.editions));
+                        rowval.AddRange(GetEditionsOf(kv.editions));
                         table.AddRows(rowval.ToArray());
                     }
                 }
@@ -697,7 +697,7 @@ internal static class CreateHTML
                 }
             }
         }
-        await sb.SaveHTML(nameof(Traits.Creature));
+        await sb.SaveHTML(nameof(Creature));
     }
     public async static Task CreateCampaignSettingPage()
     {
@@ -756,14 +756,9 @@ internal static class CreateHTML
                     Language.SetTable($"Domains that speak {CreateLink(EntityType.Language, kv.Key)}", null, domains);
                 }
             }
-            using (var Character = subheader.CreatePage("Per Character"))
-            {
-                foreach (var kv in Ravenloftdb.CharactersPerLanguage)
-                    Character.SetTable($"Characters that speak {CreateLink(EntityType.Language, kv.Key)}", null, kv.Value);
-            }
         }
 
-        await sb.SaveHTML(nameof(Traits.Language));
+        await sb.SaveHTML(nameof(Language));
     }
     #endregion
 
@@ -954,29 +949,31 @@ internal static class CreateHTML
 
                 string ExtraAppend = string.Empty;
 
-                var TotalAlignment = Factory.Alignment.none;
-                foreach (var alignment in original.Value.AlignmentPerSource.Values) TotalAlignment |= alignment;
-                if (TotalAlignment != Factory.Alignment.none)
+                var TotalAlignment = Alignment.none;
+                foreach (var alignment in original.AlignmentPerSource.Values) TotalAlignment |= alignment;
+                if (TotalAlignment != Alignment.none)
                     ExtraAppend += $"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>";
 
-                if (original.Value.Setting != null)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Value.Setting)}<br/>";
+                if (original.Setting != null)
+                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
 
-                if (original.Value.Names.Count() > 1)
+                if (original.Names.Count() > 1)
                 {
-                    var links = CreateLink(EntityType.Domain, original.Value);
+                    var links = CreateLink(EntityType.Domain, original);
                     ExtraAppend += $"<b>Other Names:</b> {string.Join("/", links)}<br/>";
                 }
 
-                if (!string.IsNullOrEmpty(original.Value.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.Value.ExtraInfo}";
+                if (!string.IsNullOrEmpty(original.ExtraInfo))
+                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}";
 
-                foreach (var character in original.Value.Names)
+                string deceased = original.Deceased.All(kv => kv.Value) ? " (Deceased)" : string.Empty;
+
+                foreach (var character in original.Names)
                 {
                     using (var subheader = new SubHeader(sb))
                     {
                         sb.CreateOfficialHeader(character, 2);
-                        sb.AppendLine($"<h3>Character<br/>{character}</h3>");
+                        sb.AppendLine($"<h3>Character<br/>{character}{deceased}</h3>");
 
                         sb.AppendLine(ExtraAppend);
 
@@ -984,7 +981,7 @@ internal static class CreateHTML
 
                         using (var SplitSources = subheader.CreatePage("Per Source"))
                         {
-                            foreach (var source in original.Value.Sources) //All sources with the character's original name
+                            foreach (var source in original.Sources) //All sources with the character's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
                                 string editiontrait = EditionToString(source.editions);
@@ -993,14 +990,14 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Characters.Single(e => e.entity == original.Value);
+                                var SourceDetails = source.Characters.Single(e => e.entity == original);
 
                                 var Canon = AddCanonAddOn(SourceDetails.Canon);
                                 if (!string.IsNullOrEmpty(Canon))
                                     SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
-                                var alignment = original.Value.AlignmentPerSource[source];
-                                if (alignment != Factory.Alignment.none)
+                                var alignment = original.AlignmentPerSource[source];
+                                if (alignment != Alignment.none)
                                     SplitSources.contents.AppendLine($"<b>Alignment:</b> {AlignmentToString(alignment)}<br/>");
 
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
@@ -1009,29 +1006,29 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
                                 TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
 
-                                SplitSources.AddSection(original.Value.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
-                                SplitSources.AddSection(original.Value.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
-                                SplitSources.AddSection(original.Value.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
-                                SplitSources.AddSection(original.Value.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
-                                SplitSources.AddSection(original.Value.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
-                                SplitSources.AddSection(original.Value.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
-                                SplitSources.AddSection(original.Value.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
-                                SplitSources.AddSection(original.Value.RelatedCreatures.PerSource[source], "Related Creatures", EntityType.Creature );
+                                SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
+                                SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
+                                SplitSources.AddSection(original.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
+                                SplitSources.AddSection(original.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
+                                SplitSources.AddSection(original.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
+                                SplitSources.AddSection(original.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
+                                SplitSources.AddSection(original.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
+                                SplitSources.AddSection(original.RelatedCreatures.PerSource[source], "Related Creatures", EntityType.Creature );
                                 SplitSources.contents.AppendLine("</div></div><br/>");
                             }
                         }
                         using (var AllSources = subheader.CreatePage("All"))
                         {
                             AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                            AllSources.AddSection(original.Value.Domains   .Total, nameof(original.Value.Domains   ), EntityType.Domain   );
-                            AllSources.AddSection(original.Value.Locations .Total, nameof(original.Value.Locations ), EntityType.Location );
-                            AllSources.AddSection(original.Value.Characters.Total, nameof(original.Value.Characters), EntityType.Character);
-                            AllSources.AddSection(original.Value.Items     .Total, nameof(original.Value.Items     ), EntityType.Item     );
-                            AllSources.AddSection(original.Value.Groups    .Total, nameof(original.Value.Groups    ), EntityType.Group    );
-                            AllSources.AddSection(original.Value.Languages .Total, nameof(original.Value.Languages ), EntityType.Language );
-                            AllSources.AddSection(original.Value.Creatures .Total, nameof(original.Value.Creatures ), EntityType.Creature );
-                            AllSources.AddSection(original.Value.RelatedCreatures.Total, "Related Creatures"        , EntityType.Creature );
-                            AllSources.AddSection(TotalSources                   , nameof(original.Value.Sources   )                      );
+                            AllSources.AddSection(original.Domains   .Total, nameof(original.Domains   ), EntityType.Domain   );
+                            AllSources.AddSection(original.Locations .Total, nameof(original.Locations ), EntityType.Location );
+                            AllSources.AddSection(original.Characters.Total, nameof(original.Characters), EntityType.Character);
+                            AllSources.AddSection(original.Items     .Total, nameof(original.Items     ), EntityType.Item     );
+                            AllSources.AddSection(original.Groups    .Total, nameof(original.Groups    ), EntityType.Group    );
+                            AllSources.AddSection(original.Languages .Total, nameof(original.Languages ), EntityType.Language );
+                            AllSources.AddSection(original.Creatures .Total, nameof(original.Creatures ), EntityType.Creature );
+                            AllSources.AddSection(original.RelatedCreatures.Total, "Related Creatures"        , EntityType.Creature );
+                            AllSources.AddSection(TotalSources                   , nameof(original.Sources   )                      );
                             AllSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
@@ -1053,16 +1050,16 @@ internal static class CreateHTML
 
                 string ExtraAppend = string.Empty;
 
-                if (original.Value.Names.Count() > 1)
+                if (original.Names.Count() > 1)
                 {
-                    var links = CreateLink(EntityType.Domain, original.Value);
+                    var links = CreateLink(EntityType.Domain, original);
                     ExtraAppend += $"<b>Other Names:</b> {string.Join("/", links)}<br/>";
                 }
 
-                if (!string.IsNullOrEmpty(original.Value.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.Value.ExtraInfo}";
+                if (!string.IsNullOrEmpty(original.ExtraInfo))
+                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}";
 
-                foreach (var location in original.Value.Names)
+                foreach (var location in original.Names)
                 {
                     using (var subheader = new SubHeader(sb))
                     {
@@ -1073,7 +1070,7 @@ internal static class CreateHTML
 
                         using (var SplitSources = subheader.CreatePage("Per Source"))
                         {
-                            foreach (var source in original.Value.Sources) //All sources with the domain's original name
+                            foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
                                 string editiontrait = EditionToString(source.editions);
@@ -1082,7 +1079,7 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Locations.Single(e => e.entity == original.Value);
+                                var SourceDetails = source.Locations.Single(e => e.entity == original);
 
                                 var Canon = AddCanonAddOn(SourceDetails.Canon);
                                 if (!string.IsNullOrEmpty(Canon))
@@ -1094,27 +1091,27 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
                                 TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
 
-                                SplitSources.AddSection(original.Value.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
-                                SplitSources.AddSection(original.Value.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
-                                SplitSources.AddSection(original.Value.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
-                                SplitSources.AddSection(original.Value.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
-                                SplitSources.AddSection(original.Value.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
-                                SplitSources.AddSection(original.Value.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
-                                SplitSources.AddSection(original.Value.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
+                                SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
+                                SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
+                                SplitSources.AddSection(original.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
+                                SplitSources.AddSection(original.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
+                                SplitSources.AddSection(original.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
+                                SplitSources.AddSection(original.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
+                                SplitSources.AddSection(original.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
                                 SplitSources.contents.AppendLine("</div></div><br/>");
                             }
                         }
                         using (var AllSources = subheader.CreatePage("All"))
                         {
                             AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                            AllSources.AddSection(original.Value.Domains   .Total, nameof(original.Value.Domains   ), EntityType.Domain   );
-                            AllSources.AddSection(original.Value.Locations .Total, nameof(original.Value.Locations ), EntityType.Location );
-                            AllSources.AddSection(original.Value.Characters.Total, nameof(original.Value.Characters), EntityType.Character);
-                            AllSources.AddSection(original.Value.Items     .Total, nameof(original.Value.Items     ), EntityType.Item     );
-                            AllSources.AddSection(original.Value.Groups    .Total, nameof(original.Value.Groups    ), EntityType.Group    );
-                            AllSources.AddSection(original.Value.Languages .Total, nameof(original.Value.Languages ), EntityType.Language );
-                            AllSources.AddSection(original.Value.Creatures .Total, nameof(original.Value.Creatures ), EntityType.Creature );
-                            AllSources.AddSection(TotalSources                   , nameof(original.Value.Sources   )                      );
+                            AllSources.AddSection(original.Domains   .Total, nameof(original.Domains   ), EntityType.Domain   );
+                            AllSources.AddSection(original.Locations .Total, nameof(original.Locations ), EntityType.Location );
+                            AllSources.AddSection(original.Characters.Total, nameof(original.Characters), EntityType.Character);
+                            AllSources.AddSection(original.Items     .Total, nameof(original.Items     ), EntityType.Item     );
+                            AllSources.AddSection(original.Groups    .Total, nameof(original.Groups    ), EntityType.Group    );
+                            AllSources.AddSection(original.Languages .Total, nameof(original.Languages ), EntityType.Language );
+                            AllSources.AddSection(original.Creatures .Total, nameof(original.Creatures ), EntityType.Creature );
+                            AllSources.AddSection(TotalSources                   , nameof(original.Sources   )                      );
                             AllSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
@@ -1136,24 +1133,24 @@ internal static class CreateHTML
 
                 string ExtraAppend = string.Empty;
 
-                var TotalAlignment = Factory.Alignment.none;
-                foreach (var alignment in original.Value.AlignmentPerSource.Values) TotalAlignment |= alignment;
-                if (TotalAlignment != Factory.Alignment.none)
+                var TotalAlignment = Alignment.none;
+                foreach (var alignment in original.AlignmentPerSource.Values) TotalAlignment |= alignment;
+                if (TotalAlignment != Alignment.none)
                     ExtraAppend += $"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>";
 
-                if (original.Value.Setting != null)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Value.Setting)}<br/>";
+                if (original.Setting != null)
+                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
 
-                if (original.Value.Names.Count() > 1)
+                if (original.Names.Count() > 1)
                 {
-                    var links = CreateLink(EntityType.Domain, original.Value);
+                    var links = CreateLink(EntityType.Domain, original);
                     ExtraAppend += $"<b>Other Names:</b> {string.Join("/", links)}<br/>";
                 }
 
-                if (!string.IsNullOrEmpty(original.Value.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.Value.ExtraInfo}";
+                if (!string.IsNullOrEmpty(original.ExtraInfo))
+                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}";
 
-                foreach (var item in original.Value.Names)
+                foreach (var item in original.Names)
                 {
                     using (var subheader = new SubHeader(sb))
                     {
@@ -1166,7 +1163,7 @@ internal static class CreateHTML
 
                         using (var SplitSources = subheader.CreatePage("Per Source"))
                         {
-                            foreach (var source in original.Value.Sources) //All sources with the character's original name
+                            foreach (var source in original.Sources) //All sources with the character's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
                                 string editiontrait = EditionToString(source.editions);
@@ -1175,14 +1172,14 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Items.Single(e => e.entity == original.Value);
+                                var SourceDetails = source.Items.Single(e => e.entity == original);
 
                                 var Canon = AddCanonAddOn(SourceDetails.Canon);
                                 if (!string.IsNullOrEmpty(Canon))
                                     SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
-                                var alignment = original.Value.AlignmentPerSource[source];
-                                if (alignment != Factory.Alignment.none)
+                                var alignment = original.AlignmentPerSource[source];
+                                if (alignment != Alignment.none)
                                     SplitSources.contents.AppendLine($"<b>Alignment:</b> {AlignmentToString(alignment)}<br/>");
 
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
@@ -1191,27 +1188,27 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
                                 TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
 
-                                SplitSources.AddSection(original.Value.Domains.PerSource[source], nameof(source.Domains), EntityType.Domain);
-                                SplitSources.AddSection(original.Value.Locations.PerSource[source], nameof(source.Locations), EntityType.Location);
-                                SplitSources.AddSection(original.Value.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
-                                SplitSources.AddSection(original.Value.Items.PerSource[source], nameof(source.Items), EntityType.Item);
-                                SplitSources.AddSection(original.Value.Groups.PerSource[source], nameof(source.Groups), EntityType.Group);
-                                SplitSources.AddSection(original.Value.Languages.PerSource[source], nameof(source.Languages), EntityType.Language);
-                                SplitSources.AddSection(original.Value.Creatures.PerSource[source], nameof(source.Creatures), EntityType.Creature);
+                                SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
+                                SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
+                                SplitSources.AddSection(original.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
+                                SplitSources.AddSection(original.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
+                                SplitSources.AddSection(original.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
+                                SplitSources.AddSection(original.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
+                                SplitSources.AddSection(original.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
                                 SplitSources.contents.AppendLine("</div></div><br/>");
                             }
                         }
                         using (var AllSources = subheader.CreatePage("All"))
                         {
                             AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                            AllSources.AddSection(original.Value.Domains.Total, nameof(original.Value.Domains), EntityType.Domain);
-                            AllSources.AddSection(original.Value.Locations.Total, nameof(original.Value.Locations), EntityType.Location);
-                            AllSources.AddSection(original.Value.Characters.Total, nameof(original.Value.Characters), EntityType.Character);
-                            AllSources.AddSection(original.Value.Items.Total, nameof(original.Value.Items), EntityType.Item);
-                            AllSources.AddSection(original.Value.Groups.Total, nameof(original.Value.Groups), EntityType.Group);
-                            AllSources.AddSection(original.Value.Languages.Total, nameof(original.Value.Languages), EntityType.Language);
-                            AllSources.AddSection(original.Value.Creatures.Total, nameof(original.Value.Creatures), EntityType.Creature);
-                            AllSources.AddSection(TotalSources, nameof(original.Value.Sources));
+                            AllSources.AddSection(original.Domains   .Total, nameof(original.Domains   ), EntityType.Domain   );
+                            AllSources.AddSection(original.Locations .Total, nameof(original.Locations ), EntityType.Location );
+                            AllSources.AddSection(original.Characters.Total, nameof(original.Characters), EntityType.Character);
+                            AllSources.AddSection(original.Items     .Total, nameof(original.Items     ), EntityType.Item     );
+                            AllSources.AddSection(original.Groups    .Total, nameof(original.Groups    ), EntityType.Group    );
+                            AllSources.AddSection(original.Languages .Total, nameof(original.Languages ), EntityType.Language );
+                            AllSources.AddSection(original.Creatures .Total, nameof(original.Creatures ), EntityType.Creature );
+                            AllSources.AddSection(TotalSources             , nameof(original.Sources   )                      );
                             AllSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
@@ -1233,19 +1230,19 @@ internal static class CreateHTML
 
                 string ExtraAppend = string.Empty;
 
-                if (original.Value.Setting != null)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Value.Setting)}<br/>";
+                if (original.Setting != null)
+                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
 
-                if (original.Value.Names.Count() > 1)
+                if (original.Names.Count() > 1)
                 {
-                    var links = CreateLink(EntityType.Domain, original.Value);
+                    var links = CreateLink(EntityType.Domain, original);
                     ExtraAppend += $"<b>Other Names:</b> {string.Join("/", links)}<br/>";
                 }
 
-                if (!string.IsNullOrEmpty(original.Value.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.Value.ExtraInfo}";
+                if (!string.IsNullOrEmpty(original.ExtraInfo))
+                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}";
 
-                foreach (var group in original.Value.Names)
+                foreach (var group in original.Names)
                 {
                     using (var subheader = new SubHeader(sb))
                     {
@@ -1256,7 +1253,7 @@ internal static class CreateHTML
 
                         using (var SplitSources = subheader.CreatePage("Per Source"))
                         {
-                            foreach (var source in original.Value.Sources) //All sources with the domain's original name
+                            foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
                                 string editiontrait = EditionToString(source.editions);
@@ -1265,7 +1262,7 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Groups.Single(e => e.entity == original.Value);
+                                var SourceDetails = source.Groups.Single(e => e.entity == original);
 
                                 var Canon = AddCanonAddOn(SourceDetails.Canon);
                                 if (!string.IsNullOrEmpty(Canon))
@@ -1277,27 +1274,27 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
                                 TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
 
-                                SplitSources.AddSection(original.Value.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
-                                SplitSources.AddSection(original.Value.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
-                                SplitSources.AddSection(original.Value.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
-                                SplitSources.AddSection(original.Value.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
-                                SplitSources.AddSection(original.Value.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
-                                SplitSources.AddSection(original.Value.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
-                                SplitSources.AddSection(original.Value.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
+                                SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
+                                SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
+                                SplitSources.AddSection(original.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
+                                SplitSources.AddSection(original.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item     );
+                                SplitSources.AddSection(original.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group    );
+                                SplitSources.AddSection(original.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language );
+                                SplitSources.AddSection(original.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature );
                                 SplitSources.contents.AppendLine("</div></div><br/>");
                             }
                         }
                         using (var AllSources = subheader.CreatePage("All"))
                         {
                             AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                            AllSources.AddSection(original.Value.Domains   .Total, nameof(original.Value.Domains   ), EntityType.Domain   );
-                            AllSources.AddSection(original.Value.Locations .Total, nameof(original.Value.Locations ), EntityType.Location );
-                            AllSources.AddSection(original.Value.Characters.Total, nameof(original.Value.Characters), EntityType.Character);
-                            AllSources.AddSection(original.Value.Items     .Total, nameof(original.Value.Items     ), EntityType.Item     );
-                            AllSources.AddSection(original.Value.Groups    .Total, nameof(original.Value.Groups    ), EntityType.Group    );
-                            AllSources.AddSection(original.Value.Languages .Total, nameof(original.Value.Languages ), EntityType.Language );
-                            AllSources.AddSection(original.Value.Creatures .Total, nameof(original.Value.Creatures ), EntityType.Creature );
-                            AllSources.AddSection(TotalSources                   , nameof(original.Value.Sources   )                      );
+                            AllSources.AddSection(original.Domains   .Total, nameof(original.Domains   ), EntityType.Domain   );
+                            AllSources.AddSection(original.Locations .Total, nameof(original.Locations ), EntityType.Location );
+                            AllSources.AddSection(original.Characters.Total, nameof(original.Characters), EntityType.Character);
+                            AllSources.AddSection(original.Items     .Total, nameof(original.Items     ), EntityType.Item     );
+                            AllSources.AddSection(original.Groups    .Total, nameof(original.Groups    ), EntityType.Group    );
+                            AllSources.AddSection(original.Languages .Total, nameof(original.Languages ), EntityType.Language );
+                            AllSources.AddSection(original.Creatures .Total, nameof(original.Creatures ), EntityType.Creature );
+                            AllSources.AddSection(TotalSources                   , nameof(original.Sources   )                      );
                             AllSources.contents.AppendLine("</div></div><br/>");
                         }
                     }

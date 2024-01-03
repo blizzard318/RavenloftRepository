@@ -1,6 +1,6 @@
 ﻿internal static class Cross
 {
-    private static T Add<T,U>(this T entity, params U[] array) where T : UseVariableName where U : UseName
+    /*private static T Add<T,U>(this T entity, params U[] array) where T : UseVariableName where U : UseName
     {
         var list = GetSetFromArray(array);
         foreach (var set in list) set[Source].Add(entity);
@@ -42,5 +42,5 @@
     {
         entity.ExtraInfo += info;
         return entity;
-    }
+    }*/
 }

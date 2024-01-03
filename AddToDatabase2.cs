@@ -17,16 +17,31 @@ internal static partial class AddToDatabase
             var Bluetspur = ctx.AddDomain(DomainEnum.Bluetspur);
             var Lamordia = ctx.AddDomain(DomainEnum.Lamordia);
 
-            (var Nartok, var NartokGroup) = ctx.CreateSettlement("Nartok");
-            var MillsOfNartok = ctx.CreateLocation("Mills of Nartok").AddInfo("For Darkonian Lumber");
-            var DharlaethAsylum = ctx.CreateLocation("Dharlaeth Asylum").AddInfo("Whilst not stated in the story, Ari Marmell said the Asylum is located in Lamordia.<a href='https://bsky.app/profile/mouseferatu.bsky.social/post/3kelemhzy2l2n'>Bluesky Link</a>");
+            ctx.AddSettlement(DomainEnum.Darkon, Settlement.Nartok);
+            ctx.AddLocation(DomainEnum.Darkon, LocationEnum.MillsOfNartok);
 
-            var Clarke = ctx.CreateNPC("Clarke").AddTraits(Traits.Creature.Human).AddInfo("Probably deceased");
-            var Phillips = ctx.CreateNPC("Phillips").AddTraits(Traits.Creature.Human, Traits.Deceased);
+            ctx.AddLocation(DomainEnum.Lamordia, LocationEnum.DharlaethAsylum);
+            LocationEnum.DharlaethAsylum.ExtraInfo = "Whilst not stated in the story, Ari Marmell said the Asylum is located in Lamordia.<a href='https://bsky.app/profile/mouseferatu.bsky.social/post/3kelemhzy2l2n'>Bluesky Link</a>";
 
-            var Augustus = ctx.CreateNPC("Doctor Augustus").AddTraits(Traits.Creature.Human);
-            var Roberts = ctx.CreateNPC("Nurse Roberts").AddTraits(Traits.Creature.Human, Traits.Deceased);
-            var HowardAshton = ctx.CreateNPC("Howard Ashton").AddTraits(Traits.Creature.Human);
+            ctx.AddLivingCharacter(DomainEnum.Bluetspur, CharacterEnum.Clarke);
+            ctx.AddLivingCharacter(DomainEnum.Darkon, CharacterEnum.Clarke);
+            ctx.BindCreatures(CharacterEnum.Clarke, Creature.Human);
+            CharacterEnum.Clarke.ExtraInfo = "Probably deceased";
+
+            ctx.AddDeadCharacter(DomainEnum.Bluetspur, CharacterEnum.Phillips);
+            ctx.AddDeadCharacter(DomainEnum.Darkon, CharacterEnum.Phillips);
+            ctx.BindCreatures(CharacterEnum.Phillips, Creature.Human);
+
+            ctx.AddLivingCharacter(DomainEnum.Lamordia, CharacterEnum.DoctorAugustus);
+            ctx.BindCreatures(CharacterEnum.DoctorAugustus, Creature.Human);
+
+            ctx.AddDeadCharacter(DomainEnum.Lamordia, CharacterEnum.NurseRoberts);
+            ctx.BindCreatures(CharacterEnum.NurseRoberts, Creature.Human);
+
+            ctx.AddLivingCharacter(DomainEnum.Bluetspur, CharacterEnum.HowardAshton);
+            ctx.AddLivingCharacter(DomainEnum.Lamordia, CharacterEnum.HowardAshton);
+            ctx.AddLivingCharacter(DomainEnum.Darkon, CharacterEnum.HowardAshton);
+            ctx.BindCreatures(CharacterEnum.HowardAshton, Creature.Human);
 
             Darkon.AddLocations(Nartok, MillsOfNartok);
             Darkon.AddGroups(NartokGroup);
@@ -47,7 +62,7 @@ internal static partial class AddToDatabase
             string ExtraInfo = "<br/>&emsp;Author: Jean Blashfield Black";
             ExtraInfo += "<br/>&emsp;Cover Art: Clyde Caldwell";
             ExtraInfo += "<br/>&emsp;Interior Art: Gary Williams";
-            using var ctx = Factory.CreateSource("Master of Ravenloft", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.novel);
+            using var ctx = Factory.CreateSource("Master of Ravenloft", releaseDate, ExtraInfo, Edition.e0, Media.novel);
             if (ctx == null) return;
 
             #region Domains

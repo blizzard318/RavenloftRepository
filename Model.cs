@@ -11,7 +11,6 @@ public static class Ravenloftdb
     public static readonly HashSet<Trait> Languages = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Trait>> LanguagesPerDomain = new();
     public static readonly SortedDictionary<Trait, SortedSet<DomainEnum>> DomainsPerLanguage = new();
-    public static readonly SortedDictionary<Trait, SortedSet<NPC>> CharactersPerLanguage     = new();
 
     public static readonly HashSet<Trait> Creatures = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Trait>> CreaturesPerDomain = new();
@@ -21,28 +20,27 @@ public static class Ravenloftdb
 
     public static readonly SortedDictionary<DomainEnum, Domain> Domains = new();
 
-    public static readonly Dictionary<string, Location> Locations = new();
+    public static readonly HashSet<Location> Locations = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Location>> LocationsPerDomain = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Location>> SettlementsPerDomain = new(); //Towns, Villages
     public static readonly Dictionary<MistwayEnum, Location> Mistways = new(); //Location with only 2 domains
 
-    public static readonly Dictionary<string, NPC> Characters = new ();
+    public static readonly HashSet<NPC> Characters = new ();
     public static readonly SortedDictionary<DomainEnum, SortedSet<NPC>> CharactersPerDomain = new();
     public static readonly SortedDictionary<NPC       , SortedSet<NPC>> CharactersPerGroup = new();
     public static readonly SortedDictionary<Trait     , SortedSet<NPC>> CharactersPerCreature = new();
 
-    public static readonly Dictionary<string, Item> Items = new();
+    public static readonly HashSet<Item> Items = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Item>> ItemsPerDomain = new();
     public static readonly SortedDictionary<Item, SortedSet<Item>> ItemsPerGroup = new();
     public static readonly SortedDictionary<Trait, SortedSet<Item>> ItemsPerCreature= new();
 
-    public static readonly Dictionary<string, Group> Groups = new();
+    public static readonly HashSet<Group> Groups = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Group>> GroupsPerDomain = new();
     public static readonly Dictionary<ClusterEnum, Group> Clusters = new(); //Group with multiple domains
 }
 public class ToTrack<T>
 {
-    public readonly Canon? Canon;
     public readonly SortedSet<T> Total = new();
     public readonly Dictionary<Source, SortedSet<T>> PerSource = new();
     public void Add(Source source, IEnumerable<T> entities) => Add(source, entities.ToArray());
