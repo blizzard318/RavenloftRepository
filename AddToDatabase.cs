@@ -1,4 +1,4 @@
-﻿using static Source;
+﻿using static Factory;
 
 internal static partial class AddToDatabase
 {
@@ -17,99 +17,133 @@ internal static partial class AddToDatabase
             ExtraInfo += "<br/>&emsp;Graphic Designer: Debra Stubbe";
             ExtraInfo += "<br/>&emsp;Illustrator: Clyde Caldwell";
             ExtraInfo += "<br/>&emsp;Module Info: An adventure for 6-8 characters of levels 5-7";
-            using var ctx = Factory.CreateSource("I6: Ravenloft", releaseDate, ExtraInfo, Traits.Edition.e1, Traits.Media.module);
+            using var ctx = CreateSource("I6: Ravenloft", releaseDate, ExtraInfo, Edition.e1, Media.module);
             if (ctx == null) return;
 
             #region Domains
-            var Barovia = ctx.CreateDomain("Barovia").AddTraits(Traits.Creature.Ghoul);
+            ctx.AddDomain(DomainEnum.Barovia);
+            ctx.BindCreatures(DomainEnum.Barovia, Creature.Ghoul);
             #endregion
 
             #region Locations
-            var VillageOfBarovia = ctx.CreateSettlement("Village of Barovia", "1, 6, 7");
-            var BildrathMercantile = ctx.CreateLocation("Bildrath's Mercantile", "8");
-            var BloodVineTavern = ctx.CreateLocation("Blood of the Vine Tavern", "8, 9").AddInfo("Also known as 'Blood on the Vine' Tavern.");
-            var MaryHouse = ctx.CreateLocation("Mad Mary's Townhouse", "9");
-            var BurgomasterHome = ctx.CreateLocation("Burgomaster's Home", "1, 9");
-            var BarovianChurch = ctx.CreateLocation("Church of Barovia", "9, 10");
-            var BurgomasterGuestHouse = ctx.CreateLocation("Burgomaster's Guest House", "9");
-            var BaroviaCemetery = ctx.CreateLocation("Cemetery of Barovia", "9, 11").AddTraits(Traits.Creature.Spirit, Traits.Deceased);
+            ctx.AddSettlement(DomainEnum.Barovia, Settlement.Barovia, "1, 6, 7");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BildrathMercantile, "8");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BloodVineTavern, "8, 9");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BloodVineTavern, "8, 9");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.MaryHouse, "9");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BurgomasterHome, "1, 9");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BaroviaChurch, "9, 10");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BurgomasterGuestHouse, "9");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.BaroviaCemetery, "9, 11");
+            ctx.BindCreatures(LocationEnum.BaroviaCemetery, Creature.Spirit);
 
-            (var TserPoolEncampnent, var TserPoolEncampnentGroup) = ctx.CreateSettlement("Tser Pool Encampment", "11");
-            var MadamEvasTent = ctx.CreateLocation("Madam Eva's Tent", "11");
+            ctx.AddSettlement(DomainEnum.Barovia, Settlement.TserPoolEncampnent, "11");
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.MadamEvasTent, "11");
 
-            var CastleRavenloft = ctx.CreateLocation("Castle Ravenloft", "1, 6, 8, 9, 12-30").AddTraits(
-                    Traits.Creature.RedDragon, Traits.Creature.ShadowDemon.Item1, Traits.Creature.ShadowDemon.Item2,
-                    Traits.Creature.Trapper, Traits.Creature.GiantSpider, Traits.Creature.HugeSpider,
-                    Traits.Creature.Skeleton, Traits.Creature.Horse, Traits.Creature.Nightmare, Traits.Creature.Banshee,
-                    Traits.Creature.KeeningSpirit.Item1, Traits.Creature.KeeningSpirit.Item2,
-                    Traits.Creature.Gargoyle, Traits.Creature.RustMonster, Traits.Creature.GuardianPortrait,
-                    Traits.Creature.Spectre, Traits.Creature.Spirit, Traits.Creature.Wight,
-                    Traits.Creature.Wraith, Traits.Creature.Ghost, Traits.Creature.Bat, Traits.Deceased,
-                    Traits.Creature.StrahdZombie, Traits.Creature.BlackCat, Traits.Creature.Witch,
-                    Traits.Creature.Hellhound, Traits.Creature.Werewolf, Traits.Creature.IronGolem
-                );
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.CastleRavenloft, "1, 6, 8, 9, 12-30");
+            ctx.BindCreatures(LocationEnum.CastleRavenloft, Creature.RedDragon, Creature.ShadowDemon, Creature.Trapper, Creature.GiantSpider,
+                                                            Creature.HugeSpider, Creature.Skeleton, Creature.Horse, Creature.Nightmare,
+                                                            Creature.Banshee, Creature.Gargoyle, Creature.RustMonster, Creature.GuardianPortrait,
+                                                            Creature.Spectre, Creature.Spirit, Creature.Wight, Creature.Wraith, Creature.Ghost,
+                                                            Creature.Bat, Creature.StrahdZombie, Creature.BlackCat, Creature.Witch, Creature.Hellhound,
+                                                            Creature.Werewolf, Creature.IronGolem);
             #endregion
 
             #region NPCs
-            var MadamEva = ctx.CreateNPC("Madam Eva", "1, 6, 11, 32").AddTraits(Traits.Creature.Human, Traits.Alignment.CN);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.MadamEva,"1, 6, 11, 32");
+            ctx.BindCreatures(CharacterEnum.MadamEva, Creature.Human);
+            ctx.BindAlignment(CharacterEnum.MadamEva, Alignment.CN);
 
-            var GuardianOfSorrow = ctx.CreateNPC("Guardian Of Sorrow", "16").AddTraits(Traits.Alignment.NE);
-            var LiefLipsiege = ctx.CreateNPC("Lief Lipsiege", "17").AddTraits(Traits.Alignment.CE, Traits.Creature.Human);
-            var Helga = ctx.CreateNPC("Helga", "18").AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.Vampire);
-            var CyrusBelview = ctx.CreateNPC("Cyrus Belview", "23").AddTraits(Traits.Alignment.CN, Traits.Creature.Human);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.GuardianOfSorrow, "16");
+            ctx.BindAlignment(CharacterEnum.GuardianOfSorrow, Alignment.NE);
 
-            var SpectreAbCenteer = ctx.CreateNPC("Spectre Ab-Centeer", "27").AddTraits(Traits.Deceased);
-            var ArtistaDeSlop = ctx.CreateNPC("Artista DeSlop", "27").AddTraits(Traits.Deceased);
-            var LadyIsoldeYunk = ctx.CreateNPC("Isolde the Incredible","Lady Isolde Yunk", "27").AddTraits(Traits.Deceased);
-            var AerialDuPlumette = ctx.CreateNPC("Aerial the Heavy", "Prince Aerial Du Plumette", "27").AddTraits(Traits.Alignment.LE, Traits.Creature.Ghost);
-            var ArtankSwilovich = ctx.CreateNPC("Artank Swilovich", "27").AddTraits(Traits.Deceased);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.LiefLipsiege, "17");
+            ctx.BindCreatures(CharacterEnum.LiefLipsiege, Creature.Human);
+            ctx.Bind(CharacterEnum.LiefLipsiege, CharacterEnum.CountStrahd);
+            ctx.BindAlignment(CharacterEnum.LiefLipsiege, Alignment.CE);
 
-            var DorfniyaDilisny = ctx.CreateNPC("Duchess Dorfniya Dilisnya", "28").AddTraits(Traits.Deceased);
-            var Pidlwik = ctx.CreateNPC("Pidlwik", "28").AddTraits(Traits.Deceased);
-            var LeanneTriksky = ctx.CreateNPC("Sir Lee the Crusher", "Sir Leanne Triksky", "28").AddTraits(Traits.Deceased);
-            var TashaPetrovna = ctx.CreateNPC("Tasha Petrovna", "28").AddTraits(Traits.Deceased);
-            var KingToisky = ctx.CreateNPC("King Toisky", "28").AddTraits(Traits.Deceased);
-            var KingIntreeKatsky = ctx.CreateNPC("Katsky the Bright", "King Intree Katsky", "28").AddTraits(Traits.Deceased);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.Helga, "18");
+            ctx.BindCreatures(CharacterEnum.Helga, Creature.Human, Creature.Vampire);
+            ctx.Bind(CharacterEnum.Helga, CharacterEnum.CountStrahd);
+            ctx.BindAlignment(CharacterEnum.Helga, Alignment.CE);
 
-            var StahbalIndiBhak = ctx.CreateNPC("Stahbal Indi-Bhak", "28").AddTraits(Traits.Alignment.LE, Traits.Creature.Wight);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.CyrusBelview, "23");
+            ctx.BindCreatures(CharacterEnum.CyrusBelview, Creature.Human);
+            ctx.Bind(CharacterEnum.CyrusBelview, CharacterEnum.CountStrahd);
+            ctx.BindAlignment(CharacterEnum.CyrusBelview, Alignment.CN);
 
-            var Khazan = ctx.CreateNPC("Khazan", "28").AddTraits(Traits.Deceased);
-            var ElsaFallona = ctx.CreateNPC("Elsa Fallona", "28").AddTraits(Traits.Deceased);
-            var SedrikSpinwitovich = ctx.CreateNPC("Admiral Spinwitovich", "Sir Sedrik Spinwitovich", "28").AddTraits(Traits.Deceased);
-            var Animus = ctx.CreateNPC("Animus", "28").AddTraits(Traits.Deceased);
-            var ErikVonderbucks = ctx.CreateNPC("Sir Erik Vonderbucks", "28").AddTraits(Traits.Deceased);
-            var IvanDeRose = ctx.CreateNPC("Ivan DeRose", "28").AddTraits(Traits.Deceased);
-            var StephanGregorovich = ctx.CreateNPC("Stephan Gregorovich", "28").AddTraits(Traits.Deceased);
-            var IntreeSikValoo = ctx.CreateNPC("Intree Sik-Valoo", "28").AddTraits(Traits.Deceased);
-            var ArdentPallette = ctx.CreateNPC("Ardent Pallette", "28").AddTraits(Traits.Deceased);
-            var IvanIvanovich = ctx.CreateNPC("Ivan Ivanovich", "28").AddTraits(Traits.Deceased);
-            var CirilRomulich = ctx.CreateNPC("Prefect Ciril Romulich", "28").AddTraits(Traits.Deceased);
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.SpectreAbCenteer, "27");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.ArtistaDeSlop, "27");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.LadyIsoldeYunk, "27");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.LadyIsoldeYunk, "27");
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.AerialDuPlumette, "27");
+            ctx.BindCreatures(CharacterEnum.AerialDuPlumette, Creature.Ghost);
+            ctx.BindAlignment(CharacterEnum.AerialDuPlumette, Alignment.LE);
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.ArtankSwilovich, "27");
 
-            var Dollars = ctx.CreateNPC("$$", "29").AddTraits(Traits.Deceased);
-            var Finderway = ctx.CreateNPC("St. Finderway", "29").AddTraits(Traits.Deceased);
-            var Dostron = ctx.CreateNPC("King Dostron", "29").AddTraits(Traits.Deceased);
-            var GralmoreNimblenobs = ctx.CreateNPC("Gralmore Nimblenobs", "29").AddTraits(Traits.Deceased);
-            var AmericoStandardski = ctx.CreateNPC("Americo Standardski", "29").AddTraits(Traits.Deceased);
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.DorfniyaDilisny, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Pidlwik, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.LeanneTriksky, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.TashaPetrovna, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.KingToisky, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.KingIntreeKatsky, "28");
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.StahbalIndiBhak, "28");
+            ctx.BindCreatures(CharacterEnum.StahbalIndiBhak, Creature.Wight);
+            ctx.BindAlignment(CharacterEnum.StahbalIndiBhak, Alignment.LE);
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Khazan, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.ElsaFallona, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.SedrikSpinwitovich, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Animus, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.ErikVonderbucks, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.IvanDeRose, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.StephanGregorovich, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.IntreeSikValoo, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.ArdentPallette, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.IvanIvanovich, "28");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.CirilRomulich, "28");
 
-            var Beucephalus = ctx.CreateNPC("Beucephalus", "29, 30").AddTraits(Traits.Creature.Horse, Traits.Creature.Nightmare);
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Dollars, "29");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Finderway, "29");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Dostron, "29");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.GralmoreNimblenobs, "29");
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.AmericoStandardski, "29");
 
-            var TatsaulEris = ctx.CreateNPC("Tatsaul Eris", "30").AddTraits(Traits.Deceased);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.Beucephalus, "29, 30");
+            ctx.Bind(CharacterEnum.Beucephalus, CharacterEnum.CountStrahd);
+            ctx.BindCreatures(CharacterEnum.Beucephalus, Creature.Horse, Creature.Nightmare);
 
-            var AnnaPetrovna = ctx.CreateNPC("Anna Petrovna", "28").AddInfo("Probably deceased but they never explicitly said so.");
-            var Arik = ctx.CreateNPC("Arik", "8").AddTraits(Traits.Alignment.CN, Traits.Creature.Human);
-            var Donavich = ctx.CreateNPC("Father Donavich", "9").AddTraits(Traits.Alignment.LG, Traits.Creature.Human);
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.TatsaulEris, "30");
 
-            var Strahd = ctx.CreateNPC("Count Strahd von Zarovich")
-                .AddTraits(Traits.Creature.Vampire, Traits.Creature.Human, Traits.Alignment.CE, Traits.Creature.Wolf, Traits.Creature.Bat, Traits.Creature.Worg, Traits.Creature.StrahdZombie, Traits.Creature.Zombie)
-                .AddInfo("'ClosedBorders':'No one has left Barovia for centuries. This is because of the trapping fog that exists everywhere in Barovia. Once it is breathed, it infuses itself around a character's vital organs as a neutralized poison. The fog does not taste or smell any different than normal fog. It does not harm characters as long as they continue to breathe the air in Barovia. However, when they leave Barovia, the poison becomes active. Characters must save vs. poison or start to choke. Unless choking characters reenter Barovia within 24 hours, they die. The choking stops as soon as they breathe the fog again. The fog is magically produced by Strahd and disappears entirely upon his destruction.'");
+            ctx.AddLivingCharacter(DomainEnum.OutsideRavenloft, CharacterEnum.AnnaPetrovna, "28");
+            CharacterEnum.AnnaPetrovna.ExtraInfo = "Probably deceased.";
 
-            var Sergei = ctx.CreateNPC("Sergei von Zarovich", "1, 4, 30, 31").AddTraits(Traits.Deceased,Traits.Creature.Human);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.Arik, "8");
+            ctx.BindCreatures(CharacterEnum.Arik, Creature.Human);
+            ctx.BindAlignment(CharacterEnum.Arik, Alignment.CN);
 
-            var KingBarov = ctx.CreateNPC("King Barov von Zarovich", "28, 30").AddTraits(Traits.Creature.Human, Traits.Deceased);
-            var Ravenovia = ctx.CreateNPC("Queen Ravenovia von Zarovich", "5, 28, 30").AddTraits(Traits.Creature.Human, Traits.Deceased);
-            
-            var Marya = ctx.CreateNPC("Marya Markovia", "27, 28").AddTraits(Traits.Deceased);
-            var Endorovich = ctx.CreateNPC("Endorovich the Terrible", "27, 28").AddTraits(Traits.Alignment.LE, Traits.Creature.Spectre);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.FatherDonavich, "9");
+            ctx.BindCreatures(CharacterEnum.FatherDonavich, Creature.Human);
+            ctx.BindAlignment(CharacterEnum.FatherDonavich, Alignment.LG);
+
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.CountStrahd);
+            ctx.BindCreatures(CharacterEnum.CountStrahd, Creature.Human, Creature.Vampire, Creature.Bat);
+            ctx.BindRelatedCreatures(CharacterEnum.CountStrahd, Creature.Wolf, Creature.Worg, Creature.StrahdZombie, Creature.Zombie);
+            ctx.BindAlignment(CharacterEnum.CountStrahd, Alignment.CE);
+
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Sergei, "1, 4, 30, 31");
+            ctx.BindCreatures(CharacterEnum.Sergei, Creature.Human);
+
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.KingBarov, "28, 30");
+            ctx.BindCreatures(CharacterEnum.KingBarov, Creature.Human);
+
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.Ravenovia, "5, 28, 30");
+            ctx.BindCreatures(CharacterEnum.Ravenovia, Creature.Human);
+
+            ctx.AddDeadCharacter(DomainEnum.Barovia, CharacterEnum.MaryaMarkovia, "27, 28");
+
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.Endorovich, "27, 28");
+            ctx.BindCreatures(CharacterEnum.Endorovich, Creature.Spectre);
+            ctx.BindAlignment(CharacterEnum.Endorovich, Alignment.LE);
 
             var SashaIvliskova = ctx.CreateNPC("Sasha Ivliskova", "28").AddTraits(Traits.Alignment.CE, Traits.Creature.Human, Traits.Creature.Vampire);
             var PatrinaVelikovna = ctx.CreateNPC("Patrina Velikovna", "28").AddTraits(Traits.Alignment.CE, Traits.Creature.Elf, Traits.Creature.Banshee);

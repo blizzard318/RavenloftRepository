@@ -40,9 +40,9 @@
     }
     private readonly Source Source;
 
-    public static Factory? CreateSource(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon? Canon = null)
+    public static Factory CreateSource(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon Canon = Canon.c)
         => new Factory(name, releaseDate, extraInfo, Edition, Media, Canon);
-    private Factory(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon? Canon)
+    private Factory(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon Canon)
     {
         Console.WriteLine($"Adding: {name}");
         Source = new Source(name, releaseDate, Edition, Media, Canon) { ExtraInfo = extraInfo };
@@ -50,6 +50,6 @@
         Ravenloftdb.Sources.Add(Source);
         Ravenloftdb.Editions[Edition].Add(Source);
         Ravenloftdb.Medias[Media].Add(Source);
-        if (Canon != null) Ravenloftdb.Canons[Canon.Value].Add(Source);
+        if (Canon != Canon.c) Ravenloftdb.Canons[Canon].Add(Source);
     }
 }

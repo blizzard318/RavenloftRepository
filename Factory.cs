@@ -1,6 +1,8 @@
 ﻿//This script is for creating stuff to the database
 //Adding stuff to the newly created stuff is handled in CrossAdd.cs
 
+using static Factory;
+
 public partial class Factory : IDisposable
 {
     static Factory()
@@ -37,15 +39,13 @@ public partial class Factory : IDisposable
         }
     }
 
-    public Domain AddDomain(DomainEnum denum, string pageNumbers = "Throughout")
+    public void AddDomain(DomainEnum denum, string pageNumbers = "Throughout")
     {
         var original = Ravenloftdb.Domains[denum];
         var tracker = new TrackPage<Domain>(original, Source, pageNumbers);
 
         original.Appearances.Add(Source, tracker);
         Source.Domains.Add(tracker);
-
-        return original;
     }
     public void AddLocation(DomainEnum denum, Location location, string pageNumbers = "Throughout")
     {
@@ -128,30 +128,59 @@ public partial class Factory : IDisposable
         Ravenloftdb.GroupsPerDomain[denum].Add(group);
     }
 
-    public void Bind<T, U> (T Entity, params U[] ToAdd) where T : UseVariableName where U : UseVariableName
+    public void Bind<T, U> (T entity, params U[] array) where T : UseVariableName where U : UseVariableName
     {
+        var list = GetSetFromArray();
+        foreach (var set in list) set.Add(Source, entity);
+
+        var otherlist = GetSetFromEntity();
+        foreach (var instance in array) otherlist.Add(Source, instance);
+
+        IEnumerable<ToTrack<T>>? GetSetFromArray()
+        {
+            var type = typeof(T);
+            if (type == typeof(Location)) return array.Select(t => t.Locations ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Domain  )) return array.Select(t => t.Domains   ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(NPC     )) return array.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Item    )) return array.Select(t => t.Items     ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Group   )) return array.Select(t => t.Groups    ) as IEnumerable<ToTrack<T>>;
+            throw new NotImplementedException();
+        }
         ToTrack<U> GetSetFromEntity()
         {
             var type = typeof(U);
-            if (type == typeof(Location)) return Entity.Locations  as ToTrack<U>;
-            if (type == typeof(Domain  )) return Entity.Domains    as ToTrack<U>;
-            if (type == typeof(NPC     )) return Entity.Characters as ToTrack<U>;
-            if (type == typeof(Item    )) return Entity.Items      as ToTrack<U>;
-            if (type == typeof(Group   )) return Entity.Groups     as ToTrack<U>;
+            if (type == typeof(Location)) return entity.Locations  as ToTrack<U>;
+            if (type == typeof(Domain  )) return entity.Domains    as ToTrack<U>;
+            if (type == typeof(NPC     )) return entity.Characters as ToTrack<U>;
+            if (type == typeof(Item    )) return entity.Items      as ToTrack<U>;
+            if (type == typeof(Group   )) return entity.Groups     as ToTrack<U>;
             throw new NotImplementedException();
         }
     }
-    public void BindDomains<T> (T Entity, params Domain[] domains) where T : UseVariableName => Entity.Domains.Add(Source, domains);
-    public void BindLocations<T> (T Entity, params Location[] locations) where T : UseVariableName => Entity.Locations.Add(Source, locations);
-    public void BindItems<T> (T Entity, params Item[] items) where T : UseVariableName => Entity.Items.Add(Source, items);
-    public void BindCharacters<T> (T Entity, params NPC[] characters) where T : UseVariableName => Entity.Characters.Add(Source, characters);
-    public void BindGroups<T> (T Entity, params Group[] groups) where T : UseVariableName => Entity.Groups.Add(Source, groups);
+
+    public void BindCreatures(DomainEnum denum, params Trait[] creatures) => BindCreatures(Ravenloftdb.Domains[denum], creatures);
     public void BindCreatures<T> (T Entity, params Trait[] creatures) where T : UseVariableName
     {
         Ravenloftdb.Creatures.UnionWith(creatures);
         Entity.Creatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
+    }    
+    public void BindCreatures (NPC Character, params Trait[] creatures)
+    {
+        Ravenloftdb.Creatures.UnionWith(creatures);
+        Character.Creatures.Add(Source, creatures);
+        Source.Creatures.UnionWith(creatures);
+        foreach (var creature in creatures) Ravenloftdb.CharactersPerCreature[creature].Add(Character);
     }
+    public void BindRelatedCreatures (NPC character, params Trait[] creatures)
+    {
+        Ravenloftdb.Creatures.UnionWith(creatures);
+        character.RelatedCreatures.Add(Source, creatures);
+        Source.Creatures.UnionWith(creatures);
+    }
+
+    public void BindAlignment (NPC character, Alignment alignment) => character.AlignmentPerSource[Source] = alignment;
+    public void BindAlignment (Item item, Alignment alignment) => item.AlignmentPerSource[Source] = alignment;
 
     public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {

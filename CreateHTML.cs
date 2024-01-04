@@ -1,5 +1,7 @@
-﻿using NUglify;
+﻿using Microsoft.VisualBasic;
+using NUglify;
 using NUglify.Html;
+using System;
 using System.Text;
 using System.Xml.Linq;
 using static Factory;
@@ -565,11 +567,6 @@ internal static class CreateHTML
                 Domain.SetTable($"Characters {InsideRavenloftLink }", null, Ravenloftdb.CharactersPerDomain[DomainEnum.InsideRavenloft ]);
                 Domain.SetTable($"Characters {OutsideRavenloftLink}", null, Ravenloftdb.CharactersPerDomain[DomainEnum.OutsideRavenloft]);
             }
-            using (var Group = subheader.CreatePage("By Group"))
-            {
-                foreach (var kv in Ravenloftdb.CharactersPerGroup)
-                    Group.SetTable($"Characters of {CreateLink(kv.Key)}", null, kv.Value);
-            }
             using (var Creature = subheader.CreatePage("By Creature Type"))
             {
                 foreach (var kv in Ravenloftdb.CharactersPerCreature)
@@ -585,27 +582,28 @@ internal static class CreateHTML
         sb.CreateOfficialHeader("Items of Ravenloft", 1);
         sb.AppendLine("I track magic and significant mundane items.");
 
-        using (var subheader = new SubHeader(sb))
+        int i = 0;
+        foreach (var kv in Ravenloftdb.ItemsPerDomain)
         {
-            using (var Domain = subheader.CreatePage("By Domain"))
+            if (kv.Key == DomainEnum.InsideRavenloft || kv.Key == DomainEnum.OutsideRavenloft) continue;
+            SetTable($"Items of {CreateLink(kv.Key)}", kv.Value);
+        }
+        SetTable($"Items {InsideRavenloftLink }", Ravenloftdb.ItemsPerDomain[DomainEnum.InsideRavenloft ]);
+        SetTable($"Items {OutsideRavenloftLink}", Ravenloftdb.ItemsPerDomain[DomainEnum.OutsideRavenloft]);
+
+        void SetTable(string title, IEnumerable<Item> Items)
+        {
+            using (var table = new Table(sb, (i++).ToString(), title))
             {
-                foreach (var kv in Ravenloftdb.ItemsPerDomain)
+                using (var headerRow = table.CreateHeaderRow())
+                    headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
+
+                foreach (var item in Items)
                 {
-                    if (kv.Key == DomainEnum.InsideRavenloft || kv.Key == DomainEnum.OutsideRavenloft) continue;
-                    Domain.SetTable($"Items of {CreateLink(kv.Key)}", null, kv.Value);
+                    var rowval = new List<string>() { CreateLink(item) };
+                    rowval.AddRange(GetEditionsOf(item.editions));
+                    table.AddRows(rowval.ToArray());
                 }
-                Domain.SetTable($"Items {InsideRavenloftLink}", null, Ravenloftdb.ItemsPerDomain[DomainEnum.InsideRavenloft]);
-                Domain.SetTable($"Items {OutsideRavenloftLink}", null, Ravenloftdb.ItemsPerDomain[DomainEnum.OutsideRavenloft]);
-            }
-            using (var Group = subheader.CreatePage("By Group")) //Status Traits
-            {
-                foreach (var kv in Ravenloftdb.ItemsPerGroup)
-                    Group.SetTable($"Items of {CreateLink(kv.Key)}", null, kv.Value);
-            }
-            using (var Creature = subheader.CreatePage("By Creature")) //Creature Traits
-            {
-                foreach (var kv in Ravenloftdb.ItemsPerCreature)
-                    Creature.SetTable($"Items of {CreateLink(EntityType.Creature, kv.Key)}", null, kv.Value);
             }
         }
         await sb.SaveHTML(nameof(Item));
@@ -699,7 +697,7 @@ internal static class CreateHTML
         }
         await sb.SaveHTML(nameof(Creature));
     }
-    public async static Task CreateCampaignSettingPage()
+    public async static Task CreateSettingPage()
     {
         var sb = new StringBuilder();
         sb.CreateOfficialHeader("Other Campaign Settings in Ravenloft", 1);
@@ -730,7 +728,7 @@ internal static class CreateHTML
         }
         await sb.SaveHTML("Setting");
     }
-    public async static Task CreateLanguagesPage()
+    public async static Task CreateLanguagePage()
     {
         var sb = new StringBuilder();
         sb.CreateOfficialHeader("Languages of Ravenloft", 1);

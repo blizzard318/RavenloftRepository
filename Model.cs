@@ -27,13 +27,10 @@ public static class Ravenloftdb
 
     public static readonly HashSet<NPC> Characters = new ();
     public static readonly SortedDictionary<DomainEnum, SortedSet<NPC>> CharactersPerDomain = new();
-    public static readonly SortedDictionary<NPC       , SortedSet<NPC>> CharactersPerGroup = new();
     public static readonly SortedDictionary<Trait     , SortedSet<NPC>> CharactersPerCreature = new();
 
     public static readonly HashSet<Item> Items = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Item>> ItemsPerDomain = new();
-    public static readonly SortedDictionary<Item, SortedSet<Item>> ItemsPerGroup = new();
-    public static readonly SortedDictionary<Trait, SortedSet<Item>> ItemsPerCreature= new();
 
     public static readonly HashSet<Group> Groups = new();
     public static readonly SortedDictionary<DomainEnum, SortedSet<Group>> GroupsPerDomain = new();

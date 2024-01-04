@@ -1,4 +1,5 @@
-﻿internal static partial class AddToDatabase
+﻿using static Factory;
+internal static partial class AddToDatabase
 {
     public static void Add1()
     {
@@ -12,20 +13,21 @@
             var releaseDate = "10/06/2022";
             string ExtraInfo = "<br/>&emsp;Illustrator: Slawomir Maniak";
             ExtraInfo += "<br/>&emsp;A Magic the Gathering Deck";
-            using var ctx = Factory.CreateSource("Commander Legends: Battle for Baldur's Gate", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
-            if (ctx == null) return;
+            using var ctx = CreateSource("Commander Legends: Battle for Baldur's Gate", releaseDate, ExtraInfo, Edition.e0, Media.boardgame);
 
-            ctx.CreateDomain("Barovia").AddNPCs(ctx.CreateNPC("Baba Lysaga").AddTraits(Traits.Creature.Human, Traits.Creature.Witch));
+            ctx.AddDomain(DomainEnum.Barovia);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.BabaLysaga);
+            ctx.Bind(CharacterEnum.BabaLysaga, Creature.Human, Creature.Witch);
         }
         void AddDiceMastersStrahd()
         {
             var releaseDate = "8/10/2016";
             var ExtraInfo = string.Empty;
-            using var ctx = Factory.CreateSource("Dice Masters: Strahd", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
-            if (ctx == null) return;
+            using var ctx = CreateSource("Dice Masters: Strahd", releaseDate, ExtraInfo, Edition.e0, Media.boardgame);
 
-            ctx.InsideRavenloft.AddLocations(ctx.CreateLocation("Castle Ravenloft"));
-            ctx.InsideRavenloft.AddNPCs(ctx.CreateNPC("Count Strahd von Zarovich"));
+            ctx.AddLocation(DomainEnum.Barovia, LocationEnum.CastleRavenloft);
+            ctx.AddLivingCharacter(DomainEnum.Barovia, CharacterEnum.CountStrahd);
+            ctx.Bind(LocationEnum.CastleRavenloft, CharacterEnum.CountStrahd);
         }
         void AddSpellfireMastertheMagic()
         {

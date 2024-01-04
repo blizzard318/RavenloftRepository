@@ -1,26 +1,45 @@
-﻿public partial class Factory : IDisposable
+﻿using static Factory;
+
+public partial class Factory : IDisposable
 {
-    private readonly List<Domain> domains = new(); //For trait distribution
+    private readonly List<DomainEnum> domains = new(); //For trait distribution
 
     public void Dispose() //There is a chance I miss stuff out if its nested more than one layer.
     {
-        foreach (var domain in domains)
+        foreach (var _domain in domains)
         {
+            var domain = Ravenloftdb.Domains[_domain];
             //Do not bother doing this for Darklords cause they're already tracked within Characters.
             //so why does darklords exist? Its a cache cause darklords is referenced so often.
             AddLanguages(domain.Locations);
             AddLanguages(domain.Characters);
             AddLanguages(domain.Groups);
             AddLanguages(domain.Items);
-            void AddLanguages<T> (ToTrack<T> entity) where T : UseVariableName =>
-                domain.Languages.Add(Source, entity.PerSource[Source].SelectMany(e => e.Languages.PerSource[Source]));
+            void AddLanguages<T> (ToTrack<T> entity) where T : UseVariableName
+            {
+                var languages = entity.PerSource[Source].SelectMany(e => e.Languages.PerSource[Source]);
+                domain.Languages.Add(Source, languages);
+                foreach (var language in languages)
+                {
+                    Ravenloftdb.DomainsPerLanguage[language].Add(_domain);
+                    Ravenloftdb.LanguagesPerDomain[_domain].Add(language);
+                }
+            }
 
             AddCreatures(domain.Locations);
             AddCreatures(domain.Characters); //Do not add related creatures traits
             AddCreatures(domain.Groups);
             AddCreatures(domain.Items);
-            void AddCreatures<T>(ToTrack<T> entity) where T : UseVariableName =>
-                domain.Creatures.Add(Source, entity.PerSource[Source].SelectMany(e => e.Creatures.PerSource[Source]));
+            void AddCreatures<T>(ToTrack<T> entity) where T : UseVariableName
+            {
+                var creatures = entity.PerSource[Source].SelectMany(e => e.Creatures.PerSource[Source]);
+                domain.Creatures.Add(Source, creatures);
+                foreach (var creature in creatures)
+                {
+                    Ravenloftdb.DomainsPerCreature[creature].Add(_domain);
+                    Ravenloftdb.CreaturesPerDomain[_domain].Add(creature);
+                }
+            }
 
             //Consider doing this for Clusters, Mistways, MistTalismans and anything else ToTrack.
             //That's if they ever get traits.
@@ -106,14 +125,5 @@
         Arak, Gundarak, Dorvinia, Arkandale,
 
         InsideRavenloft, OutsideRavenloft //Special meta domains
-    }
-    public Domain TrackDomain(DomainEnum Name, string pageNumbers)
-    {
-        var retval = Ravenloftdb.Domains[Name]; //All domains already pregenerated
-
-        retval.Appearances.Add(Source, new TrackPage<Domain>(retval, Source, pageNumbers));
-
-        domains.Add(retval); //Important for trait distribution
-        return retval;
     }
 }
