@@ -6,7 +6,7 @@ public static class Ravenloftdb
     public static readonly Dictionary<Canon  , List<Source>> Canons   = new();
     public static readonly Dictionary<Media  , List<Source>> Medias   = new();
 
-    public static readonly Dictionary<CampaignSetting, Trait> CampaignSettings = new();
+    public static readonly HashSet<Trait> CampaignSettings = new();
 
     public static readonly HashSet<Trait> Languages = new();
     public static readonly SortedDictionary<Domain, SortedSet<Trait>> LanguagesPerDomain = new();
@@ -51,8 +51,6 @@ public abstract class UseVariableName //Domain, Location, NPC, Item, Group
 {
     public readonly HashSet<string> Names = new();
 
-    public readonly Trait? Setting; //You can kinda only really be from one campaign setting
-
     public readonly HashSet<Source> Sources = new(); //Tracks all sources that has this entity
 
     public readonly ToTrack<Domain  > Domains    = new();
@@ -65,6 +63,7 @@ public abstract class UseVariableName //Domain, Location, NPC, Item, Group
 
     public string ExtraInfo = string.Empty;
     public Edition editions;
+    public Trait? Setting; //You can kinda only really be from one campaign setting
 }
 public class TrackPage<T>
 {
@@ -110,16 +109,19 @@ public class Trait : UseVariableName //Don't track page numbers?
 public class Location : UseVariableName, IHasAppearances<Location>
 {
     public Dictionary<Source, TrackPage<Location>> Appearances { get; init; } = new();
+    public Location(params string[] names) => Names.UnionWith(names);
 }
 public class Item : UseVariableName, IHasAppearances<Item>, IHasAlignment
 {
     public Dictionary<Source, TrackPage<Item>> Appearances { get; init; } = new();
 
     public Dictionary<Source, Alignment> AlignmentPerSource { get; init; } = new();
+    public Item(params string[] names) => Names.UnionWith(names);
 }
 public class Group : UseVariableName, IHasAppearances<Group>
 {
     public Dictionary<Source, TrackPage<Group>> Appearances { get; init; } = new();
+    public Group(params string[] names) => Names.UnionWith(names);
 }
 public class Domain : UseVariableName, IHasAppearances<Domain>
 {
@@ -128,7 +130,7 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
     public readonly ToTrack<Group   > Clusters  = new();
     public readonly ToTrack<Location> Mistways  = new();
     public readonly string MistTalismans = string.Empty;
-    public Domain (params string[] names) => Names.UnionWith(names);
+    public Domain(params string[] names) => Names.UnionWith(names);
     public class Darklord : NPC
     {
         public Location? DarklordLair; //I uhh, haven't heard of any darklord having more than one lair
@@ -146,6 +148,7 @@ public class NPC : UseVariableName, IHasAppearances<NPC>, IHasAlignment
 
     public Dictionary<Source, Alignment> AlignmentPerSource { get; init; } = new();
 
+    public NPC(params string[] names) => Names.UnionWith(names);
     public class Relationship
     {
         public readonly NPC Primary, Other;

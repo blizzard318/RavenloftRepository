@@ -6,6 +6,7 @@
         {
             var retval = new Location();
             retval.Names.UnionWith(names);
+            Ravenloftdb.Locations.Add(retval);
             return retval;
         }
         public readonly static Location MillsOfNartok = CreateLocation("Lumber Mills (Nartok)");

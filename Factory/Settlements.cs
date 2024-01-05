@@ -4,8 +4,8 @@
     {
         private static Location CreateSettlement(params string[] names)
         {
-            var retval = new Location();
-            retval.Names.UnionWith(names);
+            var retval = new Location(names);
+            Ravenloftdb.Locations.Add(retval);
             return retval;
         }
         public readonly static Location Nartok = CreateSettlement("Nartok");

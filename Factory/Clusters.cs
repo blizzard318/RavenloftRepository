@@ -11,8 +11,8 @@
         }
         private static Group CreateCluster(params string[] names)
         {
-            var retval = new Group();
-            retval.Names.UnionWith(names);
+            var retval = new Group(names);
+            Ravenloftdb.Clusters.Add(retval);
             return retval;
         }
         public readonly static Group IslandsOfTerror  = CreateCluster("Islands of Terror");

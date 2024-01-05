@@ -4,10 +4,26 @@
     {
         private static NPC CreateCharacter(params string[] names)
         {
-            var retval = new NPC();
-            retval.Names.UnionWith(names);
+            var retval = new NPC(names);
+            Ravenloftdb.Characters.Add(retval);
             return retval;
         }
+        public readonly static NPC Meredoth = CreateCharacter("Meredoth");
+
+        public readonly static NPC GabrielleAderre = CreateCharacter("Gabrielle Aderre");
+
+        public readonly static NPC VladDrakov = CreateCharacter("Vlad Drakov");
+
+        public readonly static NPC Hazlik = CreateCharacter("Hazlik");
+
+        public readonly static NPC HarkonLukas = CreateCharacter("Harkon Lukas");
+
+        public readonly static NPC Ludmilla = CreateCharacter("Ludmilla");
+        public readonly static NPC FrantisekMarkov = CreateCharacter("Frantisek Markov");
+
+        public readonly static NPC Zhakata = CreateCharacter("Zhakata");
+        public readonly static NPC YagnoPetrovna = CreateCharacter("Yagno Petrovna");
+
         public readonly static NPC Clarke = CreateCharacter("Clarke");
         public readonly static NPC Phillips = CreateCharacter("Phillips");
         public readonly static NPC HowardAshton = CreateCharacter("Howard Ashton");
@@ -162,5 +178,7 @@
         public readonly static NPC ThadeusMontBreezar = CreateCharacter("Thadeus the Magnificent", "Thadeus Mont Breezar");
 
         public readonly static NPC AzalinRex = CreateCharacter("Azalin Rex");
+
+        public readonly static NPC EleazerClyde = CreateCharacter("EleazerClyde");
     }
 }

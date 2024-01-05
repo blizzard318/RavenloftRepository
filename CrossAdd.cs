@@ -96,7 +96,6 @@ public static class CrossAdd
     }
     public static Location AddLocation(this Domain domain, Location location, string pageNumbers = "Throughout")
     {
-        Ravenloftdb.Locations.Add(location);
         Source.Locations.Add(Track(location, pageNumbers));
 
         domain.Locations.Add(Source, location);
@@ -108,7 +107,6 @@ public static class CrossAdd
     }
     private static NPC AddCharacter(Domain domain, NPC character, string pageNumbers)
     {
-        Ravenloftdb.Characters.Add(character);
         Source.Characters.Add(Track(character, pageNumbers));
 
         domain.Characters.Add(Source, character);
@@ -128,9 +126,22 @@ public static class CrossAdd
         character.Deceased.TryAdd(Source, true);
         return AddCharacter(domain, character, pageNumbers);
     }
+    public static NPC AddLivingDarklord(this Domain domain, NPC character, string pageNumbers = "Throughout")
+        => AddLivingDarklord(domain, (Domain.Darklord)character, pageNumbers);
+    public static NPC AddDeadDarklord(this Domain domain, NPC character, string pageNumbers = "Throughout")
+        => AddDeadDarklord(domain, (Domain.Darklord)character, pageNumbers);
+    public static NPC AddLivingDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
+    {
+        domain.Darklords.Add(Source, darklord);
+        return AddLivingCharacter(domain, darklord, pageNumbers);
+    }
+    public static NPC AddDeadDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
+    {
+        domain.Darklords.Add(Source, darklord);
+        return AddDeadCharacter(domain, darklord, pageNumbers);
+    }
     public static Item AddItem(this Domain domain, Item item, string pageNumbers = "Throughout")
     {
-        Ravenloftdb.Items.Add(item);
         Source.Items.Add(Track(item, pageNumbers));
 
         domain.Items.Add(Source, item);
@@ -142,7 +153,6 @@ public static class CrossAdd
     }
     public static Group AddGroup(this Domain domain, Group group, string pageNumbers = "Throughout")
     {
-        Ravenloftdb.Groups.Add(group);
         Source.Groups.Add(Track(group, pageNumbers));
 
         domain.Groups.Add(Source, group);
@@ -165,21 +175,21 @@ public static class CrossAdd
         IEnumerable<ToTrack<T>>? GetSetFromArray()
         {
             var type = typeof(T);
-            if (type == typeof(Domain)) return array.Select(t => t.Domains) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(Location)) return array.Select(t => t.Locations) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(NPC)) return array.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(Item)) return array.Select(t => t.Items) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(Group)) return array.Select(t => t.Groups) as IEnumerable<ToTrack<T>>;
+            //if (type == typeof(Domain  )) return array.Select(t => t.Domains   ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Location)) return array.Select(t => t.Locations ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(NPC     )) return array.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Item    )) return array.Select(t => t.Items     ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Group   )) return array.Select(t => t.Groups    ) as IEnumerable<ToTrack<T>>;
             throw new NotImplementedException();
         }
         ToTrack<U>? GetSetFromEntity()
         {
             var type = typeof(U);
-            if (type == typeof(Domain)) return entity.Domains as ToTrack<U>;
-            if (type == typeof(Location)) return entity.Locations as ToTrack<U>;
-            if (type == typeof(NPC)) return entity.Characters as ToTrack<U>;
-            if (type == typeof(Item)) return entity.Items as ToTrack<U>;
-            if (type == typeof(Group)) return entity.Groups as ToTrack<U>;
+            //if (type == typeof(Domain  )) return entity.Domains    as ToTrack<U>;
+            if (type == typeof(Location)) return entity.Locations  as ToTrack<U>;
+            if (type == typeof(NPC     )) return entity.Characters as ToTrack<U>;
+            if (type == typeof(Item    )) return entity.Items      as ToTrack<U>;
+            if (type == typeof(Group   )) return entity.Groups     as ToTrack<U>;
             throw new NotImplementedException();
         }
     }
@@ -188,7 +198,7 @@ public static class CrossAdd
     public static T BindCharacters<T>(this T entity, params NPC     [] characters) where T : UseVariableName => Bind(entity, characters);
     public static T BindItems     <T>(this T entity, params Item    [] items     ) where T : UseVariableName => Bind(entity, items);
     public static T BindGroups    <T>(this T entity, params Group   [] groups    ) where T : UseVariableName => Bind(entity, groups);
-    public static void BindDomains (this Group Cluster, params Domain[] domains)
+    public static void BindDomainsToCluster (this Group Cluster, params Domain[] domains)
     {
         Cluster.Domains.PerSource.TryAdd(Source, new());
         foreach (var domain in domains)
@@ -201,23 +211,20 @@ public static class CrossAdd
 
     public static T BindCreatures<T>(this T Entity, params Trait[] creatures) where T : UseVariableName
     {
-        Ravenloftdb.Creatures.UnionWith(creatures);
         Entity.Creatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
         return Entity;
     }
-    public static NPC BindLanguages(this NPC Character, params Trait[] languages)
-    {
-        Ravenloftdb.Languages.UnionWith(languages);
-        Character.Languages.Add(Source, languages);
-        Source.Languages.UnionWith(languages);
-        return Character;
-    }
     public static NPC BindRelatedCreatures(this NPC Character, params Trait[] creatures)
     {
-        Ravenloftdb.Creatures.UnionWith(creatures);
         Character.RelatedCreatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
+        return Character;
+    }
+    public static NPC BindLanguages(this NPC Character, params Trait[] languages)
+    {
+        Character.Languages.Add(Source, languages);
+        Source.Languages.UnionWith(languages);
         return Character;
     }
 

@@ -16,7 +16,7 @@ internal static partial class AddToDatabase
             DomainEnum.Bluetspur.Appeared();
             DomainEnum.Lamordia.Appeared();
 
-            DomainEnum.Darkon.AddSettlement(Settlement.Nartok).BindCharacters(CharacterEnum.HowardAshton, CharacterEnum.Clarke, CharacterEnum.Phillips);
+            DomainEnum.Darkon.AddSettlement(Settlement.Nartok).BindCharacters(CharacterEnum.HowardAshton, CharacterEnum.Clarke, CharacterEnum.Phillips).BindLocations(LocationEnum.MillsOfNartok);
             DomainEnum.Darkon.AddLocation(LocationEnum.MillsOfNartok).BindCharacters(CharacterEnum.HowardAshton, CharacterEnum.Clarke, CharacterEnum.Phillips);
 
             DomainEnum.Lamordia.AddLocation(LocationEnum.DharlaethAsylum).BindCharacters(CharacterEnum.HowardAshton, CharacterEnum.DoctorAugustus, CharacterEnum.NurseRoberts).ExtraInfo = "Whilst not stated in the story, Ari Marmell said the Asylum is located in Lamordia.<a href='https://bsky.app/profile/mouseferatu.bsky.social/post/3kelemhzy2l2n'>Bluesky Link</a>";

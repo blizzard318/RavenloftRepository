@@ -2,7 +2,12 @@
 {
     internal static class Creature
     {
-        private static Trait CreateCreature(params string[] names) => new Trait(names);
+        private static Trait CreateCreature(params string[] names)
+        {
+            var retval = new Trait(names);
+            Ravenloftdb.Creatures.Add(retval);
+            return retval;
+        }
         public readonly static Trait Human = CreateCreature("Human");
         public readonly static Trait Elf = CreateCreature("Elf");
         public readonly static Trait GoldenElf = CreateCreature("Golden Elf");
@@ -22,7 +27,8 @@
         public readonly static Trait Dog = CreateCreature("Dog");
         public readonly static Trait Fox = CreateCreature("Fox");
         public readonly static Trait Rat = CreateCreature("Rat");
-        public readonly static Trait Pig = CreateCreature("Pig");
+        public readonly static Trait Pig = CreateCreature("Pig", "Swine");
+        public readonly static Trait Swine = Pig;
         public readonly static Trait Snake = CreateCreature("Snake");
         public readonly static Trait Tiger = CreateCreature("Tiger");
         public readonly static Trait Raven = CreateCreature("Raven");
@@ -91,7 +97,8 @@
         public readonly static Trait Wraith = CreateCreature("Wraith");
         public readonly static Trait Spectre = CreateCreature("Spectre");
         public readonly static Trait Banshee = CreateCreature("Banshee");
-        public readonly static Trait GrimReaper = CreateCreature("Grim Reaper");
+        public readonly static Trait GrimReaper = CreateCreature("Grim Reaper", "Death Spirit");
+        public readonly static Trait DeathSpirit = GrimReaper;
         public readonly static Trait Bussengeist = CreateCreature("Bussengeist");
         public readonly static Trait Odem = CreateCreature("Odem");
         public readonly static Trait Geist = CreateCreature("Geist");

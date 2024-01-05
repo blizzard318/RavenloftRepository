@@ -703,11 +703,11 @@ internal static class CreateHTML
         int i = 0;
         foreach (var kv in Ravenloftdb.CampaignSettings)
         {
-            var link = CreateLink(EntityType.Setting, Ravenloftdb.CampaignSettings[kv.Key]);
+            var link = CreateLink(EntityType.Setting, kv);
             sb.Append($"<details><summary><b style='font-size:25px'>{link}</b></summary>");
-            AddTable($"Characters of {link}", kv.Value.Characters.Total);
-            AddTable($"Items of {link     }", kv.Value.Items     .Total);
-            AddTable($"Groups of {link    }", kv.Value.Groups    .Total);
+            AddTable($"Characters of {link}", kv.Characters.Total);
+            AddTable($"Items of {link     }", kv.Items     .Total);
+            AddTable($"Groups of {link    }", kv.Groups    .Total);
             sb.Append("</details>");
         }
 
@@ -885,13 +885,14 @@ internal static class CreateHTML
                                 if (!DomainEnum.InsideRavenloft.Names.Contains(domain) &&
                                     !DomainEnum.OutsideRavenloft.Names.Contains(domain)) //Meta-domains don't get source material.
                                 {
-                                    var SourceDetails = source.Domains.Single(e => e.entity == original);
-                                    var Canon = AddCanonAddOn(SourceDetails.Canon);
+                                    var SourceDetails = source.Domains.Where(e => e.entity == original);
+                                    var Canon = AddCanonAddOn(SourceDetails.First().Canon);
                                     if (!string.IsNullOrEmpty(Canon))
                                         SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
-                                    SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
-                                    TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
+                                    var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
+                                    SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
+                                    TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
                                 }
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
@@ -981,9 +982,9 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Characters.Single(e => e.entity == original);
+                                var SourceDetails = source.Characters.Where(e => e.entity == original);
 
-                                var Canon = AddCanonAddOn(SourceDetails.Canon);
+                                var Canon = AddCanonAddOn(SourceDetails.First().Canon);
                                 if (!string.IsNullOrEmpty(Canon))
                                     SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
@@ -994,8 +995,9 @@ internal static class CreateHTML
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
 
-                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
+                                var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
+                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
 
                                 SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
@@ -1070,17 +1072,18 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Locations.Single(e => e.entity == original);
+                                var SourceDetails = source.Locations.Where(e => e.entity == original);
 
-                                var Canon = AddCanonAddOn(SourceDetails.Canon);
+                                var Canon = AddCanonAddOn(SourceDetails.First().Canon);
                                 if (!string.IsNullOrEmpty(Canon))
                                     SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
 
-                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
+                                var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
+                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
 
                                 SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
@@ -1163,9 +1166,9 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Items.Single(e => e.entity == original);
+                                var SourceDetails = source.Items.Where(e => e.entity == original);
 
-                                var Canon = AddCanonAddOn(SourceDetails.Canon);
+                                var Canon = AddCanonAddOn(SourceDetails.First().Canon);
                                 if (!string.IsNullOrEmpty(Canon))
                                     SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
@@ -1176,8 +1179,9 @@ internal static class CreateHTML
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
 
-                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
+                                var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
+                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
 
                                 SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
@@ -1253,17 +1257,18 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
-                                var SourceDetails = source.Groups.Single(e => e.entity == original);
+                                var SourceDetails = source.Groups.Where(e => e.entity == original);
 
-                                var Canon = AddCanonAddOn(SourceDetails.Canon);
+                                var Canon = AddCanonAddOn(SourceDetails.First().Canon);
                                 if (!string.IsNullOrEmpty(Canon))
                                     SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
 
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
 
-                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {SourceDetails.PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{SourceDetails.PageNumbers}</i>)");
+                                var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
+                                SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
 
                                 SplitSources.AddSection(original.Domains   .PerSource[source], nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location );
@@ -1297,7 +1302,7 @@ internal static class CreateHTML
     }
 
     public static Task[] CreateCreaturePages() => CreateTraitPages(EntityType.Creature, Ravenloftdb.Creatures);
-    public static Task[] CreateSettingPages()  => CreateTraitPages(EntityType.Setting, Ravenloftdb.CampaignSettings.Select(c => c.Value));
+    public static Task[] CreateSettingPages()  => CreateTraitPages(EntityType.Setting, Ravenloftdb.CampaignSettings);
     public static Task[] CreateLanguagePages() => CreateTraitPages(EntityType.Language, Ravenloftdb.Languages);
     private static Task[] CreateTraitPages(EntityType type, IEnumerable<Trait> traits)
     {

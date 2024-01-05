@@ -4,8 +4,8 @@
     {
         private static Location CreateMistway(params string[] names)
         {
-            var retval = new Location();
-            retval.Names.UnionWith(names);
+            var retval = new Location(names);
+            Ravenloftdb.Mistways.Add(retval);
             return retval;
         }
     }

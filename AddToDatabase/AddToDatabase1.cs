@@ -336,111 +336,112 @@ internal static partial class AddToDatabase
             void Add1991Cards()
             {
                 var releaseDate = "01/01/1991";
-                using var ctx = Factory.CreateSource("TSR Collector Cards, 1991 Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
-                if (ctx == null) return;
+                using var ctx = CreateSource("TSR Collector Cards, 1991 Set", releaseDate, ExtraInfo, Edition.e0, Media.boardgame);
 
-                var CloakOfProtection = ctx.CreateItem("Cloak of Protection", "381/750, 489/750, 611/750, 680/750");
-                var BracersOfDef = ctx.CreateItem("Bracers of Defense", "381/750");
-                var RingOfShoot = ctx.CreateItem("Ring of Shooting Stars", "381/750");
-                var RodOfSmite = ctx.CreateItem("Rod of Smiting", "381/750");
-                var StaffOfTheSerpent = ctx.CreateItem("Staff of the Serpent", "381/750");
+                DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Meredoth, "381/750")
+                    .BindCreatures(Creature.Human).BindAlignment(Alignment.CE)
+                    .BindItems(ItemEnum.CloakOfProtection, ItemEnum.BracersOfDefense, ItemEnum.RingOfShoot, ItemEnum.RodOfSmite, ItemEnum.StaffOfTheSerpent);
+                DomainEnum.Nebligtode.AddItem(ItemEnum.CloakOfProtection, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.BracersOfDefense, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.RingOfShoot, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.RodOfSmite, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.StaffOfTheSerpent, "381/750");
 
-                var Meredoth = ctx.CreateNPC("Meredoth", "381/750").BindCreatures(Creature.Human, Alignment.CE);
-                Meredoth.AddItems(BracersOfDef, CloakOfProtection, RingOfShoot, RodOfSmite, StaffOfTheSerpent);
-
-                ctx.InsideRavenloft.AddNPCs(Meredoth);
-                ctx.InsideRavenloft.AddItems(Meredoth.Items.ToArray());
-                ctx.InsideRavenloft.BindCreatures(
+                DomainEnum.InsideRavenloft.BindCreatures(
                     Creature.GrimReaper, //382/750
                     Creature.Werebat, //383/750
+                    Creature.VampireBat, //383/750
+                    Creature.Bat, //383/750
                     Creature.Bussengeist //384/750
-                );
+                    );
 
-                ctx.Darklords = ctx.CreateGroup("Darklord", "481-489/750, 611/750");
+                DomainEnum.Invidia.AddLivingDarklord(CharacterEnum.GabrielleAderre, "481/750")
+                    .BindCreatures(Creature.Human).BindAlignment(Alignment.NE)
+                    .BindGroups(GroupEnum.HalfVistani, GroupEnum.Vistani);
+                DomainEnum.Invidia.Appeared("481/750").BindGroups(GroupEnum.HalfVistani, GroupEnum.Vistani);
+                DomainEnum.Invidia.AddGroup(GroupEnum.Vistani, "481/750");
+                DomainEnum.Invidia.AddGroup(GroupEnum.HalfVistani, "481/750");
 
-                var Gabrielle = ctx.CreateNPC("Gabrielle Aderre", "481/750").BindCreatures(Creature.Human, Alignment.NE);
-                var Invidia = ctx.CreateDomain("Invidia", "481/750");
-                var Vistani = ctx.CreateGroup("Vistani", "481/750");
-                var HalfVistani = ctx.CreateGroup("Half Vistani", "481/750");
-                Gabrielle.AddGroups(HalfVistani, Vistani);
-                Invidia.AddGroups(Vistani, HalfVistani);
-                ctx.CreateDarklordGroup(Invidia, Gabrielle);
+                DomainEnum.Darkon.Appeared("482/482");
+                DomainEnum.Darkon.AddLivingDarklord(CharacterEnum.AzalinRex, "482/750")
+                    .BindCreatures(Creature.Human, Creature.Lich).BindAlignment(Alignment.LE);
 
-                var Azalin = ctx.CreateNPC("Azalin Rex", "482/750").BindCreatures(Creature.Human, Creature.Lich, Alignment.LE);
-                var Darkon = ctx.CreateDomain("Darkon", "482/750");
-                ctx.CreateDarklordGroup(Darkon, Azalin);
+                DomainEnum.Falkovnia.Appeared("483/482")
+                    .BindItems(ItemEnum.RingOfFreeAct, ItemEnum.RodOfFlail, ItemEnum.GauntletsOfOgrePower);
+                DomainEnum.Falkovnia.AddLivingDarklord(CharacterEnum.VladDrakov, "483/750")
+                    .BindCreatures(Creature.Human).BindAlignment(Alignment.NE)
+                    .BindItems(ItemEnum.RingOfFreeAct, ItemEnum.RodOfFlail, ItemEnum.GauntletsOfOgrePower)
+                    .Setting = CampaignSetting.Dragonlance;
+                DomainEnum.Falkovnia.AddItem(ItemEnum.RingOfFreeAct, "483/750");
+                DomainEnum.Falkovnia.AddItem(ItemEnum.RodOfFlail, "483/750");
+                DomainEnum.Falkovnia.AddItem(ItemEnum.GauntletsOfOgrePower, "483/750");
 
-                var VladDrakov = ctx.CreateNPC("Vlad Drakov", "483/750").BindCreatures(Creature.Human, Alignment.NE, Traits.CampaignSetting.Dragonlance);
-                var Falkovnia = ctx.CreateDomain("Falkovnia", "483/750");
-                var RingOfFreeAct = ctx.CreateItem("Ring of Free Action", "483/750");
-                var RodOfFlail = ctx.CreateItem("Rod of Flailing", "483/750");
-                var GauntletsOfOgrePower = ctx.CreateItem("Gauntlets of Ogre Power", "483/750");
-                VladDrakov.AddItems(RingOfFreeAct, RodOfFlail, GauntletsOfOgrePower);
-                Falkovnia.AddItems(VladDrakov.Items.ToArray());
-                ctx.CreateDarklordGroup(Falkovnia, VladDrakov);
+                DomainEnum.Mordent.Appeared("484/750");
+                DomainEnum.Mordent.AddLocation(LocationEnum.GryphonHill, "484/750");
+                DomainEnum.Mordent.AddLocation(LocationEnum.GryphonHillMansion, "484/750").BindLocations(LocationEnum.GryphonHill);
+                DomainEnum.Mordent.AddLivingDarklord(CharacterEnum.LordWilfredGodefroy, "484/750")
+                    .BindLocations(LocationEnum.GryphonHill, LocationEnum.GryphonHillMansion)
+                    .BindCreatures(Creature.Human, Creature.Ghost).BindAlignment(Alignment.CE);
 
-                var WilfredGodefroy = ctx.CreateNPC("Lord Wilfred Godefroy", "484/750").BindCreatures(Creature.Human, Creature.Ghost, Alignment.CE);
-                var Mordent = ctx.CreateDomain("Mordent", "484/750");
-                ctx.CreateDarklordGroup(Mordent, WilfredGodefroy);
+                DomainEnum.Hazlan.Appeared("485/750");
+                DomainEnum.Hazlan.AddLivingDarklord(CharacterEnum.Hazlik, "485/750")
+                    .BindCreatures(Creature.Human).BindAlignment(Alignment.CE).Setting = CampaignSetting.ForgottenRealms;
+                DomainEnum.Hazlan.AddGroup(GroupEnum.RedWizard, "485/750")
+                    .BindCharacters(CharacterEnum.Hazlik);
+                DomainEnum.OutsideRavenloft.AddGroup(GroupEnum.RedWizard, "485/750")
+                    .Setting = CampaignSetting.ForgottenRealms;
 
-                var Hazlik = ctx.CreateNPC("Hazlik", "485/750").BindCreatures(Creature.Human, Alignment.CE, Traits.CampaignSetting.ForgottonRealms);
-                var Hazlan = ctx.CreateDomain("Hazlan", "485/750");
-                var RedWizard = ctx.CreateGroup("Red Wizard of Thay", "485/750").BindCreatures(Traits.CampaignSetting.ForgottonRealms);
-                RedWizard.AddNPCs(Hazlik);
-                Hazlan.AddGroups(RedWizard);
-                RedWizard.AddDomains(ctx.InsideRavenloft, ctx.OutsideRavenloft);
-                ctx.CreateDarklordGroup(Hazlan, Hazlik);
+                DomainEnum.Barovia.Appeared("486/750, 488/750, 489/750, 611/750");
+                DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.HarkonLukas, "486/750");
+                DomainEnum.Kartakass.Appeared("486/750");
+                DomainEnum.Kartakass.AddLivingDarklord(CharacterEnum.HarkonLukas, "486/750")
+                    .BindCreatures(Creature.Human, Creature.Wolfwere)
+                    .BindItems(ItemEnum.CursedBerserker, ItemEnum.ElixirOfMadness)
+                    .BindAlignment(Alignment.NE);
+                DomainEnum.Kartakass.AddItem(ItemEnum.CursedBerserker, "486/750");
+                DomainEnum.Kartakass.AddItem(ItemEnum.ElixirOfMadness, "486/750");
 
-                var Barovia = ctx.CreateDomain("Barovia", "486/750, 488/750, 489/750, 611/750");
+                DomainEnum.Markovia.Appeared("487/750");
+                DomainEnum.Markovia.AddLivingCharacter(CharacterEnum.Ludmilla, "487/750")
+                    .BindCreatures(Creature.Human)
+                    .BindRelatedCreatures(Creature.Pig);
+                DomainEnum.Markovia.AddLivingDarklord(CharacterEnum.FrantisekMarkov, "487/750")
+                    .BindCreatures(Creature.Human)
+                    .BindRelatedCreatures(Creature.Pig)
+                    .BindAlignment(Alignment.LE)
+                    .BindCharacters(CharacterEnum.Ludmilla);
 
-                var HarkonLukas = ctx.CreateNPC("Harkon Lukas", "486/750").BindCreatures(Creature.Human, Creature.Wolfwere, Alignment.NE);
-                Barovia.AddNPCs(HarkonLukas);
-                var Kartakass = ctx.CreateDomain("Kartakass", "486/750");
-                var CursedBerserker = ctx.CreateItem("Sword Cursed Berserker", "486/750");
-                var ElixirOfMadness = ctx.CreateItem("Elixir of Madness", "486/750");
-                HarkonLukas.AddItems(CursedBerserker, ElixirOfMadness);
-                Kartakass.AddItems(HarkonLukas.Items.ToArray());
-                ctx.CreateDarklordGroup(Kartakass, HarkonLukas);
+                DomainEnum.GHenna.Appeared("488/750");
+                DomainEnum.GHenna.AddGroup(GroupEnum.Zhakata, "488/750");
+                DomainEnum.GHenna.AddLivingCharacter(CharacterEnum.Zhakata, "488/750")
+                    .BindGroups(GroupEnum.Deity, GroupEnum.Zhakata);
+                DomainEnum.GHenna.AddLivingDarklord(CharacterEnum.YagnoPetrovna, "488/750")
+                    .BindGroups(GroupEnum.Zhakata)
+                    .BindCharacters(CharacterEnum.Zhakata)
+                    .BindCreatures(Creature.Human)
+                    .BindAlignment(Alignment.LE);
+                DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.YagnoPetrovna);
 
-                var Ludmilla = ctx.CreateNPC("Ludmilla", "487/750").BindCreatures(Creature.Human, Creature.Pig);
-                ctx.InsideRavenloft.AddNPCs(Ludmilla);
-                var FrantisekMarkov = ctx.CreateNPC("Frantisek Markov", "487/750").BindCreatures(Creature.Human, Alignment.LE, Creature.Pig);
-                var Markovia = ctx.CreateDomain("Markovia", "487/750");
-                ctx.CreateDarklordGroup(Markovia, FrantisekMarkov);
+                DomainEnum.Barovia.AddGroup(GroupEnum.Tatyana, "489/750, 611/750");
+                DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "489/750, 611/750")
+                    .BindGroups(GroupEnum.Tatyana);
+                DomainEnum.Barovia.AddLivingDarklord(CharacterEnum.CountStrahd, "489/750, 611/750")
+                    .BindCreatures(Creature.Human, Creature.Vampire)
+                    .BindCharacters(CharacterEnum.Tatyana)
+                    .BindItems(ItemEnum.CloakOfProtection, ItemEnum.AmuletOfProof)
+                    .BindAlignment(Alignment.LE);
+                DomainEnum.Barovia.AddItem(ItemEnum.AmuletOfProof, "489/750, 611/750");
+                DomainEnum.Barovia.AddItem(ItemEnum.CloakOfProtection, "489/750, 611/750");
 
-                ctx.CreateRelationship(FrantisekMarkov, "Husband", Ludmilla);
-                ctx.CreateRelationship(Ludmilla, "Wife", FrantisekMarkov);
+                DomainEnum.InsideRavenloft.AddLivingDarklord(CharacterEnum.EleazerClyde, "680/750")
+                    .BindCreatures(Creature.Vampire, Creature.Human)
+                    .BindItems(ItemEnum.RingOfSpellStoring, ItemEnum.StaffOfThunderAndLightning, ItemEnum.TalismanOfUltimateEvil)
+                    .BindAlignment(Alignment.LE);
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.RingOfSpellStoring, "680/750");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.StaffOfThunderAndLightning, "680/750");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.TalismanOfUltimateEvil, "680/750");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.CloakOfProtection, "680/750");
 
-                var ReligionOfZhakata = ctx.CreateGroup("Religion of Zhakata", "488/750");
-                var Zhakata = ctx.CreateNPC("Zhakata", "488/750").BindCreatures(Traits.Deity);
-                var YagnoPetrovna = ctx.CreateNPC("Yagno Petrovna", "488/750").BindCreatures(Creature.Human, Alignment.LE);
-                ReligionOfZhakata.AddNPCs(Zhakata, YagnoPetrovna);
-                Barovia.AddNPCs(YagnoPetrovna);
-                var GHenna = ctx.CreateDomain("G'henna", "488/750");
-                GHenna.AddNPCs(Zhakata);
-                GHenna.AddGroups(ReligionOfZhakata);
-                ctx.CreateDarklordGroup(GHenna, YagnoPetrovna);
-
-                ctx.CreateRelationship(YagnoPetrovna, "Worships", Zhakata);
-
-                var Reincarnation = ctx.CreateGroup("Reincarnations of Tatyana", "489/750, 611/750");
-                var Tatyana = ctx.CreateNPC("Tatyana", "489/750, 611/750").BindCreatures(Traits.Deceased);
-                Reincarnation.AddNPCs(Tatyana);
-                Barovia.AddGroups(Reincarnation);
-                var Strahd = ctx.CreateNPC("Count Strahd von Zarovich", "489/750, 611/750").BindCreatures(Creature.Human, Creature.Vampire, Alignment.LE);
-                Barovia.AddNPCs(Tatyana);
-                var AmuletOfProof = ctx.CreateItem("Amulet of Proof against Detection and Location", "489/750, 611/750");
-                Strahd.AddItems(CloakOfProtection, AmuletOfProof);
-                Barovia.AddItems(Strahd.Items.ToArray());
-                ctx.CreateDarklordGroup(Barovia, Strahd);
-
-                ctx.CreateRelationship(Strahd, "Loves", Tatyana);
-
-                var EleazerClyde = ctx.CreateNPC("Eleazer Clyde", "680/750").BindCreatures(Creature.Vampire, Creature.Human, Alignment.LE);
-                ctx.InsideRavenloft.AddNPCs(EleazerClyde);
-                var RingOfSpellStoring = ctx.CreateItem("Ring of Spell Storing", "680/750");
-                var StaffOfThunderAndLightning = ctx.CreateItem("Staff of Thunder and Lightning", "680/750");
-                var TalismanOfUltimateEvil = ctx.CreateItem("Talisman of Ultimate Evil", "680/750");
                 EleazerClyde.AddItems(RingOfSpellStoring, StaffOfThunderAndLightning, CloakOfProtection, TalismanOfUltimateEvil);
                 ctx.InsideRavenloft.AddItems(EleazerClyde.Items.ToArray());
 
@@ -465,8 +466,7 @@ internal static partial class AddToDatabase
             void Add1992Cards()
             {
                 var releaseDate = "01/01/1992";
-                using var ctx = Factory.CreateSource("TSR Collector Cards, 1992 Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
-                if (ctx == null) return;
+                using var ctx = CreateSource("TSR Collector Cards, 1992 Set", releaseDate, ExtraInfo, Edition.e0, Media.boardgame);
 
                 var TarlVanovitch = ctx.CreateNPC("Tarl Vanovitch", "23/750");
                 ctx.InsideRavenloft.AddNPCs(TarlVanovitch);
@@ -694,16 +694,14 @@ internal static partial class AddToDatabase
             void Add1992PromoCards()
             {
                 var releaseDate = "01/01/1992";
-                using var ctx = Factory.CreateSource("TSR Collector Cards, 1992 GenCon Promo Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
-                if (ctx == null) return;
+                using var ctx = CreateSource("TSR Collector Cards, 1992 GenCon Promo Set", releaseDate, ExtraInfo, Edition.e0, Media.boardgame);
 
                 ctx.InsideRavenloft.BindCreatures(Creature.Zombie); //10/11
             }
             void Add1993Cards()
             {
                 var releaseDate = "01/01/1993";
-                using var ctx = Factory.CreateSource("TSR Collector Cards, 1993 Set", releaseDate, ExtraInfo, Traits.Edition.e0, Traits.Media.boardgame);
-                if (ctx == null) return;
+                using var ctx = CreateSource("TSR Collector Cards, 1993 Set", releaseDate, ExtraInfo, Edition.e0, Media.boardgame);
 
                 ctx.InsideRavenloft.BindCreatures(Creature.Ghost); //4/495
 

@@ -1,6 +1,26 @@
 ﻿public partial class Factory : IDisposable
 {
-    public enum CampaignSetting { Ravenloft, Mystara, Planescape, Greyhawk, NentirVale, ForgottonRealms, Spelljammer, DarkSun, Birthright, Dragonlance, Eberron, MasqueOfRedDeath, }
+    public static class CampaignSetting
+    {
+        private static Trait CreateSetting(params string[] names)
+        {
+            var retval = new Trait(names);
+            Ravenloftdb.CampaignSettings.Add(retval);
+            return retval;
+        }
+        public static readonly Trait Mystara = CreateSetting("Mystara");
+        public static readonly Trait Planescape = CreateSetting("Planescape");
+        public static readonly Trait Greyhawk = CreateSetting("Greyhawk");
+        public static readonly Trait NentirVale = CreateSetting("Nentir Vale", "Points of Light");
+        public static readonly Trait ForgottenRealms = CreateSetting("Forgotten Realms");
+        public static readonly Trait Spelljammer = CreateSetting("Spelljammer");
+        public static readonly Trait DarkSun = CreateSetting("Dark Sun");
+        public static readonly Trait Birthright = CreateSetting("Birthright");
+        public static readonly Trait Dragonlance = CreateSetting("Dragonlance");
+        public static readonly Trait Eberron = CreateSetting("Eberron");
+        public static readonly Trait MasqueOfRedDeath = CreateSetting("Masque of Red Death");
+
+    }
 
     [Flags] public enum Alignment { none = 0, LG = 1, LN = 1 << 1, LE = 1 << 2, NG = 1 << 3, TN = 1 << 4, NE = 1 << 5, CG = 1 << 6, CN = 1 << 7, CE = 1 << 8 };
     public static string AlignmentToString(Alignment e)
@@ -14,7 +34,12 @@
 
     public static class Language
     {
-        private static Trait CreateLanguage(params string[] names) => new Trait(names);
+        private static Trait CreateLanguage(params string[] names)
+        {
+            var retval = new Trait(names);
+            Ravenloftdb.Languages.Add(retval);
+            return retval;
+        }
 
         public static readonly Trait Common = CreateLanguage("Common");
         public static readonly Trait Halfling = CreateLanguage("Halfling");
