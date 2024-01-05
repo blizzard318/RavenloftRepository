@@ -32,20 +32,19 @@
             { Canon.pc , "Potentially Canon"},
             { Canon.nc , "Not Canon"        }
         };
-    private static void SetUpSourceTraits()
+    static Factory()
     {
         foreach (var edition in Enum.GetValues<Edition>()) Ravenloftdb.Editions.Add(edition, new());
         foreach (var canon in Enum.GetValues<Canon>()) Ravenloftdb.Canons.Add(canon, new());
         foreach (var media in Enum.GetValues<Media>()) Ravenloftdb.Medias.Add(media, new());
     }
-    private readonly Source Source;
 
     public static Factory CreateSource(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon Canon = Canon.c)
         => new Factory(name, releaseDate, extraInfo, Edition, Media, Canon);
     private Factory(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon Canon)
     {
         Console.WriteLine($"Adding: {name}");
-        Source = new Source(name, releaseDate, Edition, Media, Canon) { ExtraInfo = extraInfo };
+        var Source = CrossAdd.Source = new Source(name, releaseDate, Edition, Media, Canon) { ExtraInfo = extraInfo };
 
         Ravenloftdb.Sources.Add(Source);
         Ravenloftdb.Editions[Edition].Add(Source);

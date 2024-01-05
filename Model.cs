@@ -9,32 +9,31 @@ public static class Ravenloftdb
     public static readonly Dictionary<CampaignSetting, Trait> CampaignSettings = new();
 
     public static readonly HashSet<Trait> Languages = new();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<Trait>> LanguagesPerDomain = new();
-    public static readonly SortedDictionary<Trait, SortedSet<DomainEnum>> DomainsPerLanguage = new();
+    public static readonly SortedDictionary<Domain, SortedSet<Trait>> LanguagesPerDomain = new();
+    public static readonly SortedDictionary<Trait, SortedSet<Domain>> DomainsPerLanguage = new();
 
     public static readonly HashSet<Trait> Creatures = new();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<Trait>> CreaturesPerDomain = new();
-    public static readonly SortedDictionary<Trait, SortedSet<DomainEnum>> DomainsPerCreature = new();
+    public static readonly SortedDictionary<Domain, SortedSet<Trait>> CreaturesPerDomain = new();
+    public static readonly SortedDictionary<Trait, SortedSet<Domain>> DomainsPerCreature = new();
 
     public static readonly List<Source> Sources = new();
 
-    public static readonly SortedDictionary<DomainEnum, Domain> Domains = new();
+    public static readonly HashSet<Domain> Domains = new();
 
     public static readonly HashSet<Location> Locations = new();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<Location>> LocationsPerDomain = new();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<Location>> SettlementsPerDomain = new(); //Towns, Villages
-    public static readonly Dictionary<MistwayEnum, Location> Mistways = new(); //Location with only 2 domains
+    public static readonly SortedDictionary<Domain, SortedSet<Location>> LocationsPerDomain = new();
+    public static readonly SortedDictionary<Domain, SortedSet<Location>> SettlementsPerDomain = new(); //Towns, Villages
+    public static readonly HashSet<Location> Mistways = new(); //Location with only 2 domains
 
     public static readonly HashSet<NPC> Characters = new ();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<NPC>> CharactersPerDomain = new();
-    public static readonly SortedDictionary<Trait     , SortedSet<NPC>> CharactersPerCreature = new();
+    public static readonly SortedDictionary<Domain, SortedSet<NPC>> CharactersPerDomain = new();
 
     public static readonly HashSet<Item> Items = new();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<Item>> ItemsPerDomain = new();
+    public static readonly SortedDictionary<Domain, SortedSet<Item>> ItemsPerDomain = new();
 
     public static readonly HashSet<Group> Groups = new();
-    public static readonly SortedDictionary<DomainEnum, SortedSet<Group>> GroupsPerDomain = new();
-    public static readonly Dictionary<ClusterEnum, Group> Clusters = new(); //Group with multiple domains
+    public static readonly SortedDictionary<Domain, SortedSet<Group>> GroupsPerDomain = new();
+    public static readonly HashSet<Group> Clusters = new(); //Group with multiple domains
 }
 public class ToTrack<T>
 {
@@ -112,11 +111,11 @@ public class Location : UseVariableName, IHasAppearances<Location>
 {
     public Dictionary<Source, TrackPage<Location>> Appearances { get; init; } = new();
 }
-public class Item : UseVariableName, IHasAppearances<Item>
+public class Item : UseVariableName, IHasAppearances<Item>, IHasAlignment
 {
     public Dictionary<Source, TrackPage<Item>> Appearances { get; init; } = new();
 
-    public readonly Dictionary<Source, Alignment> AlignmentPerSource = new();
+    public Dictionary<Source, Alignment> AlignmentPerSource { get; init; } = new();
 }
 public class Group : UseVariableName, IHasAppearances<Group>
 {
@@ -129,14 +128,14 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
     public readonly ToTrack<Group   > Clusters  = new();
     public readonly ToTrack<Location> Mistways  = new();
     public readonly string MistTalismans = string.Empty;
-    public Domain (string[] names) => Names.UnionWith(names);
+    public Domain (params string[] names) => Names.UnionWith(names);
     public class Darklord : NPC
     {
         public Location? DarklordLair; //I uhh, haven't heard of any darklord having more than one lair
         public string Curse = string.Empty, CloseBorder = string.Empty;
     }
 }
-public class NPC : UseVariableName, IHasAppearances<NPC>
+public class NPC : UseVariableName, IHasAppearances<NPC>, IHasAlignment
 {
     public          Dictionary<Source, TrackPage<NPC     >> Appearances { get; init; } = new();
 
@@ -145,7 +144,7 @@ public class NPC : UseVariableName, IHasAppearances<NPC>
     public readonly Dictionary<Source, bool              > Deceased      = new();
     public readonly Dictionary<Source, List<Relationship>> Relationships = new();
 
-    public readonly Dictionary<Source, Alignment> AlignmentPerSource = new();
+    public Dictionary<Source, Alignment> AlignmentPerSource { get; init; } = new();
 
     public class Relationship
     {

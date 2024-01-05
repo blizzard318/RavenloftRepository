@@ -1,9 +1,6 @@
-﻿using Microsoft.VisualBasic;
-using NUglify;
+﻿using NUglify;
 using NUglify.Html;
-using System;
 using System.Text;
-using System.Xml.Linq;
 using static Factory;
 
 internal static class CreateHTML
@@ -28,9 +25,6 @@ internal static class CreateHTML
     private static string CreateLink(Source entity) => CreateLink(nameof(Source), entity.Name);
     private static string CreateLink<T>(T entity) where T : UseVariableName => CreateLink(typeof(T).ToString(), entity.Names);
     private static string CreateLink<T>(EntityType type, T entity) where T : UseVariableName => CreateLink(type.ToString(), entity.Names);
-    private static string CreateLink(DomainEnum domain) => CreateLink(EntityType.Domain, Ravenloftdb.Domains[domain]);
-    private static string CreateLink(ClusterEnum cluster) => CreateLink(EntityType.Group, Ravenloftdb.Clusters[cluster]);
-    private static string CreateLink(MistwayEnum mistway) => CreateLink(EntityType.Location, Ravenloftdb.Mistways[mistway]);
     private static string[] GetEditionsOf(Edition ToCheck)
     {
         var Editions = Enum.GetValues<Edition>();
@@ -423,22 +417,22 @@ internal static class CreateHTML
 
                     foreach (var kv in Ravenloftdb.Domains)
                     {
-                        if (kv.Key == DomainEnum.InsideRavenloft || kv.Key == DomainEnum.OutsideRavenloft) continue;
+                        if (kv == DomainEnum.InsideRavenloft || kv == DomainEnum.OutsideRavenloft) continue;
 
                         int i = 0;
-                        var Links = new string[kv.Value.Darklords.Total.Count()];
-                        foreach (var darklord in kv.Value.Darklords.Total) Links[i++] = CreateLink(darklord);
+                        var Links = new string[kv.Darklords.Total.Count()];
+                        foreach (var darklord in kv.Darklords.Total) Links[i++] = CreateLink(darklord);
                         var LinkedDarklordNames = string.Join(", ", Links);
 
-                        var rowval = new List<string>() { CreateLink(kv.Key), LinkedDarklordNames };
-                        rowval.AddRange(GetEditionsOf(kv.Value.editions));
+                        var rowval = new List<string>() { CreateLink(kv), LinkedDarklordNames };
+                        rowval.AddRange(GetEditionsOf(kv.editions));
                         table.AddRows(rowval.ToArray());
                     }
                 }
             }
             using (var Group = subheader.CreatePage("By Cluster/Type"))
             {
-                var IsolatedDomains = Ravenloftdb.Domains.Where(kv => kv.Value.Clusters.Total.Count() == 0);
+                var IsolatedDomains = Ravenloftdb.Domains.Where(kv => kv.Clusters.Total.Count() == 0);
 
                 using (var table = Group.CreateTable("Domains per Cluster"))
                 {
@@ -447,24 +441,23 @@ internal static class CreateHTML
                     var ClusteredDomains = new HashSet<string>();
                     foreach (var kv in Ravenloftdb.Clusters)
                     {
-                        var ClusterName = kv.Key.ToString();
-                        var DomainCount = kv.Value.Domains.Total.Count();
-                        if (kv.Key == ClusterEnum.IslandsOfTerror) DomainCount += IsolatedDomains.Count();
+                        var DomainCount = kv.Domains.Total.Count();
+                        if (kv == ClusterEnum.IslandsOfTerror) DomainCount += IsolatedDomains.Count();
 
-                        var rowval = new List<string>() { ClusterName, DomainCount.ToString() };
-                        rowval.AddRange(GetEditionsOf(kv.Value.editions));
+                        var rowval = new List<string>() { CreateLink(kv), DomainCount.ToString() };
+                        rowval.AddRange(GetEditionsOf(kv.editions));
                         table.AddRows(rowval.ToArray());
                     }
                 }
                 foreach (var cluster in Ravenloftdb.Clusters)
                 {
-                    var ClusterNames = CreateLink(cluster.Key);
+                    var ClusterNames = CreateLink(cluster);
                     using (var table = Group.CreateTable(ClusterNames, null))
                     {
                         using (var headerRow = table.CreateHeaderRow())
                             headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
 
-                        foreach (var domain in cluster.Value.Domains.Total)
+                        foreach (var domain in cluster.Domains.Total)
                         {
                             var rowval = new List<string>() { CreateLink(EntityType.Domain, domain) };
                             rowval.AddRange(GetEditionsOf(domain.editions));
@@ -513,14 +506,14 @@ internal static class CreateHTML
 
                     foreach (var kv in Ravenloftdb.Domains)
                     {
-                        foreach (var darklord in kv.Value.Darklords.Total)
+                        foreach (var darklord in kv.Darklords.Total)
                         {
                             if (darklord.DarklordLair == null) continue; //No lair, no entry
 
                             var rowval = new List<string>()
                             {
                                 CreateLink(darklord.DarklordLair),
-                                CreateLink(kv.Key),
+                                CreateLink(kv),
                                 CreateLink(darklord),
                             };
                             rowval.AddRange(GetEditionsOf(darklord.DarklordLair.editions));
@@ -539,9 +532,9 @@ internal static class CreateHTML
 
                     foreach (var kv in Ravenloftdb.Mistways)
                     {
-                        var domains = kv.Value.Domains.Total.ToArray();
-                        var rowval = new List<string>() { CreateLink(kv.Key), CreateLink(domains[0]), CreateLink(domains[1]) };
-                        rowval.AddRange(GetEditionsOf(kv.Value.editions));
+                        var domains = kv.Domains.Total.ToArray();
+                        var rowval = new List<string>() { CreateLink(kv), CreateLink(domains[0]), CreateLink(domains[1]) };
+                        rowval.AddRange(GetEditionsOf(kv.editions));
 
                         table.AddRows(rowval.ToArray());
                     }
@@ -555,25 +548,30 @@ internal static class CreateHTML
         var sb = new StringBuilder();
         sb.CreateOfficialHeader("Characters of Ravenloft", 1);
 
-        using (var subheader = new SubHeader(sb))
+        int i = 0;
+        foreach (var kv in Ravenloftdb.CharactersPerDomain)
         {
-            using (var Domain = subheader.CreatePage("By Domain"))
+            if (kv.Key == DomainEnum.InsideRavenloft || kv.Key == DomainEnum.OutsideRavenloft) continue;
+            SetTable($"Characters of {CreateLink(kv.Key)}", kv.Value);
+        }
+        SetTable($"Characters {InsideRavenloftLink }", Ravenloftdb.CharactersPerDomain[DomainEnum.InsideRavenloft ]);
+        SetTable($"Characters {OutsideRavenloftLink}", Ravenloftdb.CharactersPerDomain[DomainEnum.OutsideRavenloft]);
+
+        void SetTable(string title, IEnumerable<NPC> Items)
+        {
+            using (var table = new Table(sb, (i++).ToString(), title))
             {
-                foreach (var kv in Ravenloftdb.CharactersPerDomain)
+                using (var headerRow = table.CreateHeaderRow())
+                    headerRow.CreateHeader("Name(s)").CreateEditionHeaders();
+
+                foreach (var item in Items)
                 {
-                    if (kv.Key == DomainEnum.InsideRavenloft || kv.Key == DomainEnum.OutsideRavenloft) continue;
-                    Domain.SetTable($"Characters of {CreateLink(kv.Key)}", null, kv.Value);
+                    var rowval = new List<string>() { CreateLink(item) };
+                    rowval.AddRange(GetEditionsOf(item.editions));
+                    table.AddRows(rowval.ToArray());
                 }
-                Domain.SetTable($"Characters {InsideRavenloftLink }", null, Ravenloftdb.CharactersPerDomain[DomainEnum.InsideRavenloft ]);
-                Domain.SetTable($"Characters {OutsideRavenloftLink}", null, Ravenloftdb.CharactersPerDomain[DomainEnum.OutsideRavenloft]);
-            }
-            using (var Creature = subheader.CreatePage("By Creature Type"))
-            {
-                foreach (var kv in Ravenloftdb.CharactersPerCreature)
-                    Creature.SetTable($"Characters of {CreateLink(EntityType.Creature, kv.Key)}", null, kv.Value);
             }
         }
-
         await sb.SaveHTML("Character");
     }
     public async static Task CreateItemPage()
@@ -688,7 +686,7 @@ internal static class CreateHTML
                         foreach (var domain in kv.Value)
                         {
                             var rowval = new List<string>() { CreateLink(domain) };
-                            rowval.AddRange(GetEditionsOf(Ravenloftdb.Domains[domain].editions));
+                            rowval.AddRange(GetEditionsOf(domain.editions));
                             table.AddRows(rowval.ToArray());
                         }
                     }
@@ -747,12 +745,7 @@ internal static class CreateHTML
             using (var Language = subheader.CreatePage("Per Language"))
             {
                 foreach (var kv in Ravenloftdb.DomainsPerLanguage)
-                {
-                    int i = 0;
-                    var domains = new Domain[kv.Value.Count];
-                    foreach (var domain in kv.Value) domains[i++] = Ravenloftdb.Domains[domain];
-                    Language.SetTable($"Domains that speak {CreateLink(EntityType.Language, kv.Key)}", null, domains);
-                }
+                    Language.SetTable($"Domains that speak {CreateLink(EntityType.Language, kv.Key)}", null, kv.Value);
             }
         }
 
@@ -795,7 +788,7 @@ internal static class CreateHTML
                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                     sb.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}");
 
-                bool CheckName(TrackPage<Domain> d) => !d.entity.Names.Overlaps(Ravenloftdb.Domains[DomainEnum.InsideRavenloft].Names) && !d.entity.Names.Overlaps(Ravenloftdb.Domains[DomainEnum.OutsideRavenloft].Names);
+                bool CheckName(TrackPage<Domain> d) => !d.entity.Names.Overlaps(DomainEnum.InsideRavenloft.Names) && !d.entity.Names.Overlaps(DomainEnum.OutsideRavenloft.Names);
                 var Domains = source.Domains.Where(CheckName);
 
                 sb.AddSection(Domains          , nameof(source.Domains   ), EntityType.Domain   );
@@ -824,13 +817,13 @@ internal static class CreateHTML
             tasks.Add(Task.Run(async () =>
             {
                 string ExtraAppend = string.Empty;
-                if (!original.Value.Names.Overlaps(Ravenloftdb.Domains[DomainEnum.InsideRavenloft].Names) &&
-                    !original.Value.Names.Overlaps(Ravenloftdb.Domains[DomainEnum.OutsideRavenloft].Names))
+                if (!original.Names.Overlaps(DomainEnum.InsideRavenloft.Names) &&
+                    !original.Names.Overlaps(DomainEnum.OutsideRavenloft.Names))
                 {
-                    if (original.Value.Setting != null)
-                        ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Value.Setting)}<br/>";
+                    if (original.Setting != null)
+                        ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
 
-                    var Darklords = original.Value.Darklords.Total;
+                    var Darklords = original.Darklords.Total;
                     if (Darklords.Count() > 0)
                     {
                         int i = 0;
@@ -840,11 +833,11 @@ internal static class CreateHTML
                         ExtraAppend += $"<b>Darklord(s):</b> {LinkedDarklordNames}<br/>";
                     }
 
-                    if (string.IsNullOrEmpty(original.Value.MistTalismans))
-                        ExtraAppend += $"<b>Mist Talismans:</b> {original.Value.MistTalismans}<br/>";
+                    if (string.IsNullOrEmpty(original.MistTalismans))
+                        ExtraAppend += $"<b>Mist Talismans:</b> {original.MistTalismans}<br/>";
 
-                    var clusters = original.Value.Clusters.Total;
-                    if (clusters.Count() == 0) clusters = new() { Ravenloftdb.Clusters[ClusterEnum.IslandsOfTerror] }; //Make this redundant
+                    var clusters = original.Clusters.Total;
+                    if (clusters.Count() == 0) clusters = new() { ClusterEnum.IslandsOfTerror }; //Make this redundant
                     if (clusters.Count() > 0)
                     {
                         int i = 0;
@@ -854,18 +847,18 @@ internal static class CreateHTML
                         ExtraAppend += $"<b>Cluster(s):</b> {LinkedClusters}<br/>";
                     }
 
-                    if (original.Value.Names.Count() > 1)
+                    if (original.Names.Count() > 1)
                     {
-                        var links = CreateLink(EntityType.Domain, original.Value);
+                        var links = CreateLink(EntityType.Domain, original);
                         ExtraAppend += $"<b>Other Names:</b> {string.Join("/", links)}<br/>";
                     }
                 }
 
-                if (!string.IsNullOrEmpty(original.Value.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.Value.ExtraInfo}";
+                if (!string.IsNullOrEmpty(original.ExtraInfo))
+                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}";
 
                 var sb = new StringBuilder();
-                foreach (var domain in original.Value.Names)
+                foreach (var domain in original.Names)
                 {
                     sb.Clear();
                     using (var subheader = new SubHeader(sb))
@@ -879,7 +872,7 @@ internal static class CreateHTML
 
                         using (var SplitSources = subheader.CreatePage("Per Source"))
                         {
-                            foreach (var source in original.Value.Sources) //All sources with the domain's original name
+                            foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
                                 string editiontrait = EditionToString(source.editions);
@@ -889,10 +882,10 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
                                 
-                                if (!Ravenloftdb.Domains[DomainEnum.InsideRavenloft].Names.Contains(domain) &&
-                                    !Ravenloftdb.Domains[DomainEnum.OutsideRavenloft].Names.Contains(domain)) //Meta-domains don't get source material.
+                                if (!DomainEnum.InsideRavenloft.Names.Contains(domain) &&
+                                    !DomainEnum.OutsideRavenloft.Names.Contains(domain)) //Meta-domains don't get source material.
                                 {
-                                    var SourceDetails = source.Domains.Single(e => e.entity == original.Value);
+                                    var SourceDetails = source.Domains.Single(e => e.entity == original);
                                     var Canon = AddCanonAddOn(SourceDetails.Canon);
                                     if (!string.IsNullOrEmpty(Canon))
                                         SplitSources.contents.AppendLine($"<b>Canon:</b> {Canon}<br/>");
@@ -903,29 +896,29 @@ internal static class CreateHTML
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
 
-                                SplitSources.AddSection(original.Value.Domains   .PerSource[source], "Absorbed/Pocket Domains", EntityType.Domain);
-                                SplitSources.AddSection(original.Value.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location);
-                                SplitSources.AddSection(original.Value.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
-                                SplitSources.AddSection(original.Value.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item);
-                                SplitSources.AddSection(original.Value.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group);
-                                SplitSources.AddSection(original.Value.Clusters  .PerSource[source], nameof(source.Clusters  ), EntityType.Group);
-                                SplitSources.AddSection(original.Value.Mistways  .PerSource[source], nameof(source.Mistways  ), EntityType.Group);
-                                SplitSources.AddSection(original.Value.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language);
-                                SplitSources.AddSection(original.Value.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature);
+                                SplitSources.AddSection(original.Domains   .PerSource[source], "Absorbed/Pocket Domains", EntityType.Domain);
+                                SplitSources.AddSection(original.Locations .PerSource[source], nameof(source.Locations ), EntityType.Location);
+                                SplitSources.AddSection(original.Characters.PerSource[source], nameof(source.Characters), EntityType.Character);
+                                SplitSources.AddSection(original.Items     .PerSource[source], nameof(source.Items     ), EntityType.Item);
+                                SplitSources.AddSection(original.Groups    .PerSource[source], nameof(source.Groups    ), EntityType.Group);
+                                SplitSources.AddSection(original.Clusters  .PerSource[source], nameof(source.Clusters  ), EntityType.Group);
+                                SplitSources.AddSection(original.Mistways  .PerSource[source], nameof(source.Mistways  ), EntityType.Group);
+                                SplitSources.AddSection(original.Languages .PerSource[source], nameof(source.Languages ), EntityType.Language);
+                                SplitSources.AddSection(original.Creatures .PerSource[source], nameof(source.Creatures ), EntityType.Creature);
                                 SplitSources.contents.AppendLine("</div></div><br/>");
                             }
                         }
                         using (var AllSources = subheader.CreatePage("Combined"))
                         {
                             AllSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
-                            AllSources.AddSection(original.Value.Domains   .Total, "Absorbed/Pocket Domains"        , EntityType.Domain   );
-                            AllSources.AddSection(original.Value.Locations .Total, nameof(original.Value.Locations ), EntityType.Location );
-                            AllSources.AddSection(original.Value.Characters.Total, nameof(original.Value.Characters), EntityType.Character);
-                            AllSources.AddSection(original.Value.Items     .Total, nameof(original.Value.Items     ), EntityType.Item     );
-                            AllSources.AddSection(original.Value.Groups    .Total, nameof(original.Value.Groups    ), EntityType.Group    );
-                            AllSources.AddSection(original.Value.Languages .Total, nameof(original.Value.Languages ), EntityType.Language );
-                            AllSources.AddSection(original.Value.Creatures .Total, nameof(original.Value.Creatures ), EntityType.Creature );
-                            AllSources.AddSection(TotalSources                   , nameof(original.Value.Sources   )                      );
+                            AllSources.AddSection(original.Domains   .Total, "Absorbed/Pocket Domains"        , EntityType.Domain   );
+                            AllSources.AddSection(original.Locations .Total, nameof(original.Locations ), EntityType.Location );
+                            AllSources.AddSection(original.Characters.Total, nameof(original.Characters), EntityType.Character);
+                            AllSources.AddSection(original.Items     .Total, nameof(original.Items     ), EntityType.Item     );
+                            AllSources.AddSection(original.Groups    .Total, nameof(original.Groups    ), EntityType.Group    );
+                            AllSources.AddSection(original.Languages .Total, nameof(original.Languages ), EntityType.Language );
+                            AllSources.AddSection(original.Creatures .Total, nameof(original.Creatures ), EntityType.Creature );
+                            AllSources.AddSection(TotalSources             , nameof(original.Sources   )                      );
                             AllSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
