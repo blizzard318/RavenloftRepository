@@ -246,10 +246,12 @@ internal static partial class AddToDatabase
             DomainEnum.Mordent.Appeared();
 
             #region Locations
-            DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "5, 12");
+            DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "5, 12").BindCharacters(CharacterEnum.CountStrahd);
 
             DomainEnum.Mordent.AddSettlement(Settlement.Mordentshire)
-                .BindCreatures(Creature.CrimsonDeath, Creature.Drelb, Creature.InvisibleStalker, Creature.LurkerAbove, Creature.ShadowMastiff, Creature.Spectre, Creature.Wraith, Creature.Lich, Creature.GroaningSpirit, Creature.Human, Creature.Ghast, Creature.BlackCat, Creature.Wight, Creature.Dog, Creature.Raven);
+                .BindCreatures(Creature.CrimsonDeath, Creature.Drelb, Creature.InvisibleStalker, Creature.LurkerAbove, Creature.ShadowMastiff, Creature.Spectre, Creature.Wraith, Creature.Lich, Creature.GroaningSpirit, Creature.Human, Creature.Ghast, Creature.BlackCat, Creature.Wight, Creature.Dog, Creature.Raven)
+                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.LadyWeathermay, CharacterEnum.OldLadyWeathermay, CharacterEnum.LordWeathermay, CharacterEnum.MistressArdent, CharacterEnum.Germain, CharacterEnum.Marion, CharacterEnum.Dominic, CharacterEnum.Luker, CharacterEnum.CavelWarden, CharacterEnum.KedarKlienan, CharacterEnum.Justinian, CharacterEnum.Honorius, CharacterEnum.Carlisle, CharacterEnum.BrennaRaven, CharacterEnum.TabbFinhallen, CharacterEnum.KirkTerrinton, CharacterEnum.MayorMalvinHeatherby, CharacterEnum.TylerSmythy, CharacterEnum.GregorBoyd, CharacterEnum.AzalinRex, CharacterEnum.GlennaWarden, CharacterEnum.Gwydion, CharacterEnum.GastonHedgewick, CharacterEnum.ArianaBartel, CharacterEnum.CarinaLoch, CharacterEnum.DarcyPease, CharacterEnum.BathildaSud, CharacterEnum.IdaHobson, CharacterEnum.KynaSmythy, CharacterEnum.SolitaMaravan, CharacterEnum.UstisMaravan, CharacterEnum.SterlingToddburry, CharacterEnum.EthanToddburry, CharacterEnum.ChristinaBartel, CharacterEnum.EricaToddburry, CharacterEnum.FatherJoshuaTalbot, CharacterEnum.NormalKervil, CharacterEnum.NeolaCaraway, CharacterEnum.SilasArcher, CharacterEnum.VioletArcher, CharacterEnum.PenelopeArcher, CharacterEnum.ElwinHobson, CharacterEnum.TildaMayberry, CharacterEnum.FreedaMayberry, CharacterEnum.BerwinHedgewick, CharacterEnum.LenorHedgewick, CharacterEnum.LobeliaTarner, CharacterEnum.RaeSoddenter, CharacterEnum.ParvisSoddenter, CharacterEnum.LeeHeatherby, CharacterEnum.MargaretHeatherby, CharacterEnum.TobaisKenkiny, CharacterEnum.DesmaKenkiny, CharacterEnum.LordWilfredGodefroy, CharacterEnum.LadyEstelleWeathermayGodefroy, CharacterEnum.LiliaGodefroy, CharacterEnum.GoodmanMorris, CharacterEnum.LordRenier, CharacterEnum.VoglerKervil, CharacterEnum.Marston, CharacterEnum.Ellie, CharacterEnum.AxtelBartel, CharacterEnum.BarthKleinen, CharacterEnum.PercivalSud, CharacterEnum.HargelGrummsh, CharacterEnum.EismanKhargug, CharacterEnum.CoriemonHandlet, CharacterEnum.GorbaghSnarltooth, CharacterEnum.GastonImrad, CharacterEnum.SheclkeDuskman, CharacterEnum.ArlieEsterbridge, CharacterEnum.CarlRamm, CharacterEnum.TandleCoreystal, CharacterEnum.EllenStinworthy, CharacterEnum.KarenEdgerton, CharacterEnum.Sshhisthulhuu, CharacterEnum.WinifredKleinen, CharacterEnum.BridgetDumas, CharacterEnum.BaronFielders, CharacterEnum.BaronessFielders, CharacterEnum.LadyFielders, CharacterEnum.Lucifer, CharacterEnum.EmmaKelley, CharacterEnum.Tintantilus, CharacterEnum.CharityBliss, CharacterEnum.ThadeusMontBreezar, CharacterEnum.MystiTokana, CharacterEnum.AmarBoriSandflinger, CharacterEnum.RogoldGildenman, CharacterEnum.Barnabas, CharacterEnum.PhillipeDelamana, CharacterEnum.Rembrania, CharacterEnum.BrendaCrimsonBlade, CharacterEnum.Sugartooth, CharacterEnum.BrotherSummer, CharacterEnum.Muffin, CharacterEnum.TGRedanto, CharacterEnum.Apricot, CharacterEnum.MikhailYelkif, CharacterEnum.Trellgaard, CharacterEnum.MasterIlmen, CharacterEnum.CaareyGelthik, CharacterEnum.SeanTimothy, CharacterEnum.JerimyEstmore, CharacterEnum.MasterTangle, CharacterEnum.WrenThims, CharacterEnum.SharonTeece, CharacterEnum.MollyGrayswit, CharacterEnum.Stelwaard, CharacterEnum.ThinnBalder, CharacterEnum.BadderGhastling, CharacterEnum.EstherTimothy, CharacterEnum.GeamPelstap, CharacterEnum.MaquirLoft, CharacterEnum.MirandaLangstry, CharacterEnum.KelmanOsterlaker, CharacterEnum.FionaMatheson, CharacterEnum.Fanerath, CharacterEnum.Hellinken, CharacterEnum.KattleLisbury, CharacterEnum.EmoryMaus, CharacterEnum.MarcusLithe, CharacterEnum.NendrumSintel, CharacterEnum.ThellactinMianns, CharacterEnum.KellyDuncan, CharacterEnum.CheldonIllcome, CharacterEnum.Mythrel, CharacterEnum.MillicentHodgson, CharacterEnum.NatterlyKnutnor, CharacterEnum.EowinTimothy, CharacterEnum.MomsinAlenny, CharacterEnum.ShingolTann, CharacterEnum.LarsonChelf, CharacterEnum.YettergunFolie, CharacterEnum.LeslieKale)
+                .BindItems(ItemEnum.Apparatus, ItemEnum.RodOfRastinon, ItemEnum.SoulSearcher, ItemEnum.RingOfReverse, ItemEnum.AlchemistDiary, ItemEnum.MissingEntry, ItemEnum.Sunsword, ItemEnum.ScrollOfNegPlaneProt, ItemEnum.LocketOfSealing, ItemEnum.PotOfClimb, ItemEnum.PotOfExtraHeal, ItemEnum.PotOfSpeed, ItemEnum.PotOfSuperHero, ItemEnum.ScrollOfHolySymbol, ItemEnum.ScrollOfInvisToUndead, ItemEnum.ScrollOfProtEvil, ItemEnum.ScrollOfRestore, ItemEnum.PotOfClairAud, ItemEnum.PotOfDim, ItemEnum.ElixirOfMad, ItemEnum.MirrorOfLaw, ItemEnum.TheInnerSoul, ItemEnum.IncenseOfMed, ItemEnum.THENATUREOFTHESOUL, ItemEnum.SunBlade, ItemEnum.SwordOfWound, ItemEnum.RingOfDetGood, ItemEnum.RopeOfEntangle, ItemEnum.MedallionOfProt, ItemEnum.FlashGrenade, ItemEnum.CloakOfProt, ItemEnum.RingOfRegen, ItemEnum.GemOfLight, ItemEnum.ScrollOfStoring, ItemEnum.ScrollOfProtUnd, ItemEnum.BroochOfProt, ItemEnum.RingOfProtNM, ItemEnum.RingOfAim, ItemEnum.PotOfHeal, ItemEnum.CloakOfDisp, ItemEnum.RingOfProt, ItemEnum.ElixirOfHealth, ItemEnum.ScrollOfCalling, ItemEnum.BracersOfDefense, ItemEnum.DartOfHoming, ItemEnum.DaggerOfVenom, ItemEnum.StaffOfThunderAndLightning, ItemEnum.PowderOfHaste, ItemEnum.ElixirOfDisplace, ItemEnum.PotOfCSNW, ItemEnum.RodOfFlail, ItemEnum.ScrollOfProtWnS, ItemEnum.StaffOfStrike, ItemEnum.AlchemyJug, ItemEnum.StoneOfControlEarth, ItemEnum.ScrollOfProtDev, ItemEnum.ScrollOfProtDem, ItemEnum.ScrollOfProtPet, ItemEnum.RingOfWaterWalk, ItemEnum.DragonSlayer, ItemEnum.HornOfValhalla, ItemEnum.ArrowOfDirect, ItemEnum.TrollCleaver, ItemEnum.PhylacteryOfFaith, ItemEnum.SwordOfLifeSteal, ItemEnum.RopeOfClimb, ItemEnum.ScarabOfProt);
 
             DomainEnum.Mordent.AddLocation(LocationEnum.SaulbridgeSanitarium, "6, 13, 23, 24, Cargo Roster");
             DomainEnum.Mordent.AddLocation(LocationEnum.GryphonHill, "1, 2, 7, 16, 19, 22, 23, 25, 26, 28, 32, 41, 44-47, Cargo Roster, Event Chart");
@@ -308,6 +310,7 @@ internal static partial class AddToDatabase
             DomainEnum.Mordent.AddLocation(LocationEnum.Scrimshaw, "Map");
 
             DomainEnum.Mordent.AddLocation(LocationEnum.NorthRoad, "25");
+            DomainEnum.Mordent.AddLocation(LocationEnum.Moors, "1, 3, 12, 16, 23-26, 43").BindCreatures(Creature.Human, Creature.StrahdZombie, Creature.Griffon, Creature.Harpy, Creature.Hellhound, Creature.Orc, Creature.Ogre, Creature.QuasiElementalLightning, Creature.Raven, Creature.GiantSpider, Creature.Stirge, Creature.Vulture, Creature.DireWolf, Creature.Bodak, Creature.Ghast, Creature.GroaningSpirit, Creature.ShadowMastiff, Creature.Nightmare, Creature.Skeleton, Creature.SkeletonSteed, Creature.Wraith, Creature.WillOWisp, Creature.CrimsonDeath, Creature.Doppelganger, Creature.DisplacerBeast, Creature.StrahdSkeleton);
             DomainEnum.Mordent.AddLocation(LocationEnum.NorthMoors, "25, 42").BindCreatures(Creature.Harpy);
             DomainEnum.Mordent.AddLocation(LocationEnum.Cliffs, "25").BindCreatures(Creature.Orc, Creature.Ogre, Creature.Ghast);
             DomainEnum.Mordent.AddLocation(LocationEnum.DarkWoods, "25, 26, 31").BindCreatures(Creature.GiantSpider, Creature.Ogre, Creature.Vulture);
@@ -449,181 +452,198 @@ internal static partial class AddToDatabase
 
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.ThadeusMontBreezar, "47, Card Handout")
                 .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Horse).BindAlignment(Alignment.TN)
-                .BindLanguages(Language.Common, Language.MountainGiant, Language.Orcish, Language.RedDragon, Language.Treantish, Language.Illithid, Language.Drow, Language.KuoToan);
+                .BindLanguages(Language.Common, Language.MountainGiant, Language.Orc, Language.RedDragon, Language.Treant, Language.Illithid, Language.Drow, Language.KuoToan);
 
-            var Mysti = ctx.CreateNPC("Mysti Tokana", "48, Card Handout").BindCreatures(Creature.HalfElf, Alignment.CG, Language.Common, Language.Elf, Language.Gnome, Language.Halfling, Language.Goblin, Language.Hobgoblin, Language.Orcish, Language.Gnoll);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MystiTokana, "48, Card Handout")
+                .BindCreatures(Creature.HalfElf).BindRelatedCreatures(Creature.Elf).BindAlignment(Alignment.CG)
+                .BindLanguages(Language.Common, Language.Elf, Language.Gnome, Language.Halfling, Language.Goblin, Language.Hobgoblin, Language.Orc, Language.Gnoll);
 
-            var Amar = ctx.CreateNPC("Amar Bori Sandflinger", "48, Card Handout").BindCreatures(Creature.Gnome, Alignment.TN, Language.Common, Language.Dwarvish, Language.Gnome, Language.Halfling, Language.Goblin, Language.BurrowingMammals, Language.Elf, Language.DesertNomad);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.AmarBoriSandflinger, "48, Card Handout")
+                .BindCreatures(Creature.Gnome).BindAlignment(Alignment.TN)
+                .BindLanguages(Language.Common, Language.Dwarf, Language.Gnome, Language.Halfling, Language.Goblin, Language.BurrowingMammals, Language.Elf, Language.DesertNomad);
 
-            var Rogold = ctx.CreateNPC("Rogold Gildenman", "Card Handout").BindCreatures(Creature.Human, Creature.Horse, Alignment.LG, Language.Common, Language.Elf, Language.Gnome, Language.HillGiant, Language.Ogre);
-            var Barnabas = ctx.CreateNPC("Barnabas", "Card Handout").BindCreatures(Creature.Horse);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.RogoldGildenman, "Card Handout")
+                .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Horse).BindAlignment(Alignment.LG)
+                .BindLanguages(Language.Common, Language.Elf, Language.Gnome, Language.HillGiant, Language.Ogre);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Barnabas, "Card Handout")
+                .BindCreatures(Creature.Horse).BindCharacters(CharacterEnum.RogoldGildenman)
+                .ExtraInfo = "Bay Mare (Medium Horse)";
 
-            var Phillipe = ctx.CreateNPC("Phillipe Delamana", "Card Handout").BindCreatures(Creature.Human, Alignment.LG, Creature.Horse, Language.Common, Language.Elf, Language.Dwarvish);
-            var Rembrania = ctx.CreateNPC("Rembrania", "Card Handout").BindCreatures(Creature.Horse);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.PhillipeDelamana, "Card Handout")
+                .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Horse).BindAlignment(Alignment.LG)
+                .BindLanguages(Language.Common, Language.Elf, Language.Dwarf);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Rembrania, "Card Handout")
+                .BindCreatures(Creature.Horse).BindCharacters(CharacterEnum.PhillipeDelamana)
+                .ExtraInfo = "White Paladin`s Mount";
 
-            var Brenda = ctx.CreateNPC("Brenda of the Crimson Blade", "Card Handout").BindCreatures(Creature.Human, Alignment.NG, Creature.Horse, Language.Common, Language.Troll);
-            var Sugartooth = ctx.CreateNPC("Sugartooth", "Card Handout").BindCreatures(Creature.Horse);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.BrendaCrimsonBlade, "Card Handout")
+                .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Horse).BindAlignment(Alignment.NG)
+                .BindLanguages(Language.Common, Language.Troll);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Sugartooth, "Card Handout")
+                .BindCreatures(Creature.Horse).BindCharacters(CharacterEnum.BrendaCrimsonBlade)
+                .ExtraInfo = "Grey Charger (Heavy War Horse)";
 
-            var Summer = ctx.CreateNPC("Kregash Garzaala", "Brother Summer", "Card Handout").BindCreatures(Creature.HalfOrc, Creature.Orc, Alignment.LN, Creature.Horse, Language.Common, Language.Orcish, Language.DesertNomad);
-            var Muffin = ctx.CreateNPC("Muffin", "Card Handout").BindCreatures(Creature.Horse);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.BrotherSummer, "Card Handout")
+                .BindCreatures(Creature.HalfOrc).BindRelatedCreatures(Creature.Horse, Creature.Orc).BindAlignment(Alignment.LN)
+                .BindLanguages(Language.Common, Language.Orc, Language.DesertNomad);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Muffin, "Card Handout")
+                .BindCreatures(Creature.Horse).BindCharacters(CharacterEnum.BrotherSummer)
+                .ExtraInfo = "Roan Clydesdale (Heavy Horse)";
 
-            var TG = ctx.CreateNPC("Terribly Good Redanto", "T.G. Redanto", "Card Handout").BindCreatures(Creature.Human, Alignment.TN, Creature.Horse, Language.Common, Language.Elf, Language.Halfling, Language.Orcish, Language.Drow);
-            var Apricot = ctx.CreateNPC("Apricot", "Card Handout").BindCreatures(Creature.Horse);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.TGRedanto, "Card Handout")
+                .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Horse).BindAlignment(Alignment.TN)
+                .BindLanguages(Language.Common, Language.Elf, Language.Halfling, Language.Orc, Language.Drow);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Apricot, "Card Handout")
+                .BindCreatures(Creature.Horse).BindCharacters(CharacterEnum.TGRedanto)
+                .ExtraInfo = "Brown Gelding (Light Horse)";
 
-            var Mikhail = ctx.CreateNPC("Mikhail Yelkif", "Cargo Roster");
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MikhailYelkif, "Card Handout");
 
-            var Trellgaard = ctx.CreateNPC("Trellgaard", "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
-            var Ilmen = ctx.CreateNPC("Master Ilmen", "Transpossession Rosters Handout").BindCreatures(Creature.StrahdZombie);
-            var Caarey = ctx.CreateNPC("Caarey Gelthik", "Transpossession Rosters Handout").BindCreatures(Creature.Ghast);
-            var Sean = ctx.CreateNPC("Sean Timothy", "Transpossession Rosters Handout").BindCreatures(Creature.Werewolf);
-            var Jerimy = ctx.CreateNPC("Jerimy Estmore", "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
-            var Tangle = ctx.CreateNPC("Master Tangle", "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
-            var Wren = ctx.CreateNPC("Wren Thims", "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
-            var Sharon = ctx.CreateNPC("Sharon Teece", "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
-            var Molly = ctx.CreateNPC("Molly Grayswit", "Transpossession Rosters Handout").BindCreatures(Creature.Vampire);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Trellgaard, "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MasterIlmen, "Transpossession Rosters Handout").BindCreatures(Creature.StrahdZombie);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.CaareyGelthik, "Transpossession Rosters Handout").BindCreatures(Creature.Ghast);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.SeanTimothy, "Transpossession Rosters Handout").BindCreatures(Creature.Werewolf);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.JerimyEstmore, "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MasterTangle, "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.WrenThims, "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.SharonTeece, "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MollyGrayswit, "Transpossession Rosters Handout").BindCreatures(Creature.Vampire);
 
-            var Stelwaard = ctx.CreateNPC("Stelwaard", "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
-            var Thinn = ctx.CreateNPC("Thinn Balder", "Transpossession Rosters Handout").BindCreatures(Creature.Zombie);
-            var Badder = ctx.CreateNPC("Badder Ghastling", "Transpossession Rosters Handout").BindCreatures(Creature.Ghast);
-            var Esther = ctx.CreateNPC("Esther Timothy", "Transpossession Rosters Handout").BindCreatures(Creature.Werewolf);
-            var Geam = ctx.CreateNPC("Geam Pelstap", "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
-            var Maquir = ctx.CreateNPC("Maquir Loft", "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
-            var Miranda = ctx.CreateNPC("Miranda Langstry", "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
-            var Kelman = ctx.CreateNPC("Kelman Osterlaker", "Transpossession Rosters Handout").BindCreatures(Creature.Spectre);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Stelwaard, "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.ThinnBalder, "Transpossession Rosters Handout").BindCreatures(Creature.Zombie);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.BadderGhastling, "Transpossession Rosters Handout").BindCreatures(Creature.Ghast);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.EstherTimothy, "Transpossession Rosters Handout").BindCreatures(Creature.Werewolf);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.GeamPelstap, "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MaquirLoft, "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MirandaLangstry, "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.KelmanOsterlaker, "Transpossession Rosters Handout").BindCreatures(Creature.Spectre);
 
-            var Fiona = ctx.CreateNPC("Fiona Matheson", "Transpossession Rosters Handout").BindCreatures(Creature.Human);
-            var Fanerath = ctx.CreateNPC("Fanerath", "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
-            var Hellinken = ctx.CreateNPC("Hellinken", "Transpossession Rosters Handout").BindCreatures(Creature.Doppelganger);
-            var Kattle = ctx.CreateNPC("Kattle Lisbury", "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
-            var Emory = ctx.CreateNPC("Emory Maus", "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
-            var Marcus = ctx.CreateNPC("Marcus Lithe", "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
-            var Nendrum = ctx.CreateNPC("Nendrum Sintel", "Transpossession Rosters Handout").BindCreatures(Creature.Drelb);
-            var Thellactin = ctx.CreateNPC("Thellactin Mianns", "Transpossession Rosters Handout").BindCreatures(Creature.Spectre);
-            var Kelly = ctx.CreateNPC("Kelly Duncan", "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
-            var Cheldon = ctx.CreateNPC("Cheldon Illcome", "Transpossession Rosters Handout").BindCreatures(Creature.Bodak);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.FionaMatheson, "Transpossession Rosters Handout").BindCreatures(Creature.Human);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Fanerath, "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Hellinken, "Transpossession Rosters Handout").BindCreatures(Creature.Doppelganger);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.KattleLisbury, "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.EmoryMaus, "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MarcusLithe, "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.NendrumSintel, "Transpossession Rosters Handout").BindCreatures(Creature.Drelb);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.ThellactinMianns, "Transpossession Rosters Handout").BindCreatures(Creature.Spectre);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.KellyDuncan, "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.CheldonIllcome, "Transpossession Rosters Handout").BindCreatures(Creature.Bodak);
 
-            var Mythrel = ctx.CreateNPC("Mythrel", "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
-            var Millicent = ctx.CreateNPC("Millicent Hodgson", "Transpossession Rosters Handout").BindCreatures(Creature.Zombie);
-            var Natterly = ctx.CreateNPC("Natterly Knutnor", "Transpossession Rosters Handout").BindCreatures(Creature.Ghast);
-            var Eowin = ctx.CreateNPC("Eowin Timothy", "Transpossession Rosters Handout").BindCreatures(Creature.Werewolf);
-            var Momsin = ctx.CreateNPC("Momsin Alenny", "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
-            var Shingol = ctx.CreateNPC("Shingol Tann", "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
-            var Larson = ctx.CreateNPC("Larson Chelf", "Transpossession Rosters Handout").BindCreatures(Creature.Drelb);
-            var Yettergun = ctx.CreateNPC("Yettergun Folie", "Transpossession Rosters Handout").BindCreatures(Creature.Spectre);
-            var Leslie = ctx.CreateNPC("Leslie Kale", "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Mythrel, "Transpossession Rosters Handout").BindCreatures(Creature.Gargoyle);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MillicentHodgson, "Transpossession Rosters Handout").BindCreatures(Creature.Zombie);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.NatterlyKnutnor, "Transpossession Rosters Handout").BindCreatures(Creature.Ghast);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.EowinTimothy, "Transpossession Rosters Handout").BindCreatures(Creature.Werewolf);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.MomsinAlenny, "Transpossession Rosters Handout").BindCreatures(Creature.Wight);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.ShingolTann, "Transpossession Rosters Handout").BindCreatures(Creature.Wraith);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.LarsonChelf, "Transpossession Rosters Handout").BindCreatures(Creature.Drelb);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.YettergunFolie, "Transpossession Rosters Handout").BindCreatures(Creature.Spectre);
+            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.LeslieKale, "Transpossession Rosters Handout").BindCreatures(Creature.GroaningSpirit);
             #endregion
 
             #region Items
-            var Apparatus = ctx.CreateItem("Apparatus", "3, 4, 6, 8, 10, 14, 19, 26, 30-32, 34-41, 43-48, Adventure Plot");
-            var RodOfRastinon = ctx.CreateItem("Rod of Rastinon", "3, 4, 6, 8, 10, 17, 30, 40, 46, Adventure Plot");
-            var SSOrb = ctx.CreateItem("Soul Search Medallion", "Soul Search Orb", "3, 6, 7, 10, 14, 46, Adventure Plot");
-            var RingOfReverse = ctx.CreateItem("Ring of Reversion", "3, 6, 7, 10, 14, 26, 46, Adventure Plot").BindCreatures(Alignment.NG);
-            var AlchemistDiary = ctx.CreateItem("Alchemist's Diary", "7, 10, 41, 47, Adventure Plot");
-            var MissingEntry = ctx.CreateItem("Missing Entry", "3, 6, 10, 41, 47, Adventure Plot");
+            DomainEnum.Barovia.AddItem(ItemEnum.Apparatus, "3, 4, 6, 8, 10, 14, 19, 26, 30-32, 34-41, 43-48, Adventure Plot");
+            DomainEnum.Mordent.AddItem(ItemEnum.Apparatus, "3, 4, 6, 8, 10, 14, 19, 26, 30-32, 34-41, 43-48, Adventure Plot");
+            DomainEnum.Barovia.AddItem(ItemEnum.RodOfRastinon, "3, 4, 6, 8, 10, 17, 30, 40, 46, Adventure Plot");
+            DomainEnum.Mordent.AddItem(ItemEnum.RodOfRastinon, "3, 4, 6, 8, 10, 17, 30, 40, 46, Adventure Plot").BindItems(ItemEnum.Apparatus);
+            DomainEnum.Mordent.AddItem(ItemEnum.SoulSearcher, "3, 6, 7, 10, 14, 46, Adventure Plot");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfReverse, "3, 6, 7, 10, 14, 26, 46, Adventure Plot").BindAlignment(Alignment.NG);
 
-            var Sunsword = ctx.CreateItem("Sunsword", "12, 41");
-            var Icon = ctx.CreateItem("Icon of Ravenloft", "12");
+            DomainEnum.Mordent.AddItem(ItemEnum.AlchemistDiary, "7, 10, 41, 47, Adventure Plot").BindCharacters(CharacterEnum.CountStrahd);
+            DomainEnum.Mordent.AddItem(ItemEnum.MissingEntry, "3, 6, 10, 41, 47, Adventure Plot").BindCharacters(CharacterEnum.CountStrahd)
+                .BindItems(ItemEnum.AlchemistDiary).ExtraInfo = "Missing entry/entries of the Alchemist`s Diary.";
 
-            var ScrollNegPlaneProt = ctx.CreateItem("Scroll of Negative Plane Protection", "25");
-            var LocketOfSealing = ctx.CreateItem("Locket of Sealing", "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.Sunsword, "12, 41");
+            DomainEnum.Barovia.AddItem(ItemEnum.Sunsword, "12, 41");
 
-            var PotOfClimb = ctx.CreateItem("Potion of Climbing", "25");
-            var PotOfExtraHeal = ctx.CreateItem("Potion of Extra-Healing", "25");
-            var PotOfSpeed = ctx.CreateItem("Potion of Speed", "25");
-            var PotOfSuperHero = ctx.CreateItem("Potion of SuperHeroism", "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.IconOfRaven, "12");
+            DomainEnum.Barovia.AddItem(ItemEnum.IconOfRaven, "12");
 
-            var ScrollOfHolySymbol = ctx.CreateItem("Potion of Holy Symbol", "25");
-            var ScrollOfInvisToUndead = ctx.CreateItem("Potion of Invisiblity to Undead", "25");
-            var ScrollOfProtEvil = ctx.CreateItem("Potion of Protection From Evil, 10' Radius", "25");
-            var ScrollOfRestore = ctx.CreateItem("Potion of Restoration", "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfNegPlaneProt, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.LocketOfSealing, "25");
 
-            var PotOfClairAud = ctx.CreateItem("Potion of Clairaudience", "26");
-            var PotOfDiminution = ctx.CreateItem("Potion of Diminution", "26");
-            var ElixirOfMadness = ctx.CreateItem("Elixir of Madness", "26");
-            var MirrorOfLaw = ctx.CreateItem("Mirror Of Lawful Alignment", "26").BindCreatures(Alignment.LG, Alignment.LN, Alignment.LE).AddInfo("The mirror doesn't have a name in the module, this is a placeholder title.");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfClimb, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfExtraHeal, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfSpeed, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfSuperHero, "25");
 
-            var TheInnerSoul = ctx.CreateItem("The Inner Soul", "29");
-            var IncenseOfMed = ctx.CreateItem("Incense of Meditation", "30, Card Handout");
-            var THENATUREOFTHESOUL = ctx.CreateItem("THE NATURE OF THE SOUL: Portion or Totality of the Man", "34");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfHolySymbol, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfInvisToUndead, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfProtEvil, "25");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfRestore, "25");
 
-            var SunBlade = ctx.CreateItem("Sun Blade", "39");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfClairAud, "26");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfDim, "26");
+            DomainEnum.Mordent.AddItem(ItemEnum.ElixirOfMad, "26");
+            DomainEnum.Mordent.AddItem(ItemEnum.MirrorOfLaw, "26").BindAlignment(Alignment.LG | Alignment.LN | Alignment.LE)
+                .ExtraInfo = "The mirror doesn't have a name in the module, this is a placeholder title.";
 
-            var SwordOfWound = ctx.CreateItem("Sword of Wounding", "42");
-            var RingOfDetGood = ctx.CreateItem("Ring of Detect Good", "42");
-            var RopeOfEntangle = ctx.CreateItem("Rope of Entangling", "42");
-            var MedallionOfProt = ctx.CreateItem("Medallion of Protection: Good", "42");
+            DomainEnum.Mordent.AddItem(ItemEnum.TheInnerSoul, "29");
+            DomainEnum.Mordent.AddItem(ItemEnum.IncenseOfMed, "30, Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.THENATUREOFTHESOUL, "34");
 
-            var FlashGrenade = ctx.CreateItem("Flash Grenade", "44");
-            var CloakOfProt = ctx.CreateItem("Cloak of Protection", "44");
-            var RingOfRegen = ctx.CreateItem("Ring of Regeneration", "44");
-            var GemOfLight = ctx.CreateItem("Gem of Light", "44");
-            var ScrollOfStoring = ctx.CreateItem("Scroll of Storing", "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.SunBlade, "39");
+            DomainEnum.Mordent.AddItem(ItemEnum.SwordOfWound, "42");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfDetGood, "42");
+            DomainEnum.Mordent.AddItem(ItemEnum.RopeOfEntangle, "42");
+            DomainEnum.Mordent.AddItem(ItemEnum.MedallionOfProt, "42");
 
-            var ScrollOfProt = ctx.CreateItem("Scroll of Protection from Undead", "44");
-            var BroochOfProt = ctx.CreateItem("Brooch of Protection: Good", "44");
-            var RingOfProtNM = ctx.CreateItem("Ring of Protection from Normal Missiles", "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.FlashGrenade, "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.CloakOfProt, "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfRegen, "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.GemOfLight, "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfStoring, "44");
 
-            var RingOfAim = ctx.CreateItem("Ring of Aiming", "45");
-            var PotOfHeal = ctx.CreateItem("Potion of Healing", "45, Card Handout");
-            var CloakOfDisplace = ctx.CreateItem("Cloak of Displacement", "45, Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfProtUnd, "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.BroochOfProt, "44");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfProtNM, "44");
 
-            var RingOfProt = ctx.CreateItem("Ring of Protection", "45, Card Handout");
-            var ElixirOfHealth  = ctx.CreateItem("Elixir of Health", "45");
-            var ScrollOfCall  = ctx.CreateItem("Scroll of Calling", "45");
-            var BracersOfDef = ctx.CreateItem("Bracers of Defense", "45, Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfAim, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfHeal, "45, Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.CloakOfDisp, "45, Card Handout");
 
-            var DartOfHoming = ctx.CreateItem("Dart of Homing", "45");
-            var DaggerOfVenom = ctx.CreateItem("Dagger of Venom", "45");
-            var StaffOfThunder = ctx.CreateItem("Staff of Thunder", "45");
-            var PowderOfHaste = ctx.CreateItem("Powder of Haste", "45");
-            var ElixirOfDisplace = ctx.CreateItem("Elixir of Displacement", "45");
-            var PotOfCWNW = ctx.CreateItem("Potion of Cure Serious Negative Wounds", "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfProt, "45, Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ElixirOfHealth, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfCalling, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.BracersOfDefense, "45, Card Handout");
 
-            var RodOfFlail = ctx.CreateItem("Rod of Flailing", "Card Handout");
-            var ScrollOfProtWS = ctx.CreateItem("Scroll of Protection from Wraiths and Spectres", "Card Handout").BindCreatures(Creature.Wraith, Creature.Spectre);
+            DomainEnum.Mordent.AddItem(ItemEnum.DartOfHoming, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.DaggerOfVenom, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.StaffOfThunderAndLightning, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.PowderOfHaste, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.ElixirOfDisplace, "45");
+            DomainEnum.Mordent.AddItem(ItemEnum.PotOfCSNW, "45");
 
-            var StaffOfStrike = ctx.CreateItem("Staff of Striking", "Card Handout");
-            var AlchemyJug = ctx.CreateItem("Alchemy Jug", "Card Handout");
-            var StoneOfControlEarth = ctx.CreateItem("Stone of Controlling Earth Elementals", "Card Handout");
-            var ScrollOfProtDev = ctx.CreateItem("Scroll of Protection from Devils", "Card Handout");
-            var ScrollOfProtDem = ctx.CreateItem("Scroll of Protection from Demons", "Card Handout");
-            var ScrollOfProtPet = ctx.CreateItem("Scroll of Protection from Petrification", "Card Handout");
-            var RingOfWaterWalk = ctx.CreateItem("Rng of Water Walking", "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.RodOfFlail, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfProtWnS, "Card Handout").BindCreatures(Creature.Wraith, Creature.Spectre);
 
-            var DragonSlayer = ctx.CreateItem("Dragon Slayer", "Card Handout");
-            var HornOfValhalla = ctx.CreateItem("Bronze Horn of Valhalla", "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.StaffOfStrike, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.AlchemyJug, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.StoneOfControlEarth, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfProtDev, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfProtDem, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ScrollOfProtPet, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.RingOfWaterWalk, "Card Handout");
 
-            var ArrowOfDirect = ctx.CreateItem("Arrow of Direction", "Card Handout");
-            var TrollCleaver = ctx.CreateItem("Troll-Cleaver", "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.DragonSlayer, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.HornOfValhalla, "Card Handout");
 
-            var PhylacteryOfFaith = ctx.CreateItem("Phylactery of Faithfulness", "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.ArrowOfDirect, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.TrollCleaver, "Card Handout");
 
-            var SwordOfLifeSteal = ctx.CreateItem("Sword of Life Stealing", "Card Handout");
-            var RopeOfClimb = ctx.CreateItem("Rope of Climbing", "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.PhylacteryOfFaith, "Card Handout");
 
-            var ScarabOfProt = ctx.CreateItem("Scarab of Protection", "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.SwordOfLifeSteal, "Card Handout");
+            DomainEnum.Mordent.AddItem(ItemEnum.RopeOfClimb, "Card Handout");
+
+            DomainEnum.Mordent.AddItem(ItemEnum.ScarabOfProt, "Card Handout");
             #endregion
 
             #region Groups
-            var Moors = ctx.CreateGroup("Moors of Mordentshire", "1, 3, 12, 16, 23-26, 43").BindCreatures(Creature.Human, Creature.StrahdZombie, Creature.Griffon, Creature.Harpy, Creature.Hellhound, Creature.Orc, Creature.Ogre, Creature.QuasiElementalLightning, Creature.Raven, Creature.GiantSpider, Creature.Stirge, Creature.Vulture, Creature.DireWolf, Creature.Bodak, Creature.Ghast, Creature.GroaningSpirit.Item1, Creature.GroaningSpirit.Item2, Creature.ShadowMastiff, Creature.Nightmare, Creature.Skeleton, Creature.SkeletonSteed.Item1, Creature.SkeletonSteed.Item2, Creature.Wraith, Creature.WillOWisp, Creature.CrimsonDeath.Item1, Creature.CrimsonDeath.Item2, Creature.Doppelganger, Creature.DisplacerBeast, Creature.StrahdSkeleton);
-            var HighFaith = ctx.CreateGroup("Church of the High Faith in Osterton", "10, Card Handout");
-            #endregion
-
-            #region Domains Add
-            Barovia.AddLocations(CastleRavenloft);
-            Barovia.AddNPCs(CountStrahd, Cyrus);
-            Barovia.AddItems(Apparatus, RodOfRastinon, Sunsword, Icon);
-
-            Mordent.AddLocations(Mordentshire.location, SaulbridgeSanitarium, GryphonHill, HeatherHouse, WeathermayMausoleum, HouseOnGryphonHill, BlackardInn, Livery, Garrison, BurnedChurch, Smithy, MayorsHouse, KervilsShop, Marketplace, Warehouse, SouthRoad, KeeldevilPoint, FishermanAlley, ShippingHouse, SeventhSea, TravelersInn, AnchorStreet, ShoreLane, MillRoad, MillBridge, ArdenRiver, OldMill, Churchyard, OldSaltHouse, SaltyDog, Butcher, Bakery, Groundskeeper, OldBooks, Wharf, Farms, ArdentBay, WindwandAvenue, GlenRoad, MarketStreet, BarracksGaol, HeatherWay, MaddingRoad, Backwater, NorthRoad, NorthMoors, Cliffs, DarkWoods, HiddenTrack, HeatherHousePoint, Heatherwood, HeatherRoad, ButcherLane, WoodHollow, Cliffedge, Scrimshaw);
-            Mordent.AddGroups(Mordentshire.settlement, Moors, HighFaith);
-            Mordent.AddNPCs(CountStrahd, LadyWeathermay, OldLadyWeathermay, LordWeathermay, MistressArdent, Germain, Marion, Dominic, Luker, Cavel, Kedar, Justinian, Honorius, Carlisle, Brenna, Tabb, Kirk, Malvin, Tyler, Gregor, Azalin, Glenna, Gwydion, Gaston, Ariana, Carina, Darcy, Bathilda, Ida, Kyna, Solita, Ustis, Sterling, Ethan, Christina, Erica, Joshua, Normal, Neola, Silas, Violet, Penelope, Elwin, Tilda, Freeda, Berwin, Lenor, Lobelia, Rae, Parvis, Lee, Margaret, Tobais, Desma, Wilfred, Estelle, Lilia, Goodman, Renier, Vogler, Marston, Ellie, Axtel, Barth, Percival, Hargel, Eisman, Coriemon, Gorbagh, GastonImrad, Sheclke, Arlie, Carl, Tandle, Ellen, Karen, Sshhisthulhuu, Winifred, Bridget, Baron, Baroness, Lady, Lucifer, Emma, Tintantilus, Charity, Thadeus, Mysti, Amar, Rogold, Barnabas, Phillipe, Rembrania, Brenda, Sugartooth, Summer, Muffin, TG, Apricot, Mikhail, Trellgaard, Ilmen, Caarey, Sean, Jerimy, Tangle, Wren, Sharon, Molly, Stelwaard, Thinn, Badder, Esther, Geam, Maquir, Miranda, Kelman, Fiona, Fanerath, Hellinken, Kattle, Emory, Marcus, Nendrum, Thellactin, Kelly, Cheldon, Mythrel, Millicent, Natterly, Eowin, Momsin, Shingol, Larson, Yettergun, Leslie);
-            Mordent.AddItems(Apparatus, RodOfRastinon, SSOrb, RingOfReverse, AlchemistDiary, MissingEntry, Sunsword, ScrollNegPlaneProt, LocketOfSealing, PotOfClimb, PotOfExtraHeal, PotOfSpeed, PotOfSuperHero, ScrollOfHolySymbol, ScrollOfInvisToUndead, ScrollOfProtEvil, ScrollOfRestore, PotOfClairAud, PotOfDiminution, ElixirOfMadness, MirrorOfLaw, TheInnerSoul, IncenseOfMed, THENATUREOFTHESOUL, SunBlade, SwordOfWound, RingOfDetGood, RopeOfEntangle, MedallionOfProt, FlashGrenade, CloakOfProt, RingOfRegen, GemOfLight, ScrollOfStoring, ScrollOfProt, BroochOfProt, RingOfProtNM, RingOfAim, PotOfHeal, CloakOfDisplace, RingOfProt, ElixirOfHealth, ScrollOfCall, BracersOfDef, DartOfHoming, DaggerOfVenom, StaffOfThunder, PowderOfHaste, ElixirOfDisplace, PotOfCWNW, RodOfFlail, ScrollOfProtWS, StaffOfStrike, AlchemyJug, StoneOfControlEarth, ScrollOfProtDev, ScrollOfProtDem, ScrollOfProtPet, RingOfWaterWalk, DragonSlayer, HornOfValhalla, ArrowOfDirect, TrollCleaver, PhylacteryOfFaith, SwordOfLifeSteal, RopeOfClimb, ScarabOfProt);
-
-            ctx.OutsideRavenloft.AddGroups(HighFaith);
+            DomainEnum.Mordent.AddGroup(GroupEnum.HighFaithOsterton, "10, Card Handout");
+            DomainEnum.OutsideRavenloft.AddGroup(GroupEnum.HighFaithOsterton, "10, Card Handout");
             #endregion
 
             #region Locations Add
-            Mordentshire.location.AddNPCs(CountStrahd, LadyWeathermay, OldLadyWeathermay, LordWeathermay, MistressArdent, Germain, Marion, Dominic, Luker, Cavel, Kedar, Justinian, Honorius, Carlisle, Brenna, Tabb, Kirk, Malvin, Tyler, Gregor, Azalin, Glenna, Gwydion, Gaston, Ariana, Carina, Darcy, Bathilda, Ida, Kyna, Solita, Ustis, Sterling, Ethan, Christina, Erica, Joshua, Normal, Neola, Silas, Violet, Penelope, Elwin, Tilda, Freeda, Berwin, Lenor, Lobelia, Rae, Parvis, Lee, Margaret, Tobais, Desma, Wilfred, Estelle, Lilia, Goodman, Renier, Vogler, Marston, Ellie, Axtel, Barth, Percival, Hargel, Eisman, Coriemon, Gorbagh, GastonImrad, Sheclke, Arlie, Carl, Tandle, Ellen, Karen, Sshhisthulhuu, Winifred, Bridget, Baron, Baroness, Lady, Lucifer, Emma, Tintantilus, Charity, Thadeus, Mysti, Amar, Rogold, Barnabas, Phillipe, Rembrania, Brenda, Sugartooth, Summer, Muffin, TG, Apricot, Mikhail, Trellgaard, Ilmen, Caarey, Sean, Jerimy, Tangle, Wren, Sharon, Molly, Stelwaard, Thinn, Badder, Esther, Geam, Maquir, Miranda, Kelman, Fiona, Fanerath, Hellinken, Kattle, Emory, Marcus, Nendrum, Thellactin, Kelly, Cheldon, Mythrel, Millicent, Natterly, Eowin, Momsin, Shingol, Larson, Yettergun, Leslie);
             Mordentshire.location.AddItems(Apparatus, RodOfRastinon, SSOrb, RingOfReverse, AlchemistDiary, MissingEntry, Sunsword, ScrollNegPlaneProt, LocketOfSealing, PotOfClimb, PotOfExtraHeal, PotOfSpeed, PotOfSuperHero, ScrollOfHolySymbol, ScrollOfInvisToUndead, ScrollOfProtEvil, ScrollOfRestore, PotOfClairAud, PotOfDiminution, ElixirOfMadness, MirrorOfLaw, TheInnerSoul, IncenseOfMed, THENATUREOFTHESOUL, SunBlade, SwordOfWound, RingOfDetGood, RopeOfEntangle, MedallionOfProt, FlashGrenade, CloakOfProt, RingOfRegen, GemOfLight, ScrollOfStoring, ScrollOfProt, BroochOfProt, RingOfProtNM, RingOfAim, PotOfHeal, CloakOfDisplace, RingOfProt, ElixirOfHealth, ScrollOfCall, BracersOfDef, DartOfHoming, DaggerOfVenom, StaffOfThunder, PowderOfHaste, ElixirOfDisplace, PotOfCWNW, RodOfFlail, ScrollOfProtWS, StaffOfStrike, AlchemyJug, StoneOfControlEarth, ScrollOfProtDev, ScrollOfProtDem, ScrollOfProtPet, RingOfWaterWalk, DragonSlayer, HornOfValhalla, ArrowOfDirect, TrollCleaver, PhylacteryOfFaith, SwordOfLifeSteal, RopeOfClimb, ScarabOfProt);
 
             HeatherHouse.AddNPCs(LordWeathermay, LadyWeathermay, OldLadyWeathermay, Renier, MistressArdent, CountStrahd, Lee, Margaret, Winifred, Bridget, Emma);

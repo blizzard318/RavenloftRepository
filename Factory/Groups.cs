@@ -31,6 +31,8 @@
         public readonly static Group HighPriestRavenloft = CreateGroup("High Priest of Ravenloft");
         public readonly static Group HighPriestMostHoly = CreateGroup("High Priest of the Most Holy Order");
 
+        public readonly static Group HighFaithOsterton = CreateGroup("Church of the High Faith in Osterton");
+
         public readonly static Group RedWizard = CreateGroup("Red Wizard of Thay");
 
         public readonly static Group Zhakata = CreateGroup("Religion of Zhakata");

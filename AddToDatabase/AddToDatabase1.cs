@@ -340,8 +340,8 @@ internal static partial class AddToDatabase
 
                 DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Meredoth, "381/750")
                     .BindCreatures(Creature.Human).BindAlignment(Alignment.CE)
-                    .BindItems(ItemEnum.CloakOfProtection, ItemEnum.BracersOfDefense, ItemEnum.RingOfShoot, ItemEnum.RodOfSmite, ItemEnum.StaffOfTheSerpent);
-                DomainEnum.Nebligtode.AddItem(ItemEnum.CloakOfProtection, "381/750");
+                    .BindItems(ItemEnum.CloakOfProt, ItemEnum.BracersOfDefense, ItemEnum.RingOfShoot, ItemEnum.RodOfSmite, ItemEnum.StaffOfTheSerpent);
+                DomainEnum.Nebligtode.AddItem(ItemEnum.CloakOfProt, "381/750");
                 DomainEnum.Nebligtode.AddItem(ItemEnum.BracersOfDefense, "381/750");
                 DomainEnum.Nebligtode.AddItem(ItemEnum.RingOfShoot, "381/750");
                 DomainEnum.Nebligtode.AddItem(ItemEnum.RodOfSmite, "381/750");
@@ -396,10 +396,10 @@ internal static partial class AddToDatabase
                 DomainEnum.Kartakass.Appeared("486/750");
                 DomainEnum.Kartakass.AddLivingDarklord(CharacterEnum.HarkonLukas, "486/750")
                     .BindCreatures(Creature.Human, Creature.Wolfwere)
-                    .BindItems(ItemEnum.CursedBerserker, ItemEnum.ElixirOfMadness)
+                    .BindItems(ItemEnum.CursedBerserker, ItemEnum.ElixirOfMad)
                     .BindAlignment(Alignment.NE);
                 DomainEnum.Kartakass.AddItem(ItemEnum.CursedBerserker, "486/750");
-                DomainEnum.Kartakass.AddItem(ItemEnum.ElixirOfMadness, "486/750");
+                DomainEnum.Kartakass.AddItem(ItemEnum.ElixirOfMad, "486/750");
 
                 DomainEnum.Markovia.Appeared("487/750");
                 DomainEnum.Markovia.AddLivingCharacter(CharacterEnum.Ludmilla, "487/750")
@@ -428,10 +428,10 @@ internal static partial class AddToDatabase
                 DomainEnum.Barovia.AddLivingDarklord(CharacterEnum.CountStrahd, "489/750, 611/750")
                     .BindCreatures(Creature.Human, Creature.Vampire)
                     .BindCharacters(CharacterEnum.Tatyana)
-                    .BindItems(ItemEnum.CloakOfProtection, ItemEnum.AmuletOfProof)
+                    .BindItems(ItemEnum.CloakOfProt, ItemEnum.AmuletOfProof)
                     .BindAlignment(Alignment.LE);
                 DomainEnum.Barovia.AddItem(ItemEnum.AmuletOfProof, "489/750, 611/750");
-                DomainEnum.Barovia.AddItem(ItemEnum.CloakOfProtection, "489/750, 611/750");
+                DomainEnum.Barovia.AddItem(ItemEnum.CloakOfProt, "489/750, 611/750");
 
                 DomainEnum.InsideRavenloft.AddLivingDarklord(CharacterEnum.EleazerClyde, "680/750")
                     .BindCreatures(Creature.Vampire, Creature.Human)

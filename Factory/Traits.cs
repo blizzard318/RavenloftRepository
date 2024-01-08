@@ -44,13 +44,9 @@
         public static readonly Trait Common = CreateLanguage("Common");
         public static readonly Trait Halfling = CreateLanguage("Halfling");
         public static readonly Trait Elf = CreateLanguage("Elf", "Elvish");
-        public static readonly Trait Elvish = Elf;
         public static readonly Trait Gnome = CreateLanguage("Gnome", "Gnomish");
-        public static readonly Trait Gnomish = Gnome;
         public static readonly Trait Dwarf = CreateLanguage("Dwarf", "Dwarvish");
-        public static readonly Trait Dwarvish = Dwarf;
         public static readonly Trait Orc = CreateLanguage("Orc", "Orcish");
-        public static readonly Trait Orcish = Orc;
 
         public static readonly Trait Illithid = CreateLanguage("Illithid");
         public static readonly Trait Goblin = CreateLanguage("Goblin");
@@ -62,7 +58,6 @@
         public static readonly Trait KuoToan = CreateLanguage("Kuo-Toan");
 
         public static readonly Trait Treant = CreateLanguage("Treant", "Treantish");
-        public static readonly Trait Treantish = Treant;
 
         public static readonly Trait HillGiant = CreateLanguage("Hill Giant");
         public static readonly Trait MountainGiant = CreateLanguage("Mountain Giant");

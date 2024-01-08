@@ -79,6 +79,7 @@
         public readonly static Location Cliffedge = CreateLocation("Cliffedge (Mordentshire)");
         public readonly static Location Scrimshaw = CreateLocation("Scrimshaw");
         public readonly static Location NorthRoad = CreateLocation("North Road (Mordentshire)");
+        public readonly static Location Moors = CreateLocation("Moors (Mordentshire)");
         public readonly static Location NorthMoors = CreateLocation("North Moors");
         public readonly static Location Cliffs = CreateLocation("Cliffs (Mordentshire)");
         public readonly static Location DarkWoods = CreateLocation("Dark Woods (Mordentshire)");
