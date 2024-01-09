@@ -86,7 +86,7 @@
         public readonly static Trait GoldDragon = CreateCreature("Gold Dragon");
 
         public readonly static Trait BrokenOne = CreateCreature("Broken One");
-        public readonly static Trait Doppelganger = CreateCreature("Doppelganger");
+        public readonly static Trait Doppelganger = CreateCreature("Doppelganger", "Doppleganger");
         public readonly static Trait InvisibleStalker = CreateCreature("Invisible Stalker");
 
         public readonly static Trait Shade = CreateCreature("Shade");

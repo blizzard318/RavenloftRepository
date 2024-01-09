@@ -72,16 +72,16 @@ internal static partial class AddToDatabase
                 .BindAlignment(Alignment.LG)
                 .BindCreatures(Creature.Human)
                 .BindRelatedCreatures(Creature.Horse, Creature.Haunt, Creature.Vampire)
-                .BindItems(ItemEnum.WandOfMM, ItemEnum.Luckstone, ItemEnum.VialOfHolyWater, ItemEnum.Chosen,
+                .BindItems(ItemEnum.Wand.MagMiss, ItemEnum.Luckstone, ItemEnum.VialOfHolyWater, ItemEnum.Chosen,
                                                    ItemEnum.Decanter, ItemEnum.SymbolOfRaven, ItemEnum.IconOfRaven, ItemEnum.Sunsword,
-                                                   ItemEnum.AmuletOfLight, ItemEnum.PotOfHeal);
+                                                   ItemEnum.Amulet.Light, ItemEnum.Potion.Heal);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CountStrahd)
                 .BindCreatures(Creature.Human, Creature.Vampire, Creature.Bat)
                 .BindRelatedCreatures(Creature.StrahdZombie);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.IreenaKolyana)
-                .BindItems(ItemEnum.WandOfMM, ItemEnum.Luckstone, ItemEnum.VialOfHolyWater);
+                .BindItems(ItemEnum.Wand.MagMiss, ItemEnum.Luckstone, ItemEnum.VialOfHolyWater);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Mikhash, "17");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Tatyana, "25, 111");
@@ -95,16 +95,16 @@ internal static partial class AddToDatabase
             #region Items
             DomainEnum.Barovia.AddItem(ItemEnum.Chosen, "1, 6, 7, 15, 23, 24, 28, 34, 39, 44-46, 48, 52, 54, 56-58, 60, 62, 64, 67, 69, 76, 79, 82-85, 87-90, 95-97, 99, 101, 102, 105, 108, 110, 124-128, 131, 135, 136, 141, 148, 150, 153, 154, 156, 158, 165, 166, 168, 170, 171, 173, 176, 184, 188").ExtraInfo = "It is Jeren Sureblade's Rod of Lordly Might";
 
-            DomainEnum.Barovia.AddItem(ItemEnum.WandOfMM, "17, 18, 20, 35, 40, 43, 45, 47, 48, 53, 58, 66, 74, 75, 78, 88, 96, 104, 119, 125, 129, 132, 135, 146, 166, 167, 173, 179");
+            DomainEnum.Barovia.AddItem(ItemEnum.Wand.MagMiss, "17, 18, 20, 35, 40, 43, 45, 47, 48, 53, 58, 66, 74, 75, 78, 88, 96, 104, 119, 125, 129, 132, 135, 146, 166, 167, 173, 179");
             DomainEnum.Barovia.AddItem(ItemEnum.Luckstone, "18, 36, 48, 49, 56, 62, 74, 75, 96, 116, 120, 123, 128, 179, 189");
             DomainEnum.Barovia.AddItem(ItemEnum.Decanter, "30, 114, 115, 151, 139, 166, 189");
             DomainEnum.Barovia.AddItem(ItemEnum.SymbolOfRaven, "31, 34, 40, 56, 57, 66, 85, 86, 88, 92, 110, 111, 117, 124, 132, 133, 136, 140, 143-145, 146, 159, 160, 161, 166, 170, 171, 182, 187, 189");
             DomainEnum.Barovia.AddItem(ItemEnum.IconOfRaven, "34, 40, 66, 100, 117, 137-140, 146, 159, 161, 166, 167, 189")
                 .BindAlignment(Alignment.LG);
             DomainEnum.Barovia.AddItem(ItemEnum.Sunsword, "46, 49, 50, 51, 53, 61, 65, 74, 76, 85, 88, 92, 98-100, 106, 110, 111, 121, 122, 119, 129, 130, 134, 143, 145, 147-150, 159-162, 166, 177, 181, 189");
-            DomainEnum.Barovia.AddItem(ItemEnum.PotOfHeal, "137, 165, 166, 183, 188, 189");
+            DomainEnum.Barovia.AddItem(ItemEnum.Potion.Heal, "137, 165, 166, 183, 188, 189");
             DomainEnum.Barovia.AddItem(ItemEnum.VialOfHolyWater, "47, 56, 86, 89, 94, 102, 106, 123, 130, 136, 142, 143, 145, 147, 149, 158, 166, 171, 188, 189");
-            DomainEnum.Barovia.AddItem(ItemEnum.AmuletOfLight, "20, 29, 36, 37, 51, 53, 61, 65, 69, 79, 80, 82, 84, 91, 105, 106, 118, 120, 126, 133, 137, 138, 149, 153, 183");
+            DomainEnum.Barovia.AddItem(ItemEnum.Amulet.Light, "20, 29, 36, 37, 51, 53, 61, 65, 69, 79, 80, 82, 84, 91, 105, 106, 118, 120, 126, 133, 137, 138, 149, 153, 183");
             #endregion
 
             #region Groups

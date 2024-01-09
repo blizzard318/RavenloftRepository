@@ -132,7 +132,7 @@
             public readonly static Item Displace = CreateItem("Elixir of Displacement");
         }
 
-        internal static class Books
+        internal static class Book
         {
             public readonly static Item MissingEntry = CreateItem("Missing Entry", "Missing Entries");
             public readonly static Item AlchemistDiary = CreateItem("Alchemist`s Diary");

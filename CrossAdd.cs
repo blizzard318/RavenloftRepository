@@ -239,6 +239,8 @@ public static class CrossAdd
         Settlement.BindLocations(locations);
         foreach (var location in locations) Settlement.BindCharacters(location.Characters.PerSource[Source].ToArray());
     }
+    public static void PopulateSettlement (this Location Settlement, ToTrack<Location> locations)
+        => Settlement.PopulateSettlement(locations.PerSource[Source].ToArray());
 
     /*public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
     {

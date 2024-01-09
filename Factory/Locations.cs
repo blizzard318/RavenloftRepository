@@ -4,8 +4,7 @@
     {
         private static Location CreateLocation(params string[] names)
         {
-            var retval = new Location();
-            retval.Names.UnionWith(names);
+            var retval = new Location(names);
             Ravenloftdb.Locations.Add(retval);
             return retval;
         }
@@ -85,7 +84,7 @@
         public readonly static Location DarkWoods = CreateLocation("Dark Woods (Mordentshire)");
         public readonly static Location GryphonRoad = CreateLocation("Gryphon Road");
         public readonly static Location Bog = CreateLocation("Bog (Mordentshire)");
-        public readonly static Location Cemetery = CreateLocation("Cemetery (Mordentshire)");
+        public readonly static Location MordentshireCemetery = CreateLocation("Cemetery (Mordentshire)");
         public readonly static Location HiddenTrack = CreateLocation("Hidden Track (Gryphon Hill)");
         public readonly static Location HeatherHousePoint = CreateLocation("Heather House Point");
         public readonly static Location Heatherwood = CreateLocation("Heatherwood");

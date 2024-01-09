@@ -340,12 +340,12 @@ internal static partial class AddToDatabase
 
                 DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Meredoth, "381/750")
                     .BindCreatures(Creature.Human).BindAlignment(Alignment.CE)
-                    .BindItems(ItemEnum.CloakOfProt, ItemEnum.BracersOfDefense, ItemEnum.RingOfShoot, ItemEnum.RodOfSmite, ItemEnum.StaffOfTheSerpent);
-                DomainEnum.Nebligtode.AddItem(ItemEnum.CloakOfProt, "381/750");
+                    .BindItems(ItemEnum.Cloak.Prot, ItemEnum.BracersOfDefense, ItemEnum.Ring.Shoot, ItemEnum.Rod.Smite, ItemEnum.Staff.TheSerpent);
+                DomainEnum.Nebligtode.AddItem(ItemEnum.Cloak.Prot, "381/750");
                 DomainEnum.Nebligtode.AddItem(ItemEnum.BracersOfDefense, "381/750");
-                DomainEnum.Nebligtode.AddItem(ItemEnum.RingOfShoot, "381/750");
-                DomainEnum.Nebligtode.AddItem(ItemEnum.RodOfSmite, "381/750");
-                DomainEnum.Nebligtode.AddItem(ItemEnum.StaffOfTheSerpent, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.Ring.Shoot, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.Rod.Smite, "381/750");
+                DomainEnum.Nebligtode.AddItem(ItemEnum.Staff.TheSerpent, "381/750");
 
                 DomainEnum.InsideRavenloft.BindCreatures(
                     Creature.GrimReaper, //382/750
@@ -367,13 +367,13 @@ internal static partial class AddToDatabase
                     .BindCreatures(Creature.Human, Creature.Lich).BindAlignment(Alignment.LE);
 
                 DomainEnum.Falkovnia.Appeared("483/482")
-                    .BindItems(ItemEnum.RingOfFreeAct, ItemEnum.RodOfFlail, ItemEnum.GauntletsOfOgrePower);
+                    .BindItems(ItemEnum.Ring.FreeAct, ItemEnum.Rod.Flail, ItemEnum.GauntletsOfOgrePower);
                 DomainEnum.Falkovnia.AddLivingDarklord(CharacterEnum.VladDrakov, "483/750")
                     .BindCreatures(Creature.Human).BindAlignment(Alignment.NE)
-                    .BindItems(ItemEnum.RingOfFreeAct, ItemEnum.RodOfFlail, ItemEnum.GauntletsOfOgrePower)
+                    .BindItems(ItemEnum.Ring.FreeAct, ItemEnum.Rod.Flail, ItemEnum.GauntletsOfOgrePower)
                     .Setting = CampaignSetting.Dragonlance;
-                DomainEnum.Falkovnia.AddItem(ItemEnum.RingOfFreeAct, "483/750");
-                DomainEnum.Falkovnia.AddItem(ItemEnum.RodOfFlail, "483/750");
+                DomainEnum.Falkovnia.AddItem(ItemEnum.Ring.FreeAct, "483/750");
+                DomainEnum.Falkovnia.AddItem(ItemEnum.Rod.Flail, "483/750");
                 DomainEnum.Falkovnia.AddItem(ItemEnum.GauntletsOfOgrePower, "483/750");
 
                 DomainEnum.Mordent.Appeared("484/750");
@@ -396,10 +396,10 @@ internal static partial class AddToDatabase
                 DomainEnum.Kartakass.Appeared("486/750");
                 DomainEnum.Kartakass.AddLivingDarklord(CharacterEnum.HarkonLukas, "486/750")
                     .BindCreatures(Creature.Human, Creature.Wolfwere)
-                    .BindItems(ItemEnum.CursedBerserker, ItemEnum.ElixirOfMad)
+                    .BindItems(ItemEnum.CursedBerserker, ItemEnum.Elixir.Mad)
                     .BindAlignment(Alignment.NE);
                 DomainEnum.Kartakass.AddItem(ItemEnum.CursedBerserker, "486/750");
-                DomainEnum.Kartakass.AddItem(ItemEnum.ElixirOfMad, "486/750");
+                DomainEnum.Kartakass.AddItem(ItemEnum.Elixir.Mad, "486/750");
 
                 DomainEnum.Markovia.Appeared("487/750");
                 DomainEnum.Markovia.AddLivingCharacter(CharacterEnum.Ludmilla, "487/750")
@@ -428,22 +428,19 @@ internal static partial class AddToDatabase
                 DomainEnum.Barovia.AddLivingDarklord(CharacterEnum.CountStrahd, "489/750, 611/750")
                     .BindCreatures(Creature.Human, Creature.Vampire)
                     .BindCharacters(CharacterEnum.Tatyana)
-                    .BindItems(ItemEnum.CloakOfProt, ItemEnum.AmuletOfProof)
+                    .BindItems(ItemEnum.Cloak.Prot, ItemEnum.Amulet.Proof)
                     .BindAlignment(Alignment.LE);
-                DomainEnum.Barovia.AddItem(ItemEnum.AmuletOfProof, "489/750, 611/750");
-                DomainEnum.Barovia.AddItem(ItemEnum.CloakOfProt, "489/750, 611/750");
+                DomainEnum.Barovia.AddItem(ItemEnum.Amulet.Proof, "489/750, 611/750");
+                DomainEnum.Barovia.AddItem(ItemEnum.Cloak.Prot, "489/750, 611/750");
 
                 DomainEnum.InsideRavenloft.AddLivingDarklord(CharacterEnum.EleazerClyde, "680/750")
                     .BindCreatures(Creature.Vampire, Creature.Human)
-                    .BindItems(ItemEnum.RingOfSpellStoring, ItemEnum.StaffOfThunderAndLightning, ItemEnum.TalismanOfUltimateEvil)
+                    .BindItems(ItemEnum.Ring.SpellStoring, ItemEnum.Staff.ThunderAndLightning, ItemEnum.TalismanOfUltimateEvil)
                     .BindAlignment(Alignment.LE);
-                DomainEnum.InsideRavenloft.AddItem(ItemEnum.RingOfSpellStoring, "680/750");
-                DomainEnum.InsideRavenloft.AddItem(ItemEnum.StaffOfThunderAndLightning, "680/750");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Ring.SpellStoring, "680/750");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Staff.ThunderAndLightning, "680/750");
                 DomainEnum.InsideRavenloft.AddItem(ItemEnum.TalismanOfUltimateEvil, "680/750");
-                DomainEnum.InsideRavenloft.AddItem(ItemEnum.CloakOfProtection, "680/750");
-
-                EleazerClyde.AddItems(RingOfSpellStoring, StaffOfThunderAndLightning, CloakOfProtection, TalismanOfUltimateEvil);
-                ctx.InsideRavenloft.AddItems(EleazerClyde.Items.ToArray());
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Cloak.Prot, "680/750");
 
                 var KnightsSolamnia = ctx.CreateGroup("Knights of Solamnia", "710/750").BindCreatures(Traits.CampaignSetting.Dragonlance);
                 var KnightsRose = ctx.CreateGroup("Knights of the Rose", "710/750").BindCreatures(Traits.CampaignSetting.Dragonlance);
