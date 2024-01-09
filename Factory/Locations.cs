@@ -1,4 +1,6 @@
-﻿public partial class Factory : IDisposable
+﻿using System.Threading;
+
+public partial class Factory : IDisposable
 {
     internal static class LocationEnum
     {
@@ -8,9 +10,7 @@
             Ravenloftdb.Locations.Add(retval);
             return retval;
         }
-        public readonly static Location MillsOfNartok = CreateLocation("Lumber Mills (Nartok)");
-        public readonly static Location DharlaethAsylum = CreateLocation("Dharlaeth Asylum");
-
+        #region Barovia
         public readonly static Location CastleRavenloft = CreateLocation("Castle Ravenloft");
         public readonly static Location BaroviaChurch = CreateLocation("Church (Barovia)");
         public readonly static Location BildrathMercantile = CreateLocation("Bildrath's Mercantile");
@@ -27,7 +27,29 @@
         public readonly static Location RoadJunction = CreateLocation("Road Junction (Barovia)");
         public readonly static Location TserFalls = CreateLocation("Tser Falls");
         public readonly static Location GatesOfRavenloft = CreateLocation("Gates of Ravenloft");
+        #endregion
 
+        #region Darkon
+        public readonly static Location MillsOfNartok = CreateLocation("Lumber Mills (Nartok)");
+        public readonly static Location AzalinsGraveyard = CreateLocation("Azalin`s Graveyard");
+        public readonly static Location KargatMausoleum = CreateLocation("Kargat Mausoleum");
+        #endregion
+
+        #region HarAkir
+        public readonly static Location PharaohsRest = CreateLocation("Pharaoh`s Rest");
+        #endregion
+
+        #region Kartakass
+        public readonly static Location ChurchOfMilil = CreateLocation("Church of Milil");
+        public readonly static Location MeistersingerMansion = CreateLocation("Meistersinger Mansion");
+        #endregion
+
+        #region Lamordia
+        public readonly static Location DharlaethAsylum = CreateLocation("Dharlaeth Asylum");
+        public readonly static Location IsleOfAgony = CreateLocation("Isle of Agony");
+        #endregion
+
+        #region Mordent
         public readonly static Location SaulbridgeSanitarium = CreateLocation("Saulbridge Sanitarium");
         public readonly static Location GryphonHill = CreateLocation("Gryphon Hill");
         public readonly static Location GryphonHillMansion = CreateLocation("Gryphon Hill Mansion");
@@ -89,5 +111,14 @@
         public readonly static Location HeatherHousePoint = CreateLocation("Heather House Point");
         public readonly static Location Heatherwood = CreateLocation("Heatherwood");
         public readonly static Location HeatherRoad = CreateLocation("Heather Road");
+        #endregion
+
+        #region Inside Ravenloft
+        public readonly static Location QuebeHauntedMansion = CreateLocation("Quebe`s Haunted Mansion");
+        public readonly static Location CastleBloodmere = CreateLocation("Castle Bloodmere");
+        public readonly static Location UnderDread = CreateLocation("UnderDread");
+        public readonly static Location DreadChamber = CreateLocation("The Dread Chamber");
+        public readonly static Location TowerOfSpirits = CreateLocation("Tower of Spirits");
+        #endregion
     }
 }

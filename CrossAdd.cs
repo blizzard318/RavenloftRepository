@@ -2,7 +2,7 @@
 
 public static class CrossAdd
 {
-    public static Source Source;
+    [ThreadStatic] public static Source Source;
     private static readonly List<Domain> domains = new(); //For trait distribution
 
     public static void Dispose()

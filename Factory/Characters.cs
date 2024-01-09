@@ -1,4 +1,8 @@
-﻿public partial class Factory : IDisposable
+﻿using Humanizer;
+using System.Diagnostics.Metrics;
+using static Factory.ItemEnum;
+
+public partial class Factory : IDisposable
 {
     internal static class CharacterEnum
     {
@@ -8,29 +12,11 @@
             Ravenloftdb.Characters.Add(retval);
             return retval;
         }
-        public readonly static NPC Meredoth = CreateCharacter("Meredoth");
+        #region Arkandale
+        public readonly static NPC NataliaVhorishkova = CreateCharacter("Natalia Vhorishkova");
+        #endregion
 
-        public readonly static NPC GabrielleAderre = CreateCharacter("Gabrielle Aderre");
-
-        public readonly static NPC VladDrakov = CreateCharacter("Vlad Drakov");
-
-        public readonly static NPC Hazlik = CreateCharacter("Hazlik");
-
-        public readonly static NPC HarkonLukas = CreateCharacter("Harkon Lukas");
-
-        public readonly static NPC Ludmilla = CreateCharacter("Ludmilla");
-        public readonly static NPC FrantisekMarkov = CreateCharacter("Frantisek Markov");
-
-        public readonly static NPC Zhakata = CreateCharacter("Zhakata");
-        public readonly static NPC YagnoPetrovna = CreateCharacter("Yagno Petrovna");
-
-        public readonly static NPC Clarke = CreateCharacter("Clarke");
-        public readonly static NPC Phillips = CreateCharacter("Phillips");
-        public readonly static NPC HowardAshton = CreateCharacter("Howard Ashton");
-
-        public readonly static NPC DoctorAugustus = CreateCharacter("Doctor Augustus");
-        public readonly static NPC NurseRoberts = CreateCharacter("Nurse Roberts");
-
+        #region Barovia
         public readonly static NPC CountStrahd = CreateCharacter("Count Strahd von Zarovich");
         public readonly static NPC IreenaKolyana = CreateCharacter("Ireena Kolyana");
         public readonly static NPC Tatyana = CreateCharacter("Tatyana");
@@ -88,7 +74,119 @@
         public readonly static NPC BabaLysaga = CreateCharacter("Baba Lysaga");
         public readonly static NPC Mikhash = CreateCharacter("Mikhash");
         public readonly static NPC JerenSureblade = CreateCharacter("Jeren Sureblade");
+        public readonly static NPC JanderSunstar = CreateCharacter("Jander Sunstar");
+        public readonly static NPC Bilkon = CreateCharacter("Bilkon");
+        public readonly static NPC Burganet = CreateCharacter("Burganet");
+        public readonly static NPC TheodoricTheBook = CreateCharacter("Theodoric the Book");
+        #endregion
 
+        #region Blaustein
+        public readonly static NPC Bluebeard = CreateCharacter("Bluebeard");
+        #endregion
+
+        #region Bluetspur
+        public readonly static NPC HighMasterIllithid = CreateCharacter("High Master Illithid");
+        #endregion
+
+        #region Borca
+        public readonly static NPC DuralIronHills = CreateCharacter("Dural of the Iron Hills");
+        public readonly static NPC Vadarin = CreateCharacter("Vadarin");
+        public readonly static NPC IvanaBoritsi = CreateCharacter("Ivana Boritsi");
+        #endregion
+
+        #region Cavitius
+        public readonly static NPC Vecna = CreateCharacter("Vecna");
+        #endregion
+
+        #region Daglan
+        public readonly static NPC Daglan = CreateCharacter("Daglan");
+        #endregion
+
+        #region Darkon
+        public readonly static NPC AzalinRex = CreateCharacter("Azalin Rex");
+        public readonly static NPC Clarke = CreateCharacter("Clarke");
+        public readonly static NPC Phillips = CreateCharacter("Phillips");
+        public readonly static NPC HowardAshton = CreateCharacter("Howard Ashton");
+        public readonly static NPC MarionRobinsdottir = CreateCharacter("Marion Robinsdottir");
+        public readonly static NPC Mazrikoth = CreateCharacter("Mazrikoth");
+        public readonly static NPC AlanikRay = CreateCharacter("Alanik Ray");
+        public readonly static NPC DorothaKenig = CreateCharacter("Dorotha Kenig");
+        public readonly static NPC GilesBowman = CreateCharacter("Giles the Bowman");
+        public readonly static NPC RatikUbel = CreateCharacter("Ratik Ubel");
+        public readonly static NPC DoctorRudolphVanRichten = CreateCharacter("Doctor Rudolph Van Richten");
+        public readonly static NPC KaleenCorigrave = CreateCharacter("Kaleen Corigrave");
+        public readonly static NPC Tyr = CreateCharacter("Tyr");
+        public readonly static NPC LatislavOfDarkon = CreateCharacter("Latislav of Darkon");
+        #endregion
+
+        #region Falkovnia
+        public readonly static NPC VladDrakov = CreateCharacter("Vlad Drakov");
+        public readonly static NPC SymbukTorul = CreateCharacter("Symbuk Torul");
+        public readonly static NPC Killeen = CreateCharacter("Killeen");
+        public readonly static NPC Kevlin = CreateCharacter("Kevlin");
+        public readonly static NPC Knightengale = CreateCharacter("Knightengale");
+        public readonly static NPC Gondegal = CreateCharacter("Gondegal");
+        #endregion
+
+        #region G'Henna
+        public readonly static NPC Zhakata = CreateCharacter("Zhakata");
+        public readonly static NPC YagnoPetrovna = CreateCharacter("Yagno Petrovna");
+        #endregion
+
+        #region Ghastria
+        public readonly static NPC StezenDPolarno = CreateCharacter("Stezen D`Polarno");
+        #endregion
+
+        #region Gundarak
+        public readonly static NPC BonnieLee = CreateCharacter("Bonnie Lee");
+        public readonly static NPC LordGundar = CreateCharacter("Lord Gundar");
+        #endregion
+
+        #region Har'Akir
+        public readonly static NPC Anhktepot = CreateCharacter("Anhktepot");
+        public readonly static NPC Senmet = CreateCharacter("Senmet");
+        public readonly static NPC Trisler = CreateCharacter("Trisler");
+        #endregion
+
+        #region Hazlan
+        public readonly static NPC Hazlik = CreateCharacter("Hazlik");
+        #endregion
+
+        #region Invidia
+        public readonly static NPC GabrielleAderre = CreateCharacter("Gabrielle Aderre");
+        #endregion
+
+        #region Kartakass
+        public readonly static NPC HarkonLukas = CreateCharacter("Harkon Lukas");
+        public readonly static NPC Nhalvaen = CreateCharacter("Nhalvaen");
+        public readonly static NPC Milil = CreateCharacter("Milil");
+        public readonly static NPC MeistersingerCasimiar = CreateCharacter("Meistersinger Casimir Lukas");
+        #endregion
+
+        #region Klorr
+        public readonly static NPC Klorr = CreateCharacter("Klorr");
+        #endregion
+
+        #region Lamordia
+        public readonly static NPC DoctorAugustus = CreateCharacter("Doctor Augustus");
+        public readonly static NPC NurseRoberts = CreateCharacter("Nurse Roberts");
+        public readonly static NPC KatrinaVonBrandthofen = CreateCharacter("Katrina Von Brandthofen");
+        public readonly static NPC DoctorVictorMordenheim = CreateCharacter("Doctor Victor Mordenheim");
+        public readonly static NPC Adam = CreateCharacter("Adam");
+        public readonly static NPC Eva = CreateCharacter("Eva");
+        #endregion
+
+        #region Liffe
+        public readonly static NPC BaronLyronEvensong = CreateCharacter("Baron Lyron Evensong");
+        #endregion
+
+        #region Markovia
+        public readonly static NPC Ludmilla = CreateCharacter("Ludmilla");
+        public readonly static NPC FrantisekMarkov = CreateCharacter("Frantisek Markov");
+        public readonly static NPC JurgenVastish = CreateCharacter("Jurgen Vastish");
+        #endregion
+
+        #region Mordent
         public readonly static NPC LadyWeathermay = CreateCharacter("Lady Virginia Anne Weathermay");
         public readonly static NPC OldLadyWeathermay = CreateCharacter("Lady Weathermay");
         public readonly static NPC LordWeathermay = CreateCharacter("Lord Byron Merril Weathermay");
@@ -224,9 +322,79 @@
         public readonly static NPC LarsonChelf = CreateCharacter("Larson Chelf");
         public readonly static NPC YettergunFolie = CreateCharacter("Yettergun Folie");
         public readonly static NPC LeslieKale = CreateCharacter("Leslie Kale");
+        #endregion
 
-        public readonly static NPC AzalinRex = CreateCharacter("Azalin Rex");
+        #region Nebligtode
+        public readonly static NPC Meredoth = CreateCharacter("Meredoth");
+        #endregion
 
+        #region Nova Vaasa
+        public readonly static NPC SirTristenHiregaard = CreateCharacter("Sir Tristen Hiregaard");
+        #endregion
+
+        #region Paridon
+        public readonly static NPC SirEdmundBloodsworth = CreateCharacter("Sir Edmund Bloodsworth");
+        #endregion
+
+        #region Sebua
+        public readonly static NPC Tiyet = CreateCharacter("Tiyet");
+        #endregion
+
+        #region Sithicus
+        public readonly static NPC Kitiara = CreateCharacter("Kitiara");
+        public readonly static NPC LordLorenSoth = CreateCharacter("Lord Loren Soth");
+        #endregion
+
+        #region Sri Raji / Kalakeri
+        public readonly static NPC Arijani = CreateCharacter("Arijani");
+        #endregion
+
+        #region Souragne
+        public readonly static NPC AntonMisroi = CreateCharacter("Anton Misroi");
+        public readonly static NPC LarissaSnowmane = CreateCharacter("Larissa Snowmane");
+        #endregion
+
+        #region Valachan
+        public readonly static NPC BaronUrikVonKharkov = CreateCharacter("Baron Urik von Kharkov");
+        public readonly static NPC Felkovic = CreateCharacter("Felkovic");
+        #endregion
+
+        #region Winding Road
+        public readonly static NPC HeadlessHorseman = CreateCharacter("The Headless Horseman");
+        #endregion
+
+        #region Inside Ravenloft
         public readonly static NPC EleazerClyde = CreateCharacter("EleazerClyde");
+        public readonly static NPC TLaan = CreateCharacter("T`Laan");
+        public readonly static NPC TarlVanovitch = CreateCharacter("Tarl Vanovitch");
+        public readonly static NPC Quebe = CreateCharacter("Quebe");
+        public readonly static NPC HoelgarArnutsson = CreateCharacter("Hoelgar Arnutsson");
+        public readonly static NPC RafeWillowand = CreateCharacter("Rafe Willowand");
+        public readonly static NPC Lathander = CreateCharacter("Lathander");
+        public readonly static NPC Almen = CreateCharacter("Almen");
+        public readonly static NPC Leilana = CreateCharacter("Leilana");
+        public readonly static NPC BrightGaelea = CreateCharacter("Bright Gaelea");
+        public readonly static NPC ThaedranMeridian = CreateCharacter("Thaedran Meridian");
+        public readonly static NPC DevanCory = CreateCharacter("Devan Cory");
+        public readonly static NPC MasterEliasSturn = CreateCharacter("Master Elias Sturn");
+        public readonly static NPC Tavelia = CreateCharacter("Tavelia");
+        public readonly static NPC MelykurionRaven = CreateCharacter("Melykurion of the Raven");
+        public readonly static NPC HannibilRaven = CreateCharacter("Hannibil of the Raven");
+        public readonly static NPC MarkRaven = CreateCharacter("Mark of the Raven");
+        public readonly static NPC CastellanPietor = CreateCharacter("Castellan Pietor");
+        public readonly static NPC StefanDyreth = CreateCharacter("Stefan Dyreth");
+        public readonly static NPC KaraliJenei = CreateCharacter("Karali Jenei");
+        public readonly static NPC WeeJas = CreateCharacter("Wee Jas");
+        public readonly static NPC Vashtar = CreateCharacter("Vashtar");
+        public readonly static NPC Tithion = CreateCharacter("Tithion");
+        public readonly static NPC Seldain = CreateCharacter("Seldain");
+        public readonly static NPC PatronArabel = CreateCharacter("Patron Arabel", "Father Arabel");
+        public readonly static NPC Brindletople = CreateCharacter("Brindletople");
+        public readonly static NPC JaraqTheDeceiver = CreateCharacter("Jaraq the Deceiver");
+        public readonly static NPC GhostlyPiper = CreateCharacter("Ghostly Piper");
+        public readonly static NPC TheRedDeath = CreateCharacter("The Red Death");
+        public readonly static NPC ChantalBanshee = CreateCharacter("Chantal the Banshee");
+        public readonly static NPC Iseult = CreateCharacter("Iseult");
+        #endregion
     }
 }
