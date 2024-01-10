@@ -25,8 +25,8 @@ public static class Ravenloftdb
     public static readonly SortedDictionary<Domain, SortedSet<Location>> SettlementsPerDomain = new(); //Towns, Villages
     public static readonly HashSet<Location> Mistways = new(); //Location with only 2 domains
 
-    public static readonly HashSet<NPC> Characters = new ();
-    public static readonly SortedDictionary<Domain, SortedSet<NPC>> CharactersPerDomain = new();
+    public static readonly HashSet<Character> Characters = new ();
+    public static readonly SortedDictionary<Domain, SortedSet<Character>> CharactersPerDomain = new();
 
     public static readonly HashSet<Item> Items = new();
     public static readonly SortedDictionary<Domain, SortedSet<Item>> ItemsPerDomain = new();
@@ -47,25 +47,27 @@ public class ToTrack<T>
         PerSource[source].UnionWith(entities);
     }
 }
-public abstract class UseVariableName //Domain, Location, NPC, Item, Group
+public abstract class UseVariableName : IComparable<UseVariableName> //Domain, Location, Character, Item, Group
 {
-    public readonly HashSet<string> Names = new();
+    public readonly List<string> Names = new();
 
     public readonly HashSet<Source> Sources = new(); //Tracks all sources that has this entity
 
-    public readonly ToTrack<Domain  > Domains    = new();
-    public readonly ToTrack<Location> Locations  = new();
-    public readonly ToTrack<Item    > Items      = new();
-    public readonly ToTrack<NPC     > Characters = new();
-    public readonly ToTrack<Group   > Groups     = new();
-    public readonly ToTrack<Trait   > Languages  = new();
-    public readonly ToTrack<Trait   > Creatures  = new();
+    public readonly ToTrack<Domain   > Domains    = new();
+    public readonly ToTrack<Location > Locations  = new();
+    public readonly ToTrack<Item     > Items      = new();
+    public readonly ToTrack<Character> Characters = new();
+    public readonly ToTrack<Group    > Groups     = new();
+    public readonly ToTrack<Trait    > Languages  = new();
+    public readonly ToTrack<Trait    > Creatures  = new();
 
     public string ExtraInfo = string.Empty;
     public Edition editions;
     public Trait? Setting; //You can kinda only really be from one campaign setting
+    public UseVariableName(params string[] names) => Names.AddRange(names);
+    public int CompareTo(UseVariableName? other) => Names[0].CompareTo(other?.Names[0]);
 }
-public class TrackPage<T>
+public class TrackPage<T> : IComparable<TrackPage<T>> where T : UseVariableName
 {
     public readonly T entity;
     public readonly Canon Canon;
@@ -74,16 +76,18 @@ public class TrackPage<T>
     public string ExtraInfo = string.Empty;
     public TrackPage(T entity, Source source, string pageNumbers, Canon canon = Canon.c)
     { this.entity = entity; this.source = source; PageNumbers = pageNumbers; Canon = canon; }
+
+    public int CompareTo(TrackPage<T>? other) => entity.CompareTo(other?.entity);
 }
 public class Source
 {
-    public readonly SortedSet<TrackPage<Domain  >> Domains    = new();
-    public readonly SortedSet<TrackPage<Location>> Locations  = new();
-    public readonly SortedSet<TrackPage<NPC     >> Characters = new();
-    public readonly SortedSet<TrackPage<Item    >> Items      = new();
-    public readonly SortedSet<TrackPage<Group   >> Groups     = new();
-    public readonly SortedSet<TrackPage<Group   >> Clusters   = new();
-    public readonly SortedSet<TrackPage<Location>> Mistways   = new();
+    public readonly SortedSet<TrackPage<Domain   >> Domains    = new();
+    public readonly SortedSet<TrackPage<Location >> Locations  = new();
+    public readonly SortedSet<TrackPage<Character>> Characters = new();
+    public readonly SortedSet<TrackPage<Item     >> Items      = new();
+    public readonly SortedSet<TrackPage<Group    >> Groups     = new();
+    public readonly SortedSet<TrackPage<Group    >> Clusters   = new();
+    public readonly SortedSet<TrackPage<Location >> Mistways   = new();
 
     public readonly SortedSet<Trait> Creatures = new();
     public readonly SortedSet<Trait> Languages = new();
@@ -104,24 +108,24 @@ public class Source
 }
 public class Trait : UseVariableName //Don't track page numbers?
 {
-    public Trait(params string[] names) => Names.UnionWith(names);
+    public Trait(params string[] names) : base(names) { }
 }
 public class Location : UseVariableName, IHasAppearances<Location>
 {
     public Dictionary<Source, TrackPage<Location>> Appearances { get; init; } = new();
-    public Location(params string[] names) => Names.UnionWith(names);
+    public Location(params string[] names) : base(names) { }
 }
 public class Item : UseVariableName, IHasAppearances<Item>, IHasAlignment
 {
     public Dictionary<Source, TrackPage<Item>> Appearances { get; init; } = new();
 
     public Dictionary<Source, Alignment> AlignmentPerSource { get; init; } = new();
-    public Item(params string[] names) => Names.UnionWith(names);
+    public Item(params string[] names) : base(names) { }
 }
 public class Group : UseVariableName, IHasAppearances<Group>
 {
     public Dictionary<Source, TrackPage<Group>> Appearances { get; init; } = new();
-    public Group(params string[] names) => Names.UnionWith(names);
+    public Group(params string[] names) : base(names) { }
 }
 public class Domain : UseVariableName, IHasAppearances<Domain>
 {
@@ -130,16 +134,17 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
     public readonly ToTrack<Group   > Clusters  = new();
     public readonly ToTrack<Location> Mistways  = new();
     public readonly string MistTalismans = string.Empty;
-    public Domain(params string[] names) => Names.UnionWith(names);
-    public class Darklord : NPC
+    public Domain(params string[] names) : base(names) { }
+    public class Darklord : Character
     {
-        public Location? DarklordLair; //I uhh, haven't heard of any darklord having more than one lair
+        public Location? DarklordLair; //I haven't heard of more than one lair
         public string Curse = string.Empty, CloseBorder = string.Empty;
+        public Darklord(params string[] names) : base(names) { }
     }
 }
-public class NPC : UseVariableName, IHasAppearances<NPC>, IHasAlignment
+public class Character : UseVariableName, IHasAppearances<Character>, IHasAlignment
 {
-    public          Dictionary<Source, TrackPage<NPC     >> Appearances { get; init; } = new();
+    public          Dictionary<Source, TrackPage<Character>> Appearances { get; init; } = new();
 
     public readonly ToTrack<Trait> RelatedCreatures = new();
 
@@ -148,12 +153,12 @@ public class NPC : UseVariableName, IHasAppearances<NPC>, IHasAlignment
 
     public Dictionary<Source, Alignment> AlignmentPerSource { get; init; } = new();
 
-    public NPC(params string[] names) => Names.UnionWith(names);
+    public Character(params string[] names) : base(names) { }
     public class Relationship
     {
-        public readonly NPC Primary, Other;
+        public readonly Character Primary, Other;
         public readonly string RelationshipType;
-        public Relationship(NPC Primary, string RelationshipType, NPC Other)
+        public Relationship(Character Primary, string RelationshipType, Character Other)
         {
             this.Primary = Primary;
             this.RelationshipType = RelationshipType;

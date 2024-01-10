@@ -11,7 +11,7 @@ public partial class Factory : IDisposable
             return retval;
         }
         #region Barovia
-        public readonly static Location CastleRavenloft = CreateLocation("Castle Ravenloft");
+        public readonly static Location CastleRavenloft = CreateLocation("Castle Ravenloft", "Castle Strahd");
         public readonly static Location BaroviaChurch = CreateLocation("Church (Barovia)");
         public readonly static Location BildrathMercantile = CreateLocation("Bildrath's Mercantile");
         public readonly static Location BloodVineTavern = CreateLocation("Blood of the Vine Tavern", "Blood on the Vine Tavern");
@@ -119,6 +119,10 @@ public partial class Factory : IDisposable
         public readonly static Location UnderDread = CreateLocation("UnderDread");
         public readonly static Location DreadChamber = CreateLocation("The Dread Chamber");
         public readonly static Location TowerOfSpirits = CreateLocation("Tower of Spirits");
+        public readonly static Location TheDeathShip = CreateLocation("The Death Ship");
+        public readonly static Location HauntedGraveyard = CreateLocation("Haunted Graveyard");
+        public readonly static Location MadScientistLaboratory = CreateLocation("Mad Scientist`s Laboratory");
+        public readonly static Location RuinsOfLololia = CreateLocation("The Ruins of Lololia");
         #endregion
     }
 }

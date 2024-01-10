@@ -28,7 +28,6 @@
         public readonly static Trait Fox = CreateCreature("Fox");
         public readonly static Trait Rat = CreateCreature("Rat");
         public readonly static Trait Pig = CreateCreature("Pig", "Swine");
-        public readonly static Trait Swine = Pig;
         public readonly static Trait Snake = CreateCreature("Snake");
         public readonly static Trait Tiger = CreateCreature("Tiger");
         public readonly static Trait Raven = CreateCreature("Raven");

@@ -17,34 +17,45 @@
 </span>
 <h1>Ravenloft Catalogue</h1><hr/>
 <h2>
-<a href='../'>Official</a> | 
-<a href='../3rdParty'>3rd Party</a>
+<a href='/home'>Official</a> | <a href='../3rdParty'>3rd Party</a>
 </h2><hr />
 <h2>
 <a href='../Domain'>Domains</a> | <a href='../Location'>Locations</a> | <a href='../Character'>Characters</a> | <a href='../Item'>Items</a> | <a href='../Group'>Groups</a><br/>
 <a href='../Creature'>Creatures</a> | <a href='../Setting'>Campaign Settings</a> | <a href='../Language'>Languages</a><br/>
 <a href='../Source'>Sources</a></h2><hr />
+<h2>
+<input type='button' onclick="OpenPage('All Sources')" value='All Sources'> | 
+<input type='button' onclick="OpenPage('By Edition')" value='By Edition'> | 
+<input type='button' onclick="OpenPage('By Media')" value='By Media'>
+</h2><br/>
+<div class='page' id='All Sources' style='display:block'>
 <details open><summary><b style='font-size:25px'>List of Media</b></summary>
-<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='List of Media'>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='All Sources0'>
 <tr style='background-color:var(--header)'>
 <th scope='col'>
 <b>Name</b>
 </th>
-<th scope='col' onclick="sortTable('List of Media',1)" style='cursor:pointer'>
+<th scope='col' onclick="sortTable('All Sources0',1)" style='cursor:pointer'>
 <b>Edition</b>
 </th>
-<th scope='col' onclick="sortTable('List of Media',2)" style='cursor:pointer'>
+<th scope='col' onclick="sortTable('All Sources0',2)" style='cursor:pointer'>
 <b>Media Type</b>
 </th>
-<th scope='col' onclick="sortDate('List of Media',3)" style='cursor:pointer'>
+<th scope='col' onclick="sortDate('All Sources0',3)" style='cursor:pointer'>
 <b>Release Date</b>
 </th>
 </tr>
 <tr>
-<td><a href='/Source/Before I Wake'>Before I Wake</a></td>
-<td>Editionless</td>
-<td>Novel</td>
-<td>31/10/2007</td>
+<td><a href='/Source/I6 Ravenloft'>I6: Ravenloft</a></td>
+<td>1st Ed</td>
+<td>Module</td>
+<td>01/11/1983</td>
+</tr>
+<tr>
+<td><a href='/Source/I10 Ravenloft II The House on Gryphon Hill'>I10: Ravenloft II: The House on Gryphon Hill</a></td>
+<td>1st Ed</td>
+<td>Module</td>
+<td>01/11/1983</td>
 </tr>
 <tr>
 <td><a href='/Source/Commander Legends Battle for Baldurs Gate'>Commander Legends: Battle for Baldur's Gate</a></td>
@@ -59,22 +70,10 @@
 <td>8/10/2016</td>
 </tr>
 <tr>
-<td><a href='/Source/I6 Ravenloft'>I6: Ravenloft</a></td>
-<td>1st Ed</td>
-<td>Module</td>
-<td>01/11/1983</td>
-</tr>
-<tr>
-<td><a href='/Source/Spellfire Master the Magic, 3rd Edition Set'>Spellfire: Master the Magic, 3rd Edition Set</a></td>
+<td><a href='/Source/Spellfire Master the Magic, Ravenloft Set'>Spellfire: Master the Magic, Ravenloft Set</a></td>
 <td>Editionless</td>
 <td>Board Game</td>
-<td>01/10/1995</td>
-</tr>
-<tr>
-<td><a href='/Source/Spellfire Master the Magic, 4th Edition Set'>Spellfire: Master the Magic, 4th Edition Set</a></td>
-<td>Editionless</td>
-<td>Board Game</td>
-<td>01/07/1996</td>
+<td>01/08/1994</td>
 </tr>
 <tr>
 <td><a href='/Source/Spellfire Master the Magic, Artifacts Set'>Spellfire: Master the Magic, Artifacts Set</a></td>
@@ -83,10 +82,34 @@
 <td>01/05/1995</td>
 </tr>
 <tr>
-<td><a href='/Source/Spellfire Master the Magic, Conquest Set'>Spellfire: Master the Magic, Conquest Set</a></td>
+<td><a href='/Source/Spellfire Master the Magic, 3rd Edition Set'>Spellfire: Master the Magic, 3rd Edition Set</a></td>
 <td>Editionless</td>
 <td>Board Game</td>
-<td>01/08/2004</td>
+<td>01/10/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Underdark Set'>Spellfire: Master the Magic, Underdark Set</a></td>
+<td>Editionless</td>
+<td>Board Game</td>
+<td>01/12/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Runes & Ruins Set'>Spellfire: Master the Magic, Runes & Ruins Set</a></td>
+<td>Editionless</td>
+<td>Board Game</td>
+<td>01/02/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, 4th Edition Set'>Spellfire: Master the Magic, 4th Edition Set</a></td>
+<td>Editionless</td>
+<td>Board Game</td>
+<td>01/07/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Nightstalkers Set'>Spellfire: Master the Magic, Nightstalkers Set</a></td>
+<td>Editionless</td>
+<td>Board Game</td>
+<td>01/09/1996</td>
 </tr>
 <tr>
 <td><a href='/Source/Spellfire Master the Magic, Dungeons Set'>Spellfire: Master the Magic, Dungeons Set</a></td>
@@ -107,28 +130,10 @@
 <td>01/03/2002</td>
 </tr>
 <tr>
-<td><a href='/Source/Spellfire Master the Magic, Nightstalkers Set'>Spellfire: Master the Magic, Nightstalkers Set</a></td>
+<td><a href='/Source/Spellfire Master the Magic, Conquest Set'>Spellfire: Master the Magic, Conquest Set</a></td>
 <td>Editionless</td>
 <td>Board Game</td>
-<td>01/09/1996</td>
-</tr>
-<tr>
-<td><a href='/Source/Spellfire Master the Magic, Ravenloft Set'>Spellfire: Master the Magic, Ravenloft Set</a></td>
-<td>Editionless</td>
-<td>Board Game</td>
-<td>01/08/1994</td>
-</tr>
-<tr>
-<td><a href='/Source/Spellfire Master the Magic, Runes & Ruins Set'>Spellfire: Master the Magic, Runes & Ruins Set</a></td>
-<td>Editionless</td>
-<td>Board Game</td>
-<td>01/02/1996</td>
-</tr>
-<tr>
-<td><a href='/Source/Spellfire Master the Magic, Underdark Set'>Spellfire: Master the Magic, Underdark Set</a></td>
-<td>Editionless</td>
-<td>Board Game</td>
-<td>01/12/1995</td>
+<td>01/08/2004</td>
 </tr>
 <tr>
 <td><a href='/Source/TSR Collector Cards, 1991 Set'>TSR Collector Cards, 1991 Set</a></td>
@@ -137,16 +142,22 @@
 <td>01/01/1991</td>
 </tr>
 <tr>
+<td><a href='/Source/TSR Collector Cards, 1992 Set'>TSR Collector Cards, 1992 Set</a></td>
+<td>Editionless</td>
+<td>Board Game</td>
+<td>01/01/1992</td>
+</tr>
+<tr>
 <td><a href='/Source/TSR Collector Cards, 1992 GenCon Promo Set'>TSR Collector Cards, 1992 GenCon Promo Set</a></td>
 <td>Editionless</td>
 <td>Board Game</td>
 <td>01/01/1992</td>
 </tr>
 <tr>
-<td><a href='/Source/TSR Collector Cards, 1992 Set'>TSR Collector Cards, 1992 Set</a></td>
+<td><a href='/Source/TSR Collector Cards, 1993 Set'>TSR Collector Cards, 1993 Set</a></td>
 <td>Editionless</td>
 <td>Board Game</td>
-<td>01/01/1992</td>
+<td>01/01/1993</td>
 </tr>
 <tr>
 <td><a href='/Source/TSR Collector Cards, 1993 GenCon Promo Set'>TSR Collector Cards, 1993 GenCon Promo Set</a></td>
@@ -155,14 +166,22 @@
 <td>01/01/1993</td>
 </tr>
 <tr>
-<td><a href='/Source/TSR Collector Cards, 1993 Set'>TSR Collector Cards, 1993 Set</a></td>
+<td><a href='/Source/Before I Wake'>Before I Wake</a></td>
 <td>Editionless</td>
-<td>Board Game</td>
-<td>01/01/1993</td>
+<td>Novel</td>
+<td>31/10/2007</td>
+</tr>
+<tr>
+<td><a href='/Source/Master of Ravenloft'>Master of Ravenloft</a></td>
+<td>Editionless</td>
+<td>Novel</td>
+<td>01/01/1986</td>
 </tr>
 </table></details><br/>
+</div>
+<div class='page' id='By Edition' style='display:none'>
 <details><summary><b style='font-size:25px'>Editions Breakdown</b></summary>
-<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Editions Breakdown'>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition0'>
 <tr style='background-color:var(--header)'>
 <th scope='col'>
 <b>Edition</b>
@@ -172,8 +191,12 @@
 </th>
 </tr>
 <tr>
+<td>Editionless</td>
+<td>20</td>
+</tr>
+<tr>
 <td>1st Ed</td>
-<td>1</td>
+<td>2</td>
 </tr>
 <tr>
 <td>2nd Ed</td>
@@ -195,13 +218,219 @@
 <td>5th Ed</td>
 <td>0</td>
 </tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Editionless</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition1',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition1',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
 <tr>
-<td>Editionless</td>
-<td>19</td>
+<td><a href='/Source/Commander Legends Battle for Baldurs Gate'>Commander Legends: Battle for Baldur's Gate</a></td>
+<td>Board Game</td>
+<td>10/06/2022</td>
+</tr>
+<tr>
+<td><a href='/Source/Dice Masters Strahd'>Dice Masters: Strahd</a></td>
+<td>Board Game</td>
+<td>8/10/2016</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Ravenloft Set'>Spellfire: Master the Magic, Ravenloft Set</a></td>
+<td>Board Game</td>
+<td>01/08/1994</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Artifacts Set'>Spellfire: Master the Magic, Artifacts Set</a></td>
+<td>Board Game</td>
+<td>01/05/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, 3rd Edition Set'>Spellfire: Master the Magic, 3rd Edition Set</a></td>
+<td>Board Game</td>
+<td>01/10/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Underdark Set'>Spellfire: Master the Magic, Underdark Set</a></td>
+<td>Board Game</td>
+<td>01/12/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Runes & Ruins Set'>Spellfire: Master the Magic, Runes & Ruins Set</a></td>
+<td>Board Game</td>
+<td>01/02/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, 4th Edition Set'>Spellfire: Master the Magic, 4th Edition Set</a></td>
+<td>Board Game</td>
+<td>01/07/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Nightstalkers Set'>Spellfire: Master the Magic, Nightstalkers Set</a></td>
+<td>Board Game</td>
+<td>01/09/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Dungeons Set'>Spellfire: Master the Magic, Dungeons Set</a></td>
+<td>Board Game</td>
+<td>01/10/1997</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Inquisition Set'>Spellfire: Master the Magic, Inquisition Set</a></td>
+<td>Board Game</td>
+<td>01/03/2001</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Millenium Set'>Spellfire: Master the Magic, Millenium Set</a></td>
+<td>Board Game</td>
+<td>01/03/2002</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Conquest Set'>Spellfire: Master the Magic, Conquest Set</a></td>
+<td>Board Game</td>
+<td>01/08/2004</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1991 Set'>TSR Collector Cards, 1991 Set</a></td>
+<td>Board Game</td>
+<td>01/01/1991</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1992 Set'>TSR Collector Cards, 1992 Set</a></td>
+<td>Board Game</td>
+<td>01/01/1992</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1992 GenCon Promo Set'>TSR Collector Cards, 1992 GenCon Promo Set</a></td>
+<td>Board Game</td>
+<td>01/01/1992</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1993 Set'>TSR Collector Cards, 1993 Set</a></td>
+<td>Board Game</td>
+<td>01/01/1993</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1993 GenCon Promo Set'>TSR Collector Cards, 1993 GenCon Promo Set</a></td>
+<td>Board Game</td>
+<td>01/01/1993</td>
+</tr>
+<tr>
+<td><a href='/Source/Before I Wake'>Before I Wake</a></td>
+<td>Novel</td>
+<td>31/10/2007</td>
+</tr>
+<tr>
+<td><a href='/Source/Master of Ravenloft'>Master of Ravenloft</a></td>
+<td>Novel</td>
+<td>01/01/1986</td>
 </tr>
 </table></details><br/>
+<details><summary><b style='font-size:25px'>1st Ed</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition2',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition2',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Source/I6 Ravenloft'>I6: Ravenloft</a></td>
+<td>Module</td>
+<td>01/11/1983</td>
+</tr>
+<tr>
+<td><a href='/Source/I10 Ravenloft II The House on Gryphon Hill'>I10: Ravenloft II: The House on Gryphon Hill</a></td>
+<td>Module</td>
+<td>01/11/1983</td>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>2nd Ed</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition3'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition3',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition3',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>3rd Ed</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition4'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition4',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition4',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>3.5th Ed</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition5'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition5',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition5',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>4th Ed</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition6'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition6',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition6',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>5th Ed</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Edition7'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Edition7',1)" style='cursor:pointer'>
+<b>Media Type</b>
+</th>
+<th scope='col' onclick="sortDate('By Edition7',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+</div>
+<div class='page' id='By Media' style='display:none'>
 <details><summary><b style='font-size:25px'>Media Breakdown</b></summary>
-<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='Media Breakdown'>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media0'>
 <tr style='background-color:var(--header)'>
 <th scope='col'>
 <b>Type</b>
@@ -216,7 +445,7 @@
 </tr>
 <tr>
 <td>Module</td>
-<td>1</td>
+<td>2</td>
 </tr>
 <tr>
 <td>Magazine</td>
@@ -224,14 +453,10 @@
 </tr>
 <tr>
 <td>Novel</td>
-<td>1</td>
+<td>2</td>
 </tr>
 <tr>
 <td>Gamebook</td>
-<td>0</td>
-</tr>
-<tr>
-<td>Audiobook</td>
 <td>0</td>
 </tr>
 <tr>
@@ -251,11 +476,245 @@
 <td>0</td>
 </tr>
 </table></details><br/>
+<details><summary><b style='font-size:25px'>Sourcebook</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media1'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media1',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media1',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Module</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media2'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media2',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media2',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Source/I6 Ravenloft'>I6: Ravenloft</a></td>
+<td>1st Ed</td>
+<td>01/11/1983</td>
+</tr>
+<tr>
+<td><a href='/Source/I10 Ravenloft II The House on Gryphon Hill'>I10: Ravenloft II: The House on Gryphon Hill</a></td>
+<td>1st Ed</td>
+<td>01/11/1983</td>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Magazine</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media3'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media3',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media3',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Novel</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media4'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media4',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media4',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Source/Before I Wake'>Before I Wake</a></td>
+<td>Editionless</td>
+<td>31/10/2007</td>
+</tr>
+<tr>
+<td><a href='/Source/Master of Ravenloft'>Master of Ravenloft</a></td>
+<td>Editionless</td>
+<td>01/01/1986</td>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Gamebook</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media5'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media5',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media5',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Video Game</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media6'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media6',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media6',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Comic</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media7'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media7',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media7',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Board Game</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media8'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media8',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media8',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+<tr>
+<td><a href='/Source/Commander Legends Battle for Baldurs Gate'>Commander Legends: Battle for Baldur's Gate</a></td>
+<td>Editionless</td>
+<td>10/06/2022</td>
+</tr>
+<tr>
+<td><a href='/Source/Dice Masters Strahd'>Dice Masters: Strahd</a></td>
+<td>Editionless</td>
+<td>8/10/2016</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Ravenloft Set'>Spellfire: Master the Magic, Ravenloft Set</a></td>
+<td>Editionless</td>
+<td>01/08/1994</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Artifacts Set'>Spellfire: Master the Magic, Artifacts Set</a></td>
+<td>Editionless</td>
+<td>01/05/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, 3rd Edition Set'>Spellfire: Master the Magic, 3rd Edition Set</a></td>
+<td>Editionless</td>
+<td>01/10/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Underdark Set'>Spellfire: Master the Magic, Underdark Set</a></td>
+<td>Editionless</td>
+<td>01/12/1995</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Runes & Ruins Set'>Spellfire: Master the Magic, Runes & Ruins Set</a></td>
+<td>Editionless</td>
+<td>01/02/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, 4th Edition Set'>Spellfire: Master the Magic, 4th Edition Set</a></td>
+<td>Editionless</td>
+<td>01/07/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Nightstalkers Set'>Spellfire: Master the Magic, Nightstalkers Set</a></td>
+<td>Editionless</td>
+<td>01/09/1996</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Dungeons Set'>Spellfire: Master the Magic, Dungeons Set</a></td>
+<td>Editionless</td>
+<td>01/10/1997</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Inquisition Set'>Spellfire: Master the Magic, Inquisition Set</a></td>
+<td>Editionless</td>
+<td>01/03/2001</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Millenium Set'>Spellfire: Master the Magic, Millenium Set</a></td>
+<td>Editionless</td>
+<td>01/03/2002</td>
+</tr>
+<tr>
+<td><a href='/Source/Spellfire Master the Magic, Conquest Set'>Spellfire: Master the Magic, Conquest Set</a></td>
+<td>Editionless</td>
+<td>01/08/2004</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1991 Set'>TSR Collector Cards, 1991 Set</a></td>
+<td>Editionless</td>
+<td>01/01/1991</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1992 Set'>TSR Collector Cards, 1992 Set</a></td>
+<td>Editionless</td>
+<td>01/01/1992</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1992 GenCon Promo Set'>TSR Collector Cards, 1992 GenCon Promo Set</a></td>
+<td>Editionless</td>
+<td>01/01/1992</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1993 Set'>TSR Collector Cards, 1993 Set</a></td>
+<td>Editionless</td>
+<td>01/01/1993</td>
+</tr>
+<tr>
+<td><a href='/Source/TSR Collector Cards, 1993 GenCon Promo Set'>TSR Collector Cards, 1993 GenCon Promo Set</a></td>
+<td>Editionless</td>
+<td>01/01/1993</td>
+</tr>
+</table></details><br/>
+<details><summary><b style='font-size:25px'>Miniature</b></summary>
+<table cellspacing='0' cellpadding='3' rules='cols' border='1' id='By Media9'>
+<tr style='background-color:var(--header)'>
+<th scope='col'>
+<b>Name</b>
+</th>
+<th scope='col' onclick="sortTable('By Media9',1)" style='cursor:pointer'>
+<b>Edition</b>
+</th>
+<th scope='col' onclick="sortDate('By Media9',2)" style='cursor:pointer'>
+<b>Release Date</b>
+</th>
+</tr>
+</table></details><br/>
+</div>
 <br/><br/><br/><i style='font-size:10px;line-height:0'>Disclaimer: The registered trademarks and other intellectual property related to Ravenloft and owned by TSR, Arthaus, White Wolf SSI, Sony, Hasbro, Ral Partha, Paizo, and/or Wizards of the Coast are used for the purpose of identification only. Ravenloft Catalogue is not affiliated with/or endorsed by these manufacturers.</i>
 </body>
 <script>init();
-sortDate('List of Media',3);
-sortTable('Editions Breakdown',0);
-sortTable('Media Breakdown',0);
-</script>
+sortDate('All Sources0',3);sortTable('By Edition0',0);sortDate('By Edition1',3);sortDate('By Edition2',3);sortDate('By Edition3',3);sortDate('By Edition4',3);sortDate('By Edition5',3);sortDate('By Edition6',3);sortDate('By Edition7',3);sortTable('By Media0',0);sortDate('By Media1',3);sortDate('By Media2',3);sortDate('By Media3',3);sortDate('By Media4',3);sortDate('By Media5',3);sortDate('By Media6',3);sortDate('By Media7',3);sortDate('By Media8',3);sortDate('By Media9',3);</script>
 </html>

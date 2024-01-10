@@ -18,12 +18,14 @@
         public readonly static Item Sunsword = CreateItem("Sunsword");
         public readonly static Item SymbolOfRaven = CreateItem("Holy Medallion of Ravenkind", "Holy Symbol of Ravenkind");
         public readonly static Item IconOfRaven = CreateItem("Icon of Ravenloft");
+        public readonly static Item StrahdMedallion = CreateItem("Strahd's Medallion");
 
         public readonly static Item SealOfLostArak = CreateItem("Seal of Lost Arak");
 
         public readonly static Item GemOfLight = CreateItem("Gem of Light");
         public readonly static Item GemOfInsight = CreateItem("Gem of Insight");
 
+        public readonly static Item Borer = CreateItem("Borer");
         public readonly static Item Luckstone = CreateItem("Luckstone");
         public readonly static Item DeathRock = CreateItem("Death Rock");
         public readonly static Item TarokkaDeck = CreateItem("Tarokka Deck");
@@ -200,7 +202,7 @@
             public readonly static Item IdentifyBloodTypes = CreateItem("Identifying Blood Types: A Beginners' Handbook");
             public readonly static Item MasonryWoodwork = CreateItem("Masonry and Woodworking");
 
-            public readonly static Item VileDarkness = CreateItem("Masonry and Woodworking");
+            public readonly static Item VileDarkness = CreateItem("Book of Vile Darkness");
             public readonly static Item SpellBookDrawmij = CreateItem("Spell Book of Drawmij");
         }
     }

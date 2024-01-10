@@ -11,34 +11,27 @@ public static class CrossAdd
         {
             //Do not bother doing this for Darklords cause they're already tracked within Characters.
             //so why does darklords exist? Its a cache cause darklords is referenced so often.
-            AddLanguages(domain.Locations);
+            //AddLanguages(domain.Locations);
             AddLanguages(domain.Characters);
-            AddLanguages(domain.Groups);
-            AddLanguages(domain.Items);
+            //AddLanguages(domain.Groups);
+            //AddLanguages(domain.Items);
             void AddLanguages<T>(ToTrack<T> entity) where T : UseVariableName
             {
-                var languages = entity.PerSource[Source].SelectMany(e => e.Languages.PerSource[Source]);
-                domain.Languages.Add(Source, languages);
-                foreach (var language in languages)
-                {
-                    Ravenloftdb.DomainsPerLanguage[language].Add(domain);
-                    Ravenloftdb.LanguagesPerDomain[domain].Add(language);
-                }
+                if (!entity.PerSource.TryGetValue(Source, out var entities)) return;
+                var languages = entities.Where(e => e.Languages.PerSource.ContainsKey(Source))
+                    .SelectMany(e => e.Languages.PerSource[Source]);
+                if (languages.Count() > 0) domain.BindLanguages(languages.ToArray());
             }
-
             AddCreatures(domain.Locations);
             AddCreatures(domain.Characters); //Do not add related creatures traits
             AddCreatures(domain.Groups);
-            AddCreatures(domain.Items);
+            //AddCreatures(domain.Items);
             void AddCreatures<T>(ToTrack<T> entity) where T : UseVariableName
             {
-                var creatures = entity.PerSource[Source].SelectMany(e => e.Creatures.PerSource[Source]);
-                domain.Creatures.Add(Source, creatures);
-                foreach (var creature in creatures)
-                {
-                    Ravenloftdb.DomainsPerCreature[creature].Add(domain);
-                    Ravenloftdb.CreaturesPerDomain[domain].Add(creature);
-                }
+                if (!entity.PerSource.TryGetValue(Source, out var entities)) return;
+                var creatures = entities.Where(e => e.Creatures.PerSource.ContainsKey(Source))
+                    .SelectMany(e => e.Creatures.PerSource[Source]);
+                if (creatures.Count() > 0) domain.BindCreatures(creatures.ToArray());
             }
             //Consider doing this for Clusters, Mistways and anything else ToTrack.
             //That's if they ever get traits.
@@ -48,6 +41,7 @@ public static class CrossAdd
 
     public static void TrackMistway(this Location Mistway, string pageNumbers, Domain First, Domain Second)
     {
+        Mistway.Sources.Add(Source);
         Mistway.Appearances.Add(Source, new TrackPage<Location>(Mistway, Source, pageNumbers));
         Mistway.editions |= Source.editions;
 
@@ -63,6 +57,7 @@ public static class CrossAdd
     }
     public static void TrackCluster(this Group Cluster, string pageNumbers, params Domain[] domains)
     {
+        Cluster.Sources.Add(Source);
         Cluster.Appearances.Add(Source, new TrackPage<Group>(Cluster, Source, pageNumbers));
         Cluster.editions |= Source.editions;
 
@@ -76,6 +71,7 @@ public static class CrossAdd
 
     private static TrackPage<T> Track<T> (T entity, string pageNumbers) where T : UseVariableName, IHasAppearances<T>
     {
+        entity.Sources.Add(Source);
         entity.editions |= Source.editions;
 
         var tracker = new TrackPage<T>(entity, Source, pageNumbers);
@@ -84,6 +80,7 @@ public static class CrossAdd
     }    
     public static Domain Appeared(this Domain domain, string pageNumbers = "Throughout")
     {
+        domains.Add(domain);
         Ravenloftdb.Domains.Add(domain);
         Source.Domains.Add(Track(domain, pageNumbers));
         return domain;
@@ -105,7 +102,7 @@ public static class CrossAdd
         Ravenloftdb.LocationsPerDomain[domain].Add(location);
         return location;
     }
-    private static NPC AddCharacter(Domain domain, NPC character, string pageNumbers)
+    private static Character AddCharacter(Domain domain, Character character, string pageNumbers)
     {
         Source.Characters.Add(Track(character, pageNumbers));
 
@@ -116,26 +113,22 @@ public static class CrossAdd
         Ravenloftdb.CharactersPerDomain[domain].Add(character);
         return character;
     }
-    public static NPC AddLivingCharacter(this Domain domain, NPC character, string pageNumbers = "Throughout")
+    public static Character AddLivingCharacter(this Domain domain, Character character, string pageNumbers = "Throughout")
     {
         character.Deceased.TryAdd(Source, false);
         return AddCharacter(domain, character, pageNumbers);
     }
-    public static NPC AddDeadCharacter(this Domain domain, NPC character, string pageNumbers = "Throughout")
+    public static Character AddDeadCharacter(this Domain domain, Character character, string pageNumbers = "Throughout")
     {
         character.Deceased.TryAdd(Source, true);
         return AddCharacter(domain, character, pageNumbers);
     }
-    public static NPC AddLivingDarklord(this Domain domain, NPC character, string pageNumbers = "Throughout")
-        => AddLivingDarklord(domain, (Domain.Darklord)character, pageNumbers);
-    public static NPC AddDeadDarklord(this Domain domain, NPC character, string pageNumbers = "Throughout")
-        => AddDeadDarklord(domain, (Domain.Darklord)character, pageNumbers);
-    public static NPC AddLivingDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
+    public static Character AddLivingDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
     {
         domain.Darklords.Add(Source, darklord);
         return AddLivingCharacter(domain, darklord, pageNumbers);
     }
-    public static NPC AddDeadDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
+    public static Character AddDeadDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
     {
         domain.Darklords.Add(Source, darklord);
         return AddDeadCharacter(domain, darklord, pageNumbers);
@@ -175,29 +168,29 @@ public static class CrossAdd
         IEnumerable<ToTrack<T>>? GetSetFromArray()
         {
             var type = typeof(T);
-            //if (type == typeof(Domain  )) return array.Select(t => t.Domains   ) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(Location)) return array.Select(t => t.Locations ) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(NPC     )) return array.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(Item    )) return array.Select(t => t.Items     ) as IEnumerable<ToTrack<T>>;
-            if (type == typeof(Group   )) return array.Select(t => t.Groups    ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Location )) return array.Select(t => t.Locations ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Character)) return array.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Item     )) return array.Select(t => t.Items     ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Group    )) return array.Select(t => t.Groups    ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Domain   )) return array.Select(t => t.Domains   ) as IEnumerable<ToTrack<T>>;
             throw new NotImplementedException();
         }
         ToTrack<U>? GetSetFromEntity()
         {
             var type = typeof(U);
-            //if (type == typeof(Domain  )) return entity.Domains    as ToTrack<U>;
-            if (type == typeof(Location)) return entity.Locations  as ToTrack<U>;
-            if (type == typeof(NPC     )) return entity.Characters as ToTrack<U>;
-            if (type == typeof(Item    )) return entity.Items      as ToTrack<U>;
-            if (type == typeof(Group   )) return entity.Groups     as ToTrack<U>;
+            if (type == typeof(Location )) return entity.Locations  as ToTrack<U>;
+            if (type == typeof(Character)) return entity.Characters as ToTrack<U>;
+            if (type == typeof(Item     )) return entity.Items      as ToTrack<U>;
+            if (type == typeof(Group    )) return entity.Groups     as ToTrack<U>;
+            if (type == typeof(Domain   )) return entity.Domains    as ToTrack<U>;
             throw new NotImplementedException();
         }
     }
-    public static T BindDomains   <T>(this T entity, params Domain  [] domains   ) where T : UseVariableName => Bind(entity, domains);
-    public static T BindLocations <T>(this T entity, params Location[] locations ) where T : UseVariableName => Bind(entity, locations);
-    public static T BindCharacters<T>(this T entity, params NPC     [] characters) where T : UseVariableName => Bind(entity, characters);
-    public static T BindItems     <T>(this T entity, params Item    [] items     ) where T : UseVariableName => Bind(entity, items);
-    public static T BindGroups    <T>(this T entity, params Group   [] groups    ) where T : UseVariableName => Bind(entity, groups);
+    public static T BindDomains   <T>(this T entity, params Domain   [] domains   ) where T : UseVariableName => Bind(entity, domains);
+    public static T BindLocations <T>(this T entity, params Location [] locations ) where T : UseVariableName => Bind(entity, locations);
+    public static T BindCharacters<T>(this T entity, params Character[] characters) where T : UseVariableName => Bind(entity, characters);
+    public static T BindItems     <T>(this T entity, params Item     [] items     ) where T : UseVariableName => Bind(entity, items);
+    public static T BindGroups    <T>(this T entity, params Group    [] groups    ) where T : UseVariableName => Bind(entity, groups);
     public static void BindDomainsToCluster (this Group Cluster, params Domain[] domains)
     {
         Cluster.Domains.PerSource.TryAdd(Source, new());
@@ -209,23 +202,77 @@ public static class CrossAdd
         }
     }
 
-    public static T BindCreatures<T>(this T Entity, params Trait[] creatures) where T : UseVariableName
+    public static T BindCreatures<T>(this T entity, params Trait[] creatures) where T : UseVariableName
     {
-        Entity.Creatures.Add(Source, creatures);
+        entity.Creatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
-        return Entity;
+
+        foreach (var creature in creatures) creature.Sources.Add(Source);
+
+        var list = GetSetFromArray();
+        foreach (var set in list) set.Add(Source, entity);
+
+        return entity;
+
+        IEnumerable<ToTrack<T>>? GetSetFromArray()
+        {
+            var type = typeof(T);
+            if (type == typeof(Item     )) return creatures.Select(t => t.Items     ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Group    )) return creatures.Select(t => t.Groups    ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Domain   )) return creatures.Select(t => t.Domains   ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Location )) return creatures.Select(t => t.Locations ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Character)) return creatures.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
+            throw new NotImplementedException();
+        }
     }
-    public static NPC BindRelatedCreatures(this NPC Character, params Trait[] creatures)
+    public static Domain BindCreatures(this Domain domain, params Trait[] creatures)
+    {
+        BindCreatures<Domain>(domain, creatures);
+
+        Ravenloftdb.CreaturesPerDomain.TryAdd(domain, new());
+        foreach (var creature in creatures)
+        {
+            Ravenloftdb.CreaturesPerDomain[domain].Add(creature);
+            Ravenloftdb.DomainsPerCreature.TryAdd(creature, new());
+            Ravenloftdb.DomainsPerCreature[creature].Add(domain);
+        }
+
+        return domain;
+    }
+    public static Character BindRelatedCreatures(this Character Character, params Trait[] creatures)
     {
         Character.RelatedCreatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
+        foreach (var creature in creatures) creature.Sources.Add(Source);
         return Character;
     }
-    public static NPC BindLanguages(this NPC Character, params Trait[] languages)
+    public static Character BindLanguages(this Character character, params Trait[] languages)
     {
-        Character.Languages.Add(Source, languages);
+        character.Languages.Add(Source, languages);
         Source.Languages.UnionWith(languages);
-        return Character;
+        foreach (var language in languages)
+        {
+            language.Sources.Add(Source);
+            language.Characters.Add(Source, character);
+        }
+        return character;
+    }
+    public static Domain BindLanguages(this Domain domain, params Trait[] languages)
+    {
+        domain.Languages.Add(Source, languages);
+        Source.Languages.UnionWith(languages);
+
+        Ravenloftdb.LanguagesPerDomain.TryAdd(domain, new());
+        foreach (var language in languages)
+        {
+            language.Sources.Add(Source);
+            language.Domains.Add(Source, domain);
+            Ravenloftdb.LanguagesPerDomain[domain].Add(language);
+            Ravenloftdb.DomainsPerLanguage.TryAdd(language, new());
+            Ravenloftdb.DomainsPerLanguage[language].Add(domain);
+        }
+
+        return domain;
     }
 
     public static T BindAlignment<T>(this T entity, Alignment alignment) where T : IHasAlignment
@@ -233,18 +280,35 @@ public static class CrossAdd
         entity.AlignmentPerSource[Source] = alignment;
         return entity;
     }
+    public static T BindSetting<T>(this T entity, Trait setting) where T : UseVariableName
+    {
+        var type = typeof(T);
+        if (type == typeof(Item     )) setting.Items     .Add(Source, entity as Item     );
+        if (type == typeof(Group    )) setting.Groups    .Add(Source, entity as Group    );
+        if (type == typeof(Domain   )) setting.Domains   .Add(Source, entity as Domain   );
+        if (type == typeof(Location )) setting.Locations .Add(Source, entity as Location );
+        if (type == typeof(Character)) setting.Characters.Add(Source, entity as Character);
+
+        setting.Sources.Add(Source);
+        entity.Setting = setting;
+        return entity;
+    }
 
     public static void PopulateSettlement (this Location Settlement, params Location[] locations)
     {
         Settlement.BindLocations(locations);
-        foreach (var location in locations) Settlement.BindCharacters(location.Characters.PerSource[Source].ToArray());
+        foreach (var location in locations)
+        {
+            if (location.Characters.PerSource.TryGetValue(Source, out var value))
+                Settlement.BindCharacters(value.ToArray());
+        }
     }
     public static void PopulateSettlement (this Location Settlement, ToTrack<Location> locations)
         => Settlement.PopulateSettlement(locations.PerSource[Source].ToArray());
 
-    /*public void CreateRelationship(NPC primary, string RelationshipType, NPC other)
+    /*public void CreateRelationship(Character primary, string RelationshipType, Character other)
     {
-        var relationship = new NPC.Relationship(primary, RelationshipType, other);
+        var relationship = new Character.Relationship(primary, RelationshipType, other);
         primary.Relationships[Source].Add(relationship);
         other.Relationships[Source].Add(relationship);
     }*/

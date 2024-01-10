@@ -4,7 +4,7 @@ internal static partial class AddToDatabase
 {
     public static void Add0 () 
     {
-        //Domains, NPCs, Items and Locations are Source-locked, but not Traits.
+        //Domains, Characters, Items and Locations are Source-locked, but not Traits.
         //Consider not making new instances within Create, so that adding can be better structured.
         AddI6Ravenloft();
         AddI10TheHouseOnGryphonHill();
@@ -62,7 +62,7 @@ internal static partial class AddToDatabase
                                                             Creature.Bat, Creature.StrahdZombie, Creature.BlackCat, Creature.Witch, Creature.Hellhound,
                                                             Creature.Werewolf, Creature.IronGolem)
                 .BindCharacters(CharacterEnum.GuardianOfSorrow, CharacterEnum.LiefLipsiege, CharacterEnum.Helga, CharacterEnum.CyrusBelview,
-                                CharacterEnum.CountStrahd, CharacterEnum.SpectreAbCenteer, CharacterEnum.ArtistaDeSlop, CharacterEnum.LadyIsoldeYunk,
+                                DarklordEnum.CountStrahd, CharacterEnum.SpectreAbCenteer, CharacterEnum.ArtistaDeSlop, CharacterEnum.LadyIsoldeYunk,
                                 CharacterEnum.AerialDuPlumette, CharacterEnum.ArtankSwilovich, CharacterEnum.DorfniyaDilisny, CharacterEnum.Pidlwik,
                                 CharacterEnum.LeanneTriksky, CharacterEnum.TashaPetrovna, CharacterEnum.KingToisky, CharacterEnum.KingIntreeKatsky,
                                 CharacterEnum.StahbalIndiBhak, CharacterEnum.Khazan, CharacterEnum.ElsaFallona, CharacterEnum.SedrikSpinwitovich,
@@ -77,7 +77,7 @@ internal static partial class AddToDatabase
                 .BindGroups(GroupEnum.BridesOfStrahd, GroupEnum.HighPriestRavenloft, GroupEnum.HighPriestMostHoly);
             #endregion
 
-            #region NPCs
+            #region Characters
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadamEva,"1, 6, 11, 32")
                 .BindLocations(Settlement.TserPoolEncampnent, LocationEnum.MadamEvasTent)
                 .BindGroups(GroupEnum.Vistani)
@@ -89,22 +89,21 @@ internal static partial class AddToDatabase
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.LiefLipsiege, "17")
                 .BindCreatures(Creature.Human)
-                .BindCharacters(CharacterEnum.CountStrahd)
+                .BindCharacters(DarklordEnum.CountStrahd)
                 .BindAlignment(Alignment.CE);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Helga, "18")
                 .BindCreatures(Creature.Human, Creature.Vampire)
-                .BindCharacters(CharacterEnum.CountStrahd)
+                .BindCharacters(DarklordEnum.CountStrahd)
                 .BindAlignment(Alignment.CE);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CyrusBelview, "23")
                 .BindCreatures(Creature.Human)
-                .BindCharacters(CharacterEnum.CountStrahd)
+                .BindCharacters(DarklordEnum.CountStrahd)
                 .BindAlignment(Alignment.CN);
 
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.SpectreAbCenteer, "27");
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.ArtistaDeSlop, "27");
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.LadyIsoldeYunk, "27");
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.LadyIsoldeYunk, "27");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.AerialDuPlumette, "27").BindCreatures(Creature.Ghost).BindAlignment(Alignment.LE);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.ArtankSwilovich, "27");
@@ -135,7 +134,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.AmericoStandardski, "29");
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Beucephalus, "29, 30")
-                .BindCharacters(CharacterEnum.CountStrahd).BindCreatures(Creature.Horse, Creature.Nightmare);
+                .BindCharacters(DarklordEnum.CountStrahd).BindCreatures(Creature.Horse, Creature.Nightmare);
 
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.TatsaulEris, "30");
 
@@ -145,7 +144,7 @@ internal static partial class AddToDatabase
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.FatherDonavich, "9").BindCreatures(Creature.Human).BindAlignment(Alignment.LG);
 
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CountStrahd)
+            DomainEnum.Barovia.AddLivingCharacter(DarklordEnum.CountStrahd)
                 .BindItems(ItemEnum.Book.TomeOfStrahd)
                 .BindCreatures(Creature.Human, Creature.Vampire, Creature.Bat, Creature.Wolf)
                 .BindRelatedCreatures(Creature.Worg, Creature.StrahdZombie, Creature.Zombie)
@@ -169,20 +168,20 @@ internal static partial class AddToDatabase
                 .BindCreatures(Creature.Spectre).BindAlignment(Alignment.LE);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.SashaIvliskova, "28")
-                .BindCharacters(CharacterEnum.CountStrahd)
+                .BindCharacters(DarklordEnum.CountStrahd)
                 .BindCreatures(Creature.Human, Creature.Vampire).BindAlignment(Alignment.CE);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.PatrinaVelikovna, "28")
-                .BindCharacters(CharacterEnum.CountStrahd)
+                .BindCharacters(DarklordEnum.CountStrahd)
                 .BindCreatures(Creature.Elf, Creature.Banshee).BindAlignment(Alignment.CE);
 
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "1, 30, 31").BindCreatures(Creature.Human)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.Sergei);
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.Sergei);
 
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.KolyanIndirovich, "7, 8, 9").BindCreatures(Creature.Human)
                 .BindCharacters(CharacterEnum.IreenaKolyana, CharacterEnum.Ismark);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.IreenaKolyana).BindCreatures(Creature.Human).BindAlignment(Alignment.LG)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.Ismark);
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.Ismark);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Ismark, "8, 9").BindCreatures(Creature.Human).BindAlignment(Alignment.LG);
 
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadMary, "9, 19").BindCreatures(Creature.Human).BindAlignment(Alignment.CN)
@@ -195,8 +194,7 @@ internal static partial class AddToDatabase
             #endregion
 
             #region Items
-            DomainEnum.Barovia.AddItem(ItemEnum.Sunsword, "5, 31");
-            DomainEnum.OutsideRavenloft.AddItem(ItemEnum.Sunsword, "5, 31");
+            DomainEnum.Barovia.AddItem(ItemEnum.Sunsword, "5, 31").BindDomains(DomainEnum.OutsideRavenloft);
 
             DomainEnum.Barovia.AddItem(ItemEnum.IconOfRaven, "14");
             DomainEnum.Barovia.AddItem(ItemEnum.SymbolOfRaven, "17, 30").BindCreatures(Creature.Vampire);
@@ -246,11 +244,11 @@ internal static partial class AddToDatabase
 
             #region Locations
             DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "5, 12").BindItems(ItemEnum.Book.MissingEntry)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.Tatyana, CharacterEnum.Sergei);
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.Tatyana, CharacterEnum.Sergei);
 
             DomainEnum.Mordent.AddSettlement(Settlement.Mordentshire)
                 .BindCreatures(Creature.CrimsonDeath, Creature.Drelb, Creature.InvisibleStalker, Creature.LurkerAbove, Creature.ShadowMastiff, Creature.Spectre, Creature.Wraith, Creature.Lich, Creature.GroaningSpirit, Creature.Human, Creature.Ghast, Creature.BlackCat, Creature.Wight, Creature.Dog, Creature.Raven)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.LadyWeathermay, CharacterEnum.OldLadyWeathermay, CharacterEnum.LordWeathermay, CharacterEnum.MistressArdent, CharacterEnum.Germain, CharacterEnum.Marion, CharacterEnum.Dominic, CharacterEnum.Luker, CharacterEnum.CavelWarden, CharacterEnum.KedarKlienan, CharacterEnum.Justinian, CharacterEnum.Honorius, CharacterEnum.Carlisle, CharacterEnum.BrennaRaven, CharacterEnum.TabbFinhallen, CharacterEnum.KirkTerrinton, CharacterEnum.MayorMalvinHeatherby, CharacterEnum.TylerSmythy, CharacterEnum.GregorBoyd, CharacterEnum.AzalinRex, CharacterEnum.GlennaWarden, CharacterEnum.Gwydion, CharacterEnum.GastonHedgewick, CharacterEnum.ArianaBartel, CharacterEnum.CarinaLoch, CharacterEnum.DarcyPease, CharacterEnum.BathildaSud, CharacterEnum.IdaHobson, CharacterEnum.KynaSmythy, CharacterEnum.SolitaMaravan, CharacterEnum.UstisMaravan, CharacterEnum.SterlingToddburry, CharacterEnum.EthanToddburry, CharacterEnum.ChristinaBartel, CharacterEnum.EricaToddburry, CharacterEnum.FatherJoshuaTalbot, CharacterEnum.NormalKervil, CharacterEnum.NeolaCaraway, CharacterEnum.SilasArcher, CharacterEnum.VioletArcher, CharacterEnum.PenelopeArcher, CharacterEnum.ElwinHobson, CharacterEnum.TildaMayberry, CharacterEnum.FreedaMayberry, CharacterEnum.BerwinHedgewick, CharacterEnum.LenorHedgewick, CharacterEnum.LobeliaTarner, CharacterEnum.RaeSoddenter, CharacterEnum.ParvisSoddenter, CharacterEnum.LeeHeatherby, CharacterEnum.MargaretHeatherby, CharacterEnum.TobaisKenkiny, CharacterEnum.DesmaKenkiny, CharacterEnum.LordWilfredGodefroy, CharacterEnum.LadyEstelleWeathermayGodefroy, CharacterEnum.LiliaGodefroy, CharacterEnum.GoodmanMorris, CharacterEnum.LordRenier, CharacterEnum.VoglerKervil, CharacterEnum.Marston, CharacterEnum.Ellie, CharacterEnum.AxtelBartel, CharacterEnum.BarthKleinen, CharacterEnum.PercivalSud, CharacterEnum.HargelGrummsh, CharacterEnum.EismanKhargug, CharacterEnum.CoriemonHandlet, CharacterEnum.GorbaghSnarltooth, CharacterEnum.GastonImrad, CharacterEnum.SheclkeDuskman, CharacterEnum.ArlieEsterbridge, CharacterEnum.CarlRamm, CharacterEnum.TandleCoreystal, CharacterEnum.EllenStinworthy, CharacterEnum.KarenEdgerton, CharacterEnum.Sshhisthulhuu, CharacterEnum.WinifredKleinen, CharacterEnum.BridgetDumas, CharacterEnum.BaronFielders, CharacterEnum.BaronessFielders, CharacterEnum.LadyFielders, CharacterEnum.Lucifer, CharacterEnum.EmmaKelley, CharacterEnum.Tintantilus, CharacterEnum.CharityBliss, CharacterEnum.ThadeusMontBreezar, CharacterEnum.MystiTokana, CharacterEnum.AmarBoriSandflinger, CharacterEnum.RogoldGildenman, CharacterEnum.Barnabas, CharacterEnum.PhillipeDelamana, CharacterEnum.Rembrania, CharacterEnum.BrendaCrimsonBlade, CharacterEnum.Sugartooth, CharacterEnum.BrotherSummer, CharacterEnum.Muffin, CharacterEnum.TGRedanto, CharacterEnum.Apricot, CharacterEnum.MikhailYelkif, CharacterEnum.Trellgaard, CharacterEnum.MasterIlmen, CharacterEnum.CaareyGelthik, CharacterEnum.SeanTimothy, CharacterEnum.JerimyEstmore, CharacterEnum.MasterTangle, CharacterEnum.WrenThims, CharacterEnum.SharonTeece, CharacterEnum.MollyGrayswit, CharacterEnum.Stelwaard, CharacterEnum.ThinnBalder, CharacterEnum.BadderGhastling, CharacterEnum.EstherTimothy, CharacterEnum.GeamPelstap, CharacterEnum.MaquirLoft, CharacterEnum.MirandaLangstry, CharacterEnum.KelmanOsterlaker, CharacterEnum.FionaMatheson, CharacterEnum.Fanerath, CharacterEnum.Hellinken, CharacterEnum.KattleLisbury, CharacterEnum.EmoryMaus, CharacterEnum.MarcusLithe, CharacterEnum.NendrumSintel, CharacterEnum.ThellactinMianns, CharacterEnum.KellyDuncan, CharacterEnum.CheldonIllcome, CharacterEnum.Mythrel, CharacterEnum.MillicentHodgson, CharacterEnum.NatterlyKnutnor, CharacterEnum.EowinTimothy, CharacterEnum.MomsinAlenny, CharacterEnum.ShingolTann, CharacterEnum.LarsonChelf, CharacterEnum.YettergunFolie, CharacterEnum.LeslieKale)
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.LadyWeathermay, CharacterEnum.OldLadyWeathermay, CharacterEnum.LordWeathermay, CharacterEnum.MistressArdent, CharacterEnum.Germain, CharacterEnum.Marion, CharacterEnum.Dominic, CharacterEnum.Luker, CharacterEnum.CavelWarden, CharacterEnum.KedarKlienan, CharacterEnum.Justinian, CharacterEnum.Honorius, CharacterEnum.Carlisle, CharacterEnum.BrennaRaven, CharacterEnum.TabbFinhallen, CharacterEnum.KirkTerrinton, CharacterEnum.MayorMalvinHeatherby, CharacterEnum.TylerSmythy, CharacterEnum.GregorBoyd, DarklordEnum.AzalinRex, CharacterEnum.GlennaWarden, CharacterEnum.Gwydion, CharacterEnum.GastonHedgewick, CharacterEnum.ArianaBartel, CharacterEnum.CarinaLoch, CharacterEnum.DarcyPease, CharacterEnum.BathildaSud, CharacterEnum.IdaHobson, CharacterEnum.KynaSmythy, CharacterEnum.SolitaMaravan, CharacterEnum.UstisMaravan, CharacterEnum.SterlingToddburry, CharacterEnum.EthanToddburry, CharacterEnum.ChristinaBartel, CharacterEnum.EricaToddburry, CharacterEnum.FatherJoshuaTalbot, CharacterEnum.NormalKervil, CharacterEnum.NeolaCaraway, CharacterEnum.SilasArcher, CharacterEnum.VioletArcher, CharacterEnum.PenelopeArcher, CharacterEnum.ElwinHobson, CharacterEnum.TildaMayberry, CharacterEnum.FreedaMayberry, CharacterEnum.BerwinHedgewick, CharacterEnum.LenorHedgewick, CharacterEnum.LobeliaTarner, CharacterEnum.RaeSoddenter, CharacterEnum.ParvisSoddenter, CharacterEnum.LeeHeatherby, CharacterEnum.MargaretHeatherby, CharacterEnum.TobaisKenkiny, CharacterEnum.DesmaKenkiny, DarklordEnum.WilfredGodefroy, CharacterEnum.LadyEstelleWeathermayGodefroy, CharacterEnum.LiliaGodefroy, CharacterEnum.GoodmanMorris, CharacterEnum.LordRenier, CharacterEnum.VoglerKervil, CharacterEnum.Marston, CharacterEnum.Ellie, CharacterEnum.AxtelBartel, CharacterEnum.BarthKleinen, CharacterEnum.PercivalSud, CharacterEnum.HargelGrummsh, CharacterEnum.EismanKhargug, CharacterEnum.CoriemonHandlet, CharacterEnum.GorbaghSnarltooth, CharacterEnum.GastonImrad, CharacterEnum.SheclkeDuskman, CharacterEnum.ArlieEsterbridge, CharacterEnum.CarlRamm, CharacterEnum.TandleCoreystal, CharacterEnum.EllenStinworthy, CharacterEnum.KarenEdgerton, CharacterEnum.Sshhisthulhuu, CharacterEnum.WinifredKleinen, CharacterEnum.BridgetDumas, CharacterEnum.BaronFielders, CharacterEnum.BaronessFielders, CharacterEnum.LadyFielders, CharacterEnum.Lucifer, CharacterEnum.EmmaKelley, CharacterEnum.Tintantilus, CharacterEnum.CharityBliss, CharacterEnum.ThadeusMontBreezar, CharacterEnum.MystiTokana, CharacterEnum.AmarBoriSandflinger, CharacterEnum.RogoldGildenman, CharacterEnum.Barnabas, CharacterEnum.PhillipeDelamana, CharacterEnum.Rembrania, CharacterEnum.BrendaCrimsonBlade, CharacterEnum.Sugartooth, CharacterEnum.BrotherSummer, CharacterEnum.Muffin, CharacterEnum.TGRedanto, CharacterEnum.Apricot, CharacterEnum.MikhailYelkif, CharacterEnum.Trellgaard, CharacterEnum.MasterIlmen, CharacterEnum.CaareyGelthik, CharacterEnum.SeanTimothy, CharacterEnum.JerimyEstmore, CharacterEnum.MasterTangle, CharacterEnum.WrenThims, CharacterEnum.SharonTeece, CharacterEnum.MollyGrayswit, CharacterEnum.Stelwaard, CharacterEnum.ThinnBalder, CharacterEnum.BadderGhastling, CharacterEnum.EstherTimothy, CharacterEnum.GeamPelstap, CharacterEnum.MaquirLoft, CharacterEnum.MirandaLangstry, CharacterEnum.KelmanOsterlaker, CharacterEnum.FionaMatheson, CharacterEnum.Fanerath, CharacterEnum.Hellinken, CharacterEnum.KattleLisbury, CharacterEnum.EmoryMaus, CharacterEnum.MarcusLithe, CharacterEnum.NendrumSintel, CharacterEnum.ThellactinMianns, CharacterEnum.KellyDuncan, CharacterEnum.CheldonIllcome, CharacterEnum.Mythrel, CharacterEnum.MillicentHodgson, CharacterEnum.NatterlyKnutnor, CharacterEnum.EowinTimothy, CharacterEnum.MomsinAlenny, CharacterEnum.ShingolTann, CharacterEnum.LarsonChelf, CharacterEnum.YettergunFolie, CharacterEnum.LeslieKale)
                 .BindItems(ItemEnum.Apparatus, ItemEnum.Rod.Rastinon, ItemEnum.SoulSearcher, ItemEnum.Ring.Reverse, ItemEnum.Book.AlchemistDiary, ItemEnum.Book.MissingEntry, ItemEnum.Sunsword, ItemEnum.Scroll.NegPlaneProt, ItemEnum.LocketOfSealing, ItemEnum.Potion.Climb, ItemEnum.Potion.ExtraHeal, ItemEnum.Potion.Speed, ItemEnum.Potion.SuperHero, ItemEnum.Scroll.HolySymbol, ItemEnum.Scroll.InvisToUndead, ItemEnum.Scroll.ProtEvil, ItemEnum.Scroll.Restore, ItemEnum.Potion.ClairAud, ItemEnum.Potion.Dim, ItemEnum.Elixir.Mad, ItemEnum.MirrorOfLaw, ItemEnum.Book.TheInnerSoul, ItemEnum.IncenseOfMed, ItemEnum.Book.THENATUREOFTHESOUL, ItemEnum.SunBlade, ItemEnum.SwordOfWound, ItemEnum.Ring.DetGood, ItemEnum.Rope.Entangle, ItemEnum.MedallionOfProt, ItemEnum.FlashGrenade, ItemEnum.Cloak.Prot, ItemEnum.Ring.Regen, ItemEnum.GemOfLight, ItemEnum.Scroll.Storing, ItemEnum.Scroll.ProtUnd, ItemEnum.Brooch.ProtGood, ItemEnum.Ring.ProtNM, ItemEnum.Ring.Aim, ItemEnum.Potion.Heal, ItemEnum.Cloak.Disp, ItemEnum.Ring.Prot, ItemEnum.Elixir.Health, ItemEnum.Scroll.Calling, ItemEnum.BracersOfDefense, ItemEnum.DartOfHoming, ItemEnum.DaggerOfVenom, ItemEnum.Staff.ThunderAndLightning, ItemEnum.PowderOfHaste, ItemEnum.Elixir.Displace, ItemEnum.Potion.CSNW, ItemEnum.Rod.Flail, ItemEnum.Scroll.ProtWnS, ItemEnum.Staff.Strike, ItemEnum.AlchemyJug, ItemEnum.StoneOfControlEarth, ItemEnum.Scroll.ProtDev, ItemEnum.Scroll.ProtDem, ItemEnum.Scroll.ProtPet, ItemEnum.Ring.WaterWalk, ItemEnum.DragonSlayer, ItemEnum.HornOfValhalla, ItemEnum.ArrowOfDirect, ItemEnum.TrollCleaver, ItemEnum.PhylacteryOfFaith, ItemEnum.SwordOfLifeSteal, ItemEnum.Rope.Climb, ItemEnum.Scarab.Prot);
 
             DomainEnum.Mordent.AddLocation(LocationEnum.SaulbridgeSanitarium, "6, 13, 23, 24, Cargo Roster")
@@ -261,17 +259,17 @@ internal static partial class AddToDatabase
             DomainEnum.Mordent.AddLocation(LocationEnum.GryphonHillMansion, "1, 2, 7, 16, 19, 22, 23, 26, 28-31, 44, 47, 48")
                 .BindCreatures(Creature.Vampire, Creature.GroaningSpirit, Creature.Gargoyle, Creature.StoneGolem, Creature.Spirit, Creature.Ghost, Creature.Mouse, Creature.GiantSpider, Creature.Shade, Creature.Haunt, Creature.Drelb, Creature.Stirge, Creature.LurkerAbove, Creature.QuasiElementalLightning, Creature.GreenSlime)
                 .BindLocations(LocationEnum.GryphonHill)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.LordRenier, CharacterEnum.LordWilfredGodefroy, CharacterEnum.LadyEstelleWeathermayGodefroy, CharacterEnum.LiliaGodefroy, CharacterEnum.GastonImrad, CharacterEnum.SheclkeDuskman, CharacterEnum.ArlieEsterbridge, CharacterEnum.CarlRamm, CharacterEnum.TandleCoreystal, CharacterEnum.EllenStinworthy, CharacterEnum.KarenEdgerton, CharacterEnum.Sshhisthulhuu)
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.LordRenier, DarklordEnum.WilfredGodefroy, CharacterEnum.LadyEstelleWeathermayGodefroy, CharacterEnum.LiliaGodefroy, CharacterEnum.GastonImrad, CharacterEnum.SheclkeDuskman, CharacterEnum.ArlieEsterbridge, CharacterEnum.CarlRamm, CharacterEnum.TandleCoreystal, CharacterEnum.EllenStinworthy, CharacterEnum.KarenEdgerton, CharacterEnum.Sshhisthulhuu)
                 .BindItems(ItemEnum.Sunsword, ItemEnum.Book.TheInnerSoul, ItemEnum.IncenseOfMed, ItemEnum.Apparatus);
 
             DomainEnum.Mordent.AddLocation(LocationEnum.HeatherHouse, "1, 3, 10, 13, 15, 16, 19, 24, 26, 32-39, 41, 44, 45, 47, Cargo Roster")
                 .BindCreatures(Creature.GiantToad, Creature.Stirge, Creature.GreenSlime, Creature.Vampire, Creature.InvisibleStalker, Creature.Haunt, Creature.Shade, Creature.GroaningSpirit, Creature.Banshee, Creature.Horse, Creature.SkeletalSteed, Creature.Maggot, Creature.StrahdZombie, Creature.StoneGolem, Creature.Gargoyle, Creature.Raven, Creature.Doppelganger, Creature.StrahdSkeleton, Creature.ShadowMastiff, Creature.Trapper)
-                .BindCharacters(CharacterEnum.LordWeathermay, CharacterEnum.LadyWeathermay, CharacterEnum.OldLadyWeathermay, CharacterEnum.LordRenier, CharacterEnum.MistressArdent, CharacterEnum.CountStrahd, CharacterEnum.LeeHeatherby, CharacterEnum.MargaretHeatherby, CharacterEnum.WinifredKleinen, CharacterEnum.BridgetDumas, CharacterEnum.EmmaKelley)
+                .BindCharacters(CharacterEnum.LordWeathermay, CharacterEnum.LadyWeathermay, CharacterEnum.OldLadyWeathermay, CharacterEnum.LordRenier, CharacterEnum.MistressArdent, DarklordEnum.CountStrahd, CharacterEnum.LeeHeatherby, CharacterEnum.MargaretHeatherby, CharacterEnum.WinifredKleinen, CharacterEnum.BridgetDumas, CharacterEnum.EmmaKelley)
                 .BindItems(ItemEnum.Book.THENATUREOFTHESOUL, ItemEnum.Apparatus, ItemEnum.Rod.Rastinon, ItemEnum.SoulSearcher, ItemEnum.Ring.Reverse, ItemEnum.Book.MissingEntry);
 
             DomainEnum.Mordent.AddLocation(LocationEnum.WeathermayMausoleum, "1, 15, 32, 38, 39, 45, 48, Event Chart")
                 .BindCreatures(Creature.Spectre, Creature.Wraith).BindItems(ItemEnum.SunBlade, ItemEnum.Apparatus)
-                .BindCharacters(CharacterEnum.AzalinRex, CharacterEnum.LordWilfredGodefroy, CharacterEnum.Tintantilus, CharacterEnum.LordRenier);
+                .BindCharacters(DarklordEnum.AzalinRex, DarklordEnum.WilfredGodefroy, CharacterEnum.Tintantilus, CharacterEnum.LordRenier);
             DomainEnum.Mordent.AddLocation(LocationEnum.BlackardInn, "14, 19, 20, Cargo Roster").BindCreatures(Creature.Spider)
                 .BindCharacters(CharacterEnum.Dominic, CharacterEnum.Gwydion);
             DomainEnum.Mordent.AddLocation(LocationEnum.Livery, "14")
@@ -356,24 +354,21 @@ internal static partial class AddToDatabase
             #endregion
 
             #region Characters
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CountStrahd);
-            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.CountStrahd)
-                .BindAlignment(Alignment.CE | Alignment.NG)
+            DomainEnum.Mordent.AddLivingCharacter(DarklordEnum.CountStrahd)
+                .BindAlignment(Alignment.CE | Alignment.NG).BindDomains(DomainEnum.Barovia)
                 .BindCreatures(Creature.Human, Creature.Vampire, Creature.Bat, Creature.Wolf)
                 .BindRelatedCreatures(Creature.Banshee, Creature.StrahdZombie, Creature.StrahdSkeleton, Creature.DireWolf, Creature.Hellhound, Creature.ShadowMastiff, Creature.Raven, Creature.VampireBat, Creature.Rat, Creature.Bat, Creature.Quasit, Creature.Werewolf, Creature.Harpy, Creature.Ogre, Creature.Vulture, Creature.Nightmare, Creature.BlackCat, Creature.StrahdSteed)
                 .BindItems(ItemEnum.SwordOfWound, ItemEnum.Ring.DetGood, ItemEnum.Rope.Entangle, ItemEnum.MedallionOfProt, ItemEnum.FlashGrenade, ItemEnum.Cloak.Prot, ItemEnum.Ring.Regen, ItemEnum.GemOfLight, ItemEnum.Scroll.Storing)
                 .ExtraInfo = "Referred to here as either 'Alchemist' or 'Creature'";
 
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Sergei, "5")
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.Tatyana)
-                .BindCreatures(Creature.Human);
+            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Sergei, "5").BindCreatures(Creature.Human)
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.Tatyana);
 
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "5, 47")
-                .BindCharacters(CharacterEnum.CountStrahd);
+            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "5, 47").BindCharacters(DarklordEnum.CountStrahd);
 
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.LadyWeathermay, "3, 6-9, 32, 33, 36, 40, 44, 45, Cargo Roster")
                 .BindCreatures(Creature.Human).BindAlignment(Alignment.LG)
-                .BindCharacters(CharacterEnum.OldLadyWeathermay, CharacterEnum.LordWeathermay, CharacterEnum.CountStrahd, CharacterEnum.MistressArdent)
+                .BindCharacters(CharacterEnum.OldLadyWeathermay, CharacterEnum.LordWeathermay, DarklordEnum.CountStrahd, CharacterEnum.MistressArdent)
                 .BindItems(ItemEnum.Ring.Prot, ItemEnum.Elixir.Health, ItemEnum.Scroll.Calling, ItemEnum.BracersOfDefense);
 
             DomainEnum.Mordent.AddDeadCharacter(CharacterEnum.OldLadyWeathermay, "35, 36, 38")
@@ -415,7 +410,7 @@ internal static partial class AddToDatabase
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.TylerSmythy, "16, 20, Transpossession Rosters Handout").BindCreatures(Creature.Human);
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.GregorBoyd, "17").BindCreatures(Creature.Human);
 
-            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.AzalinRex, "17, 38, 39, Transpossession Rosters Handout")
+            DomainEnum.Mordent.AddLivingCharacter(DarklordEnum.AzalinRex, "17, 38, 39, Transpossession Rosters Handout")
                 .BindCreatures(Creature.Human, Creature.Lich, Creature.Quasit, Creature.Horse).BindAlignment(Alignment.NE)
                 .BindCharacters(CharacterEnum.Tintantilus)
                 .BindItems(ItemEnum.DartOfHoming, ItemEnum.DaggerOfVenom, ItemEnum.Staff.ThunderAndLightning, ItemEnum.PowderOfHaste, ItemEnum.Elixir.Displace, ItemEnum.Potion.CSNW);
@@ -476,7 +471,7 @@ internal static partial class AddToDatabase
                 .BindCreatures(Creature.Human).BindCharacters(CharacterEnum.DesmaKenkiny);
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.DesmaKenkiny, "23, Transpossession Rosters Handout").BindCreatures(Creature.Human);
 
-            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.LordWilfredGodefroy, "23, 28, 31, 39, Transpossession Rosters Handout")
+            DomainEnum.Mordent.AddLivingCharacter(DarklordEnum.WilfredGodefroy, "23, 28, 31, 39, Transpossession Rosters Handout")
                 .BindCreatures(Creature.Human, Creature.Haunt).BindAlignment(Alignment.CN);
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.LadyEstelleWeathermayGodefroy, "23, 28, 29, Transpossession Rosters Handout")
                 .BindCreatures(Creature.Human, Creature.Ghost);
@@ -488,9 +483,8 @@ internal static partial class AddToDatabase
             CharacterEnum.GoodmanMorris.ExtraInfo = CharacterEnum.LordRenier.ExtraInfo = "Probably deceased";
 
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.VoglerKervil, "23, Transpossession Rosters Handout").BindCreatures(Creature.Human);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CyrusBelview, "24").BindCreatures(Creature.Human).BindCharacters(CharacterEnum.CountStrahd);
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CyrusBelview, "24").BindCreatures(Creature.Human).BindCharacters(DarklordEnum.CountStrahd);
 
-            DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.VoglerKervil, "23, Transpossession Rosters Handout").BindCreatures(Creature.Human);
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Marston, "24").BindCreatures(Creature.Human);
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.Ellie, "24").BindCreatures(Creature.Human);
 
@@ -623,22 +617,19 @@ internal static partial class AddToDatabase
             #endregion
 
             #region Items
-            DomainEnum.Barovia.AddItem(ItemEnum.Apparatus, "3, 4, 6, 8, 10, 14, 19, 26, 30-32, 34-41, 43-48, Adventure Plot");
-            DomainEnum.Mordent.AddItem(ItemEnum.Apparatus, "3, 4, 6, 8, 10, 14, 19, 26, 30-32, 34-41, 43-48, Adventure Plot");
-            DomainEnum.Barovia.AddItem(ItemEnum.Rod.Rastinon, "3, 4, 6, 8, 10, 17, 30, 40, 46, Adventure Plot");
-            DomainEnum.Mordent.AddItem(ItemEnum.Rod.Rastinon, "3, 4, 6, 8, 10, 17, 30, 40, 46, Adventure Plot").BindItems(ItemEnum.Apparatus);
+            DomainEnum.Mordent.AddItem(ItemEnum.Apparatus, "3, 4, 6, 8, 10, 14, 19, 26, 30-32, 34-41, 43-48, Adventure Plot")
+                .BindDomains(DomainEnum.Barovia);
+            DomainEnum.Mordent.AddItem(ItemEnum.Rod.Rastinon, "3, 4, 6, 8, 10, 17, 30, 40, 46, Adventure Plot")
+                .BindDomains(DomainEnum.Barovia).BindItems(ItemEnum.Apparatus);
             DomainEnum.Mordent.AddItem(ItemEnum.SoulSearcher, "3, 6, 7, 10, 14, 46, Adventure Plot");
             DomainEnum.Mordent.AddItem(ItemEnum.Ring.Reverse, "3, 6, 7, 10, 14, 26, 46, Adventure Plot").BindAlignment(Alignment.NG);
 
-            DomainEnum.Mordent.AddItem(ItemEnum.Book.AlchemistDiary, "7, 10, 41, 47, Adventure Plot").BindCharacters(CharacterEnum.CountStrahd);
-            DomainEnum.Mordent.AddItem(ItemEnum.Book.MissingEntry, "3, 6, 10, 41, 47, Adventure Plot").BindCharacters(CharacterEnum.CountStrahd)
+            DomainEnum.Mordent.AddItem(ItemEnum.Book.AlchemistDiary, "7, 10, 41, 47, Adventure Plot").BindCharacters(DarklordEnum.CountStrahd);
+            DomainEnum.Mordent.AddItem(ItemEnum.Book.MissingEntry, "3, 6, 10, 41, 47, Adventure Plot").BindCharacters(DarklordEnum.CountStrahd)
                 .BindItems(ItemEnum.Book.AlchemistDiary).ExtraInfo = "Missing entry/entries of the Alchemist`s Diary.";
 
-            DomainEnum.Mordent.AddItem(ItemEnum.Sunsword, "12, 41");
-            DomainEnum.Barovia.AddItem(ItemEnum.Sunsword, "12, 41");
-
-            DomainEnum.Mordent.AddItem(ItemEnum.IconOfRaven, "12");
-            DomainEnum.Barovia.AddItem(ItemEnum.IconOfRaven, "12");
+            DomainEnum.Mordent.AddItem(ItemEnum.Sunsword, "12, 41").BindDomains(DomainEnum.Barovia);
+            DomainEnum.Mordent.AddItem(ItemEnum.IconOfRaven, "12").BindDomains(DomainEnum.Barovia);
 
             DomainEnum.Mordent.AddItem(ItemEnum.Scroll.NegPlaneProt, "25");
             DomainEnum.Mordent.AddItem(ItemEnum.LocketOfSealing, "25");
@@ -721,8 +712,7 @@ internal static partial class AddToDatabase
             #endregion
 
             #region Groups
-            DomainEnum.OutsideRavenloft.AddGroup(GroupEnum.HighFaithOsterton, "10, Card Handout");
-            DomainEnum.Mordent.AddGroup(GroupEnum.HighFaithOsterton, "10, Card Handout")
+            DomainEnum.Mordent.AddGroup(GroupEnum.HighFaithOsterton, "10, Card Handout").BindDomains(DomainEnum.OutsideRavenloft)
                 .BindCharacters(CharacterEnum.ThadeusMontBreezar, CharacterEnum.RogoldGildenman, CharacterEnum.AmarBoriSandflinger, CharacterEnum.PhillipeDelamana, CharacterEnum.BrotherSummer, CharacterEnum.BrendaCrimsonBlade, CharacterEnum.MystiTokana, CharacterEnum.TGRedanto);
             #endregion
 

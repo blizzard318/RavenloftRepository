@@ -19,10 +19,9 @@
         public static readonly Trait Dragonlance = CreateSetting("Dragonlance");
         public static readonly Trait Eberron = CreateSetting("Eberron");
         public static readonly Trait MasqueOfRedDeath = CreateSetting("Masque of Red Death");
-
     }
 
-    [Flags] public enum Alignment { none = 0, LG = 1, LN = 1 << 1, LE = 1 << 2, NG = 1 << 3, TN = 1 << 4, NE = 1 << 5, CG = 1 << 6, CN = 1 << 7, CE = 1 << 8 };
+    [Flags] public enum Alignment { LG = 1, LN = 1 << 1, LE = 1 << 2, NG = 1 << 3, TN = 1 << 4, NE = 1 << 5, CG = 1 << 6, CN = 1 << 7, CE = 1 << 8 };
     public static string AlignmentToString(Alignment e)
     {
         var retval = new List<string>();

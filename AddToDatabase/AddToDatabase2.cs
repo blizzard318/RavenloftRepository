@@ -21,21 +21,18 @@ internal static partial class AddToDatabase
 
             DomainEnum.Lamordia.AddLocation(LocationEnum.DharlaethAsylum).BindCharacters(CharacterEnum.HowardAshton, CharacterEnum.DoctorAugustus, CharacterEnum.NurseRoberts).ExtraInfo = "Whilst not stated in the story, Ari Marmell said the Asylum is located in Lamordia.<a href='https://bsky.app/profile/mouseferatu.bsky.social/post/3kelemhzy2l2n'>Bluesky Link</a>";
 
-            DomainEnum.Bluetspur.AddLivingCharacter(CharacterEnum.Clarke);
-            DomainEnum.Darkon.AddLivingCharacter(CharacterEnum.Clarke);
-            CharacterEnum.Clarke.BindCreatures(Creature.Human).ExtraInfo = "Probably deceased";
+            DomainEnum.Darkon.AddLivingCharacter(CharacterEnum.Clarke).BindCreatures(Creature.Human)
+                .BindDomains(DomainEnum.Bluetspur).ExtraInfo = "Probably deceased";
 
-            DomainEnum.Bluetspur.AddDeadCharacter(CharacterEnum.Phillips);
-            DomainEnum.Darkon.AddDeadCharacter(CharacterEnum.Phillips).BindCreatures(Creature.Human);
+            DomainEnum.Darkon.AddDeadCharacter(CharacterEnum.Phillips).BindCreatures(Creature.Human)
+                .BindDomains(DomainEnum.Bluetspur);
 
             DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorAugustus).BindCreatures(Creature.Human);
 
             DomainEnum.Lamordia.AddDeadCharacter(CharacterEnum.NurseRoberts).BindCreatures(Creature.Human);
 
-            DomainEnum.Bluetspur.AddLivingCharacter(CharacterEnum.HowardAshton);
-            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.HowardAshton);
-            DomainEnum.Darkon.AddLivingCharacter(CharacterEnum.HowardAshton);
-            CharacterEnum.HowardAshton.BindCreatures(Creature.Human);
+            DomainEnum.Darkon.AddLivingCharacter(CharacterEnum.HowardAshton).BindCreatures(Creature.Human)
+                .BindDomains(DomainEnum.Bluetspur, DomainEnum.Lamordia);
         }
         void AddMasterOfRavenloft()
         {
@@ -52,14 +49,14 @@ internal static partial class AddToDatabase
                 .BindCreatures(Creature.Bat, Creature.Vampire, Creature.Gargoyle, Creature.Mummy,
                                                             Creature.Mimic, Creature.Wolf, Creature.Spectre, Creature.StrahdZombie,
                                                             Creature.Human, Creature.Zombie, Creature.GiantSpider, Creature.Haunt)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.JerenSureblade, CharacterEnum.IreenaKolyana,
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.JerenSureblade, CharacterEnum.IreenaKolyana,
                                                    CharacterEnum.Tatyana, CharacterEnum.KingBarov, CharacterEnum.Ravenovia, CharacterEnum.Sergei)
                 .BindItems(ItemEnum.SymbolOfRaven, ItemEnum.IconOfRaven, ItemEnum.Sunsword)
                 .BindGroups(GroupEnum.HighPriestRavenloft);
 
             DomainEnum.Barovia.AddSettlement(Settlement.Barovia, "18, 21, 23, 24, 29, 30, 32, 34, 36, 40, 42-44, 46, 50, 52, 57, 60, 90, 96, 107, 110, 129, 144, 145, 152, 160, 162, 169, 170, 182, 187")
                 .BindCreatures(Creature.VampireBat, Creature.Bat, Creature.Horse)
-                .BindCharacters(CharacterEnum.CountStrahd, CharacterEnum.JerenSureblade, CharacterEnum.IreenaKolyana, CharacterEnum.FatherDonavich)
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.JerenSureblade, CharacterEnum.IreenaKolyana, CharacterEnum.FatherDonavich)
                 .BindGroups(GroupEnum.Burgomaster, GroupEnum.BurgomasterOfBarovia)
                 .BindLocations(LocationEnum.BaroviaChurch);
 
@@ -76,7 +73,7 @@ internal static partial class AddToDatabase
                                                    ItemEnum.Decanter, ItemEnum.SymbolOfRaven, ItemEnum.IconOfRaven, ItemEnum.Sunsword,
                                                    ItemEnum.Amulet.Light, ItemEnum.Potion.Heal);
 
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.CountStrahd)
+            DomainEnum.Barovia.AddLivingCharacter(DarklordEnum.CountStrahd)
                 .BindCreatures(Creature.Human, Creature.Vampire, Creature.Bat)
                 .BindRelatedCreatures(Creature.StrahdZombie);
 
