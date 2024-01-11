@@ -49,6 +49,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddLocation(LocationEnum.BaroviaCemetery, "9, 11").BindCreatures(Creature.Spirit);
 
             DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampnent, "11");
+            DomainEnum.Barovia.AddLocation(LocationEnum.TserPool, "11");
             DomainEnum.Barovia.AddLocation(LocationEnum.MadamEvasTent, "11");
             DomainEnum.Barovia.AddLocation(LocationEnum.RoadJunction, "11");
             DomainEnum.Barovia.AddLocation(LocationEnum.TserFalls, "11");
@@ -80,7 +81,7 @@ internal static partial class AddToDatabase
             #region Characters
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadamEva,"1, 6, 11, 32")
                 .BindLocations(Settlement.TserPoolEncampnent, LocationEnum.MadamEvasTent)
-                .BindGroups(GroupEnum.Vistani)
+                .BindGroups(GroupEnum.Vistani, GroupEnum.Raunie)
                 .BindCreatures(Creature.Human)
                 .BindAlignment(Alignment.CN);
 
@@ -223,7 +224,7 @@ internal static partial class AddToDatabase
 
             Settlement.Barovia.PopulateSettlement(LocationEnum.BildrathMercantile, LocationEnum.BloodVineTavern, LocationEnum.MaryHouse, LocationEnum.BurgomasterHome,
                                                   LocationEnum.BurgomasterGuestHouse, LocationEnum.BaroviaChurch, LocationEnum.BaroviaChurch);
-            Settlement.TserPoolEncampnent.PopulateSettlement(LocationEnum.MadamEvasTent);
+            Settlement.TserPoolEncampnent.PopulateSettlement(LocationEnum.TserPool, LocationEnum.MadamEvasTent);
         }
         void AddI10TheHouseOnGryphonHill()
         {

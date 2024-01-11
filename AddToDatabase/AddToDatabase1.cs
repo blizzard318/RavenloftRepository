@@ -1,5 +1,4 @@
 ﻿using static Factory;
-using static System.Net.WebRequestMethods;
 
 internal static partial class AddToDatabase
 {
@@ -261,7 +260,8 @@ internal static partial class AddToDatabase
                 var AddedExtraInfo = ExtraInfo + "<br/>This set was made by fans, but was still using Spellfire trademark.";
                 using var ctx = CreateSource("Spellfire: Master the Magic, Inquisition Set", releaseDate, AddedExtraInfo, Edition.e0, Media.boardgame, Canon.nc);
 
-                DomainEnum.Sithicus.AddLivingCharacter(DarklordEnum.LordSoth, "87/99").BindCharacters(CharacterEnum.SothSteed);
+                DomainEnum.Sithicus.AddLivingCharacter(DarklordEnum.LordSoth, "87/99").BindRelatedCreatures(Creature.Horse)
+                    .BindCharacters(CharacterEnum.SothSteed);
                 DomainEnum.Sithicus.AddLivingCharacter(CharacterEnum.SothSteed, "87/99").BindCreatures(Creature.Horse);
             }
             void AddMilleniumSet()

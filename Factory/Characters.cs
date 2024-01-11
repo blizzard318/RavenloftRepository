@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using System.Diagnostics.Metrics;
-using static Factory.ItemEnum;
-
-public partial class Factory : IDisposable
+﻿public partial class Factory : IDisposable
 {
     internal static class CharacterEnum
     {
@@ -77,6 +73,13 @@ public partial class Factory : IDisposable
         public readonly static Character Bilkon = CreateCharacter("Bilkon");
         public readonly static Character Burganet = CreateCharacter("Burganet");
         public readonly static Character TheodoricTheBook = CreateCharacter("Theodoric the Book");
+        public readonly static Character Sedgewick = CreateCharacter("Sedgewick");
+        public readonly static Character Blinsky = CreateCharacter("Blinsky");
+        public readonly static Character Aisha = CreateCharacter("Aisha");
+        public readonly static Character Casius = CreateCharacter("Casius");
+        public readonly static Character Elana = CreateCharacter("Elana");
+        public readonly static Character Marnius = CreateCharacter("Marnius");
+        public readonly static Character Walla = CreateCharacter("Walla");
         #endregion
 
         #region Blaustein

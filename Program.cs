@@ -1,6 +1,7 @@
 ﻿AddToDatabase.Add0();
 AddToDatabase.Add1();
 AddToDatabase.Add2();
+AddToDatabase.Add3();
 
 var tasks = new List<Task>
 {

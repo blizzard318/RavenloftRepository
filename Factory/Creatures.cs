@@ -24,7 +24,7 @@
 
         public readonly static Trait Vulture = CreateCreature("Vulture");
         public readonly static Trait Horse = CreateCreature("Horse");
-        public readonly static Trait Dog = CreateCreature("Dog");
+        public readonly static Trait Dog = CreateCreature("Dog", "Mastiff");
         public readonly static Trait Fox = CreateCreature("Fox");
         public readonly static Trait Rat = CreateCreature("Rat");
         public readonly static Trait Pig = CreateCreature("Pig", "Swine");
@@ -64,6 +64,7 @@
         public readonly static Trait LurkerAbove = CreateCreature("Lurker Above");
 
         public readonly static Trait Unicorn = CreateCreature("Unicorn");
+        public readonly static Trait Owlbear = CreateCreature("Owlbear");
         public readonly static Trait Worg = CreateCreature("Worg");
         public readonly static Trait Griffon = CreateCreature("Griffon");
         public readonly static Trait Nightmare = CreateCreature("Nightmare");
@@ -117,6 +118,7 @@
         public readonly static Trait SeaZombie = CreateCreature("Sea Zombie");
         public readonly static Trait Skeleton = CreateCreature("Skeleton");
         public readonly static Trait Bodak = CreateCreature("Bodak");
+        public readonly static Trait CrawlingClaw = CreateCreature("Crawling Claw");
 
         public readonly static Trait GraveElemental = CreateCreature("Grave Elemental");
         public readonly static Trait AnimatedRock = CreateCreature("Animated Rock");
@@ -154,7 +156,7 @@
         public readonly static Trait MindFlayer = CreateCreature("Illithid", "Mind Flayer");
         public readonly static Trait Illithid = MindFlayer;
 
-        public readonly static Trait Werewolf = CreateCreature("Werewolf");
+        public readonly static Trait Werewolf = CreateCreature("Werewolf", "Lycanthrope");
         public readonly static Trait Wolfwere = CreateCreature("Wolfwere");
         public readonly static Trait Werebat = CreateCreature("Werebat");
         public readonly static Trait LoupGarou = CreateCreature("Loup-Garou");
@@ -164,5 +166,9 @@
         public readonly static Trait Reaver = CreateCreature("Reaver");
 
         public readonly static Trait Quickwood = CreateCreature("Quickwood");
+        public readonly static Trait TwigBlight = CreateCreature("Twig Blight");
+        public readonly static Trait NeedleBlight = CreateCreature("Needle Blight");
+        public readonly static Trait VineBlight = CreateCreature("Vine Blight");
+        public readonly static Trait AwakenedShrub = CreateCreature("Awakened Shrub");
     }
 }

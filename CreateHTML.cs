@@ -773,7 +773,7 @@ internal static class CreateHTML
 
                 sb.AppendLine($"<b>Name:</b> {source.Name}<br/>");
 
-                sb.Append($"<b>Media Type(s):</b> {MediaToString[source.Media]}<br/>");
+                sb.Append($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
 
                 sb.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
@@ -876,6 +876,7 @@ internal static class CreateHTML
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                                SplitSources.contents.AppendLine($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
                                 if (!DomainEnum.InsideRavenloft.Names.Contains(domain) &&
@@ -973,6 +974,7 @@ internal static class CreateHTML
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                                SplitSources.contents.AppendLine($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
                                 var SourceDetails = source.Characters.Where(e => e.entity == original);
@@ -1060,6 +1062,7 @@ internal static class CreateHTML
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                                SplitSources.contents.AppendLine($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
                                 var SourceDetails = source.Locations.Where(e => e.entity == original);
@@ -1151,6 +1154,7 @@ internal static class CreateHTML
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                                SplitSources.contents.AppendLine($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
                                 var SourceDetails = source.Items.Where(e => e.entity == original);
@@ -1238,6 +1242,7 @@ internal static class CreateHTML
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                                SplitSources.contents.AppendLine($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
                                 var SourceDetails = source.Groups.Where(e => e.entity == original);
@@ -1321,6 +1326,7 @@ internal static class CreateHTML
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
+                                SplitSources.contents.AppendLine($"<b>Media Type:</b> {MediaToString[source.Media]}<br/>");
                                 SplitSources.contents.AppendLine($"<b>Edition:</b> {editiontrait}<br/>");
 
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))

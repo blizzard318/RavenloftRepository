@@ -26,7 +26,9 @@ public partial class Factory : IDisposable
         public readonly static Location RiverIvlis = CreateLocation("River Ivlis");
         public readonly static Location RoadJunction = CreateLocation("Road Junction (Barovia)");
         public readonly static Location TserFalls = CreateLocation("Tser Falls");
+        public readonly static Location TserPool = CreateLocation("Tser Pool");
         public readonly static Location GatesOfRavenloft = CreateLocation("Gates of Ravenloft");
+        public readonly static Location OldBonegrinder = CreateLocation("Old Bonegrinder");
         #endregion
 
         #region Darkon
