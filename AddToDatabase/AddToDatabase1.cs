@@ -96,8 +96,9 @@ internal static partial class AddToDatabase
                 DomainEnum.InsideRavenloft.AddItem(ItemEnum.BloodCoin, "60/100");
                 DomainEnum.InsideRavenloft.AddItem(ItemEnum.Staff.Mimicry, "61/100");
                 DomainEnum.Mordent.AddItem(ItemEnum.SoulSearcher, "62/100");
-                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Ring.Reverse, "63/100");
-                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Amulet.Beast, "64/100");
+                DomainEnum.Mordent.AddItem(ItemEnum.Ring.Reverse, "63/100");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Amulet.BeastSilver, "64/100");
+                DomainEnum.InsideRavenloft.AddItem(ItemEnum.Amulet.BeastIvory, "64/100");
 
                 DomainEnum.Valachan.AddLivingCharacter(CharacterEnum.Felkovic, "65/100");
                 DomainEnum.Valachan.AddItem(ItemEnum.CatOfFelkovic, "65/100").BindCharacters(CharacterEnum.Felkovic);
@@ -778,9 +779,10 @@ internal static partial class AddToDatabase
 
                 DomainEnum.Kartakass.AddLocation(LocationEnum.ChurchOfMilil, "10/60").BindGroups(GroupEnum.Milil);
                 DomainEnum.Kartakass.AddSettlement(Settlement.Harmonia, "10/60");
-                DomainEnum.Kartakass.AddLocation(LocationEnum.MeistersingerMansion, "10/60");
-                DomainEnum.Kartakass.AddLivingCharacter(CharacterEnum.MeistersingerCasimiar, "10/60").BindAlignment(Alignment.NE)
-                    .BindCreatures(Creature.Human, Creature.Wolfwere)
+                DomainEnum.Kartakass.AddGroup(GroupEnum.Meistersinger, "10/60");
+                DomainEnum.Kartakass.AddLocation(LocationEnum.MeistersingerMansion, "10/60").BindGroups(GroupEnum.Meistersinger);
+                DomainEnum.Kartakass.AddLivingCharacter(CharacterEnum.MeistersingerCasimir, "10/60").BindAlignment(Alignment.NE)
+                    .BindCreatures(Creature.Human, Creature.Wolfwere).BindGroups(GroupEnum.Meistersinger)
                     .BindLocations(LocationEnum.ChurchOfMilil, Settlement.Harmonia, LocationEnum.MeistersingerMansion);
 
                 DomainEnum.Sithicus.Appeared("13/60");

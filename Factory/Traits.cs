@@ -47,6 +47,8 @@
         public static readonly Trait Dwarf = CreateLanguage("Dwarf", "Dwarvish");
         public static readonly Trait Orc = CreateLanguage("Orc", "Orcish");
 
+        public static readonly Trait Balok = CreateLanguage("Balok");
+
         public static readonly Trait Illithid = CreateLanguage("Illithid");
         public static readonly Trait Goblin = CreateLanguage("Goblin");
         public static readonly Trait Hobgoblin = CreateLanguage("Hobgoblin");

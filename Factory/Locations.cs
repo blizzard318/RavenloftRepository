@@ -10,6 +10,11 @@ public partial class Factory : IDisposable
             Ravenloftdb.Locations.Add(retval);
             return retval;
         }
+        #region Arak
+        public readonly static Location MountNyid = CreateLocation("Mount Nyid");
+        public readonly static Location MountNirka= CreateLocation("Mount Nirka");
+        #endregion
+
         #region Barovia
         public readonly static Location CastleRavenloft = CreateLocation("Castle Ravenloft", "Castle Strahd");
         public readonly static Location BaroviaChurch = CreateLocation("Church (Barovia)");
@@ -24,11 +29,16 @@ public partial class Factory : IDisposable
         public readonly static Location GatesOfBarovia = CreateLocation("Gates of Barovia");
         public readonly static Location SvalichWoods = CreateLocation("Svalich Woods");
         public readonly static Location RiverIvlis = CreateLocation("River Ivlis");
+        public readonly static Location RiverLuna = CreateLocation("River Luna");
         public readonly static Location RoadJunction = CreateLocation("Road Junction (Barovia)");
         public readonly static Location TserFalls = CreateLocation("Tser Falls");
         public readonly static Location TserPool = CreateLocation("Tser Pool");
         public readonly static Location GatesOfRavenloft = CreateLocation("Gates of Ravenloft");
         public readonly static Location OldBonegrinder = CreateLocation("Old Bonegrinder");
+        public readonly static Location MountBaratak = CreateLocation("Mount Baratak");
+        public readonly static Location MountGhakis = CreateLocation("Mount Ghakis");
+        public readonly static Location LakeZarovich = CreateLocation("Lake Zarovich");
+        public readonly static Location TepurichForest = CreateLocation("Tepurich Forest");
         #endregion
 
         #region Darkon
@@ -37,8 +47,39 @@ public partial class Factory : IDisposable
         public readonly static Location KargatMausoleum = CreateLocation("Kargat Mausoleum");
         #endregion
 
+        #region Dementlieu
+        public readonly static Location ParnaultBay = CreateLocation("Parnault Bay");
+        #endregion
+
+        #region Dorvinia
+        public readonly static Location MountGries = CreateLocation("Mount Gries");
+        public readonly static Location DilisnyaEstate = CreateLocation("Dilisnya Family Estate");
+        public readonly static Location DoldakHeights = CreateLocation("Doldak Heights");
+        #endregion
+
+        #region Falkovnia
+        public readonly static Location LakeKriegvogel = CreateLocation("Lake Kriegvogel");
+        #endregion
+
+        #region Forlorn
+        public readonly static Location CastleTristenoira = CreateLocation("Castle Tristenoira");
+        public readonly static Location LakeRedTears = CreateLocation("Lake of Red Tears");
+        #endregion
+
+        #region G'Henna
+        public readonly static Location Outland = CreateLocation("The Outland");
+        #endregion
+        
+        #region Gundarak
+        public readonly static Location CastleHunadora = CreateLocation("Castle Hunadora");
+        #endregion
+
         #region HarAkir
         public readonly static Location PharaohsRest = CreateLocation("Pharaoh`s Rest");
+        #endregion
+
+        #region Hazlan
+        public readonly static Location TheTables = CreateLocation("The Tables");
         #endregion
 
         #region Kartakass
@@ -77,7 +118,6 @@ public partial class Factory : IDisposable
         public readonly static Location ShoreLane = CreateLocation("Shore Lane");
         public readonly static Location MillRoad = CreateLocation("Mill Road");
         public readonly static Location MillBridge = CreateLocation("Mill Bridge");
-        public readonly static Location ArdenRiver = CreateLocation("Arden River");
         public readonly static Location OldMill = CreateLocation("Old Mill (Mordentshire)");
         public readonly static Location Churchyard = CreateLocation("Churchyard (Mordentshire)");
         public readonly static Location OldSaltHouse = CreateLocation("Old Salt House");
@@ -125,6 +165,11 @@ public partial class Factory : IDisposable
         public readonly static Location HauntedGraveyard = CreateLocation("Haunted Graveyard");
         public readonly static Location MadScientistLaboratory = CreateLocation("Mad Scientist`s Laboratory");
         public readonly static Location RuinsOfLololia = CreateLocation("The Ruins of Lololia");
+        public readonly static Location TowerOfThalus = CreateLocation("Tower of Thalus");
+        public readonly static Location Balinoks = CreateLocation("Balinoks", "Balinok Mountains");
+        public readonly static Location RiverVuchar = CreateLocation("River Vuchar");
+        public readonly static Location RiverMusarde = CreateLocation("River Musarde");
+        public readonly static Location RiverArden = CreateLocation("River Arden");
         #endregion
     }
 }

@@ -8,7 +8,7 @@
             Ravenloftdb.Items.Add(retval);
             return retval;
         }
-        public readonly static Item TarlVanovitchSunBlade = CreateItem("Tarl Vanovitch`s Sun Blade");
+        public readonly static Item VigilaDimorta = CreateItem("Vigila Dimorta", "Sentries of Death");
 
         public readonly static Item Apparatus = CreateItem("Apparatus");
         public readonly static Item SoulSearcher = CreateItem("Soul Searcher Medallion", "Soul Searcher Orb");
@@ -66,6 +66,7 @@
         public readonly static Item NecklaceOfAdaptation = CreateItem("Necklace of Adaptation");
         public readonly static Item NecklacePrayerBeads = CreateItem("Necklace of Prayer Beads");
 
+        public readonly static Item TarlVanovitchSunBlade = CreateItem("Tarl Vanovitch`s Sun Blade");
         public readonly static Item ArrowOfDirect = CreateItem("Arrow of Direction");
         public readonly static Item ArrowOfWerewolfSlay = CreateItem("Arrow of Werewolf Slaying");
         public readonly static Item FangOfTheNosferatu = CreateItem("Fang of the Nosferatu");
@@ -82,8 +83,19 @@
         public readonly static Item CursedBerserker = CreateItem("Sword Cursed Berserker");
         public readonly static Item SwordOfWound = CreateItem("Sword of Wounding");
         public readonly static Item SwordOfLifeSteal = CreateItem("Sword of Life Stealing");
+        public readonly static Item SwordOfArak = CreateItem("Sword of Arak");
         public readonly static Item MaceOfDisrupt = CreateItem("Mace of Disruption");
 
+        internal static class Drink
+        {
+            public readonly static Item Aniso = CreateItem("Aniso");
+            public readonly static Item Tuika = CreateItem("Tuika");
+            public readonly static Item Meekulbrau = CreateItem("Meekulbrau");
+        }
+        internal static class Food
+        {
+            public readonly static Item Meekulbern = CreateItem("Meekulbern");
+        }
         internal static class Scarab
         {
             public readonly static Item Prot = CreateItem("Scarab of Protection");
@@ -118,7 +130,8 @@
             public readonly static Item ProtUnd = CreateItem("Amulet of Protection versus Undead");
             public readonly static Item LifeProt = CreateItem("Amulet of Life Protection");
             public readonly static Item Vadarin = CreateItem("Amulet of Vadarin");
-            public readonly static Item Beast = CreateItem("Amulet of the Beast");
+            public readonly static Item BeastSilver = CreateItem("Silver Amulet of the Beast");
+            public readonly static Item BeastIvory = CreateItem("Ivory Amulet of the Beast");
         }
         internal static class Rod
         {
@@ -148,6 +161,7 @@
             public readonly static Item ProtDev = CreateItem("Scroll of Protection From Devils");
             public readonly static Item ProtDem = CreateItem("Scroll of Protection From Demons");
             public readonly static Item ProtPet = CreateItem("Scroll of Protection From Petrification");
+            public readonly static Item Return = CreateItem("Scroll of Return");
         }
         internal static class Ring
         {

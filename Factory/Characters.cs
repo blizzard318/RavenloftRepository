@@ -8,6 +8,9 @@
             Ravenloftdb.Characters.Add(retval);
             return retval;
         }
+        public readonly static Character TaraKolyana = CreateCharacter("Tara Kolyana");
+        public readonly static Character GoergeWeathermay = CreateCharacter("Goerge Weathermay");
+
         #region Arkandale
         public readonly static Character NataliaVhorishkova = CreateCharacter("Natalia Vhorishkova");
         #endregion
@@ -116,6 +119,10 @@
         public readonly static Character LatislavOfDarkon = CreateCharacter("Latislav of Darkon");
         #endregion
 
+        #region Dementlieu
+        public readonly static Character MarcelGuignol = CreateCharacter("Marcel Guignol");
+        #endregion
+
         #region Falkovnia
         public readonly static Character SymbukTorul = CreateCharacter("Symbuk Torul");
         public readonly static Character Killeen = CreateCharacter("Killeen");
@@ -150,7 +157,7 @@
         #region Kartakass
         public readonly static Character Nhalvaen = CreateCharacter("Nhalvaen");
         public readonly static Character Milil = CreateCharacter("Milil");
-        public readonly static Character MeistersingerCasimiar = CreateCharacter("Meistersinger Casimir Lukas");
+        public readonly static Character MeistersingerCasimir = CreateCharacter("Meistersinger Casimir Lukas");
         #endregion
 
         #region Klorr
@@ -193,7 +200,7 @@
         public readonly static Character TylerSmythy = CreateCharacter("Tyler Smythy");
         public readonly static Character GregorBoyd = CreateCharacter("Gregor Boyd");
         public readonly static Character GlennaWarden = CreateCharacter("Glenna Warden");
-        public readonly static Character Gwydion = CreateCharacter("Gwydion");
+        public readonly static Character Gwydion = CreateCharacter("Gwydion (Mordent)");
         public readonly static Character GastonHedgewick = CreateCharacter("Gaston Hedgewick");
         public readonly static Character ArianaBartel = CreateCharacter("Ariana Bartel");
         public readonly static Character CarinaLoch = CreateCharacter("Carina Loch");

@@ -27,6 +27,9 @@
         public readonly static Group Dukkar = CreateGroup("Dukkar");
         public readonly static Group Raunie = CreateGroup("Raunie");
 
+        public readonly static Group Meistersinger = CreateGroup("Meistersinger");
+
+        public readonly static Group Boyar = CreateGroup("Boyar");
         public readonly static Group Burgomaster = CreateGroup("Burgomaster");
         public readonly static Group BurgomasterOfBarovia = CreateGroup("Burgomaster of Barovia");
         public readonly static Group BarovianWine = CreateGroup("Barovian Wine Distillers Brotherhood");
@@ -56,6 +59,5 @@
 
         public readonly static Group Solamnia = CreateGroup("Knights of Solamnia");
         public readonly static Group RoseKnights = CreateGroup("Knights of the Rose");
-
     }
 }

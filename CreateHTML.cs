@@ -846,6 +846,9 @@ internal static class CreateHTML
                         ExtraAppend += $"<b>Cluster(s):</b> {LinkedClusters}<br/>";
                     }
 
+                    if (original.Inspirations.Count() > 1)
+                        ExtraAppend += $"<b>Inspirations:</b> {string.Join(",", original.Inspirations)}<br/>";
+
                     if (original.Names.Count() > 1)
                         ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
                 }
@@ -889,7 +892,7 @@ internal static class CreateHTML
 
                                     var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
                                     SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
-                                    TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
+                                    TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)<br/>");
                                 }
                                 if (!string.IsNullOrEmpty(source.ExtraInfo))
                                     SplitSources.contents.AppendLine($"<b>Extra Info:</b> {source.ExtraInfo}<br/>");
@@ -991,7 +994,7 @@ internal static class CreateHTML
 
                                 var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)<br/>");
 
                                 SplitSources.AddSection(original.Domains         , source, nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations       , source, nameof(source.Locations ), EntityType.Location );
@@ -1076,7 +1079,7 @@ internal static class CreateHTML
 
                                 var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)<br/>");
 
                                 SplitSources.AddSection(original.Domains   , source, nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations , source, nameof(source.Locations ), EntityType.Location );
@@ -1098,7 +1101,7 @@ internal static class CreateHTML
                             AllSources.AddSection(original.Groups    .Total, nameof(original.Groups    ), EntityType.Group    );
                             AllSources.AddSection(original.Languages .Total, nameof(original.Languages ), EntityType.Language );
                             AllSources.AddSection(original.Creatures .Total, nameof(original.Creatures ), EntityType.Creature );
-                            AllSources.AddSection(TotalSources                   , nameof(original.Sources   )                      );
+                            AllSources.AddSection(TotalSources             , nameof(original.Sources   )                      );
                             AllSources.contents.AppendLine("</div></div><br/>");
                         }
                     }
@@ -1171,7 +1174,7 @@ internal static class CreateHTML
 
                                 var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)<br/>");
 
                                 SplitSources.AddSection(original.Domains   , source, nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations , source, nameof(source.Locations ), EntityType.Location );
@@ -1256,7 +1259,7 @@ internal static class CreateHTML
 
                                 var PageNumbers = string.Join(", ", SourceDetails.Select(s => s.PageNumbers));
                                 SplitSources.contents.AppendLine($"<b>Location(s) in Source:</b> {PageNumbers}<br/>");
-                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)");
+                                TotalSources.Add($"{CreateLink(source)} (<i>{PageNumbers}</i>)<br/>");
 
                                 SplitSources.AddSection(original.Domains   , source, nameof(source.Domains   ), EntityType.Domain   );
                                 SplitSources.AddSection(original.Locations , source, nameof(source.Locations ), EntityType.Location );

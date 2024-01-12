@@ -133,6 +133,7 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
     public readonly ToTrack<Darklord> Darklords = new();
     public readonly ToTrack<Group   > Clusters  = new();
     public readonly ToTrack<Location> Mistways  = new();
+    public readonly HashSet<string>   Inspirations= new();
     public readonly string MistTalismans = string.Empty;
     public Domain(params string[] names) : base(names) { }
     public class Darklord : Character

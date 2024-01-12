@@ -39,7 +39,7 @@ public static class CrossAdd
         domains.Clear();
     }
 
-    public static void TrackMistway(this Location Mistway, string pageNumbers, Domain First, Domain Second)
+    public static Location TrackMistway(this Location Mistway, string pageNumbers, Domain First, Domain Second)
     {
         Mistway.Sources.Add(Source);
         Mistway.Appearances.Add(Source, new TrackPage<Location>(Mistway, Source, pageNumbers));
@@ -54,8 +54,9 @@ public static class CrossAdd
 
         Second.Mistways.PerSource.TryAdd(Source, new());
         Second.Mistways.PerSource[Source].Add(Mistway);
+        return Mistway;
     }
-    public static void TrackCluster(this Group Cluster, string pageNumbers, params Domain[] domains)
+    public static Group TrackCluster(this Group Cluster, string pageNumbers, params Domain[] domains)
     {
         Cluster.Sources.Add(Source);
         Cluster.Appearances.Add(Source, new TrackPage<Group>(Cluster, Source, pageNumbers));
@@ -67,6 +68,7 @@ public static class CrossAdd
             Cluster.Domains.PerSource[Source].Add(domain);
             domain.Clusters.Add(Source, Cluster);
         }
+        return Cluster;
     }
 
     private static TrackPage<T> Track<T> (T entity, string pageNumbers) where T : UseVariableName, IHasAppearances<T>
@@ -123,12 +125,12 @@ public static class CrossAdd
         character.Deceased.TryAdd(Source, true);
         return AddCharacter(domain, character, pageNumbers);
     }
-    public static Character AddLivingDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
+    public static Domain.Darklord AddLivingDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
     {
         domain.Darklords.Add(Source, darklord);
         return AddLivingCharacter(domain, darklord, pageNumbers);
     }
-    public static Character AddDeadDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
+    public static Domain.Darklord AddDeadDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
     {
         domain.Darklords.Add(Source, darklord);
         return AddDeadCharacter(domain, darklord, pageNumbers);
@@ -239,7 +241,7 @@ public static class CrossAdd
 
         return domain;
     }
-    public static Character BindRelatedCreatures(this Character Character, params Trait[] creatures)
+    public static T BindRelatedCreatures<T>(this T Character, params Trait[] creatures) where T : Character
     {
         Character.RelatedCreatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
