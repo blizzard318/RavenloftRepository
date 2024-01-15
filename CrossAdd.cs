@@ -282,18 +282,23 @@ public static class CrossAdd
         entity.AlignmentPerSource[Source] = alignment;
         return entity;
     }
-    public static T BindSetting<T>(this T entity, Trait setting) where T : UseVariableName
+    public static T BindSetting<T>(this T entity, params Trait[] settings) where T : UseVariableName
     {
-        var type = typeof(T);
-        if (type == typeof(Item     )) setting.Items     .Add(Source, entity as Item     );
-        if (type == typeof(Group    )) setting.Groups    .Add(Source, entity as Group    );
-        if (type == typeof(Domain   )) setting.Domains   .Add(Source, entity as Domain   );
-        if (type == typeof(Location )) setting.Locations .Add(Source, entity as Location );
-        if (type == typeof(Character)) setting.Characters.Add(Source, entity as Character);
-
-        setting.Sources.Add(Source);
-        entity.Setting = setting;
+        foreach (var item in GetSetFromArray()) item.Add(Source, entity);
+        foreach (var setting in settings) setting.Sources.Add(Source);
+        entity.Settings.UnionWith(settings);
         return entity;
+
+        IEnumerable<ToTrack<T>>? GetSetFromArray()
+        {
+            var type = typeof(T);
+            if (type == typeof(Item)) return settings.Select(t => t.Items) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Group)) return settings.Select(t => t.Groups) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Domain)) return settings.Select(t => t.Domains) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Location)) return settings.Select(t => t.Locations) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Character)) return settings.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
+            throw new NotImplementedException();
+        }
     }
 
     public static void PopulateSettlement (this Location Settlement, params Location[] locations)
@@ -307,6 +312,12 @@ public static class CrossAdd
     }
     public static void PopulateSettlement (this Location Settlement, ToTrack<Location> locations)
         => Settlement.PopulateSettlement(locations.PerSource[Source].ToArray());
+
+    public static Domain.Darklord BindCloseBorder (this Domain.Darklord darklord, string CloseBorder)
+    {
+        darklord.CloseBorder.Add(Source, CloseBorder);
+        return darklord;
+    }
 
     /*public void CreateRelationship(Character primary, string RelationshipType, Character other)
     {

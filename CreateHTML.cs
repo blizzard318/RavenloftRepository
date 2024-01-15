@@ -25,6 +25,8 @@ internal static class CreateHTML
     private static string CreateLink(Source entity) => CreateLink(nameof(Source), entity.Name);
     private static string CreateLink<T>(T entity) where T : UseVariableName => CreateLink(typeof(T).ToString(), entity.Names);
     private static string CreateLink<T>(EntityType type, T entity) where T : UseVariableName => CreateLink(type.ToString(), entity.Names);
+    private static string CreateLink<T>(EntityType type, params T[] entities) where T : UseVariableName => CreateLink(type.ToString(), entities.SelectMany(s => s.Names));
+    private static string CreateLink<T>(EntityType type, IEnumerable<T> entities) where T : UseVariableName => CreateLink(type.ToString(), entities.SelectMany(s => s.Names));
     private static string[] GetEditionsOf(Edition ToCheck)
     {
         var Editions = Enum.GetValues<Edition>();
@@ -819,8 +821,8 @@ internal static class CreateHTML
                 if (!original.Names.Contains(DomainEnum.InsideRavenloft .Names[0]) &&
                     !original.Names.Contains(DomainEnum.OutsideRavenloft.Names[0]))
                 {
-                    if (original.Setting != null)
-                        ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
+                    if (original.Settings.Count == 0)
+                        ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
 
                     var Darklords = original.Darklords.Total;
                     if (Darklords.Count() > 0)
@@ -946,8 +948,8 @@ internal static class CreateHTML
                 if (TotalAlignment != 0)
                     ExtraAppend += $"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>";
 
-                if (original.Setting != null)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
+                if (original.Settings.Count == 0)
+                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
 
                 if (original.Names.Count() > 1)
                     ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
@@ -1128,8 +1130,8 @@ internal static class CreateHTML
                 if (TotalAlignment != 0)
                     ExtraAppend += $"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>";
 
-                if (original.Setting != null)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
+                if (original.Settings.Count == 0)
+                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
 
                 if (original.Names.Count() > 1)
                     ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
@@ -1218,8 +1220,8 @@ internal static class CreateHTML
 
                 string ExtraAppend = string.Empty;
 
-                if (original.Setting != null)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Setting)}<br/>";
+                if (original.Settings.Count == 0)
+                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
 
                 if (original.Names.Count() > 1)
                     ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";

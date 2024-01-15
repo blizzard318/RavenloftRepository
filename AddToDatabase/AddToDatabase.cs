@@ -738,57 +738,61 @@ internal static partial class AddToDatabase
             ExtraInfo += "<br/>&emsp;Typesetting: Angelika Lokotz";
             using var ctx = CreateSource("Realm of Terror", releaseDate, ExtraInfo, Edition.e2, Media.sourcebook);
 
-            ClusterEnum.Core.TrackCluster("2, 4, 12, 60, 62-63, 65, 67, 69, 72",
+            ClusterEnum.PreGCCore.TrackCluster("2, 4, 12, 60, 62-63, 65, 67, 69, 72, 76, 79-80",
                 DomainEnum.Arak          .Appeared("2, 9, 61-63").BindCreatures(Creature.Drow, Creature.Spider,Creature.Drider, Creature.Hellhound, Creature.Ettercap),
 
                 DomainEnum.Arkandale     .Appeared("2, 9, 62-63, 73").BindCreatures(Creature.Wolf, Creature.Weasel, Creature.Werewolf, Creature.Rat, Creature.Snake, Creature.Spider, Creature.Goblin, Creature.WillOWisp),
 
-                DomainEnum.Barovia       .Appeared("2, 8-9, 12, 14, 35-36, 60, 62-66, 68, 70, 72").BindLanguages(Language.Balok).BindCreatures(Creature.Wolf, Creature.Vampire, Creature.Deer, Creature.Rabbit, Creature.Rat, Creature.Bear, Creature.Raven, Creature.Hawk, Creature.Songbird, Creature.Owl, Creature.Bat, Creature.StrahdSkeleton, Creature.StrahdZombie, Creature.Skeleton, Creature.Zombie, Creature.Worg, Creature.CrawlingClaw, Creature.Cloaker, Creature.Hellhound, Creature.InvisibleStalker, Creature.Jackalwere, Creature.Werewolf, Creature.WillOWisp),
+                DomainEnum.Barovia       .Appeared("2, 8-9, 12, 14, 35-36, 60, 62-66, 68, 70, 72").BindGroups(GroupEnum.Vistani).BindLanguages(Language.Balok).BindCreatures(Creature.Wolf, Creature.Vampire, Creature.Deer, Creature.Rabbit, Creature.Rat, Creature.Bear, Creature.Raven, Creature.Hawk, Creature.Songbird, Creature.Owl, Creature.Bat, Creature.StrahdSkeleton, Creature.StrahdZombie, Creature.Skeleton, Creature.Zombie, Creature.Worg, Creature.CrawlingClaw, Creature.Cloaker, Creature.Hellhound, Creature.InvisibleStalker, Creature.Jackalwere, Creature.Werewolf, Creature.WillOWisp, Creature.Snake, Creature.Chipmunk, Creature. Ferret, Creature.Fox, Creature.Hedgehog, Creature.Monkey, Creature.Opossum, Creature.Pig, Creature.Rabbit, Creature.Raccoon, Creature.Squirrel, Creature.Woodchuck),
 
                 DomainEnum.Bluetspur     .Appeared("2, 9, 60, 62, 65, 72-73").BindCreatures(Creature.Illithid),
 
-                DomainEnum.Borca         .Appeared("2, 9, 62, 66, 68-69").BindCreatures(Creature.Bat, Creature.Rat, Creature.Snake, Creature.Spider, Creature.Wolf, Creature.Bear, Creature.Pig, Creature.Ghost, Creature.Haunt, Creature.Poltergeist, Creature.Werewolf, Creature.WillOWisp),
+                DomainEnum.Borca         .Appeared("2, 9, 62, 66, 68-69").BindCreatures(Creature.Bat, Creature.Rat, Creature.Snake, Creature.Spider, Creature.Wolf, Creature.Bear, Creature.Boar, Creature.Ghost, Creature.Haunt, Creature.Poltergeist, Creature.Werewolf, Creature.WillOWisp),
 
-                DomainEnum.Darkon        .Appeared("2, 9, 60-62, 67-69").BindCreatures(Creature.Bat, Creature.Goblin, Creature.Kobold, Creature.Jermlaine, Creature.Snake, Creature.Spider, Creature.Wolf, Creature.Doppelganger, Creature.Griffon, Creature.Hippogriff, Creature.Imp, Creature.InvisibleStalker, Creature.Werewolf, Creature.Drow, Creature.Leucrotta, Creature.ShamblingMound, Creature.Hag),
+                DomainEnum.Darkon        .Appeared("2, 9, 60-62, 67-69, 75").BindCreatures(Creature.Bat, Creature.Goblin, Creature.Kobold, Creature.Jermlaine, Creature.Snake, Creature.Spider, Creature.Wolf, Creature.Doppelganger, Creature.Griffon, Creature.Hippogriff, Creature.Imp, Creature.InvisibleStalker, Creature.Werewolf, Creature.Drow, Creature.Leucrotta, Creature.ShamblingMound, Creature.Hag),
 
-                DomainEnum.Dementlieu    .Appeared("2, 9, 62, 68-69").BindCreatures(Creature.Snake, Creature.Spider, Creature.Deer, Creature.Kobold, Creature.Sahuagin, Creature.Doppelganger, Creature.Goblin, Creature.Kelpie, Creature.Pig),
+                DomainEnum.Dementlieu    .Appeared("2, 9, 62, 68-69, 75").BindCreatures(Creature.Snake, Creature.Spider, Creature.Deer, Creature.Kobold, Creature.Sahuagin, Creature.Doppelganger, Creature.Goblin, Creature.Kelpie, Creature.Boar),
 
-                DomainEnum.Dorvinia      .Appeared("2, 9, 62, 68-69").BindCreatures(Creature.Bat, Creature.Rat, Creature.Snake, Creature.Spider, Creature.Pig, Creature.Bear, Creature.Ghost, Creature.Haunt, Creature.Poltergeist, Creature.Werewolf, Creature.WillOWisp),
+                DomainEnum.Dorvinia      .Appeared("2, 9, 62, 68-69").BindCreatures(Creature.Bat, Creature.Rat, Creature.Snake, Creature.Spider, Creature.Boar, Creature.Bear, Creature.GreatCat, Creature.Ghost, Creature.Haunt, Creature.Poltergeist, Creature.Werewolf, Creature.WillOWisp),
 
-                DomainEnum.Falkovnia     .Appeared("2, 9, 62, 67-70").BindCreatures(Creature.Pig, Creature.Wolf, Creature.Griffon, Creature.Deer, Creature.Hippogriff, Creature.Kobold, Creature.Jermlaine, Creature.Werewolf, Creature.Satyr, Creature.WillOWisp, Creature.Bear),
+                DomainEnum.Falkovnia     .Appeared("2, 9, 62, 67-70, 75").BindCreatures(Creature.Boar, Creature.Wolf, Creature.Griffon, Creature.Deer, Creature.Hippogriff, Creature.Kobold, Creature.Jermlaine, Creature.Werewolf, Creature.Satyr, Creature.WillOWisp, Creature.Bear),
 
                 DomainEnum.Forlorn       .Appeared("2, 9, 62, 72").BindCreatures(Creature.Wolf),
 
-                DomainEnum.GHenna        .Appeared("2, 9, 62, 69-71").BindCreatures(Creature.Human, Creature.Mongrelman, Creature.Bat, Creature.Snake, Creature.Kobold, Creature.Werewolf, Creature.Wolf, Creature.Ghoul),
+                DomainEnum.GHenna        .Appeared("2, 9, 62, 69-71").BindCreatures(Creature.Human, Creature.Mongrelman, Creature.GreatCat, Creature.Bat, Creature.Snake, Creature.Kobold, Creature.Werewolf, Creature.Wolf, Creature.Ghoul),
 
                 DomainEnum.Gundarak      .Appeared("2, 9, 62, 71-73").BindCreatures(Creature.Rat, Creature.Bat, Creature.Wolf, Creature.Spider, Creature.Werewolf, Creature.Kobold),
 
                 DomainEnum.Hazlan        .Appeared("2, 9, 60, 62, 72-73").BindCreatures(Creature.Bat, Creature.Wolf, Creature.Deer, Creature.Snake, Creature.Berbalang, Creature.Darkenbeast, Creature.CrimsonDeath, Creature.Imp, Creature.Leucrotta, Creature.Mongrelman),
 
-                DomainEnum.Invidia       .Appeared("2, 9, 62, 72-73").BindCreatures(Creature.Wolf, Creature.Deer, Creature.Snake, Creature.Wolfwere, Creature.WillOWisp, Creature.Jermlaine),
+                DomainEnum.Invidia       .Appeared("2, 9, 62, 72-73").BindGroups(GroupEnum.Vistani).BindCreatures(Creature.Wolf, Creature.Deer, Creature.Snake, Creature.Wolfwere, Creature.WillOWisp, Creature.Jermlaine),
 
-                DomainEnum.Kartakass     .Appeared("2, 9, 62, 66, 70, 73-74").BindCreatures(Creature.Horse, Creature.Wolf, Creature.DireWolf, Creature.Werewolf, Creature.Wolfwere, Creature.WinterWolf, Creature.Kobold, Creature.Pig, Creature.Wight, Creature.Ghoul, Creature.Goblin, Creature.Leucrotta, Creature.Werefox),
+                DomainEnum.Kartakass     .Appeared("2, 9, 62, 66, 70, 73-74").BindCreatures(Creature.Horse, Creature.Wolf, Creature.DireWolf, Creature.Werewolf, Creature.Wolfwere, Creature.WinterWolf, Creature.Kobold, Creature.Boar, Creature.Wight, Creature.Ghoul, Creature.Goblin, Creature.Leucrotta, Creature.Werefox),
 
-                DomainEnum.Keening       .Appeared("2, 9, 62, 74-75").BindCreatures(Creature.Banshee),
-                DomainEnum.Lamordia      .Appeared("2, 62, 69"),
-                DomainEnum.Markovia      .Appeared("2, 9, 62"),
-                DomainEnum.Mordent       .Appeared("2, 9, 62, 69"),
-                DomainEnum.NightmareLands.Appeared("2, 60-62, 72"),
-                DomainEnum.NovaVaasa     .Appeared("2, 9, 36, 60-62").BindCreatures(Creature.Horse),
-                DomainEnum.Sithicus      .Appeared("2, 9, 62, 73"),
-                DomainEnum.Tepest        .Appeared("2, 9, 60-62"),
-                DomainEnum.Richemulot    .Appeared("2, 9, 62, 69"),
-                DomainEnum.Valachan      .Appeared("2, 9, 60, 62"),
-                DomainEnum.Verbrek       .Appeared("2, 9, 62, 73"),
-                DomainEnum.SeaOfSorrows  .Appeared("60, 62, 67-68")
+                DomainEnum.Keening       .Appeared("2, 9, 62, 74-75, 79").BindCreatures(Creature.Banshee, Creature.Zombie, Creature.Wight),
+                DomainEnum.Lamordia      .Appeared("2, 62, 69, 75-76").BindCreatures(Creature.Seabird, Creature.Sheep, Creature.Goat, Creature.FleshGolem, Creature.Wolf, Creature.Caribou, Creature.GiantWeasel, Creature.Boar, Creature.Moose, Creature.Bear, Creature.Seawolf, Creature.GiantLynx),
+                DomainEnum.Markovia      .Appeared("2, 9, 62, 76, 78").BindGroups(GroupEnum.Vistani, GroupEnum.Diosamblet).BindCreatures(Creature.BeastMen, Creature.Wolf, Creature.Spider, Creature.Snake, Creature.MountainLion, Creature.Bear, Creature.Boar, Creature.Deer),
+
+                DomainEnum.Mordent       .Appeared("2, 9, 62, 69, 76-77").BindCharacters(DarklordEnum.CountStrahd).BindItems(ItemEnum.Apparatus).BindGroups(GroupEnum.Vistani).BindCreatures(Creature.Human, Creature.Ghost),
+
+                DomainEnum.NightmareLands.Appeared("2, 60-62, 72, 77-78"),
+                DomainEnum.NovaVaasa     .Appeared("2, 9, 36, 60-62, 78").BindCreatures(Creature.Horse, Creature.Snake, Creature.PlainsCat, Creature.Wolf, Creature.Werewolf, Creature.Jermlaine),
+                DomainEnum.Sithicus      .Appeared("2, 9, 62, 73, 78-79").BindCreatures(Creature.Elf, Creature.GroaningSpirit, Creature.Banshee, Creature.Deer, Creature.Snake, Creature.Werewolf, Creature.Wolf),
+                DomainEnum.Tepest        .Appeared("2, 9, 60-62, 79-80").BindGroups(GroupEnum.HagsOfTepest).BindCreatures(Creature.Bear, Creature.Pig, Creature.Sturgeon, Creature.Goblin, Creature.Deer, Creature.Wolf, Creature.Snake, Creature.Kelpie, Creature.Bear),
+
+                DomainEnum.Richemulot    .Appeared("2, 9, 62, 69, 80").BindCreatures(Creature.GiantRat, Creature.Rat, Creature.Goblin, Creature.Wererat, Creature.Snake, Creature.Spider, Creature.Skeleton, Creature.Zombie, Creature.Wight, Creature.Berbalang, Creature.Cloaker, Creature.Werewolf),
+
+                DomainEnum.Valachan      .Appeared("2, 9, 60, 62, 79-81").BindCreatures(Creature.Deer, Creature.Moose, Creature.Boar, Creature.Marten, Creature.Eagle, Creature.Raven, Creature.Bear, Creature.Panther, Creature.Bat, Creature.Spider),
+                DomainEnum.Verbrek       .Appeared("2, 9, 62, 73, 81").BindGroups(GroupEnum.Vistani).BindCreatures(Creature.Wolf, Creature.Werewolf, Creature.Ghost, Creature.Spectre, Creature.Geist),
+                DomainEnum.SeaOfSorrows  .Appeared("60, 62, 67-68, 75, 77")
             );
-            ClusterEnum.IslandsOfTerror.TrackCluster("3-4, 12",
-                DomainEnum.Farelle       .Appeared("3"),
-                DomainEnum.HarAkir       .Appeared("3"),
-                DomainEnum.Sanguinia     .Appeared("3"),
-                DomainEnum.Souragne      .Appeared("3"),
-                DomainEnum.SriRaji       .Appeared("3"),
-                DomainEnum.StauntonBluffs.Appeared("3"),
+            ClusterEnum.IslandsOfTerror.TrackCluster("3-4, 12, 82-83",
+                DomainEnum.Farelle       .Appeared("3, 83").BindCreatures(Creature.Dog, Creature.Jackal, Creature.Jackalwere, Creature.Deer, Creature.Werewolf, Creature.Boar),
+                DomainEnum.HarAkir       .Appeared("3, 83-84").BindCreatures(Creature.AntLion, Creature.Sandling, Creature.Jackal, Creature.Scorpion, Creature.Leopard, Creature.Lion, Creature.Snake),
+                DomainEnum.Sanguinia     .Appeared("3, 84").BindCreatures(Creature.BighornSheep, Creature.MountainGoat, Creature.Goblin, Creature.Owl, Creature.Deer, Creature.Elk, Creature.WinterWolf, Creature.Werewolf, Creature.Bear),
+                DomainEnum.Souragne      .Appeared("3, 84-85").BindCreatures(Creature.Skeleton, Creature.Zombie, Creature.Crocodile, Creature.Snake, Creature.Leech, Creature.Lizard, Creature.Frog, Creature.Toad, Creature.ShamblingMound, Creature.WillOWisp),
+                DomainEnum.SriRaji       .Appeared("3, 85").BindCreatures(Creature.Spider, Creature.Snake, Creature.Monkey, Creature.Naga, Creature.ManEatingPlant, Creature.Elephant, Creature.Tiger, Creature.Weretiger),
+                DomainEnum.StauntonBluffs.Appeared("3, 85"),
                 DomainEnum.Vechor        .Appeared("3"),
                 DomainEnum.Paridon       .Appeared("3")
                 );
@@ -807,39 +811,55 @@ internal static partial class AddToDatabase
             DomainEnum.Markovia.Inspirations.Add("<i>The Island of Dr. Moreau</i> by H.G. Wells");
             DomainEnum.NovaVaasa.Inspirations.Add("<i>The Strange Case of Dr. Jekyll and Mr. Hyde</i> by Robert Lewis Stevenson");
 
-            DarklordEnum.Gwydion.CloseBorder = "When the land is sealed, unscalable slabs of granite rise like monoliths at the borders. A savage wind screams through the crannies in the rock. The wind forces travelers bakc into the domain and prevents any kind of flight.";
-            DarklordEnum.GodBrain.CloseBorder = "Rumored to be sealed with rock.";
+            DarklordEnum.Gwydion.BindCloseBorder("When the land is sealed, unscalable slabs of granite rise like monoliths at the borders. A savage wind screams through the crannies in the rock. The wind forces travelers bakc into the domain and prevents any kind of flight.");
+            DarklordEnum.GodBrain.BindCloseBorder("Rumored to be sealed with rock.");
 
             DomainEnum.Borca     .AddDeadDarklord  (DarklordEnum.CamilleDilisnya , "66").BindCharacters(DarklordEnum.IvanaBoritsi);
-            DomainEnum.Borca     .AddLivingDarklord(DarklordEnum.IvanaBoritsi    , "66, 68").CloseBorder = "When someone leaves Borca, any drinks whilst within Borca turns into lethal poison, making victims immediately feverish, woozy and will die in a few turns unless he reenters the domain.";
+            DomainEnum.Borca     .AddLivingDarklord(DarklordEnum.IvanaBoritsi    , "66, 68").BindCloseBorder("When someone leaves Borca, any drinks whilst within Borca turns into lethal poison, making victims immediately feverish, woozy and will die in a few turns unless he reenters the domain.");
             DomainEnum.Invidia   .AddLivingDarklord(DarklordEnum.GabrielleAderre , "3");
-            DomainEnum.Darkon.AddLivingDarklord(DarklordEnum.AzalinRex, "3, 9, 67-68").BindCreatures(Creature.Lich).CloseBorder = "A wall of undead, 20 creatures deep, masses at the border.";
-            DomainEnum.Dementlieu.AddLivingDarklord(DarklordEnum.DominicdHonaire, "3, 68").CloseBorder = "A mirage where a character sees the land of Dementlieu before and behind him. No matter which way he walks, he moves farther into the domain.";
-            DomainEnum.Dorvinia  .AddLivingDarklord(DarklordEnum.IvanDilisnya    , "3, 68").CloseBorder = "When someone leaves Dorvinia, any drinks whilst within Dorvinia turns into lethal poison, making victims immediately feverish, woozy and will die in a few turns unless he reenters the domain.";
-            DomainEnum.Falkovnia .AddLivingDarklord(DarklordEnum.VladDrakov      , "3, 9, 69-70").CloseBorder = "Troops patrol the borders, those caught trying to escape are killed on sight.";
-            DomainEnum.GHenna.AddLivingDarklord(DarklordEnum.YagnoPetrovna, "70-71").BindRelatedCreatures(Creature.Mongrelman).CloseBorder = "A wall of jeering animal skulls appears before any character before 100 feet of the border. The wall extends into the heavens. No amount of magic or muscle can move it.";
-            DomainEnum.GHenna.AddLivingDarklord(DarklordEnum.LordGundar, "70-71").BindCreatures(Creature.Vampire).CloseBorder = "The Mists of Ravenloft rise from the soil at the borders. Anyone who walks into them finds himself hopelessly lost, with all routes leading back to Gundarak.";
+            DomainEnum.Darkon.AddLivingDarklord(DarklordEnum.AzalinRex, "3, 9, 67-68").BindCreatures(Creature.Lich).BindCloseBorder("A wall of undead, 20 creatures deep, masses at the border.");
+            DomainEnum.Dementlieu.AddLivingDarklord(DarklordEnum.DominicdHonaire, "3, 68").BindCloseBorder("A mirage where a character sees the land of Dementlieu before and behind him. No matter which way he walks, he moves farther into the domain.");
+            DomainEnum.Dorvinia  .AddLivingDarklord(DarklordEnum.IvanDilisnya    , "3, 68").BindCloseBorder("When someone leaves Dorvinia, any drinks whilst within Dorvinia turns into lethal poison, making victims immediately feverish, woozy and will die in a few turns unless he reenters the domain.");
+            DomainEnum.Falkovnia .AddLivingDarklord(DarklordEnum.VladDrakov      , "3, 9, 69-70").BindCloseBorder("Troops patrol the borders, those caught trying to escape are killed on sight.");
+            DomainEnum.GHenna.AddLivingDarklord(DarklordEnum.YagnoPetrovna, "70-71").BindRelatedCreatures(Creature.Mongrelman).BindCloseBorder("A wall of jeering animal skulls appears before any character before 100 feet of the border. The wall extends into the heavens. No amount of magic or muscle can move it.");
+            DomainEnum.GHenna.AddLivingDarklord(DarklordEnum.LordGundar, "70-71").BindCreatures(Creature.Vampire).BindCloseBorder("The Mists of Ravenloft rise from the soil at the borders. Anyone who walks into them finds himself hopelessly lost, with all routes leading back to Gundarak.").DarklordLair = LocationEnum.CastleHunadora;
 
-            DomainEnum.Hazlan    .AddLivingDarklord(DarklordEnum.Hazlik          , "3, 72").CloseBorder = "A wall of fire leaps up at the borders.";
-            DomainEnum.Invidia   .AddLivingDarklord(DarklordEnum.GabrielleAderre , "73").CloseBorder = "A ring of fear that is neither visible nor tangible surrounds the domain. Characters who attempt to cross the border find themselves gripped by an unreasoning fear (no save). They flee 100 yards towards the center of the domain before they regain control.";
-            DomainEnum.Kartakass .AddLivingDarklord(DarklordEnum.HarkonLukas     , "3, 9, 73-74").BindCreatures(Creature.Wolfwere).CloseBorder = "Those who try to leave hear a sweet swong lulling them to sleep. (No spell or saving throw can prevent it)";
-            DomainEnum.Markovia  .AddLivingDarklord(DarklordEnum.FrantisekMarkov , "3");
-            DomainEnum.Mordent   .AddLivingDarklord(DarklordEnum.WilfredGodefroy, "3");
-            DomainEnum.Lamordia  .AddLivingDarklord(DarklordEnum.Adam            , "3");
+            DomainEnum.Hazlan.AddLivingDarklord(DarklordEnum.Hazlik, "3, 72").BindCloseBorder("A wall of fire leaps up at the borders.");
+            DomainEnum.Invidia   .AddLivingDarklord(DarklordEnum.GabrielleAderre , "73").BindCloseBorder("A ring of fear that is neither visible nor tangible surrounds the domain. Characters who attempt to cross the border find themselves gripped by an unreasoning fear (no save). They flee 100 yards towards the center of the domain before they regain control.");
+            DomainEnum.Kartakass .AddLivingDarklord(DarklordEnum.HarkonLukas     , "3, 9, 73-74").BindCreatures(Creature.Wolfwere).BindCloseBorder("Those who try to leave hear a sweet swong lulling them to sleep. (No spell or saving throw can prevent it)");
+
+            DomainEnum.Markovia.AddLivingDarklord(DarklordEnum.FrantisekMarkov, "3, 76").BindCloseBorder("A mist rises at the borders, unlike other vapors in the core, this one causes excruciating pain to anyone who enters. The pain is incapacitating - leading first to paralysis (over 1d4 rounds), then madness. Only one thing alleviates it: stepping back towards the heart of Markovia.");
+
+            DomainEnum.Lamordia.AddLivingDarklord(DarklordEnum.Adam, "3, 75-76").BindCloseBorder("A driving blizzard hurls back any fool who attempts to leave.").DarklordLair = LocationEnum.IsleOfAgony;
+            DomainEnum.Mordent.AddLivingDarklord(DarklordEnum.WilfredGodefroy, "3, 76").BindCreatures(Creature.Ghost).BindCloseBorder("The Mists roll in front the sea and hug the coastline. At other borders, the Mists rise from the soil of Mordent itself, completely sealing the domain. Characters who enter these Mists will discover that every route leads back to Mordent.").DarklordLair = LocationEnum.GryphonHillMansion;
+
             DomainEnum.GHenna    .AddLivingDarklord(DarklordEnum.YagnoPetrovna   , "3");
-            DomainEnum.Richemulot.AddLivingDarklord(DarklordEnum.JacquelineRenier, "3");
-            DomainEnum.Verbrek   .AddLivingDarklord(DarklordEnum.AlfredTimothy   , "3").BindCreatures(Creature.Werewolf);
-            DomainEnum.Arkandale .AddLivingDarklord(DarklordEnum.NathanTimothy   , "3").BindCreatures(Creature.Werewolf).CloseBorder = "A wall of dense vegetation 50 feet thick forms at the borders. It grows over and through the waterways. The green wall turns blades aside, and fire cannot burn it.";
+            DomainEnum.Richemulot.AddLivingDarklord(DarklordEnum.JacquelineRenier, "3, 80").BindCreatures(Creature.Wererat).BindRelatedCreatures(Creature.GiantRat).BindCloseBorder("A horde of giant rats encircles the land. They form a border 50 feet thick, hanging from trees and hulking on the ground. It is impossible to fly over them and escape.");
+            DomainEnum.Verbrek   .AddLivingDarklord(DarklordEnum.AlfredTimothy   , "3, 81").BindCreatures(Creature.Werewolf).BindCloseBorder("To prevent escape, a large group of wolves and werewolves patrol the borders.");
+            DomainEnum.Arkandale .AddLivingDarklord(DarklordEnum.NathanTimothy   , "3").BindCreatures(Creature.Werewolf).BindCloseBorder("A wall of dense vegetation 50 feet thick forms at the borders. It grows over and through the waterways. The green wall turns blades aside, and fire cannot burn it.");
 
             DomainEnum.Barovia.AddLivingDarklord(DarklordEnum.CountStrahd, "3, 8-9, 12, 14, 27, 30-31, 33-34, 36, 56, 63-65")
                 .BindCreatures(Creature.Vampire).BindRelatedCreatures(Creature.Wolf, Creature.StrahdZombie, Creature.StrahdSkeleton)
-                .CloseBorder = "A ring of chokng fog.";
-            DomainEnum.Sithicus  .AddLivingDarklord(DarklordEnum.LordSoth        , "9");
-            DarklordEnum.Tristessa.BindCreatures(Creature.Banshee, Creature.Drow);
+                .BindCloseBorder("A ring of choking fog.").DarklordLair = LocationEnum.CastleRavenloft;
+
+            DomainEnum.Sithicus.AddLivingDarklord(DarklordEnum.LordSoth, "9, 78-79").BindCreatures(Creature.DeathKnight).BindSetting(CampaignSetting.Dragonlance).BindCloseBorder("In Ravenloft, he can seal his borders by remembering his sins in song. As he sings, he is joined by the voices of other sinners. The sound, rising from the borders, is so horrid that no mortal can withstand it. All must return to Sithicus or become hopelessly mad.").DarklordLair = LocationEnum.NedragaardKeep;
+
+            DomainEnum.NovaVaasa.AddLivingDarklord(DarklordEnum.TristenHiregaard, "78");
+            DarklordEnum.Tristessa.BindCreatures(Creature.Banshee, Creature.Drow).BindCloseBorder("A wall of wind that no one can walk or fly through, and no magic can diminish its force.");
+            DomainEnum.Valachan.AddLivingDarklord(DarklordEnum.UrikVonKharkov, "80-81").BindCreatures(Creature.Vampire, Creature.Nosferatu, Creature.Panther).BindCloseBorder("The Mists of Ravenloft encircle the land. Characters who enter the Mists become disoriented; upon leaving them, they find themselves back in Valachan.").DarklordLair = LocationEnum.CastlePantara;
+            DomainEnum.Farelle.AddLivingDarklord(DarklordEnum.JackKarn, "83").BindCreatures(Creature.Jackalwere).BindCloseBorder("His dogs and jackals patrol the border. Their senses are keen and their numbers formidable. Escape is virtually impossible unless Karn allows it.");
+            DomainEnum.HarAkir.AddLivingDarklord(DarklordEnum.Anhktepot, "83").BindCreatures(Creature.Mummy).BindCloseBorder("The borders radiate an impenetrable wall of heat. Travelers who attempt to withstand it eventually turn to ash.");
+            DomainEnum.Sanguinia.AddLivingDarklord(DarklordEnum.LadislavMircea, "84").BindCreatures(Creature.Vampire).BindCloseBorder("Anyone who enters the Misty Border eventually finds himself back in Sanguinia. The Mists sometimes take the form of a blinding snowstorm, bending the fir and pines.").DarklordLair = LocationEnum.CastleGuirgiu;
+            DomainEnum.Souragne.AddLivingDarklord(DarklordEnum.AntonMisroi, "84").BindCreatures(Creature.Zombie).BindCloseBorder("The Mists direct travelers back into the domain. Anyone who enters the Misty Border eventually finds himself back in Souragne.");
+            DomainEnum.SriRaji.AddLivingDarklord(DarklordEnum.Arijani, "85").BindCreatures(Creature.Rakshasa, Creature.Human).BindCloseBorder("A wall of phantasmal killers rises from the borders. The killers cannot be dispelled of disbelieved. Each creature acts in accordance with the phantasmal killer spell, but it attacks only those who are trying to leave.");
+            DomainEnum.StauntonBluffs.AddLivingDarklord(DarklordEnum.TorrenceBleysmith, "85").BindCreatures(Creature.Rakshasa, Creature.Human).BindCloseBorder("A wall of phantasmal killers rises from the borders. The killers cannot be dispelled of disbelieved. Each creature acts in accordance with the phantasmal killer spell, but it attacks only those who are trying to leave.");
+
+            DarklordEnum.TristenApblanc.DarklordLair = LocationEnum.CastleTristenoira;
+            //DarklordEnum.HagsOfTepest.BindCloseBorder("A violent storm encircles the domain. Stinging rain, snow and bolts of lightning drive travelers inland toward the lake. Magic does not affect the bizarre storm.");
 
             AddLivingCharacter(CharacterEnum.Gondegal, "3");
             AddLivingCharacter(CharacterEnum.TaraKolyana, "3").BindRelatedCreatures(Creature.Vampire);
-            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorVictorMordenheim, "3");
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorVictorMordenheim, "3, 75-76");
             AddLivingCharacter(CharacterEnum.RatikUbel, "3");
             AddLivingCharacter(CharacterEnum.DoctorRudolphVanRichten, "3");
             AddLivingCharacter(CharacterEnum.NataliaVhorishkova, "3");
@@ -848,6 +868,9 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadamEva, "9, 36").BindGroups(GroupEnum.Vistani);
             DomainEnum.Dementlieu.AddLivingCharacter(CharacterEnum.MarcelGuignol, "68").BindCharacters(DarklordEnum.DominicdHonaire);
             DomainEnum.GHenna.AddLivingCharacter(CharacterEnum.Zhakata, "70-71").BindGroups(GroupEnum.Deity);
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.BaronVonAubrecker, "75-76");
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Kitiara, "78-79").BindDomains(DomainEnum.Sithicus);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Kali, "85").BindGroups(GroupEnum.Deity, GroupEnum.Kali);
 
             DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "8-9, 56, 64-65").BindItems(ItemEnum.SymbolOfRaven).BindGroups(GroupEnum.HighPriestRavenloft);
             MistwayEnum.SteamwallMountains.TrackMistway("11", DomainEnum.InsideRavenloft, DomainEnum.OutsideRavenloft).BindSetting(CampaignSetting.Dragonlance);
@@ -856,13 +879,13 @@ internal static partial class AddToDatabase
             MistwayEnum.KaraTurIsland     .TrackMistway("11", DomainEnum.InsideRavenloft, DomainEnum.OutsideRavenloft).BindSetting(CampaignSetting.ForgottenRealms);
             MistwayEnum.LortmillMountains .TrackMistway("11", DomainEnum.InsideRavenloft, DomainEnum.OutsideRavenloft).BindSetting(CampaignSetting.Greyhawk);
             MistwayEnum.RuinsOfGreyhawk   .TrackMistway("11", DomainEnum.InsideRavenloft, DomainEnum.OutsideRavenloft).BindSetting(CampaignSetting.Greyhawk);
-            DomainEnum.Barovia.AddLocation(LocationEnum.Balinoks, "35, 60-67, 69-73")
+            DomainEnum.Barovia.AddLocation(LocationEnum.Balinoks, "35, 60-67, 69-73, 76, 78-79")
                 .BindLocations(LocationEnum.RiverVuchar, LocationEnum.RiverMusarde, LocationEnum.RiverArden)
                 .BindDomains(DomainEnum.Darkon, DomainEnum.Bluetspur, DomainEnum.NovaVaasa, DomainEnum.Hazlan, DomainEnum.Tepest, DomainEnum.Arak);
-            DomainEnum.Darkon.AddLocation(LocationEnum.RiverVuchar, "60, 67").BindDomains(DomainEnum.Falkovnia, DomainEnum.Dementlieu, DomainEnum.Lamordia, DomainEnum.SeaOfSorrows).BindLocations(LocationEnum.RiverMusarde);
+            DomainEnum.Darkon.AddLocation(LocationEnum.RiverVuchar, "60, 67, 75").BindDomains(DomainEnum.Falkovnia, DomainEnum.Dementlieu, DomainEnum.Lamordia, DomainEnum.SeaOfSorrows).BindLocations(LocationEnum.RiverMusarde);
             DomainEnum.Lamordia.AddLocation(LocationEnum.RiverMusarde, "60, 63-64, 72-73").BindDomains(DomainEnum.SeaOfSorrows, DomainEnum.Valachan, DomainEnum.Arkandale, DomainEnum.Barovia);
             DomainEnum.Barovia.AddLocation(LocationEnum.RiverLuna, "60").BindLocations(LocationEnum.RiverMusarde);
-            DomainEnum.Mordent.AddLocation(LocationEnum.RiverArden, "60").BindDomains(DomainEnum.Valachan);
+            DomainEnum.Mordent.AddLocation(LocationEnum.RiverArden, "60, 77").BindDomains(DomainEnum.Valachan);
             DomainEnum.Arak.AddLocation(LocationEnum.MountNyid, "61").BindLocations(LocationEnum.Balinoks);
             DomainEnum.Arak.AddLocation(LocationEnum.MountNirka, "61").BindLocations(LocationEnum.Balinoks);
             DomainEnum.Barovia.AddLocation(LocationEnum.MountBaratak, "63-64").BindLocations(LocationEnum.Balinoks);
@@ -916,6 +939,47 @@ internal static partial class AddToDatabase
             DomainEnum.Invidia.AddSettlement(Settlement.Karina, "73");
             DomainEnum.Kartakass.AddSettlement(Settlement.Skald, "73").BindCreatures(Creature.Sheep, Creature.Nightbird);
             DomainEnum.Kartakass.AddSettlement(Settlement.Harmonia, "73").BindCreatures(Creature.Fox, Creature.Wolf);
+            DomainEnum.Lamordia.AddLocation(LocationEnum.SleepingBeast, "75-76").BindCharacters(CharacterEnum.BaronVonAubrecker);
+            DomainEnum.Lamordia.AddLocation(LocationEnum.IsleOfAgony, "75");
+            DomainEnum.Lamordia.AddLocation(LocationEnum.SchlossMordenheim, "75").BindCharacters(CharacterEnum.DoctorVictorMordenheim);
+            DomainEnum.Lamordia.AddSettlement(Settlement.Ludendorf, "75").PopulateSettlement(LocationEnum.SchlossMordenheim);
+            DomainEnum.Lamordia.AddSettlement(Settlement.Neufurchtenburg, "75");
+            DomainEnum.Mordent.AddLocation(LocationEnum.ArdentBay, "77");
+            DomainEnum.Mordent.AddLocation(LocationEnum.GryphonHillMansion, "77").BindCharacters(DarklordEnum.WilfredGodefroy);
+            DomainEnum.Mordent.AddLocation(LocationEnum.GryphonHill, "77").BindCreatures(Creature.Ghoul, Creature.Haunt, Creature.Poltergeist, Creature.Shadow, Creature.Werewolf, Creature.Snake, Creature.Spider, Creature.Bat, Creature.Hag, Creature.Imp, Creature.Sahuagin, Creature.WillOWisp, Creature.Geist);
+            DomainEnum.Mordent.AddLocation(LocationEnum.HeatherHouse, "77");
+            DomainEnum.Mordent.AddSettlement(Settlement.Mordentshire, "77").PopulateSettlement(LocationEnum.HeatherHouse, LocationEnum.GryphonHill, LocationEnum.GryphonHillMansion);
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Kantora, "78");
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Liara, "78");
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Egertus, "78");
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Bergovitsa, "78");
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Arbora, "78");
+            Creature.PlainsCat.ExtraInfo = "A black tailless creature that live in crevices in granite outcroppings and hunt on the plains by night. The females hunt in prides, dragging down horses or other sizeable mammals.";
+            DomainEnum.Sithicus.AddLocation(LocationEnum.NedragaardKeep, "79");
+            DomainEnum.Tepest.AddLocation(LocationEnum.TimoriRoad, "79");
+            DomainEnum.Tepest.AddLocation(LocationEnum.LakeKronov, "79");
+            DomainEnum.Tepest.AddSettlement(Settlement.Viktal, "79").BindCreatures(Creature.Goat, Creature.Sheep);
+            DomainEnum.Tepest.AddSettlement(Settlement.Kellee, "79").BindCreatures(Creature.Goat, Creature.Sheep);
+            DomainEnum.Richemulot.AddSettlement(Settlement.PontaMuseau, "80");
+            DomainEnum.Richemulot.AddSettlement(Settlement.StRonges, "80");
+            DomainEnum.Richemulot.AddSettlement(Settlement.Mortigny, "80");
+            DomainEnum.Valachan.AddSettlement(Settlement.Ungrad, "80");
+            DomainEnum.Valachan.AddSettlement(Settlement.Rotwald, "80");
+            DomainEnum.Valachan.AddSettlement(Settlement.Habelnik, "80");
+            DomainEnum.Valachan.AddLocation(LocationEnum.CastlePantara, "80").BindCharacters(DarklordEnum.UrikVonKharkov);
+            DomainEnum.Verbrek.AddLocation(LocationEnum.TheCircle, "81");
+            DomainEnum.Farelle.AddSettlement(Settlement.Kaynis, "83");
+            DomainEnum.Farelle.AddSettlement(Settlement.Mortilis, "83");
+            DomainEnum.HarAkir.AddSettlement(Settlement.Muhar, "83");
+            DomainEnum.Sanguinia.AddLocation(LocationEnum.MountRadu, "84");
+            DomainEnum.Sanguinia.AddSettlement(Settlement.Tirgo, "84");
+            DomainEnum.Sanguinia.AddSettlement(Settlement.Fagarus, "84");
+            DomainEnum.Sanguinia.AddSettlement(Settlement.Kosova, "84");
+            DomainEnum.Sanguinia.AddLocation(LocationEnum.CastleGuirgiu, "84").BindCharacters(DarklordEnum.LadislavMircea);
+            DomainEnum.Sanguinia.AddLocation(LocationEnum.LakeArgus, "84");
+            DomainEnum.Souragne.AddSettlement(Settlement.PortdElhour, "84");
+            DomainEnum.SriRaji.AddLocation(LocationEnum.YamashaMountains, "85");
+            DomainEnum.SriRaji.AddLocation(LocationEnum.MountYamatali, "85");
 
             DomainEnum.Barovia.AddItem(ItemEnum.Book.TomeOfStrahd, "2, 8");
             DomainEnum.InsideRavenloft.AddItem(ItemEnum.Drink.Aniso, "37").BindGroups(GroupEnum.Vistani).ExtraInfo = "A drink flavoured with aniseed.";
@@ -936,18 +1000,21 @@ internal static partial class AddToDatabase
                 .ExtraInfo = "Wild berry found in thorny thickets on hills.";
             DomainEnum.Kartakass.AddItem(ItemEnum.Drink.Meekulbrau, "74").ExtraInfo = "Made from Meekulbern berries.";
 
-            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani, "2, 4, 9, 35-41, 60, 63, 65, 73").BindItems(ItemEnum.Drink.Aniso)
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani, "2, 4, 9, 35-41, 60, 63, 65, 73, 75-76").BindItems(ItemEnum.Drink.Aniso)
                 .BindCreatures(Creature.Horse, Creature.Dog, Creature.Ox, Creature.Goat, Creature.Chicken, Creature.Bear, Creature.VistaChiri);
             Creature.VistaChiri.ExtraInfo = "Tiny gray and white bird.";
-            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.DarkPowers, "15, 17-19, 27, 50, 55");
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.DarkPowers, "15, 17-19, 27, 50, 55, 76, 79");
             DomainEnum.Barovia.AddGroup(GroupEnum.HighPriestRavenloft, "56").BindItems(ItemEnum.SymbolOfRaven);
             DomainEnum.Barovia.AddGroup(GroupEnum.Burgomaster, "63");
             DomainEnum.Barovia.AddGroup(GroupEnum.Boyar, "63");
             DomainEnum.Darkon.AddGroup(GroupEnum.TheKargat, "67").BindCreatures(Creature.Vampire);
             DomainEnum.GHenna.AddGroup(GroupEnum.Zhakata, "70-71").BindCharacters(DarklordEnum.YagnoPetrovna, CharacterEnum.Zhakata);
             DomainEnum.Kartakass.AddGroup(GroupEnum.Meistersinger, "73-74").BindCharacters(DarklordEnum.HarkonLukas);
+            DomainEnum.Markovia.AddGroup(GroupEnum.Diosamblet, "76").BindCreatures(Creature.BeastMen).BindCharacters(DarklordEnum.FrantisekMarkov);
+            DomainEnum.Tepest.AddGroup(GroupEnum.HagsOfTepest, "79").BindCreatures(Creature.AnnisHag, Creature.GreenHag, Creature.SeaHag);
+            DomainEnum.SriRaji.AddGroup(GroupEnum.Kali, "85").BindDomains(DomainEnum.OutsideRavenloft).BindCharacters(DarklordEnum.Arijani, CharacterEnum.Kali);
 
-            DomainEnum.InsideRavenloft.BindCreatures(Creature.Vampire, Creature.Geist, Creature.Gremishka, Creature.Werewolf, Creature.Wolf, Creature.LoupGarou, Creature.Odem, Creature.StrahdSkeleton, Creature.StrahdZombie, Creature.Nosferatu, Creature.Skeleton, Creature.Zombie, Creature.Ghoul, Creature.Shadow, Creature.Wight, Creature.Ghast, Creature.Wraith, Creature.Mummy, Creature.Spectre, Creature.Ghost, Creature.Lich, Creature.Human, Creature.Dwarf, Creature.Halfling, Creature.Elf, Creature.Werefox, Creature.Fox, Creature.Rat, Creature.Wererat, Creature.Werebear, Creature.Bear, Creature.Hellhound, Creature.Rabbit, Creature.Snake, Creature.Chipmunk, Creature.Ferret, Creature.Hedgehog, Creature.Monkey, Creature.Opossum, Creature.Raccoon, Creature.Squirrel, Creature.Woodchuck);
+            DomainEnum.InsideRavenloft.BindCreatures(Creature.Vampire, Creature.Geist, Creature.Gremishka, Creature.Werewolf, Creature.Wolf, Creature.LoupGarou, Creature.Odem, Creature.StrahdSkeleton, Creature.StrahdZombie, Creature.Nosferatu, Creature.Skeleton, Creature.Zombie, Creature.Ghoul, Creature.Shadow, Creature.Wight, Creature.Ghast, Creature.Wraith, Creature.Mummy, Creature.Spectre, Creature.Ghost, Creature.Lich, Creature.Human, Creature.Dwarf, Creature.Halfling, Creature.Elf, Creature.Werefox, Creature.Fox, Creature.Rat, Creature.Wererat, Creature.Werebear, Creature.Bear, Creature.Hellhound, Creature.Rabbit, Creature.Snake, Creature.Chipmunk, Creature.Ferret, Creature.Hedgehog, Creature.Monkey, Creature.Opossum, Creature.Pig, Creature.Raccoon, Creature.Squirrel, Creature.Woodchuck);
         }
     }
 }

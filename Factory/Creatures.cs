@@ -2,6 +2,16 @@
 {
     internal static class Creature
     {
+        static Creature()
+        {
+            GreatCat.Creatures.Total.UnionWith(new[]
+            { Panther, GiantLynx, Cheetah, MountainLion, Leopard, Jaguar, Lion, Tiger, SpottedLion, Smilodon });
+
+            BirdsOfPrey.Creatures.Total.UnionWith(new[] { Vulture, Hawk, Owl, Eagle });
+            GreatCat.ExtraInfo = BirdsOfPrey.ExtraInfo = "Other applicable animals can still qualify.";
+
+            Hag.Creatures.Total.UnionWith(new[] { AnnisHag, GreenHag, SeaHag });
+    }
         private static Trait CreateCreature(params string[] names)
         {
             var retval = new Trait(names);
@@ -28,13 +38,16 @@
         public readonly static Trait Sahuagin = CreateCreature("Sahuagin");
 
         #region Birds
+        public readonly static Trait BirdsOfPrey = CreateCreature("Birds of Prey");
         public readonly static Trait Vulture = CreateCreature("Vulture");
+        public readonly static Trait Eagle = CreateCreature("Eagle");
         public readonly static Trait Hawk = CreateCreature("Hawk");
         public readonly static Trait Raven = CreateCreature("Raven");
         public readonly static Trait Chicken = CreateCreature("Chicken");
         public readonly static Trait VistaChiri = CreateCreature("Vista-Chiri");
         public readonly static Trait Songbird = CreateCreature("Songbird");
         public readonly static Trait Nightbird = CreateCreature("Nightbird");
+        public readonly static Trait Seabird = CreateCreature("Seabird");
         public readonly static Trait Owl = CreateCreature("Owl");
         #endregion
 
@@ -53,7 +66,9 @@
         public readonly static Trait Opossum = CreateCreature("Opossum");
         public readonly static Trait Woodchuck = CreateCreature("Woodchuck");
         public readonly static Trait Raccoon = CreateCreature("Raccoon");
+        public readonly static Trait Marten = CreateCreature("Marten");
         public readonly static Trait Weasel = CreateCreature("Weasel");
+        public readonly static Trait GiantWeasel = CreateCreature("Giant Weasel");
         #endregion
 
         #region Medium Mammals
@@ -62,23 +77,32 @@
         public readonly static Trait DireWolf = CreateCreature("Dire Wolf");
         public readonly static Trait WinterWolf = CreateCreature("Winter Wolf");
         public readonly static Trait Fox = CreateCreature("Fox");
+        public readonly static Trait Jackal = CreateCreature("Jackal");
         public readonly static Trait Monkey = CreateCreature("Monkey");
         public readonly static Trait Pig = CreateCreature("Pig", "Swine");
+        public readonly static Trait Boar = CreateCreature("Boar");
         #endregion
 
         #region Large Mammals
         public readonly static Trait Sheep = CreateCreature("Sheep");
+        public readonly static Trait BighornSheep = CreateCreature("Bighorn Sheep");
         public readonly static Trait Horse = CreateCreature("Horse");
         public readonly static Trait Deer = CreateCreature("Deer");
         public readonly static Trait Goat = CreateCreature("Goat");
+        public readonly static Trait MountainGoat = CreateCreature("Mountain Goat");
         public readonly static Trait Ox = CreateCreature("Ox", "Oxen");
         public readonly static Trait Bear = CreateCreature("Bear");
+        public readonly static Trait Caribou = CreateCreature("Caribou");
+        public readonly static Trait Elk = CreateCreature("Elk");
+        public readonly static Trait Moose = CreateCreature("Moose");
+        public readonly static Trait Elephant = CreateCreature("Elephant");
         #endregion
 
         #region Cats
-        public readonly static Trait Panther = CreateCreature("Panther");
         public readonly static Trait BlackCat = CreateCreature("Black Cat");
         public readonly static Trait HouseCat = CreateCreature("House Cat");
+        public readonly static Trait GreatCat = CreateCreature("Great Cat");
+        public readonly static Trait Panther = CreateCreature("Panther");
         public readonly static Trait GiantLynx = CreateCreature("Giant Lynx");
         public readonly static Trait Cheetah = CreateCreature("Cheetah");
         public readonly static Trait MountainLion = CreateCreature("Mountain Lion");
@@ -88,6 +112,7 @@
         public readonly static Trait Tiger = CreateCreature("Tiger");
         public readonly static Trait SpottedLion = CreateCreature("Spotted Lion");
         public readonly static Trait Smilodon = CreateCreature("Smilodon");
+        public readonly static Trait PlainsCat = CreateCreature("Plains Cat");
         #endregion
 
         #region Fantasy Animals
@@ -107,7 +132,12 @@
         #endregion
 
         public readonly static Trait Snake = CreateCreature("Snake");
+        public readonly static Trait Frog = CreateCreature("Frog", "Toad");
+        public readonly static Trait Toad = Frog;
         public readonly static Trait GiantToad = CreateCreature("Giant Toad");
+        public readonly static Trait Sturgeon = CreateCreature("Sturgeon");
+        public readonly static Trait Crocodile = CreateCreature("Crocodile");
+        public readonly static Trait Lizard = CreateCreature("Lizard");
 
         #region Bugs
         public readonly static Trait GiantSpider = CreateCreature("Giant Spider");
@@ -115,6 +145,9 @@
         public readonly static Trait Spider = CreateCreature("Spider");
         public readonly static Trait Stirge = CreateCreature("Stirge");
         public readonly static Trait Maggot = CreateCreature("Maggot");
+        public readonly static Trait AntLion = CreateCreature("Ant Lion");
+        public readonly static Trait Scorpion = CreateCreature("Scorpion");
+        public readonly static Trait Leech = CreateCreature("Leech");
         #endregion
 
         public readonly static Trait Goblyn = CreateCreature("Goblyn");
@@ -147,11 +180,17 @@
         public readonly static Trait BrokenOne = CreateCreature("Broken One");
         public readonly static Trait Doppelganger = CreateCreature("Doppelganger", "Doppleganger");
         public readonly static Trait InvisibleStalker = CreateCreature("Invisible Stalker");
-        public readonly static Trait Hag = CreateCreature("Hag");
         public readonly static Trait Witch = CreateCreature("Witch");
         public readonly static Trait Harpy = CreateCreature("Harpy");
         public readonly static Trait Ogre = CreateCreature("Ogre");
         public readonly static Trait Satyr = CreateCreature("Satyr");
+        public readonly static Trait Rakshasa = CreateCreature("Rakshasa");
+        public readonly static Trait Naga = CreateCreature("Naga");
+
+        public readonly static Trait Hag = CreateCreature("Hag");
+        public readonly static Trait AnnisHag = CreateCreature("Annis Hag");
+        public readonly static Trait GreenHag = CreateCreature("Green Hag");
+        public readonly static Trait SeaHag = CreateCreature("Sea Hag");
 
         #region Undead
         #region Incorporeal
@@ -220,12 +259,14 @@
 
         public readonly static Trait QuasiElementalLightning = CreateCreature("Quasi-Elemental Lightning");
         public readonly static Trait Mihstu = CreateCreature("Mihstu");
+        public readonly static Trait Sandling = CreateCreature("Sandling");
 
         public readonly static Trait MindFlayer = CreateCreature("Illithid", "Mind Flayer");
         public readonly static Trait Illithid = MindFlayer;
 
         #region Animal Shifters
         public readonly static Trait Werewolf = CreateCreature("Werewolf", "Lycanthrope");
+        public readonly static Trait Seawolf = CreateCreature("Seawolf");
         public readonly static Trait LoupGarou = CreateCreature("Loup-Garou");
         public readonly static Trait Jackalwere = CreateCreature("Jackalwere");
         public readonly static Trait Wolfwere = CreateCreature("Wolfwere");
@@ -234,6 +275,8 @@
         public readonly static Trait Werefox = CreateCreature("Werefox");
         public readonly static Trait Wererat = CreateCreature("Wererat");
         public readonly static Trait Werebear = CreateCreature("Werebear");
+        public readonly static Trait Weretiger = CreateCreature("Weretiger");
+        public readonly static Trait BeastMen = CreateCreature("Beast men");
         #endregion
 
         public readonly static Trait GhostShip = CreateCreature("Ghost Ship");
@@ -245,6 +288,7 @@
         public readonly static Trait NeedleBlight = CreateCreature("Needle Blight");
         public readonly static Trait VineBlight = CreateCreature("Vine Blight");
         public readonly static Trait AwakenedShrub = CreateCreature("Awakened Shrub");
+        public readonly static Trait ManEatingPlant = CreateCreature("Man-eating plant");
         #endregion
     }
 }

@@ -5,6 +5,8 @@ internal static partial class AddToDatabase
     public static void Add3()
     {
         AddMistsOfRavenloft();
+        AddSpelljammerCrystalSpheres();
+        AddWorldSerpentInn();
         void AddMistsOfRavenloft()
         {
             var releaseDate = "09/09/2021";
@@ -41,6 +43,40 @@ internal static partial class AddToDatabase
                 .BindCharacters(CharacterEnum.Aisha, CharacterEnum.Casius, CharacterEnum.Elana, CharacterEnum.Marnius, CharacterEnum.Walla);
 
             Settlement.TserPoolEncampnent.PopulateSettlement(LocationEnum.TserPool);
+        }
+        void AddSpelljammerCrystalSpheres()
+        {
+            var releaseDate = "01/10/1990";
+            string ExtraInfo = "<br/>&emsp;Design: J. Paul LaFountain";
+            ExtraInfo += "<br/>&emsp;Cartography: Diesel";
+            ExtraInfo += "<br/>&emsp;Editing: Anne Brown";
+            ExtraInfo += "<br/>&emsp;Typography: Angelika Lokotz";
+            ExtraInfo += "<br/>&emsp;Cover Art: Brom";
+            ExtraInfo += "<br/>&emsp;Graphic Design: Paul Hanchette";
+            ExtraInfo += "<br/>&emsp;Interior Art: Paul Abrams";
+            ExtraInfo += "<br/>&emsp;Module Info: An adventure for 4-8 characters of levels 5-7";
+            using var ctx = CreateSource("Spelljammer: Crystal Spheres", releaseDate, ExtraInfo, Edition.e2, Media.module);
+
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.TLaan).BindAlignment(Alignment.CE)
+                .BindCreatures(Creature.Vampire, Creature.HalfElf)
+                .BindSetting(CampaignSetting.Spelljammer, CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.MorganDarkdawn)
+                .BindDomains(DomainEnum.OutsideRavenloft)
+                .BindSetting(CampaignSetting.Spelljammer, CampaignSetting.Greyhawk)
+                .ExtraInfo = "Reportedly escaped Ravenloft.";
+        }
+        void AddWorldSerpentInn()
+        {
+            var releaseDate = "01/10/1990";
+            string ExtraInfo = "<br/>&emsp;Design: J. Paul LaFountain";
+            ExtraInfo += "<br/>&emsp;Cartography: Diesel";
+            ExtraInfo += "<br/>&emsp;Editing: Anne Brown";
+            ExtraInfo += "<br/>&emsp;Typography: Angelika Lokotz";
+            ExtraInfo += "<br/>&emsp;Cover Art: Brom";
+            ExtraInfo += "<br/>&emsp;Graphic Design: Paul Hanchette";
+            ExtraInfo += "<br/>&emsp;Interior Art: Paul Abrams";
+            ExtraInfo += "<br/>&emsp;Module Info: An adventure for 4-8 characters of levels 5-7";
+            using var ctx = CreateSource("Mist of Ravenloft", releaseDate, ExtraInfo, Edition.e2, Media.module);
         }
     }
 }

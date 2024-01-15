@@ -63,7 +63,7 @@ public abstract class UseVariableName : IComparable<UseVariableName> //Domain, L
 
     public string ExtraInfo = string.Empty;
     public Edition editions;
-    public Trait? Setting; //You can kinda only really be from one campaign setting
+    public HashSet<Trait> Settings = new();
     public UseVariableName(params string[] names) => Names.AddRange(names);
     public int CompareTo(UseVariableName? other) => Names[0].CompareTo(other?.Names[0]);
 }
@@ -138,8 +138,9 @@ public class Domain : UseVariableName, IHasAppearances<Domain>
     public Domain(params string[] names) : base(names) { }
     public class Darklord : Character
     {
-        public Location? DarklordLair; //I haven't heard of more than one lair
-        public string Curse = string.Empty, CloseBorder = string.Empty;
+        public Location? DarklordLair;
+        public readonly ToTrack<string> CloseBorder = new();
+        public readonly ToTrack<string> Curse = new();
         public Darklord(params string[] names) : base(names) { }
     }
 }

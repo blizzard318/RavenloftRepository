@@ -56,6 +56,8 @@
         public readonly static Group Tyr = CreateGroup("Religion of Tyr");
         public readonly static Group Milil = CreateGroup("Religion of Milil");
         public readonly static Group WeeJas = CreateGroup("Religion of Wee Jas");
+        public readonly static Group Diosamblet = CreateGroup("Religion of Diosamblet");
+        public readonly static Group Kali = CreateGroup("Religion of Kali");
 
         public readonly static Group Solamnia = CreateGroup("Knights of Solamnia");
         public readonly static Group RoseKnights = CreateGroup("Knights of the Rose");

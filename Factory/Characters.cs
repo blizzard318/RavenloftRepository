@@ -169,6 +169,7 @@
         public readonly static Character KatrinaVonBrandthofen = CreateCharacter("Katrina Von Brandthofen");
         public readonly static Character DoctorVictorMordenheim = CreateCharacter("Doctor Victor Mordenheim");
         public readonly static Character Eva = CreateCharacter("Eva");
+        public readonly static Character BaronVonAubrecker = CreateCharacter("Baron Von Aubrecker");
         #endregion
 
         #region Liffe
@@ -320,6 +321,7 @@
         #endregion
 
         #region Nova Vaasa
+        public readonly static Character PrinceOthmar = CreateCharacter("Prince Othmar");
         #endregion
 
         #region Paridon
@@ -338,6 +340,7 @@
         #endregion
 
         #region Sri Raji / Kalakeri
+        public readonly static Character Kali = CreateCharacter("Kali");
         #endregion
 
         #region Souragne
@@ -353,7 +356,8 @@
 
         #region Inside Ravenloft
         public readonly static Character EleazerClyde = CreateCharacter("EleazerClyde");
-        public readonly static Character TLaan = CreateCharacter("T`Laan");
+        public readonly static Character TLaan = CreateCharacter("T`Laan", "Dorin");
+        public readonly static Character MorganDarkdawn = CreateCharacter("MorganDarkdawn");
         public readonly static Character TarlVanovitch = CreateCharacter("Tarl Vanovitch");
         public readonly static Character Quebe = CreateCharacter("Quebe");
         public readonly static Character HoelgarArnutsson = CreateCharacter("Hoelgar Arnutsson");

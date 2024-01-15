@@ -90,6 +90,8 @@ public partial class Factory : IDisposable
         #region Lamordia
         public readonly static Location DharlaethAsylum = CreateLocation("Dharlaeth Asylum");
         public readonly static Location IsleOfAgony = CreateLocation("Isle of Agony");
+        public readonly static Location SleepingBeast = CreateLocation("Sleeping Beast");
+        public readonly static Location SchlossMordenheim = CreateLocation("Schloss Mordenheim");
         #endregion
 
         #region Mordent
@@ -153,6 +155,34 @@ public partial class Factory : IDisposable
         public readonly static Location HeatherHousePoint = CreateLocation("Heather House Point");
         public readonly static Location Heatherwood = CreateLocation("Heatherwood");
         public readonly static Location HeatherRoad = CreateLocation("Heather Road");
+        #endregion
+
+        #region Sanguinia
+        public readonly static Location MountRadu = CreateLocation("Nedragaard Keep");
+        public readonly static Location CastleGuirgiu = CreateLocation("Castle Guirgiu");
+        public readonly static Location LakeArgus = CreateLocation("Lake Argus");
+        #endregion
+
+        #region Sithicus
+        public readonly static Location NedragaardKeep = CreateLocation("Nedragaard Keep");
+        #endregion
+
+        #region Sri Raji / Kalakeri
+        public readonly static Location YamashaMountains = CreateLocation("Yamasha Mountains");
+        public readonly static Location MountYamatali = CreateLocation("Mount Yamatali");
+        #endregion
+
+        #region Tepest
+        public readonly static Location TimoriRoad = CreateLocation("Timori Road");
+        public readonly static Location LakeKronov = CreateLocation("Lake Kronov");
+        #endregion
+
+        #region Valachan
+        public readonly static Location CastlePantara = CreateLocation("Castle Pantara");
+        #endregion
+
+        #region Verbrek
+        public readonly static Location TheCircle = CreateLocation("The Circle");
         #endregion
 
         #region Inside Ravenloft

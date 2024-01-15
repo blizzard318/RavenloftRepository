@@ -54,6 +54,11 @@
         public readonly static Location Aerie = CreateSettlement("Aerie");
         #endregion
 
+        #region Farelle
+        public readonly static Location Kaynis = CreateSettlement("Kaynis");
+        public readonly static Location Mortilis = CreateSettlement("Mortilis");
+        #endregion
+
         #region G'Henna
         public readonly static Location Zukar = CreateSettlement("Zukar");
         #endregion
@@ -61,6 +66,10 @@
         #region Gundarak
         public readonly static Location Teufeldorf = CreateSettlement("Teufeldorf");
         public readonly static Location Zeidenburg = CreateSettlement("Zeidenburg");
+        #endregion
+
+        #region Har'akir
+        public readonly static Location Muhar = CreateSettlement("Muhar");
         #endregion
 
         #region Hazlan
@@ -77,8 +86,48 @@
         public readonly static Location Skald = CreateSettlement("Skald");
         #endregion
 
+        #region Lamordia
+        public readonly static Location Ludendorf = CreateSettlement("Ludendorf");
+        public readonly static Location Neufurchtenburg = CreateSettlement("Neufurchtenburg");
+        #endregion
+
         #region Mordent
         public readonly static Location Mordentshire = CreateSettlement("Mordentshire");
+        #endregion
+
+        #region Nova Vaasa
+        public readonly static Location Kantora = CreateSettlement("Kantora");
+        public readonly static Location Liara = CreateSettlement("Liara");
+        public readonly static Location Egertus = CreateSettlement("Egertus");
+        public readonly static Location Bergovitsa = CreateSettlement("Bergovitsa");
+        public readonly static Location Arbora = CreateSettlement("Arbora");
+        #endregion
+
+        #region Sanguinia
+        public readonly static Location Tirgo = CreateSettlement("Tirgo");
+        public readonly static Location Fagarus = CreateSettlement("Fagarus");
+        public readonly static Location Kosova = CreateSettlement("Kosova");
+        #endregion
+
+        #region Souragne
+        public readonly static Location PortdElhour = CreateSettlement("Port d`Elhour");
+        #endregion
+
+        #region Tepest
+        public readonly static Location Viktal = CreateSettlement("Viktal");
+        public readonly static Location Kellee = CreateSettlement("Kellee");
+        #endregion
+
+        #region Richemulot
+        public readonly static Location PontaMuseau = CreateSettlement("Pont-a-Museau");
+        public readonly static Location StRonges = CreateSettlement("St. Ronges");
+        public readonly static Location Mortigny = CreateSettlement("Mortigny");
+        #endregion
+
+        #region Valachan
+        public readonly static Location Ungrad = CreateSettlement("Ungrad");
+        public readonly static Location Rotwald = CreateSettlement("Rotwald");
+        public readonly static Location Habelnik = CreateSettlement("Habelnik");
         #endregion
     }
 }
