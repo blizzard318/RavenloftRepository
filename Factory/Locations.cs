@@ -172,6 +172,10 @@ public partial class Factory : IDisposable
         public readonly static Location MountYamatali = CreateLocation("Mount Yamatali");
         #endregion
 
+        #region Staunton Bluffs
+        public readonly static Location CastleStonecrest = CreateLocation("Castle Stonecrest");
+        #endregion
+
         #region Tepest
         public readonly static Location TimoriRoad = CreateLocation("Timori Road");
         public readonly static Location LakeKronov = CreateLocation("Lake Kronov");
@@ -179,6 +183,10 @@ public partial class Factory : IDisposable
 
         #region Valachan
         public readonly static Location CastlePantara = CreateLocation("Castle Pantara");
+        #endregion
+
+        #region Verbrek
+        public readonly static Location CliffsOfVesani = CreateLocation("The Cliffs of Vesani");
         #endregion
 
         #region Verbrek

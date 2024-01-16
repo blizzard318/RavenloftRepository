@@ -113,6 +113,10 @@
         public readonly static Location PortdElhour = CreateSettlement("Port d`Elhour");
         #endregion
 
+        #region Souragne
+        public readonly static Location Willisford = CreateSettlement("Willisford");
+        #endregion
+
         #region Tepest
         public readonly static Location Viktal = CreateSettlement("Viktal");
         public readonly static Location Kellee = CreateSettlement("Kellee");
@@ -128,6 +132,14 @@
         public readonly static Location Ungrad = CreateSettlement("Ungrad");
         public readonly static Location Rotwald = CreateSettlement("Rotwald");
         public readonly static Location Habelnik = CreateSettlement("Habelnik");
+        #endregion
+
+        #region Valachan
+        public readonly static Location Abdok = CreateSettlement("Abdok");
+        #endregion
+
+        #region Paridon / Zherisia
+        public readonly static Location Paridon = CreateSettlement("Paridon");
         #endregion
     }
 }

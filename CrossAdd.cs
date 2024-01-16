@@ -209,7 +209,11 @@ public static class CrossAdd
         entity.Creatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
 
-        foreach (var creature in creatures) creature.Sources.Add(Source);
+        foreach (var creature in creatures)
+        {
+            creature.Sources.Add(Source);
+            creature.editions |= Source.editions;
+        }
 
         var list = GetSetFromArray();
         foreach (var set in list) set.Add(Source, entity);
@@ -245,7 +249,11 @@ public static class CrossAdd
     {
         Character.RelatedCreatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
-        foreach (var creature in creatures) creature.Sources.Add(Source);
+        foreach (var creature in creatures)
+        {
+            creature.Sources.Add(Source);
+            creature.editions |= Source.editions;
+        }
         return Character;
     }
     public static Character BindLanguages(this Character character, params Trait[] languages)
@@ -254,6 +262,7 @@ public static class CrossAdd
         Source.Languages.UnionWith(languages);
         foreach (var language in languages)
         {
+            language.editions |= Source.editions;
             language.Sources.Add(Source);
             language.Characters.Add(Source, character);
         }
@@ -267,6 +276,7 @@ public static class CrossAdd
         Ravenloftdb.LanguagesPerDomain.TryAdd(domain, new());
         foreach (var language in languages)
         {
+            language.editions |= Source.editions;
             language.Sources.Add(Source);
             language.Domains.Add(Source, domain);
             Ravenloftdb.LanguagesPerDomain[domain].Add(language);
@@ -316,6 +326,11 @@ public static class CrossAdd
     public static Domain.Darklord BindCloseBorder (this Domain.Darklord darklord, string CloseBorder)
     {
         darklord.CloseBorder.Add(Source, CloseBorder);
+        return darklord;
+    }
+    public static Domain.Darklord BindCurse (this Domain.Darklord darklord, string Curse)
+    {
+        darklord.Curse.Add(Source, Curse);
         return darklord;
     }
 

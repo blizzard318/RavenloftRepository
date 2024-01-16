@@ -49,5 +49,7 @@ public partial class Factory : IDisposable
         public readonly static Darklord JackKarn        = CreateDarklord("Jack Karn");
         public readonly static Darklord LadislavMircea  = CreateDarklord("Prince Ladislav Mircea");
         public readonly static Darklord TorrenceBleysmith = CreateDarklord("Sir Torrence Bleysmith");
+        public readonly static Darklord Easen           = CreateDarklord("Easen the Mad");
+        public readonly static Darklord Sodo            = CreateDarklord("Sodo");
     }
 }

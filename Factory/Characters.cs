@@ -152,6 +152,7 @@
         #endregion
 
         #region Invidia
+        public readonly static Character Isabella = CreateCharacter("Isabella");
         #endregion
 
         #region Kartakass
