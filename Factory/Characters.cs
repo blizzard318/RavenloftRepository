@@ -13,6 +13,12 @@
 
         #region Arkandale
         public readonly static Character NataliaVhorishkova = CreateCharacter("Natalia Vhorishkova");
+        public readonly static Character CainTimothy = CreateCharacter("Cain Timothy");
+        public readonly static Character ElizabethTimothy = CreateCharacter("Elizabeth Timothy");
+        public readonly static Character VirginiaDilisnya = CreateCharacter("Virginia Dilisnya");
+        public readonly static Character RichardRatcliff = CreateCharacter("Richard Ratcliff");
+        public readonly static Character CliffordDilisnya = CreateCharacter("Clifford Ratcliff");
+        public readonly static Character CynthiaHerbert = CreateCharacter("Cynthia Herbert");
         #endregion
 
         #region Barovia
@@ -95,6 +101,32 @@
         #region Borca
         public readonly static Character DuralIronHills = CreateCharacter("Dural of the Iron Hills");
         public readonly static Character Vadarin = CreateCharacter("Vadarin");
+        public readonly static Character Dorfniya = CreateCharacter("Dorfniya");
+        public readonly static Character GuntherCosco = CreateCharacter("Gunther Cosco");
+        public readonly static Character PidlwickDilisnya = CreateCharacter("Pidlwick Dilisnya");
+        public readonly static Character LeoDilisnya = CreateCharacter("Leo Dilisnya");
+        public readonly static Character LevDilisnya = CreateCharacter("Lev Dilisnya");
+        public readonly static Character NikiRomanoff = CreateCharacter("Niki Romanoff");
+        public readonly static Character ElenaAlmeida = CreateCharacter("Elena Almeida");
+        public readonly static Character YakovDilisnya = CreateCharacter("Yakov Dilisnya");
+        public readonly static Character OleskaDilisnya = CreateCharacter("Oleska Dilisnya");
+        public readonly static Character StepanDilisnya = CreateCharacter("Stepan Dilisnya");
+        public readonly static Character AnnaKurdzeil = CreateCharacter("Anna Kurdzeil");
+        public readonly static Character TadeuszPaldo = CreateCharacter("Tadeusz Paldo");
+        public readonly static Character RichtorDilisnya = CreateCharacter("Richtor Dilisnya");
+        public readonly static Character SiegfriedGrymig = CreateCharacter("Siegfried Grymig");
+        public readonly static Character MariaDiazi = CreateCharacter("Maria Diazi");
+        public readonly static Character KlausBoritsi = CreateCharacter("Klaus Boritsi");
+        public readonly static Character StepanTaroyan = CreateCharacter("Stepan Taroyan");
+        public readonly static Character Brunhilda = CreateCharacter("Brunhilda");
+        public readonly static Character OlehFortich = CreateCharacter("Oleh Fortich");
+        public readonly static Character AbelardoLeoni = CreateCharacter("Abelardo Leoni");
+        public readonly static Character NikoliChesniak = CreateCharacter("Nikoli Chesniak");
+        public readonly static Character AlexanderManduchi = CreateCharacter("Alexander Manduchi");
+        public readonly static Character SuloBoritsi = CreateCharacter("Sulo Boritsi");
+        public readonly static Character LuciaRitter = CreateCharacter("Lucia Ritter");
+        public readonly static Character AntonBoritsi = CreateCharacter("Anton Boritsi");
+        public readonly static Character KatarinaPiechota = CreateCharacter("Katarina Piechota");
         #endregion
 
         #region Cavitius
@@ -121,6 +153,47 @@
 
         #region Dementlieu
         public readonly static Character MarcelGuignol = CreateCharacter("Marcel Guignol");
+        public readonly static Character Claude = CreateCharacter("Claude d`Honaire");
+        public readonly static Character AliciaCorgiat = CreateCharacter("Alicia Corgiat");
+        public readonly static Character Bernadette = CreateCharacter("Bernadette d`Honaire");
+        public readonly static Character HuguesMousel = CreateCharacter("Hugues Mousel");
+        public readonly static Character FrancoisMousel = CreateCharacter("Francois Mousel");
+        public readonly static Character JoelieFontaine = CreateCharacter("Francois Fontaine");
+        public readonly static Character MadeleineMousel = CreateCharacter("Madeleine Mousel");
+        public readonly static Character RaymondeBiourne = CreateCharacter("Raymonde Biourne");
+        public readonly static Character Maurice = CreateCharacter("Maurice d`Honaire");
+        public readonly static Character AliciaNorberte = CreateCharacter("Alicia Norberte");
+        public readonly static Character ErnestinePasier = CreateCharacter("Ernestine Pasier");
+        public readonly static Character LouisePecquet = CreateCharacter("Louise Pecquet");
+        public readonly static Character LouiseGirod = CreateCharacter("Louise Girod");
+        public readonly static Character DominicdHonaire2 = CreateCharacter("Dominic d`Honaire II");
+        public readonly static Character BabetteBatista = CreateCharacter("Babette Batista");
+        public readonly static Character Julienne = CreateCharacter("Julienne d`Honaire");
+        public readonly static Character BernardLoverde = CreateCharacter("Bernard Loverde");
+        public readonly static Character Gerard = CreateCharacter("Gerard d`Honaire");
+        #endregion
+
+        #region Dorvinia
+        public readonly static Character BorisDilisnya = CreateCharacter("Boris Dilisnya");
+        public readonly static Character StefaniaSeptow = CreateCharacter("Stefania Septow");
+        public readonly static Character KristinaDilisnya = CreateCharacter("Kristina Dilisnya");
+        public readonly static Character NataliaOlszanik = CreateCharacter("Natalia Olszanik");
+        public readonly static Character Lucretia = CreateCharacter("Lucretia Marzeya");
+        public readonly static Character ReinholdDilisnya = CreateCharacter("Reinhold Dilisnya");
+        public readonly static Character NadiaYakimov = CreateCharacter("Nadia Yakimov");
+        public readonly static Character GertudeDilisnya = CreateCharacter("Gertude Dilisnya");
+        public readonly static Character IvanBuchvold = CreateCharacter("Ivan Buchvold");
+        public readonly static Character OlekaDilisnya = CreateCharacter("Oleka Dilisnya");
+        public readonly static Character VictorWachter = CreateCharacter("Victor Wachter");
+        public readonly static Character LovinaWachter = CreateCharacter("Lovina Wachter");
+        public readonly static Character RomanDilisnya = CreateCharacter("Roman Dilisnya");
+        public readonly static Character AnnaSpachuk = CreateCharacter("Anna Spachuk");
+        public readonly static Character CamilleYakimov = CreateCharacter("Camille Yakimov");
+        public readonly static Character FredrikDilisnya = CreateCharacter("Fredrik Dilisnya");
+        public readonly static Character TaraYanoff = CreateCharacter("Tara Yanoff");
+        public readonly static Character KatinaDilisnya = CreateCharacter("Katina Dilisnya");
+        public readonly static Character HassligDilisnya = CreateCharacter("Hasslig Dilisnya");
+        public readonly static Character EdgarLeskovich = CreateCharacter("Edgar Leskovich");
         #endregion
 
         #region Falkovnia
@@ -128,7 +201,29 @@
         public readonly static Character Killeen = CreateCharacter("Killeen");
         public readonly static Character Kevlin = CreateCharacter("Kevlin");
         public readonly static Character Knightengale = CreateCharacter("Knightengale");
-        public readonly static Character Gondegal = CreateCharacter("Gondegal");
+        public readonly static Character Gondegal = CreateCharacter("Gondegal", "Lost King");
+
+        public readonly static Character NadiaRuzich = CreateCharacter("Nadia Ruzich");
+        public readonly static Character IreenaImlach = CreateCharacter("Ireena Imlach");
+        public readonly static Character YuriMitrovic = CreateCharacter("Yuri Mitrovic");
+
+        public readonly static Character LelaDekovan = CreateCharacter("Lela Dekovan");
+        public readonly static Character VladDrakov2 = CreateCharacter("Vlad Drakov II");
+        public readonly static Character TatyanaOstevic = CreateCharacter("Tatyana Ostevic");
+        public readonly static Character VladDrakov3 = CreateCharacter("Vlad Drakov III");
+        public readonly static Character KaraDrakov = CreateCharacter("Kara Drakov");
+        public readonly static Character DmitriLikarevie = CreateCharacter("Dmitri Likarevie");
+        public readonly static Character MirceaDrakov = CreateCharacter("Mircea Drakov");
+        public readonly static Character AnnaHatziavas = CreateCharacter("Anna Hatziavas");
+        public readonly static Character TaraFastov = CreateCharacter("Tara Fastov");
+        public readonly static Character SzotaDrakov = CreateCharacter("Szota Drakov");
+        public readonly static Character PeterVonBorstel = CreateCharacter("Peter Von Borstel");
+
+        public readonly static Character GriseldaZamiara = CreateCharacter("Griselda Zamiara");
+        public readonly static Character MikhailDrakov = CreateCharacter("Mikhail Drakov");
+        public readonly static Character OlanaCrepeau = CreateCharacter("Olana Crepeau");
+        public readonly static Character NatashaDrakov = CreateCharacter("Natasha Drakov");
+        public readonly static Character LevKrenkovich = CreateCharacter("Lev Krenkovich");
         #endregion
 
         #region G'Henna
@@ -153,6 +248,7 @@
 
         #region Invidia
         public readonly static Character Isabella = CreateCharacter("Isabella");
+        public readonly static Character Matton = CreateCharacter("Matton");
         #endregion
 
         #region Kartakass
@@ -171,6 +267,7 @@
         public readonly static Character DoctorVictorMordenheim = CreateCharacter("Doctor Victor Mordenheim");
         public readonly static Character Eva = CreateCharacter("Eva");
         public readonly static Character BaronVonAubrecker = CreateCharacter("Baron Von Aubrecker");
+        public readonly static Character EliseVonBrandthofen = CreateCharacter("Elise Von Brandthofen");
         #endregion
 
         #region Liffe
@@ -316,6 +413,8 @@
         public readonly static Character LarsonChelf = CreateCharacter("Larson Chelf");
         public readonly static Character YettergunFolie = CreateCharacter("Yettergun Folie");
         public readonly static Character LeslieKale = CreateCharacter("Leslie Kale");
+        public readonly static Character GeorgeWeathermay = CreateCharacter("George Weathermay");
+        public readonly static Character Perseus = CreateCharacter("Perseus");
         #endregion
 
         #region Nebligtode
@@ -330,6 +429,30 @@
         #endregion
 
         #region Richemulot
+        public readonly static Character HenriDuBois = CreateCharacter("Henri DuBois");
+        public readonly static Character IsabelleMoseau = CreateCharacter("Isabelle Moseau");
+        public readonly static Character AnaisRenier = CreateCharacter("Anais Isabelle Renier");
+        public readonly static Character HenriMilette = CreateCharacter("Henri Milette");
+        public readonly static Character JoelleMilette = CreateCharacter("Joelle Isabelle Milette");
+        public readonly static Character GregoireAlairan = CreateCharacter("Gregoire Alairan");
+        public readonly static Character MauriceMilette = CreateCharacter("Maurice Milette");
+        public readonly static Character EliseDeLauren = CreateCharacter("Elise DeLauren");
+
+        public readonly static Character MarieRenier = CreateCharacter("Marie Isabelle Renier");
+        public readonly static Character SimonAudaire = CreateCharacter("Simon Audaire");
+        public readonly static Character AntionetteRenier = CreateCharacter("Antionette Isabelle Renier");
+        public readonly static Character LaurrentHaurie = CreateCharacter("Laurrent Haurie");
+        public readonly static Character DominicSoufel = CreateCharacter("Dominic Soufel");
+        public readonly static Character JacquesRenier = CreateCharacter("Jacques Renier");
+        public readonly static Character LouiseRenier = CreateCharacter("Louise Isabelle Renier");
+        public readonly static Character RaulRenier = CreateCharacter("Raul Renier");
+        public readonly static Character GertrudeVonZarovich = CreateCharacter("Gertrude Von Zarovich");
+
+        public readonly static Character EduardoRenier = CreateCharacter("Eduardo Renier");
+        public readonly static Character MargueritePentarde = CreateCharacter("Marguerite Pentarde");
+        public readonly static Character PierreRenier = CreateCharacter("Pierre Pentarde");
+        public readonly static Character GerardRenier = CreateCharacter("Gerard Pentarde");
+        public readonly static Character SandrineDaugeri = CreateCharacter("Sandrine Daugeri");
         #endregion
 
         #region Sebua
@@ -350,6 +473,10 @@
 
         #region Valachan
         public readonly static Character Felkovic = CreateCharacter("Felkovic");
+        #endregion
+
+        #region Verbrek
+        public readonly static Character WolfGod = CreateCharacter("Wolf God");
         #endregion
 
         #region Winding Road

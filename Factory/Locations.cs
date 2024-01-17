@@ -98,6 +98,7 @@ public partial class Factory : IDisposable
         public readonly static Location SaulbridgeSanitarium = CreateLocation("Saulbridge Sanitarium");
         public readonly static Location GryphonHill = CreateLocation("Gryphon Hill");
         public readonly static Location GryphonHillMansion = CreateLocation("Gryphon Hill Mansion");
+        public readonly static Location GryphonHillCemetery = CreateLocation("Gryphon Hill Cemetery");
         public readonly static Location HeatherHouse = CreateLocation("Weathermay Estate", "Heather House");
         public readonly static Location WeathermayEstate = HeatherHouse;
         public readonly static Location WeathermayMausoleum = CreateLocation("Weathermay Mausoleum");

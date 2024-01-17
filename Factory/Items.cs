@@ -8,19 +8,24 @@
             Ravenloftdb.Items.Add(retval);
             return retval;
         }
-        public readonly static Item VigilaDimorta = CreateItem("Vigila Dimorta", "Sentries of Death");
+        public readonly static Item VigilaDimorta = CreateItem("Vigila Dimorta", "Sentries of Death"); //Falkovnia
 
-        public readonly static Item Apparatus = CreateItem("Apparatus");
+        public readonly static Item AzalinPhylactery = CreateItem("Azalin Rex`s Phylactery");
+        public readonly static Item HazlikPendant = CreateItem("Hazlik`s Pendant");
+        public readonly static Item HarkonHarp = CreateItem("Harkon Luka`s Harp");
+
+        public readonly static Item Apparatus = CreateItem("Apparatus"); //Mordent
         public readonly static Item SoulSearcher = CreateItem("Soul Searcher Medallion", "Soul Searcher Orb");
         public readonly static Item MirrorOfLaw = CreateItem("Mirror Of Lawful Alignment");
 
-        public readonly static Item Chosen = CreateItem("Chosen");
+        public readonly static Item Chosen = CreateItem("Chosen"); //Barovia
         public readonly static Item Sunsword = CreateItem("Sunsword");
         public readonly static Item SymbolOfRaven = CreateItem("Holy Medallion of Ravenkind", "Holy Symbol of Ravenkind");
         public readonly static Item IconOfRaven = CreateItem("Icon of Ravenloft");
         public readonly static Item StrahdMedallion = CreateItem("Strahd's Medallion");
+        public readonly static Item StrahdCrystalBall = CreateItem("Strahd's Crystal Ball");
 
-        public readonly static Item SealOfLostArak = CreateItem("Seal of Lost Arak");
+        public readonly static Item SealOfLostArak = CreateItem("Seal of Lost Arak"); //Arak
 
         public readonly static Item GemOfLight = CreateItem("Gem of Light");
         public readonly static Item GemOfInsight = CreateItem("Gem of Insight");
@@ -65,6 +70,7 @@
         public readonly static Item AnkletProtFire = CreateItem("Anklet of Protection from Fire");
         public readonly static Item NecklaceOfAdaptation = CreateItem("Necklace of Adaptation");
         public readonly static Item NecklacePrayerBeads = CreateItem("Necklace of Prayer Beads");
+        public readonly static Item HelmCompreLng = CreateItem("Helm of Comprehending Languages and Reading Magic");
 
         public readonly static Item TarlVanovitchSunBlade = CreateItem("Tarl Vanovitch`s Sun Blade");
         public readonly static Item ArrowOfDirect = CreateItem("Arrow of Direction");
@@ -128,6 +134,7 @@
             public readonly static Item Light = CreateItem("Amulet of Light");
             public readonly static Item Proof = CreateItem("Amulet of Proof against Detection and Location");
             public readonly static Item ProtUnd = CreateItem("Amulet of Protection versus Undead");
+            public readonly static Item VsUnd = CreateItem("Amulet versus Undead");
             public readonly static Item LifeProt = CreateItem("Amulet of Life Protection");
             public readonly static Item Vadarin = CreateItem("Amulet of Vadarin");
             public readonly static Item BeastSilver = CreateItem("Silver Amulet of the Beast");
@@ -175,9 +182,11 @@
             public readonly static Item Prot = CreateItem("Ring of Protection");
             public readonly static Item ProtNM = CreateItem("Ring of Protection from Normal Missiles");
             public readonly static Item Aim = CreateItem("Ring of Aiming");
+            public readonly static Item Wizard = CreateItem("Ring of Wizardry");
             public readonly static Item WaterWalk = CreateItem("Ring of Water Walking");
             public readonly static Item HumanInfluence = CreateItem("Ring of Human Influence");
             public readonly static Item VampRegen = CreateItem("Ring of Vampiric Regeneration");
+            public readonly static Item FireRes = CreateItem("Ring of Fire Resistance");
         }
         internal static class Wand
         {
@@ -185,6 +194,7 @@
             public readonly static Item Almen = CreateItem("Almen's Wand of Illumination");
             public readonly static Item SecretDoor = CreateItem("Wand of Secret Door and Trap Location");
             public readonly static Item Tithion = CreateItem("Tithion's Wand of Fire");
+            public readonly static Item Frost = CreateItem("Wand of Frost");
         }
         internal static class Potion
         {
@@ -218,6 +228,8 @@
 
             public readonly static Item VileDarkness = CreateItem("Book of Vile Darkness");
             public readonly static Item SpellBookDrawmij = CreateItem("Spell Book of Drawmij");
+
+            public readonly static Item JournalOfVictorMordenheim = CreateItem("Journal of Victor Mordenheim");
         }
     }
 }

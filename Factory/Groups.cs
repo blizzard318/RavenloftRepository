@@ -46,6 +46,7 @@
         public readonly static Group PaladinsOfTheRaven = CreateGroup("Paladins of the Raven");
 
         public readonly static Group IronCrown = CreateGroup("Servants of the Iron Crown");
+        public readonly static Group TalonOfTheHawk = CreateGroup("Talon of the Hawk");
 
         public readonly static Group HagsOfTepest = CreateGroup("Hags of Tepest");
 
@@ -58,6 +59,14 @@
         public readonly static Group WeeJas = CreateGroup("Religion of Wee Jas");
         public readonly static Group Diosamblet = CreateGroup("Religion of Diosamblet");
         public readonly static Group Kali = CreateGroup("Religion of Kali");
+        public readonly static Group WolfGod = CreateGroup("Religion of the Wolf God");
+
+        public readonly static Group Boritsi = CreateGroup("Boritsi Family");
+        public readonly static Group dHonaire = CreateGroup("d`Honaire Family");
+        public readonly static Group Dilisnya = CreateGroup("Dilisnya Family");
+        public readonly static Group Drakov = CreateGroup("Drakov Family");
+        public readonly static Group Renier = CreateGroup("Renier Family");
+        public readonly static Group Timothy = CreateGroup("Timothy Family");
 
         public readonly static Group Solamnia = CreateGroup("Knights of Solamnia");
         public readonly static Group RoseKnights = CreateGroup("Knights of the Rose");

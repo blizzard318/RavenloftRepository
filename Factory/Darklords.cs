@@ -28,12 +28,13 @@ public partial class Factory : IDisposable
         public readonly static Darklord Klorr            = CreateDarklord("Klorr");
         public readonly static Darklord Adam             = CreateDarklord("Adam");
         public readonly static Darklord LyronEvensong    = CreateDarklord("Baron Lyron Evensong");
-        public readonly static Darklord FrantisekMarkov  = CreateDarklord("Lord Frantisek Markov", "Diosamblet", "Master of Pain");
+        public readonly static Darklord FrantisekMarkov  = CreateDarklord("Lord Frantisek Markov", "Frant Markov", "Diosamblet", "Master of Pain");
         public readonly static Darklord WilfredGodefroy  = CreateDarklord("Lord Wilfred Godefroy");
         public readonly static Darklord Meredoth         = CreateDarklord("Meredoth");
         public readonly static Darklord TristenHiregaard = CreateDarklord("Sir Tristen Hiregaard", "Malken");
         public readonly static Darklord TristenApblanc   = CreateDarklord("Tristen Apblanc");
         public readonly static Darklord JacquelineRenier = CreateDarklord("Jacqueline Renier");
+        public readonly static Darklord ClaudeRenier     = CreateDarklord("Claude Renier");
         public readonly static Darklord Tiyet            = CreateDarklord("Tiyet");
         public readonly static Darklord LordSoth         = CreateDarklord("Lord Loren Soth");
         public readonly static Darklord Arijani          = CreateDarklord("Maharaja Arijani", "Lord Arijani");
