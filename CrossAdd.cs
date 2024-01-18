@@ -1,4 +1,5 @@
-﻿using static Factory;
+﻿using System.Diagnostics.Metrics;
+using static Factory;
 
 public static class CrossAdd
 {
@@ -38,16 +39,12 @@ public static class CrossAdd
         }
         domains.Clear();
     }
-
     public static Location TrackMistway(this Location Mistway, string pageNumbers, Domain First, Domain Second)
     {
-        Mistway.Sources.Add(Source);
-        Mistway.Appearances.Add(Source, new TrackPage<Location>(Mistway, Source, pageNumbers));
-        Mistway.editions |= Source.editions;
+        Track(Mistway, pageNumbers);
 
         Mistway.Domains.PerSource.TryAdd(Source, new());
-        Mistway.Domains.PerSource[Source].Add(First);
-        Mistway.Domains.PerSource[Source].Add(Second);
+        Mistway.Domains.PerSource[Source].UnionWith(new[] { First, Second });
 
         First.Mistways.PerSource.TryAdd(Source, new());
         First.Mistways.PerSource[Source].Add(Mistway);
@@ -58,9 +55,7 @@ public static class CrossAdd
     }
     public static Group TrackCluster(this Group Cluster, string pageNumbers, params Domain[] domains)
     {
-        Cluster.Sources.Add(Source);
-        Cluster.Appearances.Add(Source, new TrackPage<Group>(Cluster, Source, pageNumbers));
-        Cluster.editions |= Source.editions;
+        Track(Cluster, pageNumbers);
 
         Cluster.Domains.PerSource.TryAdd(Source, new());
         foreach (var domain in domains)
@@ -74,7 +69,9 @@ public static class CrossAdd
     private static TrackPage<T> Track<T> (T entity, string pageNumbers) where T : UseVariableName, IHasAppearances<T>
     {
         entity.Sources.Add(Source);
-        entity.editions |= Source.editions;
+        entity.editions |= Source.Edition;
+        entity.TypesOfSources.TryAdd(Source.Media, new());
+        entity.TypesOfSources[Source.Media][Source.Edition]++;
 
         var tracker = new TrackPage<T>(entity, Source, pageNumbers);
         entity.Appearances.Add(Source, tracker);
@@ -128,12 +125,14 @@ public static class CrossAdd
     public static Domain.Darklord AddLivingDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
     {
         domain.Darklords.Add(Source, darklord);
-        return AddLivingCharacter(domain, darklord, pageNumbers);
+        AddLivingCharacter(domain, darklord, pageNumbers);
+        return darklord;
     }
     public static Domain.Darklord AddDeadDarklord(this Domain domain, Domain.Darklord darklord, string pageNumbers = "Throughout")
     {
         domain.Darklords.Add(Source, darklord);
-        return AddDeadCharacter(domain, darklord, pageNumbers);
+        AddDeadCharacter(domain, darklord, pageNumbers);
+        return darklord;
     }
     public static Item AddItem(this Domain domain, Item item, string pageNumbers = "Throughout")
     {
@@ -212,7 +211,7 @@ public static class CrossAdd
         foreach (var creature in creatures)
         {
             creature.Sources.Add(Source);
-            creature.editions |= Source.editions;
+            creature.editions |= Source.Edition;
         }
 
         var list = GetSetFromArray();
@@ -252,7 +251,7 @@ public static class CrossAdd
         foreach (var creature in creatures)
         {
             creature.Sources.Add(Source);
-            creature.editions |= Source.editions;
+            creature.editions |= Source.Edition;
         }
         return Character;
     }
@@ -262,7 +261,7 @@ public static class CrossAdd
         Source.Languages.UnionWith(languages);
         foreach (var language in languages)
         {
-            language.editions |= Source.editions;
+            language.editions |= Source.Edition;
             language.Sources.Add(Source);
             language.Characters.Add(Source, character);
         }
@@ -276,7 +275,7 @@ public static class CrossAdd
         Ravenloftdb.LanguagesPerDomain.TryAdd(domain, new());
         foreach (var language in languages)
         {
-            language.editions |= Source.editions;
+            language.editions |= Source.Edition;
             language.Sources.Add(Source);
             language.Domains.Add(Source, domain);
             Ravenloftdb.LanguagesPerDomain[domain].Add(language);

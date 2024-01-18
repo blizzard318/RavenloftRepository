@@ -52,6 +52,7 @@ public abstract class UseVariableName : IComparable<UseVariableName> //Domain, L
     public readonly List<string> Names = new();
 
     public readonly HashSet<Source> Sources = new(); //Tracks all sources that has this entity
+    public readonly Dictionary<Media, Dictionary<Edition,int>> TypesOfSources = new(); //Tracks all sources that has this entity
 
     public readonly ToTrack<Domain   > Domains    = new();
     public readonly ToTrack<Location > Locations  = new();
@@ -64,7 +65,15 @@ public abstract class UseVariableName : IComparable<UseVariableName> //Domain, L
     public string ExtraInfo = string.Empty;
     public Edition editions;
     public HashSet<Trait> Settings = new();
-    public UseVariableName(params string[] names) => Names.AddRange(names);
+    public UseVariableName(params string[] names)
+    {
+        Names.AddRange(names);
+        foreach (var media in Enum.GetValues<Media>()) //Not sure how expensive this will be.
+        {
+            TypesOfSources.Add(media, new());
+            foreach (var edition in Enum.GetValues<Edition>()) TypesOfSources[media].Add(edition, 0);
+        }
+    }
     public int CompareTo(UseVariableName? other) => Names[0].CompareTo(other?.Names[0]);
 }
 public class TrackPage<T> : IComparable<TrackPage<T>> where T : UseVariableName
@@ -95,14 +104,14 @@ public class Source
 
     public string Name, ExtraInfo = string.Empty;
     public readonly string ReleaseDate;
-    public readonly Edition editions;
+    public readonly Edition Edition;
     public readonly Media Media;
     public readonly Canon Canon;
 
     public Source (string Name, string ReleaseDate, Edition Edition, Media Media, Canon Canon = Canon.c)
     { 
         this.Name = Name; this.ReleaseDate = ReleaseDate;
-        editions = Edition; this.Media = Media; this.Canon = Canon;
+        Edition = Edition; this.Media = Media; this.Canon = Canon;
     }
     //Levels, contributors, release date
 }

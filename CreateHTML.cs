@@ -317,6 +317,23 @@ internal static class CreateHTML
         }
         return $" <b style='color:{col}'>({CanonToString[canon]})</b>";
     }
+    private static void AddSourceTable<T>(this StringBuilder sb, T entity) where T : UseVariableName
+    {
+        const string title = "Sources";
+        using (var table = new Table(sb, title, title))
+        {
+            using (var headerRow = table.CreateHeaderRow()) headerRow.CreateEditionHeaders();
+
+            foreach (var media in Enum.GetValues<Media>())
+            {
+                int i = 0;
+                var retval = new string[Enum.GetValues<Edition>().Length + 1];
+                retval[i++] = MediaToString[media];
+                foreach (var edition in entity.TypesOfSources[media]) retval[i++] = edition.Value.ToString();
+                table.AddRows(retval);
+            }
+        }
+    }
     #endregion
 
     #region BASE PAGES
@@ -353,7 +370,7 @@ internal static class CreateHTML
 
                     foreach (var source in Ravenloftdb.Sources)
                     {
-                        string edition = EditionToString(source.editions);
+                        string edition = EditionToString(source.Edition);
                         string media = MediaToString[source.Media];
                         table.AddRows(new[] { CreateLink(source), edition, media, source.ReleaseDate });
                     }
@@ -401,7 +418,7 @@ internal static class CreateHTML
 
                         foreach (var source in media.Value)
                         {
-                            string edition = EditionToString(source.editions);
+                            string edition = EditionToString(source.Edition);
                             table.AddRows(new[] { CreateLink(source), edition, source.ReleaseDate });
                         }
                     }
@@ -765,7 +782,7 @@ internal static class CreateHTML
 
                 string canonaddon = AddCanonAddOn(source.Canon);
 
-                var editiontrait = EditionToString(source.editions);
+                var editiontrait = EditionToString(source.Edition);
 
                 sb.CreateOfficialHeader(source.Name, 2);
                 sb.AppendLine($"<h3>{nameof(Source)}<br/>{source.Name}{canonaddon}");
@@ -817,12 +834,12 @@ internal static class CreateHTML
             var original = _original;
             tasks.Add(Task.Run(async () =>
             {
-                string ExtraAppend = string.Empty;
+                var ExtraAppend = new StringBuilder();
                 if (!original.Names.Contains(DomainEnum.InsideRavenloft .Names[0]) &&
                     !original.Names.Contains(DomainEnum.OutsideRavenloft.Names[0]))
                 {
                     if (original.Settings.Count == 0)
-                        ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
+                        ExtraAppend.Append($"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>");
 
                     var Darklords = original.Darklords.Total;
                     if (Darklords.Count() > 0)
@@ -831,11 +848,11 @@ internal static class CreateHTML
                         var Links = new string[Darklords.Count()];
                         foreach (var darklord in Darklords) Links[i++] = CreateLink(EntityType.Character, darklord);
                         var LinkedDarklordNames = string.Join(", ", Links);
-                        ExtraAppend += $"<b>Darklord(s):</b> {LinkedDarklordNames}<br/>";
+                        ExtraAppend.Append($"<b>Darklord(s):</b> {LinkedDarklordNames}<br/>");
                     }
 
                     if (string.IsNullOrEmpty(original.MistTalismans))
-                        ExtraAppend += $"<b>Mist Talismans:</b> {original.MistTalismans}<br/>";
+                        ExtraAppend.Append($"<b>Mist Talismans:</b> {original.MistTalismans}<br/>");
 
                     var clusters = original.Clusters.Total;
                     if (clusters.Count() == 0) clusters = new() { ClusterEnum.IslandsOfTerror }; //Make this redundant
@@ -845,18 +862,20 @@ internal static class CreateHTML
                         var Links = new string[clusters.Count()];
                         foreach (var cluster in clusters) Links[i++] = CreateLink(EntityType.Group, cluster);
                         var LinkedClusters = string.Join(", ", Links);
-                        ExtraAppend += $"<b>Cluster(s):</b> {LinkedClusters}<br/>";
+                        ExtraAppend.Append($"<b>Cluster(s):</b> {LinkedClusters}<br/>");
                     }
 
                     if (original.Inspirations.Count() > 1)
-                        ExtraAppend += $"<b>Inspirations:</b> {string.Join(",", original.Inspirations)}<br/>";
+                        ExtraAppend.Append($"<b>Inspirations:</b> {string.Join(",", original.Inspirations)}<br/>");
 
                     if (original.Names.Count() > 1)
-                        ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
+                        ExtraAppend.Append($"<b>Other Names:</b> {CreateLink(original)}<br/>");
+
+                    ExtraAppend.AddSourceTable(original);
                 }
 
                 if (!string.IsNullOrEmpty(original.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}<br/>";
+                    ExtraAppend.Append($"<b>Extra Info:</b> {original.ExtraInfo}<br/>");
 
                 var sb = new StringBuilder();
                 foreach (var domain in original.Names)
@@ -867,7 +886,7 @@ internal static class CreateHTML
                         sb.CreateOfficialHeader(domain, 2);
                         sb.AppendLine($"<h3>{nameof(Domain)}<br/>{domain}</h3>");
 
-                        sb.AppendLine(ExtraAppend);
+                        sb.Append(ExtraAppend).AppendLine();
 
                         var TotalSources = new HashSet<string>();
 
@@ -876,7 +895,7 @@ internal static class CreateHTML
                             foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
-                                string editiontrait = EditionToString(source.editions);
+                                string editiontrait = EditionToString(source.Edition);
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
 
@@ -941,21 +960,23 @@ internal static class CreateHTML
             {
                 var sb = new StringBuilder();
 
-                string ExtraAppend = string.Empty;
+                var ExtraAppend = new StringBuilder();
 
                 Alignment TotalAlignment = 0;
                 foreach (var alignment in original.AlignmentPerSource.Values) TotalAlignment |= alignment;
                 if (TotalAlignment != 0)
-                    ExtraAppend += $"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>";
+                    ExtraAppend.Append($"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>");
 
                 if (original.Settings.Count == 0)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
+                    ExtraAppend.Append($"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>");
 
                 if (original.Names.Count() > 1)
-                    ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
+                    ExtraAppend.Append($"<b>Other Names:</b> {CreateLink(original)}<br/>");
 
                 if (!string.IsNullOrEmpty(original.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}<br/>";
+                    ExtraAppend.Append($"<b>Extra Info:</b> {original.ExtraInfo}<br/>");
+
+                ExtraAppend.AddSourceTable(original);
 
                 string deceased = original.Deceased.All(kv => kv.Value) ? " <i style='color:grey'>(Deceased)</i>" : string.Empty;
 
@@ -966,7 +987,7 @@ internal static class CreateHTML
                         sb.CreateOfficialHeader(character, 2);
                         sb.AppendLine($"<h3>Character<br/>{character}{deceased}</h3>");
 
-                        sb.AppendLine(ExtraAppend);
+                        sb.Append(ExtraAppend).AppendLine();
 
                         var TotalSources = new HashSet<string>();
 
@@ -975,7 +996,7 @@ internal static class CreateHTML
                             foreach (var source in original.Sources) //All sources with the character's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
-                                string editiontrait = EditionToString(source.editions);
+                                string editiontrait = EditionToString(source.Edition);
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
@@ -1040,13 +1061,15 @@ internal static class CreateHTML
             {
                 var sb = new StringBuilder();
 
-                string ExtraAppend = string.Empty;
+                var ExtraAppend = new StringBuilder();
 
                 if (original.Names.Count() > 1)
-                    ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
+                    ExtraAppend.Append($"<b>Other Names:</b> {CreateLink(original)}<br/>");
 
                 if (!string.IsNullOrEmpty(original.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}<br/>";
+                    ExtraAppend.Append($"<b>Extra Info:</b> {original.ExtraInfo}<br/>");
+
+                ExtraAppend.AddSourceTable(original);
 
                 foreach (var location in original.Names)
                 {
@@ -1054,7 +1077,7 @@ internal static class CreateHTML
                     {
                         sb.CreateOfficialHeader(location, 2);
                         sb.AppendLine($"<h3>{nameof(Location)}<br/>{location}</h3>");
-                        sb.AppendLine(ExtraAppend);
+                        sb.Append(ExtraAppend).AppendLine();
 
                         var TotalSources = new HashSet<string>();
 
@@ -1063,7 +1086,7 @@ internal static class CreateHTML
                             foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
-                                string editiontrait = EditionToString(source.editions);
+                                string editiontrait = EditionToString(source.Edition);
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
@@ -1123,21 +1146,23 @@ internal static class CreateHTML
             {
                 var sb = new StringBuilder();
 
-                string ExtraAppend = string.Empty;
+                var ExtraAppend = new StringBuilder();
 
                 Alignment TotalAlignment = 0;
                 foreach (var alignment in original.AlignmentPerSource.Values) TotalAlignment |= alignment;
                 if (TotalAlignment != 0)
-                    ExtraAppend += $"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>";
+                    ExtraAppend.Append($"<b>Alignment:</b> {AlignmentToString(TotalAlignment)}<br/>");
 
                 if (original.Settings.Count == 0)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
+                    ExtraAppend.Append($"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>");
 
                 if (original.Names.Count() > 1)
-                    ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
+                    ExtraAppend.Append($"<b>Other Names:</b> {CreateLink(original)}<br/>");
 
                 if (!string.IsNullOrEmpty(original.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}<br/>";
+                    ExtraAppend.Append($"<b>Extra Info:</b> {original.ExtraInfo}<br/>");
+
+                ExtraAppend.AddSourceTable(original);
 
                 foreach (var item in original.Names)
                 {
@@ -1146,7 +1171,7 @@ internal static class CreateHTML
                         sb.CreateOfficialHeader(item, 2);
                         sb.AppendLine($"<h3>{nameof(Item)}<br/>{item}</h3>");
 
-                        sb.AppendLine(ExtraAppend);
+                        sb.Append(ExtraAppend).AppendLine();
 
                         var TotalSources = new HashSet<string>();
 
@@ -1155,7 +1180,7 @@ internal static class CreateHTML
                             foreach (var source in original.Sources) //All sources with the character's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
-                                string editiontrait = EditionToString(source.editions);
+                                string editiontrait = EditionToString(source.Edition);
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
@@ -1218,16 +1243,18 @@ internal static class CreateHTML
             {
                 var sb = new StringBuilder();
 
-                string ExtraAppend = string.Empty;
+                var ExtraAppend = new StringBuilder();
 
                 if (original.Settings.Count == 0)
-                    ExtraAppend += $"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>";
+                    ExtraAppend.Append($"<b>Original Campaign Setting:</b> {CreateLink(EntityType.Setting, original.Settings)}<br/>");
 
                 if (original.Names.Count() > 1)
-                    ExtraAppend += $"<b>Other Names:</b> {CreateLink(original)}<br/>";
+                    ExtraAppend.Append($"<b>Other Names:</b> {CreateLink(original)}<br/>");
 
                 if (!string.IsNullOrEmpty(original.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}<br/>";
+                    ExtraAppend.Append($"<b>Extra Info:</b> {original.ExtraInfo}<br/>");
+
+                ExtraAppend.AddSourceTable(original);
 
                 foreach (var group in original.Names)
                 {
@@ -1235,6 +1262,7 @@ internal static class CreateHTML
                     {
                         sb.CreateOfficialHeader(group, 2);
                         sb.AppendLine($"<h3>{nameof(Group)}<br/>{group}</h3>");
+                        sb.Append(ExtraAppend).AppendLine();
 
                         var TotalSources = new HashSet<string>();
 
@@ -1243,7 +1271,7 @@ internal static class CreateHTML
                             foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
-                                string editiontrait = EditionToString(source.editions);
+                                string editiontrait = EditionToString(source.Edition);
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");
@@ -1307,13 +1335,15 @@ internal static class CreateHTML
             {
                 var sb = new StringBuilder();
 
-                string ExtraAppend = string.Empty;
+                var ExtraAppend = new StringBuilder();
 
                 if (original.Names.Count() > 1)
-                    ExtraAppend += $"<b>Other Names:</b> {CreateLink(type, original)}<br/>";
+                    ExtraAppend.Append($"<b>Other Names:</b> {CreateLink(type, original)}<br/>");
 
                 if (!string.IsNullOrEmpty(original.ExtraInfo))
-                    ExtraAppend += $"<b>Extra Info:</b> {original.ExtraInfo}<br/>";
+                    ExtraAppend.Append($"<b>Extra Info:</b> {original.ExtraInfo}<br/>");
+
+                ExtraAppend.AddSourceTable(original);
 
                 foreach (var trait in original.Names)
                 {
@@ -1321,13 +1351,14 @@ internal static class CreateHTML
                     {
                         sb.CreateOfficialHeader(trait, 2);
                         sb.AppendLine($"<h3>{type.ToString()}<br/>{trait}</h3>");
+                        sb.Append(ExtraAppend).AppendLine();
 
                         using (var SplitSources = subheader.CreatePage("Per Source"))
                         {
                             foreach (var source in original.Sources) //All sources with the domain's original name
                             {
                                 string canonaddon = AddCanonAddOn(source.Canon);
-                                string editiontrait = EditionToString(source.editions);
+                                string editiontrait = EditionToString(source.Edition);
 
                                 SplitSources.contents.AppendLine("<div class='container'>").AppendLine("<div class='textbox'>");
                                 SplitSources.contents.AppendLine($"<b>Source:</b> {CreateLink(source)}{canonaddon}<br/>");

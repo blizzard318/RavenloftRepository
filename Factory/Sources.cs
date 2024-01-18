@@ -35,8 +35,8 @@
     static Factory()
     {
         foreach (var edition in Enum.GetValues<Edition>()) Ravenloftdb.Editions.Add(edition, new());
-        foreach (var canon in Enum.GetValues<Canon>()) Ravenloftdb.Canons.Add(canon, new());
-        foreach (var media in Enum.GetValues<Media>()) Ravenloftdb.Medias.Add(media, new());
+        foreach (var canon   in Enum.GetValues<Canon  >()) Ravenloftdb.Canons  .Add(canon  , new());
+        foreach (var media   in Enum.GetValues<Media  >()) Ravenloftdb.Medias  .Add(media  , new());
     }
 
     public static Factory CreateSource(string name, string releaseDate, string extraInfo, Edition Edition, Media Media, Canon Canon = Canon.c)

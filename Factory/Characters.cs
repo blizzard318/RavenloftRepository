@@ -17,8 +17,23 @@
         public readonly static Character ElizabethTimothy = CreateCharacter("Elizabeth Timothy");
         public readonly static Character VirginiaDilisnya = CreateCharacter("Virginia Dilisnya");
         public readonly static Character RichardRatcliff = CreateCharacter("Richard Ratcliff");
+        public readonly static Character MichaelRatcliff = CreateCharacter("Michael Ratcliff");
+        public readonly static Character CharlotteWinchester = CreateCharacter("Charlotte Winchester");
         public readonly static Character CliffordDilisnya = CreateCharacter("Clifford Ratcliff");
         public readonly static Character CynthiaHerbert = CreateCharacter("Cynthia Herbert");
+        public readonly static Character EmilyGerhardt = CreateCharacter("Emily Gerhardt");
+        public readonly static Character IreneTimothy = CreateCharacter("Irene Timothy");
+        public readonly static Character FranklinDodds = CreateCharacter("Franklin Dodds");
+        public readonly static Character ThomasDodds = CreateCharacter("Thomas Dodds");
+        public readonly static Character PatriciaRichards = CreateCharacter("Patricia Richards");
+        public readonly static Character PriscillaSchilling = CreateCharacter("Priscilla Schilling");
+        public readonly static Character Arabella = CreateCharacter("Arabella");
+        public readonly static Character WilliamTimothy = CreateCharacter("William Timothy");
+        public readonly static Character EvelynWesterfield = CreateCharacter("Evelyn Westerfield");
+        public readonly static Character LawrenceTimothy = CreateCharacter("Lawrence Timothy");
+        public readonly static Character EsterTimothy = CreateCharacter("Ester Timothy");
+        public readonly static Character CharlesNickerson = CreateCharacter("Charles Nickerson");
+        public readonly static Character WinifredRatcliff = CreateCharacter("Winifred Ratcliff");
         #endregion
 
         #region Barovia
@@ -27,7 +42,7 @@
         public readonly static Character FatherDonavich = CreateCharacter("Father Donavich");
         public readonly static Character KingBarov = CreateCharacter("King Barov von Zarovich");
         public readonly static Character Ravenovia = CreateCharacter("Queen Ravenovia von Zarovich");
-        public readonly static Character Sergei = CreateCharacter("Sergei von Zarovich");
+        public readonly static Character Sergei = CreateCharacter("Lord Sergei von Zarovich");
         public readonly static Character MadamEva = CreateCharacter("Madam Eva");
         public readonly static Character LiefLipsiege = CreateCharacter("Lief Lipsiege");
         public readonly static Character Helga = CreateCharacter("Helga");
@@ -89,6 +104,34 @@
         public readonly static Character Elana = CreateCharacter("Elana");
         public readonly static Character Marnius = CreateCharacter("Marnius");
         public readonly static Character Walla = CreateCharacter("Walla");
+        public readonly static Character Sturm = CreateCharacter("Lord Sturm Von Zarovich");
+        public readonly static Character GisellaFallona = CreateCharacter("Gisella Fallona");
+        public readonly static Character AnnaVonZarovich = CreateCharacter("Anna Von Zarovich");
+        public readonly static Character TodHeitman = CreateCharacter("Tod Heitman");
+        public readonly static Character SiskaVonZarovich = CreateCharacter("Siska Von Zarovich");
+        public readonly static Character IvanReichhardt = CreateCharacter("Ivan Reichhardt");
+        public readonly static Character KatarinaVonZarovich = CreateCharacter("Katarina Von Zarovich");
+        public readonly static Character HolgarVonZarovich = CreateCharacter("Holgar Von Zarovich");
+        public readonly static Character IsoldeVonKoss = CreateCharacter("Isolde Von Koss");
+        public readonly static Character NatashaItskovich = CreateCharacter("Natasha Itskovich");
+        public readonly static Character YsildeVonZarovich = CreateCharacter("Ysilde Von Zarovich");
+        public readonly static Character SergeiVonZarovich2 = CreateCharacter("Sergei Von Zarovich (2)");
+        public readonly static Character IreenaKolokoff = CreateCharacter("Ireena Kolokoff");
+        public readonly static Character GeierVonZarovich = CreateCharacter("Geier Von Zarovich");
+        public readonly static Character IvanVonZarovich = CreateCharacter("Ivan Von Zarovich");
+        public readonly static Character NataliaAndas = CreateCharacter("Natalia Andas");
+        public readonly static Character PeterVonZarovich = CreateCharacter("Peter Von Zarovich");
+        public readonly static Character KatarinaDragus = CreateCharacter("Katarina Dragus");
+        public readonly static Character BarovVonZarovich2 = CreateCharacter("Barov Von Zarovich (2)");
+        public readonly static Character ElsaDrache = CreateCharacter("Elsa Drache");
+        public readonly static Character AndreaVonZarovich = CreateCharacter("Andrea Von Zarovich");
+        public readonly static Character KlausVonZarovich = CreateCharacter("Klaus Von Zarovich");
+        public readonly static Character VictorVonZarovich = CreateCharacter("Victor Von Zarovich");
+        public readonly static Character LisbethVonZarovich = CreateCharacter("Lisbeth Von Zarovich");
+        public readonly static Character VasiliGeistlinger = CreateCharacter("Vasili Geistlinger");
+        public readonly static Character MyroslavVonZarovich = CreateCharacter("Myroslav Von Zarovich");
+        public readonly static Character MarlenaLeibnik = CreateCharacter("Marlena Leibnik");
+        public readonly static Character HansVonZarovich = CreateCharacter("Hans Von Zarovich");
         #endregion
 
         #region Blaustein
@@ -279,8 +322,10 @@
         #endregion
 
         #region Mordent
+        public readonly static Character TheCreature = CreateCharacter("The Creature");
+        public readonly static Character TheAlchemist = CreateCharacter("The Alchemist");
         public readonly static Character LadyWeathermay = CreateCharacter("Lady Virginia Anne Weathermay");
-        public readonly static Character OldLadyWeathermay = CreateCharacter("Lady Weathermay");
+        public readonly static Character OldLadyWeathermay = CreateCharacter("Lady Katherine Weathermay", "Lady Katherine Sutherwaite");
         public readonly static Character LordWeathermay = CreateCharacter("Lord Byron Merril Weathermay");
         public readonly static Character MistressArdent = CreateCharacter("Mistress Ysilda Gemanine Ardent");
         public readonly static Character Germain = CreateCharacter("Docteur Germain d'Honaire");
@@ -389,7 +434,7 @@
         public readonly static Character Stelwaard = CreateCharacter("Stelwaard");
         public readonly static Character ThinnBalder = CreateCharacter("Thinn Balder");
         public readonly static Character BadderGhastling = CreateCharacter("Badder Ghastling");
-        public readonly static Character EstherTimothy = CreateCharacter("Esther Timothy");
+        public readonly static Character EstherTimothy = CreateCharacter("Esther Timothy", "Ester Timothy");
         public readonly static Character GeamPelstap = CreateCharacter("Geam Pelstap");
         public readonly static Character MaquirLoft = CreateCharacter("Maquir Loft");
         public readonly static Character MirandaLangstry = CreateCharacter("Miranda Langstry");
