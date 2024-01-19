@@ -11,11 +11,22 @@
         #region Barovia
         public readonly static Location Barovia = CreateSettlement("Barovia", "Village of Barovia");
         public readonly static Location Vallaki = CreateSettlement("Vallaki");
-        public readonly static Location TserPoolEncampnent = CreateSettlement("Tser Pool Encampment");
+        public readonly static Location TserPoolEncampnent = CreateSettlement("Tser Pool Encampment", "Gypsy Camp");
+        public readonly static Location Krezk = CreateSettlement("Krezk");
+        public readonly static Location Immol = CreateSettlement("Immol");
+        #endregion
+
+        #region Borca
+        public readonly static Location Levkarest = CreateSettlement("Levkarest");
+        public readonly static Location Sturben = CreateSettlement("Sturben");
         #endregion
 
         #region Darkon
         public readonly static Location IlAluk = CreateSettlement("Il Aluk");
+        public readonly static Location Despondia = CreateSettlement("Despondia");
+        public readonly static Location Decimus = CreateSettlement("Decimus");
+        public readonly static Location Desolatus = CreateSettlement("Desolatus");
+
         public readonly static Location MartiraBay = CreateSettlement("Martira Bay");
         public readonly static Location Karg = CreateSettlement("Karg");
         public readonly static Location Viaki = CreateSettlement("Viaka", "Viaki");
@@ -31,14 +42,9 @@
         public readonly static Location Sidnar = CreateSettlement("Sidnar");
         #endregion
 
-        #region Darkon
+        #region Dementlieu
         public readonly static Location PortaLucine = CreateSettlement("Port-a-Lucine");
         public readonly static Location Chateaufaux = CreateSettlement("Chateaufaux");
-        #endregion
-
-        #region Dementlieu
-        public readonly static Location Levkarest = CreateSettlement("Levkarest");
-        public readonly static Location Sturben = CreateSettlement("Sturben");
         #endregion
 
         #region Dorvinia
@@ -52,6 +58,7 @@
         public readonly static Location Stangengrad = CreateSettlement("Stangengrad");
         public readonly static Location Silbervas = CreateSettlement("Silbervas");
         public readonly static Location Aerie = CreateSettlement("Aerie");
+        public readonly static Location Morfenzi = CreateSettlement("Morfenzi");
         #endregion
 
         #region Farelle
@@ -61,6 +68,7 @@
 
         #region G'Henna
         public readonly static Location Zukar = CreateSettlement("Zukar");
+        public readonly static Location Dervich = CreateSettlement("Dervich");
         #endregion
 
         #region Gundarak
@@ -91,6 +99,10 @@
         public readonly static Location Neufurchtenburg = CreateSettlement("Neufurchtenburg");
         #endregion
 
+        #region Markovia
+        public readonly static Location Monastery = CreateSettlement("Monastery");
+        #endregion
+
         #region Mordent
         public readonly static Location Mordentshire = CreateSettlement("Mordentshire");
         #endregion
@@ -109,11 +121,23 @@
         public readonly static Location Kosova = CreateSettlement("Kosova");
         #endregion
 
+        #region Sithicus
+        public readonly static Location MalErek = CreateSettlement("Mal-Erek");
+        public readonly static Location Hroth = CreateSettlement("Hroth");
+        public readonly static Location HarThelen = CreateSettlement("Har-Thelen");
+        #endregion
+
         #region Souragne
         public readonly static Location PortdElhour = CreateSettlement("Port d`Elhour");
         #endregion
 
-        #region Souragne
+        #region Sri Raji / Kalakeri
+        public readonly static Location Muladi = CreateSettlement("Muladi");
+        public readonly static Location Pakat = CreateSettlement("Pakat");
+        public readonly static Location Tvashsti = CreateSettlement("Tvashsti");
+        #endregion
+
+        #region Staunton Bluffs
         public readonly static Location Willisford = CreateSettlement("Willisford");
         #endregion
 
@@ -134,7 +158,7 @@
         public readonly static Location Habelnik = CreateSettlement("Habelnik");
         #endregion
 
-        #region Valachan
+        #region Vechor
         public readonly static Location Abdok = CreateSettlement("Abdok");
         #endregion
 

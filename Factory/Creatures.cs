@@ -32,10 +32,16 @@
         public readonly static Trait Orc = CreateCreature("Orc");
         public readonly static Trait HalfOrc = CreateCreature("Half-Orc");
         public readonly static Trait Goblin = CreateCreature("Goblin");
+        public readonly static Trait GurikChaahl = CreateCreature("Gurik Cha'ahl");
+        public readonly static Trait Hobgoblin = CreateCreature("Hobgoblin");
+        public readonly static Trait NorkerHobgoblin = CreateCreature("Hobgoblin Hobgoblin");
         public readonly static Trait Kobold = CreateCreature("Kobold");
-        public readonly static Trait Jermlaine = CreateCreature("Jermlaine", "Banemidge", "Jinxkin");
 
+        #region Aquatic
+        public readonly static Trait GhostShip = CreateCreature("Ghost Ship");
+        public readonly static Trait Reaver = CreateCreature("Reaver");
         public readonly static Trait Sahuagin = CreateCreature("Sahuagin");
+        #endregion
 
         #region Birds
         public readonly static Trait BirdsOfPrey = CreateCreature("Birds of Prey");
@@ -49,6 +55,7 @@
         public readonly static Trait Nightbird = CreateCreature("Nightbird");
         public readonly static Trait Seabird = CreateCreature("Seabird");
         public readonly static Trait Owl = CreateCreature("Owl");
+        public readonly static Trait Crow = CreateCreature("Crow");
         #endregion
 
         #region Small Mammals
@@ -75,6 +82,7 @@
         public readonly static Trait Dog = CreateCreature("Dog", "Mastiff");
         public readonly static Trait Wolf = CreateCreature("Wolf");
         public readonly static Trait DireWolf = CreateCreature("Dire Wolf");
+        public readonly static Trait MistWolf = CreateCreature("Mist Wolf");
         public readonly static Trait WinterWolf = CreateCreature("Winter Wolf");
         public readonly static Trait Fox = CreateCreature("Fox");
         public readonly static Trait Jackal = CreateCreature("Jackal");
@@ -119,7 +127,7 @@
         public readonly static Trait Kelpie = CreateCreature("Kelpie");
         public readonly static Trait Leucrotta = CreateCreature("Leucrotta");
         public readonly static Trait Unicorn = CreateCreature("Unicorn");
-        public readonly static Trait Gremishka = CreateCreature("Gremishka");
+        public readonly static Trait Pegasus = CreateCreature("Pegasus");
         public readonly static Trait Owlbear = CreateCreature("Owlbear");
         public readonly static Trait Worg = CreateCreature("Worg");
         public readonly static Trait Griffon = CreateCreature("Griffon");
@@ -127,10 +135,10 @@
         public readonly static Trait Nightmare = CreateCreature("Nightmare");
         public readonly static Trait ShadowMastiff = CreateCreature("Shadow Mastiff");
         public readonly static Trait DisplacerBeast = CreateCreature("Displacer Beast");
-        public readonly static Trait SkeletonSteed = CreateCreature("Skeleton Steed", "Skeletal Steed");
-        public readonly static Trait SkeletalSteed = SkeletonSteed;
+        public readonly static Trait YethHound = CreateCreature("Yeth Hound");
         #endregion
 
+        #region Non-Mammals
         public readonly static Trait Snake = CreateCreature("Snake");
         public readonly static Trait Frog = CreateCreature("Frog", "Toad");
         public readonly static Trait Toad = Frog;
@@ -138,6 +146,7 @@
         public readonly static Trait Sturgeon = CreateCreature("Sturgeon");
         public readonly static Trait Crocodile = CreateCreature("Crocodile");
         public readonly static Trait Lizard = CreateCreature("Lizard");
+        #endregion
 
         #region Bugs
         public readonly static Trait GiantSpider = CreateCreature("Giant Spider");
@@ -150,55 +159,79 @@
         public readonly static Trait Leech = CreateCreature("Leech");
         #endregion
 
+        public readonly static Trait Mite = CreateCreature("Mite");
+        public readonly static Trait Ettercap = CreateCreature("Ettercap");
+        public readonly static Trait Gremlin = CreateCreature("Gremlin");
+        public readonly static Trait Jermlaine = CreateCreature("Jermlaine", "Banemidge", "Jinxkin");
+
         public readonly static Trait Goblyn = CreateCreature("Goblyn");
-        public readonly static Trait GreenSlime = CreateCreature("Green Slime");
         public readonly static Trait Gargoyle = CreateCreature("Gargoyle");
+        public readonly static Trait GreenSlime = CreateCreature("Green Slime");
         public readonly static Trait RustMonster = CreateCreature("Rust Monster");
         public readonly static Trait Trapper = CreateCreature("Trapper");
         public readonly static Trait LurkerAbove = CreateCreature("Lurker Above");
         public readonly static Trait Drider = CreateCreature("Drider");
-        public readonly static Trait Ettercap = CreateCreature("Ettercap");
         public readonly static Trait Cloaker = CreateCreature("Cloaker");
         public readonly static Trait ShamblingMound = CreateCreature("Shambling Mound");
+        public readonly static Trait Disir = CreateCreature("Disir");
+
+        public readonly static Trait Gremishka = CreateCreature("Gremishka", "Grimishka");
         public readonly static Trait Mongrelman = CreateCreature("Mongrelman");
-
-        #region Infernal/Fiendish Animals
-        public readonly static Trait Hellhound = CreateCreature("Hellhound");
-        public readonly static Trait Succubus = CreateCreature("Succubus");
-        public readonly static Trait AssassinImp = CreateCreature("Assassin Imp");
-        public readonly static Trait Imp = CreateCreature("Imp");
-        public readonly static Trait ShadowDemon = CreateCreature("Shadow Demon", "Shadow Fiend");
-        public readonly static Trait Quasit = CreateCreature("Quasit", "Quazit");
-        public readonly static Trait Berbalang = CreateCreature("Berbalang");
-        #endregion
-
-        public readonly static Trait Darkenbeast = CreateCreature("Darkenbeast");
-        public readonly static Trait Dragon = CreateCreature("Dragon");
-        public readonly static Trait RedDragon = CreateCreature("Red Dragon");
-        public readonly static Trait GoldDragon = CreateCreature("Gold Dragon");
-
         public readonly static Trait BrokenOne = CreateCreature("Broken One");
-        public readonly static Trait Doppelganger = CreateCreature("Doppelganger", "Doppleganger");
-        public readonly static Trait InvisibleStalker = CreateCreature("Invisible Stalker");
         public readonly static Trait Witch = CreateCreature("Witch");
         public readonly static Trait Harpy = CreateCreature("Harpy");
         public readonly static Trait Ogre = CreateCreature("Ogre");
         public readonly static Trait Satyr = CreateCreature("Satyr");
         public readonly static Trait Rakshasa = CreateCreature("Rakshasa");
         public readonly static Trait Naga = CreateCreature("Naga");
+        public readonly static Trait MindFlayer = CreateCreature("Illithid", "Mind Flayer");
+        public readonly static Trait Illithid = MindFlayer;
+        public readonly static Trait Yaggol = CreateCreature("Yaggol");
 
+        public readonly static Trait Doppelganger = CreateCreature("Doppelganger", "Doppleganger");
+        public readonly static Trait InvisibleStalker = CreateCreature("Invisible Stalker");
+        public readonly static Trait AerialServant = CreateCreature("Aerial Servant");
+        public readonly static Trait Dreamshadow = CreateCreature("Dreamshadow");
+        public readonly static Trait Dreamwraith = CreateCreature("Dreamwraith");
+        public readonly static Trait Fetch = CreateCreature("Fetch");
+        public readonly static Trait Homunculus = CreateCreature("Homunculus", "Homoculous");
+
+        #region Infernal/Fiendish
+        public readonly static Trait Imp = CreateCreature("Imp");
+        public readonly static Trait AssassinImp = CreateCreature("Assassin Imp");
+        public readonly static Trait BloodSeaImp = CreateCreature("Blood Sea Imp", "Vapor Imp");
+        public readonly static Trait Hellhound = CreateCreature("Hellhound");
+        public readonly static Trait Succubus = CreateCreature("Succubus");
+        public readonly static Trait ShadowDemon = CreateCreature("Shadow Demon", "Shadow Fiend");
+        public readonly static Trait Quasit = CreateCreature("Quasit", "Quazit");
+        public readonly static Trait Berbalang = CreateCreature("Berbalang");
+        #endregion
+
+        #region Dragon & Dragon-like
+        public readonly static Trait Darkenbeast = CreateCreature("Darkenbeast");
+        public readonly static Trait Dragon = CreateCreature("Dragon");
+        public readonly static Trait RedDragon = CreateCreature("Red Dragon");
+        public readonly static Trait GoldDragon = CreateCreature("Gold Dragon");
+        public readonly static Trait ShadowDragon = CreateCreature("Shadow Dragon");
+        #endregion
+
+        #region Hags
         public readonly static Trait Hag = CreateCreature("Hag");
         public readonly static Trait AnnisHag = CreateCreature("Annis Hag");
         public readonly static Trait GreenHag = CreateCreature("Green Hag");
         public readonly static Trait SeaHag = CreateCreature("Sea Hag");
+        #endregion
 
         #region Undead
         #region Incorporeal
         public readonly static Trait Shade = CreateCreature("Shade");
         public readonly static Trait Shadow = CreateCreature("Shadow");
+        public readonly static Trait SlowShadow = CreateCreature("Slow Shadow");
         public readonly static Trait Spirit = CreateCreature("Spirit");
         public readonly static Trait Ghost = CreateCreature("Ghost");
         public readonly static Trait Wraith = CreateCreature("Wraith");
+        public readonly static Trait Swordwraith = CreateCreature("Swordwraith", "Sword Wraith");
+        public readonly static Trait SoulBeckoner = CreateCreature("Soul Beckoner");
         public readonly static Trait Spectre = CreateCreature("Spectre");
         public readonly static Trait Banshee = CreateCreature("Banshee");
         public readonly static Trait GrimReaper = CreateCreature("Grim Reaper", "Death Spirit");
@@ -206,6 +239,7 @@
         public readonly static Trait Bussengeist = CreateCreature("Bussengeist");
         public readonly static Trait Odem = CreateCreature("Odem");
         public readonly static Trait Geist = CreateCreature("Geist");
+        public readonly static Trait GreaterGeist = CreateCreature("Greater Geist");
         public readonly static Trait Haunt = CreateCreature("Haunt");
         public readonly static Trait Drelb = CreateCreature("Drelb");
         public readonly static Trait WillOWisp = CreateCreature("Will-o-Wisp");
@@ -214,19 +248,26 @@
         public readonly static Trait VampiricMist = CreateCreature("Vampiric Mist", "Crimson Death");
         public readonly static Trait CrimsonDeath = VampiricMist;
         public readonly static Trait Poltergeist = CreateCreature("Poltergeist");
+        public readonly static Trait SpectralMinion = CreateCreature("Spectral Minion");
         #endregion
 
         #region Corporeal stupid undead
-        public readonly static Trait StrahdZombie = CreateCreature("Strahd Zombie");
-        public readonly static Trait StrahdSkeleton = CreateCreature("Strahd Skeleton");
-        public readonly static Trait StrahdSteed = CreateCreature("Strahd's Skeletal Steed", "Strahd Skeleton Steed");
-
         public readonly static Trait Zombie = CreateCreature("Zombie");
+        public readonly static Trait StrahdZombie = CreateCreature("Strahd Zombie");
         public readonly static Trait SeaZombie = CreateCreature("Sea Zombie");
         public readonly static Trait JujuZombie = CreateCreature("Ju-ju Zombie");
+        public readonly static Trait YellowMuskZombie = CreateCreature("Yellow Musk Zombie");
+
         public readonly static Trait Skeleton = CreateCreature("Skeleton");
+        public readonly static Trait StrahdSkeleton = CreateCreature("Strahd Skeleton");
+        public readonly static Trait WarriorSkeleton = CreateCreature("Warrior Skeleton");
+
+        public readonly static Trait SkeletonSteed = CreateCreature("Skeleton Steed", "Skeletal Steed");
+        public readonly static Trait StrahdSteed = CreateCreature("Strahd's Skeletal Steed", "Strahd Skeleton Steed");
+
         public readonly static Trait Bodak = CreateCreature("Bodak");
         public readonly static Trait CrawlingClaw = CreateCreature("Crawling Claw");
+        public readonly static Trait UndeadBeast = CreateCreature("Undead Beast");
         #endregion
 
         #region Corporeal smart undead
@@ -238,10 +279,16 @@
         public readonly static Trait Ghoul = CreateCreature("Ghoul");
         public readonly static Trait GhoulLord = CreateCreature("Ghoul Lord");
         public readonly static Trait Ghast = CreateCreature("Ghast");
+        public readonly static Trait Lacedeon = CreateCreature("Lacedeon");
         public readonly static Trait Wight = CreateCreature("Wight");
         public readonly static Trait Lich = CreateCreature("Lich");
+        public readonly static Trait Wichtlin = CreateCreature("Wichtlin");
         public readonly static Trait Revenant = CreateCreature("Revenant");
         public readonly static Trait DeathKnight = CreateCreature("Death Knight");
+        public readonly static Trait CryptThing = CreateCreature("Crypt Thing");
+        public readonly static Trait KnightHaunt = CreateCreature("Knight Haunt");
+        public readonly static Trait Heucuva = CreateCreature("Heucuva");
+        public readonly static Trait SonOfKyuss = CreateCreature("Son of Kyuss");
         #endregion
         #endregion
 
@@ -251,23 +298,29 @@
         public readonly static Trait GuardianPortrait = CreateCreature("Guardian Portrait");
         public readonly static Trait DoomGuard = CreateCreature("Doom Guard");
         public readonly static Trait Mimic = CreateCreature("Mimic");
+        public readonly static Trait KaniDoll = CreateCreature("Kani Doll");
+        public readonly static Trait Necrophidius = CreateCreature("Necrophidius");
+        public readonly static Trait Scarecrow = CreateCreature("Scarecrow");
 
+        #region Golems
         public readonly static Trait IronGolem = CreateCreature("Iron Golem");
         public readonly static Trait StoneGolem = CreateCreature("Stone Golem");
         public readonly static Trait BoneGolem = CreateCreature("Bone Golem");
         public readonly static Trait FleshGolem = CreateCreature("Flesh Golem");
+        #endregion
 
+        #region Elementals
         public readonly static Trait QuasiElementalLightning = CreateCreature("Quasi-Elemental Lightning");
         public readonly static Trait Mihstu = CreateCreature("Mihstu");
         public readonly static Trait Sandling = CreateCreature("Sandling");
-
-        public readonly static Trait MindFlayer = CreateCreature("Illithid", "Mind Flayer");
-        public readonly static Trait Illithid = MindFlayer;
+        #endregion
 
         #region Animal Shifters
         public readonly static Trait Werewolf = CreateCreature("Werewolf", "Lycanthrope");
         public readonly static Trait Seawolf = CreateCreature("Seawolf");
         public readonly static Trait LoupGarou = CreateCreature("Loup-Garou");
+        public readonly static Trait LowlandLoupGarou = CreateCreature("Lowland Loup-Garou");
+        public readonly static Trait MountainLoupGarou = CreateCreature("Mountain Loup-Garou");
         public readonly static Trait Jackalwere = CreateCreature("Jackalwere");
         public readonly static Trait Wolfwere = CreateCreature("Wolfwere");
         public readonly static Trait GreaterWolfwere = CreateCreature("Greater Wolfwere");
@@ -279,9 +332,6 @@
         public readonly static Trait BeastMen = CreateCreature("Beast men");
         #endregion
 
-        public readonly static Trait GhostShip = CreateCreature("Ghost Ship");
-        public readonly static Trait Reaver = CreateCreature("Reaver");
-
         #region Plants
         public readonly static Trait Quickwood = CreateCreature("Quickwood");
         public readonly static Trait TwigBlight = CreateCreature("Twig Blight");
@@ -289,6 +339,7 @@
         public readonly static Trait VineBlight = CreateCreature("Vine Blight");
         public readonly static Trait AwakenedShrub = CreateCreature("Awakened Shrub");
         public readonly static Trait ManEatingPlant = CreateCreature("Man-eating plant");
+        public readonly static Trait YellowMuskCreeper = CreateCreature("Yellow Musk Creeper");
         #endregion
     }
 }

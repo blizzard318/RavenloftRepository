@@ -19,7 +19,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "2, 7, 9").BindCharacters(DarklordEnum.CountStrahd);
             DomainEnum.Barovia.AddLocation(LocationEnum.TserPool, "8-12").BindGroups(GroupEnum.Vistani, GroupEnum.AishaVistani);
             DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampnent, "9, 12").BindCharacters(CharacterEnum.MadamEva)
-                .BindGroups(GroupEnum.Vistani, GroupEnum.AishaVistani);
+                .BindGroups(GroupEnum.Vistani, GroupEnum.AishaVistani).BindLocations(LocationEnum.TserPool);
             DomainEnum.Barovia.AddLocation(LocationEnum.OldBonegrinder, "12");
 
             DomainEnum.Barovia.AddLivingDarklord(DarklordEnum.CountStrahd, "1, 2, 6-10, 12").BindCreatures(Creature.Human, Creature.Vampire);
@@ -41,8 +41,6 @@ internal static partial class AddToDatabase
                 .BindCharacters(CharacterEnum.Aisha, CharacterEnum.Casius, CharacterEnum.Elana, CharacterEnum.Marnius, CharacterEnum.MadamEva);
             DomainEnum.Barovia.AddGroup(GroupEnum.AishaVistani, "1, 6-11").BindGroups(GroupEnum.Vistani).BindCreatures(Creature.Horse, Creature.Dog)
                 .BindCharacters(CharacterEnum.Aisha, CharacterEnum.Casius, CharacterEnum.Elana, CharacterEnum.Marnius, CharacterEnum.Walla);
-
-            Settlement.TserPoolEncampnent.PopulateSettlement(LocationEnum.TserPool);
         }
         void AddSpelljammerCrystalSpheres()
         {

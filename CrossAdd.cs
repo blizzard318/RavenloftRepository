@@ -1,10 +1,12 @@
-﻿using System.Diagnostics.Metrics;
+﻿using Mono.TextTemplating;
+using System.Diagnostics.Metrics;
 using static Factory;
 
 public static class CrossAdd
 {
     [ThreadStatic] public static Source Source;
     private static readonly List<Domain> domains = new(); //For trait distribution
+    private static readonly List<Location> settlements = new(); //For trait distribution
 
     public static void Dispose()
     {
@@ -36,6 +38,14 @@ public static class CrossAdd
             }
             //Consider doing this for Clusters, Mistways and anything else ToTrack.
             //That's if they ever get traits.
+        }
+        foreach (var settlement in settlements)
+        {
+            foreach (var location in settlement.Locations.PerSource[Source])
+            {
+                if (location.Characters.PerSource.TryGetValue(Source, out var value))
+                    settlement.BindCharacters(value.ToArray());
+            }
         }
         domains.Clear();
     }
@@ -86,6 +96,7 @@ public static class CrossAdd
     }
     public static Location AddSettlement(this Domain domain, Location location, string pageNumbers = "Throughout")
     {
+        settlements.Add(location);
         Ravenloftdb.SettlementsPerDomain.TryAdd(domain, new());
         Ravenloftdb.SettlementsPerDomain[domain].Add(location);
         return domain.AddLocation(location, pageNumbers);
@@ -189,6 +200,7 @@ public static class CrossAdd
     }
     public static T BindDomains   <T>(this T entity, params Domain   [] domains   ) where T : UseVariableName => Bind(entity, domains);
     public static T BindLocations <T>(this T entity, params Location [] locations ) where T : UseVariableName => Bind(entity, locations);
+    public static T BindLocations <T>(this T entity, ToTrack<Location> locations ) where T : UseVariableName => Bind(entity, locations.PerSource[Source].ToArray());
     public static T BindCharacters<T>(this T entity, params Character[] characters) where T : UseVariableName => Bind(entity, characters);
     public static T BindItems     <T>(this T entity, params Item     [] items     ) where T : UseVariableName => Bind(entity, items);
     public static T BindGroups    <T>(this T entity, params Group    [] groups    ) where T : UseVariableName => Bind(entity, groups);
@@ -310,18 +322,6 @@ public static class CrossAdd
         }
     }
 
-    public static void PopulateSettlement (this Location Settlement, params Location[] locations)
-    {
-        Settlement.BindLocations(locations);
-        foreach (var location in locations)
-        {
-            if (location.Characters.PerSource.TryGetValue(Source, out var value))
-                Settlement.BindCharacters(value.ToArray());
-        }
-    }
-    public static void PopulateSettlement (this Location Settlement, ToTrack<Location> locations)
-        => Settlement.PopulateSettlement(locations.PerSource[Source].ToArray());
-
     public static Domain.Darklord BindCloseBorder (this Domain.Darklord darklord, string CloseBorder)
     {
         darklord.CloseBorder.Add(Source, CloseBorder);
@@ -332,6 +332,8 @@ public static class CrossAdd
         darklord.Curse.Add(Source, Curse);
         return darklord;
     }
+    public static Domain.Darklord BindLair (this Domain.Darklord darklord, Location DarklordLair)
+        => Bind(darklord, darklord.DarklordLair = DarklordLair);
 
     /*public void CreateRelationship(Character primary, string RelationshipType, Character other)
     {

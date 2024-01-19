@@ -27,7 +27,7 @@
         public readonly static Character ThomasDodds = CreateCharacter("Thomas Dodds");
         public readonly static Character PatriciaRichards = CreateCharacter("Patricia Richards");
         public readonly static Character PriscillaSchilling = CreateCharacter("Priscilla Schilling");
-        public readonly static Character Arabella = CreateCharacter("Arabella");
+        public readonly static Character ArabellaTimothy = CreateCharacter("Arabella Timothy");
         public readonly static Character WilliamTimothy = CreateCharacter("William Timothy");
         public readonly static Character EvelynWesterfield = CreateCharacter("Evelyn Westerfield");
         public readonly static Character LawrenceTimothy = CreateCharacter("Lawrence Timothy");
@@ -295,6 +295,7 @@
         #endregion
 
         #region Kartakass
+        public readonly static Character Akriel = CreateCharacter("Akriel");
         public readonly static Character Nhalvaen = CreateCharacter("Nhalvaen");
         public readonly static Character Milil = CreateCharacter("Milil");
         public readonly static Character MeistersingerCasimir = CreateCharacter("Meistersinger Casimir Lukas");
@@ -460,6 +461,17 @@
         public readonly static Character LeslieKale = CreateCharacter("Leslie Kale");
         public readonly static Character GeorgeWeathermay = CreateCharacter("George Weathermay");
         public readonly static Character Perseus = CreateCharacter("Perseus");
+        public readonly static Character HenryLeighton = CreateCharacter("Henry Leighton", "Henry Weathermay");
+        public readonly static Character ElizabethWeathermay = CreateCharacter("Elizabeth Weathermay");
+        public readonly static Character PrudenceWeathermay = CreateCharacter("Prudence Weathermay");
+        public readonly static Character TorrenceSeabag = CreateCharacter("Torrence Seabag");
+        public readonly static Character VivianSeabag = CreateCharacter("Vivian Seabag");
+        public readonly static Character DonaldSherwood = CreateCharacter("Donald Sherwood");
+        public readonly static Character HelenSeabag = CreateCharacter("Helen Seabag");
+        public readonly static Character JulesWeathermay = CreateCharacter("Jules Weathermay");
+        public readonly static Character MarthaScoville = CreateCharacter("Martha Scoville Weathermay");
+        public readonly static Character AliceWeathermay = CreateCharacter("Alice Weathermay");
+        public readonly static Character DanielFoxgrove = CreateCharacter("Daniel Foxgrove");
         #endregion
 
         #region Nebligtode
@@ -510,6 +522,10 @@
 
         #region Sri Raji / Kalakeri
         public readonly static Character Kali = CreateCharacter("Kali");
+        public readonly static Character Rudra = CreateCharacter("Rudra");
+        public readonly static Character Shiva = CreateCharacter("Shiva");
+        public readonly static Character Ravana = CreateCharacter("Ravana");
+        public readonly static Character Yama = CreateCharacter("Yama");
         #endregion
 
         #region Souragne

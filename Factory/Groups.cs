@@ -58,7 +58,13 @@
         public readonly static Group Milil = CreateGroup("Religion of Milil");
         public readonly static Group WeeJas = CreateGroup("Religion of Wee Jas");
         public readonly static Group Diosamblet = CreateGroup("Religion of Diosamblet");
+
         public readonly static Group Kali = CreateGroup("Religion of Kali");
+        public readonly static Group Rudra = CreateGroup("Religion of Rudra");
+        public readonly static Group Shiva = CreateGroup("Religion of Shiva");
+        public readonly static Group Ravana = CreateGroup("Religion of Ravana");
+        public readonly static Group Yama = CreateGroup("Religion of Yama");
+
         public readonly static Group WolfGod = CreateGroup("Religion of the Wolf God");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");
