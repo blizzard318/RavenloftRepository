@@ -8,11 +8,11 @@
             Ravenloftdb.Items.Add(retval);
             return retval;
         }
-        public readonly static Item VigilaDimorta = CreateItem("Vigila Dimorta", "Sentries of Death"); //Falkovnia
-
         public readonly static Item AzalinPhylactery = CreateItem("Azalin Rex`s Phylactery");
         public readonly static Item HazlikPendant = CreateItem("Hazlik`s Pendant");
-        public readonly static Item HarkonHarp = CreateItem("Harkon Luka`s Harp");
+        public readonly static Item HarkonHarp = CreateItem("Harkon Lukas` Harp");
+        public readonly static Item HarkonChess = CreateItem("Harkon Lukas` Chess Set");
+        public readonly static Item CrownOfSouls = CreateItem("Crown of Souls", "Crown of Soldiers");
 
         public readonly static Item Apparatus = CreateItem("Apparatus"); //Mordent
         public readonly static Item SoulSearcher = CreateItem("Soul Searcher Medallion", "Soul Searcher Orb");
@@ -26,17 +26,21 @@
         public readonly static Item StrahdCrystalBall = CreateItem("Strahd's Crystal Ball");
 
         public readonly static Item SealOfLostArak = CreateItem("Seal of Lost Arak"); //Arak
+        public readonly static Item StoneOfDeath = CreateItem("Stone of Death"); //Arak
 
         public readonly static Item GemOfLight = CreateItem("Gem of Light");
         public readonly static Item GemOfInsight = CreateItem("Gem of Insight");
 
         public readonly static Item Borer = CreateItem("Borer");
+        public readonly static Item LordsCoach = CreateItem("The Lord`s Coach");
+
         public readonly static Item Luckstone = CreateItem("Luckstone");
         public readonly static Item DeathRock = CreateItem("Death Rock");
         public readonly static Item TarokkaDeck = CreateItem("Tarokka Deck");
         public readonly static Item TimepieceOfKlorr = CreateItem("Timepiece of Klorr");
         public readonly static Item Decanter = CreateItem("Decanter of Endless Water");
         public readonly static Item VialOfHolyWater = CreateItem("Vial of Holy Water");
+        public readonly static Item OilOfFieryBurning = CreateItem("Oil of Fiery Burning");
         public readonly static Item IncenseOfMed = CreateItem("Incense of Meditation");
         public readonly static Item PowderOfHaste = CreateItem("Powder of Haste");
         public readonly static Item AlchemyJug = CreateItem("Alchemy Jug");
@@ -54,6 +58,8 @@
         public readonly static Item TapestryOfDarkSouls = CreateItem("Tapestry of Dark Souls", "The Gathering Cloth");
         public readonly static Item TapestryOfTheStag = CreateItem("Tapestry of the Stag");
         public readonly static Item CrystalEbonFlame = CreateItem("Crystal of the Ebon Flame");
+        public readonly static Item PipesOfPain = CreateItem("Pipes of Pain");
+        public readonly static Item EyesOfTheEagle = CreateItem("Eyes of the Eagle");
 
         public readonly static Item LocketOfSealing = CreateItem("Locket of Sealing");
         public readonly static Item BracersOfDefense = CreateItem("Bracers of Defense");
@@ -63,7 +69,6 @@
         public readonly static Item GauntletsOfOgrePower = CreateItem("Gauntlets of Ogre Power");
         public readonly static Item ArmorOfBlend = CreateItem("Armor of Blending");
         public readonly static Item EarringSetWithPeriapt = CreateItem("Earring Set with Periapt of Wound Closure");
-        public readonly static Item CrownOfSouls = CreateItem("Crown of Souls");
         public readonly static Item FerroniereOfBrilliance = CreateItem("Ferroniere of Brilliance");
         public readonly static Item GirdleManyPounches = CreateItem("Girdle of Many Pounches");
         public readonly static Item BootsOfTheNorth = CreateItem("Boots of the North");
@@ -80,7 +85,7 @@
         public readonly static Item TimeBomb = CreateItem("Brindletople's Time Bomb");
         public readonly static Item FlashGrenade = CreateItem("Flash Grenade");
         public readonly static Item DartOfHoming = CreateItem("Dart of Homing");
-        public readonly static Item DaggerOfVenom = CreateItem("Dagger of Venom");
+        public readonly static Item DaggerOfVenom = CreateItem("Dagger of Venom", "Venom Dagger");
         public readonly static Item AxeOfHurl = CreateItem("Axe of Hurling");
         public readonly static Item SunBlade = CreateItem("Sun Blade");
         public readonly static Item DragonSlayer = CreateItem("Dragonslayer", "Dragon Slayer");
@@ -101,6 +106,12 @@
         internal static class Food
         {
             public readonly static Item Meekulbern = CreateItem("Meekulbern");
+        }
+        internal static class Plant
+        {
+            public readonly static Item Woflsbane = CreateItem("Woflsbane");
+            public readonly static Item Nightblight = CreateItem("Nightblight");
+            public readonly static Item VigilaDimorta = CreateItem("Vigila Dimorta", "Sentries of Death"); //Falkovnia
         }
         internal static class Scarab
         {
@@ -152,6 +163,7 @@
             public readonly static Item Strike = CreateItem("Staff of Striking");
             public readonly static Item Curing = CreateItem("Staff of Curing");
             public readonly static Item Mimicry = CreateItem("Staff of Mimicry");
+            public readonly static Item Wither = CreateItem("Staff of Withering");
             public readonly static Item ThunderAndLightning = CreateItem("Staff of Thunder and Lightning");
         }
         internal static class Scroll

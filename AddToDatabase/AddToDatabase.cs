@@ -19,7 +19,6 @@ internal static partial class AddToDatabase
             ExtraInfo += "<br/>&emsp;Illustrator: Clyde Caldwell";
             ExtraInfo += "<br/>&emsp;Module Info: An adventure for 6-8 characters of levels 5-7";
             using var ctx = CreateSource("I6: Ravenloft", releaseDate, ExtraInfo, Edition.e1, Media.module);
-            if (ctx == null) return;
 
             DomainEnum.Barovia.Appeared().BindCreatures(Creature.Ghoul);
 
@@ -1345,7 +1344,7 @@ internal static partial class AddToDatabase
                 .BindAlignment(Alignment.LE | Alignment.NE | Alignment.CE);
             DomainEnum.Valachan.AddItem(ItemEnum.CatOfFelkovic, "58").BindCreatures(Creature.Smilodon, Creature.HouseCat, Creature.GiantLynx, Creature.Cheetah, Creature.MountainLion, Creature.Leopard, Creature.Jaguar, Creature.Lion, Creature.Tiger, Creature.SpottedLion);
             DomainEnum.Barovia.AddItem(ItemEnum.Drink.Tuika, "64").ExtraInfo = "Brandywine made from plums.";
-            DomainEnum.Falkovnia.AddItem(ItemEnum.VigilaDimorta, "69").ExtraInfo = "Special trees.";
+            DomainEnum.Falkovnia.AddItem(ItemEnum.Plant.VigilaDimorta, "69").ExtraInfo = "Special trees.";
             DomainEnum.Kartakass.AddItem(ItemEnum.Food.Meekulbern, "74").BindItems(ItemEnum.Drink.Meekulbrau)
                 .ExtraInfo = "Wild berry found in thorny thickets on hills.";
             DomainEnum.Kartakass.AddItem(ItemEnum.Drink.Meekulbrau, "74").ExtraInfo = "Made from Meekulbern berries.";

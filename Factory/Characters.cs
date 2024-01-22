@@ -299,6 +299,24 @@
         public readonly static Character Nhalvaen = CreateCharacter("Nhalvaen");
         public readonly static Character Milil = CreateCharacter("Milil");
         public readonly static Character MeistersingerCasimir = CreateCharacter("Meistersinger Casimir Lukas");
+        public readonly static Character MeistersingerZhone = CreateCharacter("Meistersinger Zhone Clieous");
+        public readonly static Character Kahrus = CreateCharacter("Kahrus");
+        public readonly static Character Devon = CreateCharacter("Devon");
+        public readonly static Character Bakki = CreateCharacter("Bakki");
+        public readonly static Character JaconosHanabara = CreateCharacter("Jaconos Hanabara");
+        public readonly static Character Maria = CreateCharacter("Maria");
+        public readonly static Character Ontosh = CreateCharacter("Ontosh");
+        public readonly static Character Frantosh = CreateCharacter("Frantosh");
+        public readonly static Character Jelena = CreateCharacter("Jelena");
+        public readonly static Character Joshua = CreateCharacter("Joshua");
+        public readonly static Character Jackques = CreateCharacter("Jackques");
+        public readonly static Character MadamLupapus = CreateCharacter("Madam Lupapus");
+        public readonly static Character HeinstockBeeterLupock = CreateCharacter("Heinstock Beeter Lupock");
+        public readonly static Character Coraline = CreateCharacter("Coraline");
+        public readonly static Character HaldrakeMoonbaun = CreateCharacter("Haldrake Moonbaun");
+        public readonly static Character Ledalar = CreateCharacter("Ledalar");
+        public readonly static Character Gleeda = CreateCharacter("Gleeda");
+        public readonly static Character Teena = CreateCharacter("Teena");
         #endregion
 
         #region Klorr

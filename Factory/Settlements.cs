@@ -21,6 +21,10 @@
         public readonly static Location Sturben = CreateSettlement("Sturben");
         #endregion
 
+        #region Daglan
+        public readonly static Location Homlock = CreateSettlement("Homlock");
+        #endregion
+
         #region Darkon
         public readonly static Location IlAluk = CreateSettlement("Il Aluk");
         public readonly static Location Despondia = CreateSettlement("Despondia");

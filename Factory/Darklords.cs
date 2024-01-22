@@ -15,7 +15,8 @@ public partial class Factory : IDisposable
         public readonly static Darklord CamilleDilisnya  = CreateDarklord("Lady Camille Dilisnya");
         public readonly static Darklord IvanDilisnya     = CreateDarklord("Lord Ivan Dilisnya");
         public readonly static Darklord Vecna            = CreateDarklord("Vecna");
-        public readonly static Darklord Daglan           = CreateDarklord("Daglan");
+        public readonly static Darklord Daglan           = CreateDarklord("Daglan Daegon");
+        public readonly static Darklord Radaga           = CreateDarklord("Radaga");
         public readonly static Darklord AzalinRex        = CreateDarklord("Azalin Rex");
         public readonly static Darklord VladDrakov       = CreateDarklord("Vlad Drakov");
         public readonly static Darklord YagnoPetrovna    = CreateDarklord("Yagno Petrovna");
@@ -52,5 +53,6 @@ public partial class Factory : IDisposable
         public readonly static Darklord TorrenceBleysmith = CreateDarklord("Sir Torrence Bleysmith");
         public readonly static Darklord Easen           = CreateDarklord("Easen the Mad");
         public readonly static Darklord Sodo            = CreateDarklord("Sodo");
+        public readonly static Darklord Dominiani       = CreateDarklord("Doctor Daclaud Heinfroth", "Doctor Dominiani");
     }
 }

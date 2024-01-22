@@ -78,8 +78,6 @@ public partial class Factory : IDisposable
         public readonly static Location GuildHalls = CreateLocation("Guild Halls");
         public readonly static Location RuinsOfSteMeredesLarmes = CreateLocation("Ruins of Ste. Mere des Larmes");
         public readonly static Location LaborerTenements = CreateLocation("Laborer`s Tenements");
-        public readonly static Location RoadPortaLucineChateaufaux = CreateLocation("Road from Port-a-Lucine to Chateaufaux", "Road from Chateaufaux to Port-a-Lucine");
-        public readonly static Location RoadChateaufauxPortaLucine = RoadPortaLucineChateaufaux;
         #endregion
 
         #region Dorvinia
@@ -124,6 +122,7 @@ public partial class Factory : IDisposable
         
         #region Gundarak
         public readonly static Location CastleHunadora = CreateLocation("Castle Hunadora");
+        public readonly static Location DrDominianiKeep = CreateLocation("Dr. Dominiani`s Keep", "Doctor Dominiani`s Keep");
         #endregion
 
         #region HarAkir
@@ -140,6 +139,50 @@ public partial class Factory : IDisposable
         public readonly static Location ChurchOfMilil = CreateLocation("Church of Milil");
         public readonly static Location KartakanInn = CreateLocation("Kartakan Inn", "Old Kartakan Inn and Taverna");
         public readonly static Location MeistersingerMansion = CreateLocation("Meistersinger Mansion");
+        public readonly static Location MeistersingerKeep = CreateLocation("Meistersinger Keep");
+        public readonly static Location MeistersingerDungeon = CreateLocation("Meistersinger Dungeon");
+        public readonly static Location RadagaCavern = CreateLocation("Radaga`s Cavern");
+        public readonly static Location KartakanWoods = CreateLocation("Kartakan Woods");
+        public readonly static Location HarmonicHall = CreateLocation("Harmonic Hall");
+        public readonly static Location CrystalClub = CreateLocation("Crystal Club Tavern");
+        public readonly static Location RoadToHarmony = CreateLocation("The Road to Harmony");
+        public readonly static Location TheLoop = CreateLocation("The Loop");
+        public readonly static Location Amphitheater = CreateLocation("The Amphitheater");
+        public readonly static Location SouthHillHarmonia = CreateLocation("South Hill (Harmonia)");
+        public readonly static Location SouthGateHarmonia = CreateLocation("South Gate (Harmonia)");
+        public readonly static Location WestGateHarmonia = CreateLocation("West Gate (Harmonia)");
+        public readonly static Location CityMoatHarmonia = CreateLocation("City Moat (Harmonia)");
+        public readonly static Location MinstrelRiver = CreateLocation("Minstrel River");
+        public readonly static Location WhirlingBridge = CreateLocation("Whirling Bridge of Harmonia");
+        public readonly static Location GuardTowersHarmonia = CreateLocation("Guard Towers (Harmonia)");
+        public readonly static Location CliffLift = CreateLocation("Cliff Lift");
+        public readonly static Location TheGreatCatapult = CreateLocation("The Great Catapult");
+        public readonly static Location JailHouseHarmonia = CreateLocation("Jail House (Harmonia)");
+        public readonly static Location TheAlleyHarmonia = CreateLocation("The Alley (Harmonia)");
+        public readonly static Location MariaFarm = CreateLocation("Maria`s Farm", "Ontash`s Home");
+        public readonly static Location JackquesFarm = CreateLocation("Jackques` Farm");
+        public readonly static Location CatacombsOfRadaga = CreateLocation("Catacombs of Kartakass", "Catacombs of Radaga");
+        public readonly static Location SingSong = CreateLocation("Sing Song River");
+        public readonly static Location TheCauldron = CreateLocation("The Cauldron");
+        public readonly static Location GundarRoad = CreateLocation("Gundar Road", "Old Kartakan Road");
+        public readonly static Location PeasantsWay = CreateLocation("Peasants` Way");
+        public readonly static Location DireCreek = CreateLocation("Dire Creek");
+        public readonly static Location ClockTowerMill = CreateLocation("Clock Tower Mill");
+        public readonly static Location MillHouseSkald = CreateLocation("Mill House (Skald)");
+        public readonly static Location OldFortress = CreateLocation("Old Fortress");
+        public readonly static Location OutTown = CreateLocation("Out Town");
+        public readonly static Location TheWharvesSkald = CreateLocation("The Wharves (Skald)");
+        public readonly static Location LowerSkald = CreateLocation("Lower Skald");
+        public readonly static Location SkaldSawMill = CreateLocation("Skald Saw Mill");
+        public readonly static Location LowerTollBridge = CreateLocation("Lower Toll Bridge");
+        public readonly static Location UpperTollBridge = CreateLocation("Upper Toll Bridge");
+        public readonly static Location UpperIsland = CreateLocation("Upper Island");
+        public readonly static Location LowerIsland = CreateLocation("Lower Island");
+        public readonly static Location HighWharves = CreateLocation("High Wharves");
+        public readonly static Location UpperSkald = CreateLocation("Upper Skald");
+        public readonly static Location GrandHallOfSongAndDance = CreateLocation("Grand Hall of Song and Dance");
+        public readonly static Location OldShacks = CreateLocation("Old Shacks");
+        public readonly static Location ArkaliasHill = CreateLocation("Arkalias Hill");
         #endregion
 
         #region Keening
@@ -194,9 +237,7 @@ public partial class Factory : IDisposable
         public readonly static Location TravelersInn = CreateLocation("Traveler`s Inn");
         public readonly static Location AnchorStreet = CreateLocation("Anchor Street");
         public readonly static Location ShoreLane = CreateLocation("Shore Lane");
-        public readonly static Location MillRoad = CreateLocation("Mill Road", "Road from Mordentshire to Chateaufaux", "Road from Chateaufaux to Mordentshire");
-        public readonly static Location RoadMordentshireChateaufaux = MillRoad;
-        public readonly static Location RoadChateaufauxMordentshire = MillRoad;
+        public readonly static Location MillRoad = CreateLocation("Mill Road");
         public readonly static Location MillBridge = CreateLocation("Mill Bridge");
         public readonly static Location OldMill = CreateLocation("Old Mill (Mordentshire)");
         public readonly static Location Churchyard = CreateLocation("Churchyard (Mordentshire)");
@@ -293,6 +334,7 @@ public partial class Factory : IDisposable
         public readonly static Location RhastikRiver = CreateLocation("Rhastik River", "River Rhastik");
         #endregion
 
+        public readonly static Location Homlack = CreateLocation("Homlack");
         #region Inside Ravenloft
         public readonly static Location QuebeHauntedMansion = CreateLocation("Quebe`s Haunted Mansion");
         public readonly static Location CastleBloodmere = CreateLocation("Castle Bloodmere");
