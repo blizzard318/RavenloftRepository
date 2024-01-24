@@ -8,9 +8,6 @@
             Ravenloftdb.Characters.Add(retval);
             return retval;
         }
-        public readonly static Character TaraKolyana = CreateCharacter("Tara Kolyana");
-        public readonly static Character GoergeWeathermay = CreateCharacter("Goerge Weathermay");
-
         #region Arkandale
         public readonly static Character NataliaVhorishkova = CreateCharacter("Natalia Vhorishkova");
         public readonly static Character CainTimothy = CreateCharacter("Cain Timothy");
@@ -37,6 +34,7 @@
         #endregion
 
         #region Barovia
+        public readonly static Character TaraKolyana = CreateCharacter("Tara Kolyana");
         public readonly static Character IreenaKolyana = CreateCharacter("Ireena Kolyana");
         public readonly static Character Tatyana = CreateCharacter("Tatyana");
         public readonly static Character FatherDonavich = CreateCharacter("Father Donavich");
@@ -176,6 +174,7 @@
         #endregion
 
         #region Daglan
+        public readonly static Character HordockCann = CreateCharacter("Hordock-Cann");
         #endregion
 
         #region Darkon
@@ -278,6 +277,8 @@
 
         #region Gundarak
         public readonly static Character BonnieLee = CreateCharacter("Bonnie Lee");
+        public readonly static Character Margaret = CreateCharacter("Margaret");
+        public readonly static Character AnimatedCoffin = CreateCharacter("Animated Coffin");
         #endregion
 
         #region Har'Akir
@@ -341,6 +342,7 @@
         #endregion
 
         #region Mordent
+        public readonly static Character GoergeWeathermay = CreateCharacter("Goerge Weathermay");
         public readonly static Character TheCreature = CreateCharacter("The Creature");
         public readonly static Character TheAlchemist = CreateCharacter("The Alchemist");
         public readonly static Character LadyWeathermay = CreateCharacter("Lady Virginia Anne Weathermay");
@@ -493,6 +495,14 @@
         #endregion
 
         #region Nebligtode
+        public readonly static Character Garvyn = CreateCharacter("Captain Garvyn");
+        public readonly static Character Killian = CreateCharacter("Captain Killian");
+        public readonly static Character Brummett = CreateCharacter("Brummett");
+        public readonly static Character Charlotte = CreateCharacter("Charlotte");
+        public readonly static Character Ralfeo = CreateCharacter("Ralfeo");
+        public readonly static Character Koresh = CreateCharacter("Koresh");
+        public readonly static Character Peregrine = CreateCharacter("Peregrine");
+        public readonly static Character Thorvid = CreateCharacter("Thorvid");
         #endregion
 
         #region Nova Vaasa
@@ -607,6 +617,7 @@
         public readonly static Character SheraTheWise = CreateCharacter("Shera the Wise");
         public readonly static Character VarneyTheVampire = CreateCharacter("Varney the Vampire");
         public readonly static Character GibLhadsemlo = CreateCharacter("Gib Lhadsemlo");
+        public readonly static Character Vathan = CreateCharacter("Vathan");
         #endregion
     }
 }

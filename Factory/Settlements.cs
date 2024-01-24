@@ -22,7 +22,7 @@
         #endregion
 
         #region Daglan
-        public readonly static Location Homlock = CreateSettlement("Homlock");
+        public readonly static Location Homlock = CreateSettlement("Homlock", "Homloch");
         #endregion
 
         #region Darkon
@@ -109,6 +109,10 @@
 
         #region Mordent
         public readonly static Location Mordentshire = CreateSettlement("Mordentshire");
+        #endregion
+
+        #region Nebligtode
+        public readonly static Location Graben = CreateSettlement("Graben");
         #endregion
 
         #region Nova Vaasa

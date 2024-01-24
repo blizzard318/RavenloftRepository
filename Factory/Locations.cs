@@ -70,6 +70,13 @@ public partial class Factory : IDisposable
         public readonly static Location KargatMausoleum = CreateLocation("Kargat Mausoleum");
         #endregion
 
+        #region Daglan
+        public readonly static Location HomlockChurch = CreateLocation("Homlock Church", "Homloch Church");
+        public readonly static Location TowerOfMagic = CreateLocation("Daglan`s Tower of Magic");
+        public readonly static Location BarrowMounds = CreateLocation("Barrow Mounds");
+        public readonly static Location HomlockCemetery = CreateLocation("Cemetery (Homlock)");
+        #endregion
+
         #region Dementlieu
         public readonly static Location ParnaultBay = CreateLocation("Parnault Bay");
         public readonly static Location GovernmentQuarter = CreateLocation("Government Quarter");
@@ -275,6 +282,12 @@ public partial class Factory : IDisposable
         public readonly static Location Heatherwood = CreateLocation("Heatherwood");
         public readonly static Location HeatherRoad = CreateLocation("Heather Road");
         public readonly static Location LostRoad = CreateLocation("Lost Road");
+        #endregion
+
+        #region Nebligtode
+        public readonly static Location TheEndurance = CreateLocation("The Endurance", "Ship of Horror");
+        public readonly static Location GrabenIsland = CreateLocation("Graben Island");
+        public readonly static Location Todstein = CreateLocation("Todstein");
         #endregion
 
         #region Nova Vaasa

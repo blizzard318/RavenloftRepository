@@ -27,6 +27,9 @@
         public readonly static Group Dukkar = CreateGroup("Dukkar");
         public readonly static Group Raunie = CreateGroup("Raunie");
 
+        public readonly static Group AishaVistani = CreateGroup("Aisha`s group of Vistani");
+        public readonly static Group VincenziaVistani = CreateGroup("Vincenzia`s group of Vistani");
+
         public readonly static Group Meistersinger = CreateGroup("Meistersinger");
 
         public readonly static Group Boyar = CreateGroup("Boyar");
@@ -37,7 +40,6 @@
         public readonly static Group Tatyana = CreateGroup("Reincarnations of Tatyana");
         public readonly static Group HighPriestRavenloft = CreateGroup("High Priest of Ravenloft");
         public readonly static Group HighPriestMostHoly = CreateGroup("High Priest of the Most Holy Order");
-        public readonly static Group AishaVistani = CreateGroup("Aisha`s group of Vistani");
 
         public readonly static Group HighFaithOsterton = CreateGroup("Church of the High Faith in Osterton");
 

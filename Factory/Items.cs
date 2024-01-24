@@ -12,6 +12,8 @@
         public readonly static Item HazlikPendant = CreateItem("Hazlik`s Pendant");
         public readonly static Item HarkonHarp = CreateItem("Harkon Lukas` Harp");
         public readonly static Item HarkonChess = CreateItem("Harkon Lukas` Chess Set");
+        public readonly static Item DominianiIncense = CreateItem("Dominiani`s Incense");
+        public readonly static Item DominianiCursedHelm = CreateItem("Dominiani`s Cursed Helm");
         public readonly static Item CrownOfSouls = CreateItem("Crown of Souls", "Crown of Soldiers");
 
         public readonly static Item Apparatus = CreateItem("Apparatus"); //Mordent
@@ -40,7 +42,6 @@
         public readonly static Item TimepieceOfKlorr = CreateItem("Timepiece of Klorr");
         public readonly static Item Decanter = CreateItem("Decanter of Endless Water");
         public readonly static Item VialOfHolyWater = CreateItem("Vial of Holy Water");
-        public readonly static Item OilOfFieryBurning = CreateItem("Oil of Fiery Burning");
         public readonly static Item IncenseOfMed = CreateItem("Incense of Meditation");
         public readonly static Item PowderOfHaste = CreateItem("Powder of Haste");
         public readonly static Item AlchemyJug = CreateItem("Alchemy Jug");
@@ -59,7 +60,10 @@
         public readonly static Item TapestryOfTheStag = CreateItem("Tapestry of the Stag");
         public readonly static Item CrystalEbonFlame = CreateItem("Crystal of the Ebon Flame");
         public readonly static Item PipesOfPain = CreateItem("Pipes of Pain");
+        public readonly static Item PipesOfHaunt = CreateItem("Pipes of Haunting");
         public readonly static Item EyesOfTheEagle = CreateItem("Eyes of the Eagle");
+        public readonly static Item CandleOfInvocation = CreateItem("Candle of Invocation");
+        public readonly static Item SheetOfSmallness = CreateItem("Sheet of Smallness");
 
         public readonly static Item LocketOfSealing = CreateItem("Locket of Sealing");
         public readonly static Item BracersOfDefense = CreateItem("Bracers of Defense");
@@ -96,6 +100,7 @@
         public readonly static Item SwordOfLifeSteal = CreateItem("Sword of Life Stealing");
         public readonly static Item SwordOfArak = CreateItem("Sword of Arak");
         public readonly static Item MaceOfDisrupt = CreateItem("Mace of Disruption");
+        public readonly static Item VampireSlayer = CreateItem("Vampire Slayer");
 
         internal static class Drink
         {
@@ -106,9 +111,11 @@
         internal static class Food
         {
             public readonly static Item Meekulbern = CreateItem("Meekulbern");
+            public readonly static Item Ghee = CreateItem("Ghee");
         }
         internal static class Plant
         {
+            public readonly static Item GheeGrass = CreateItem("Ghee Grass");
             public readonly static Item Woflsbane = CreateItem("Woflsbane");
             public readonly static Item Nightblight = CreateItem("Nightblight");
             public readonly static Item VigilaDimorta = CreateItem("Vigila Dimorta", "Sentries of Death"); //Falkovnia
@@ -139,6 +146,7 @@
             public readonly static Item Prot = CreateItem("Cloak of Protection");
             public readonly static Item Disp = CreateItem("Cloak of Displacement");
             public readonly static Item Arachnida = CreateItem("Cloak of Arachnida");
+            public readonly static Item Poison = CreateItem("Cloak of Poisonousness");
         }
         internal static class Amulet
         {
@@ -199,6 +207,7 @@
             public readonly static Item HumanInfluence = CreateItem("Ring of Human Influence");
             public readonly static Item VampRegen = CreateItem("Ring of Vampiric Regeneration");
             public readonly static Item FireRes = CreateItem("Ring of Fire Resistance");
+            public readonly static Item Impersonation = CreateItem("Ring of Impersonation");
         }
         internal static class Wand
         {
@@ -218,12 +227,18 @@
             public readonly static Item ClairAud = CreateItem("Potion of Clairaudience");
             public readonly static Item Dim = CreateItem("Potion of Diminution");
             public readonly static Item CSNW = CreateItem("Potion of Cure Serious Negative Wounds");
+            public readonly static Item UndeadControl = CreateItem("Potion of Unddead Control");
         }
         internal static class Elixir
         {
             public readonly static Item Mad = CreateItem("Elixir of Madness");
             public readonly static Item Health = CreateItem("Elixir of Health");
             public readonly static Item Displace = CreateItem("Elixir of Displacement");
+        }
+        internal static class Oil
+        {
+            public readonly static Item FieryBurning = CreateItem("Oil of Fiery Burning");
+            public readonly static Item Timelessness = CreateItem("Oil of Timelessness");
         }
         internal static class Book
         {
@@ -242,6 +257,8 @@
             public readonly static Item SpellBookDrawmij = CreateItem("Spell Book of Drawmij");
 
             public readonly static Item JournalOfVictorMordenheim = CreateItem("Journal of Victor Mordenheim");
+
+            public readonly static Item LifeOrDeathAHistoryOfTCOS = CreateItem("Life or Death? A History of The Crown of Souls");
         }
     }
 }
