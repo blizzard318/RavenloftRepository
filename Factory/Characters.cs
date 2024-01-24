@@ -618,6 +618,8 @@
         public readonly static Character VarneyTheVampire = CreateCharacter("Varney the Vampire");
         public readonly static Character GibLhadsemlo = CreateCharacter("Gib Lhadsemlo");
         public readonly static Character Vathan = CreateCharacter("Vathan");
+        public readonly static Character Saul = CreateCharacter("Saul");
+        public readonly static Character Vincenzia = CreateCharacter("Vincenzia");
         #endregion
     }
 }
