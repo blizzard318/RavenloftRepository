@@ -231,7 +231,7 @@ internal static partial class AddToDatabase
             #endregion
 
             #region Characters
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Garvyn, "5-6, 8, 10-11, 14-17").BindAlignment(Alignment.CN);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Garvyn, "5-6, 8, 10-11, 14-19").BindAlignment(Alignment.CN);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Killian, "6");
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Brummett, "10, 12").BindAlignment(Alignment.CG);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Charlotte, "12");
@@ -241,11 +241,11 @@ internal static partial class AddToDatabase
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Thorvid, "13").BindAlignment(Alignment.NG);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vathan, "17").BindGroups(GroupEnum.Vistani, GroupEnum.VincenziaVistani);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Saul, "17").BindGroups(GroupEnum.Vistani, GroupEnum.VincenziaVistani);
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vincenzia, "17-18").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie, GroupEnum.VincenziaVistani);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vincenzia, "17-19").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie, GroupEnum.VincenziaVistani);
             #endregion
 
             #region Locations
-            DomainEnum.Nebligtode.AddLocation(LocationEnum.TheEndurance, "2, 6-17, Map").BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid);
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.TheEndurance, "2, 6-19, Map").BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid);
             DomainEnum.Nebligtode.AddLocation(LocationEnum.GrabenIsland, "2");
             DomainEnum.Nebligtode.AddLocation(LocationEnum.Todstein, "2");
             DomainEnum.Nebligtode.AddLivingDarklord(DarklordEnum.Meredoth, "2");
@@ -253,8 +253,8 @@ internal static partial class AddToDatabase
             #endregion
 
             #region Groups
-            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani, "17-18");
-            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.VincenziaVistani, "17-18");
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani, "17-19");
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.VincenziaVistani, "17-19");
             #endregion
         }
     }
