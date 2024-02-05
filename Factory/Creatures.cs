@@ -43,6 +43,8 @@
         public readonly static Trait Sahuagin = CreateCreature("Sahuagin");
         public readonly static Trait Trout = CreateCreature("Trout");
         public readonly static Trait Salmon = CreateCreature("Salmon");
+        public readonly static Trait Porpoise = CreateCreature("Porpoise");
+        public readonly static Trait Dolphin = CreateCreature("Dolphin");
         #endregion
 
         #region Birds
@@ -60,6 +62,7 @@
         public readonly static Trait Owl = CreateCreature("Owl");
         public readonly static Trait Crow = CreateCreature("Crow");
         public readonly static Trait GiantCrow = CreateCreature("Giant Crow");
+        public readonly static Trait SeaGull = CreateCreature("Sea Gull");
         #endregion
 
         #region Small Mammals

@@ -15,6 +15,7 @@
         public readonly static Item DominianiIncense = CreateItem("Dominiani`s Incense");
         public readonly static Item DominianiCursedHelm = CreateItem("Dominiani`s Cursed Helm");
         public readonly static Item CrownOfSouls = CreateItem("Crown of Souls", "Crown of Soldiers");
+        public readonly static Item ClaraTheDoll = CreateItem("Clara (Doll)");
 
         public readonly static Item Apparatus = CreateItem("Apparatus"); //Mordent
         public readonly static Item SoulSearcher = CreateItem("Soul Searcher Medallion", "Soul Searcher Orb");

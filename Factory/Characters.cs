@@ -497,12 +497,14 @@
         #region Nebligtode
         public readonly static Character Garvyn = CreateCharacter("Captain Garvyn");
         public readonly static Character Killian = CreateCharacter("Captain Killian");
-        public readonly static Character Brummett = CreateCharacter("Brummett");
+        public readonly static Character Brummett = CreateCharacter("Brummett"); //1st Mate
         public readonly static Character Charlotte = CreateCharacter("Charlotte");
-        public readonly static Character Ralfeo = CreateCharacter("Ralfeo");
-        public readonly static Character Koresh = CreateCharacter("Koresh");
-        public readonly static Character Peregrine = CreateCharacter("Peregrine");
-        public readonly static Character Thorvid = CreateCharacter("Thorvid");
+        public readonly static Character Ralfeo = CreateCharacter("Ralfeo"); //2nd Mate
+        public readonly static Character Koresh = CreateCharacter("Koresh"); //Gunner
+        public readonly static Character Peregrine = CreateCharacter("Peregrine"); //Navigator
+        public readonly static Character Thorvid = CreateCharacter("Thorvid"); //Carpenter
+        public readonly static Character Jacob = CreateCharacter("Jacob");
+        public readonly static Character Basil = CreateCharacter("Basil"); //Cook
         #endregion
 
         #region Nova Vaasa

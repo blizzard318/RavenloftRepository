@@ -227,34 +227,43 @@ internal static partial class AddToDatabase
             using var ctx = CreateSource("Feast of Goblyns", releaseDate, ExtraInfo, Edition.e2, Media.module);
 
             #region Domains
-            DomainEnum.Nebligtode.Appeared();
+            DomainEnum.Nebligtode.Appeared().BindCreatures(Creature.SeaGull, Creature.Porpoise, Creature.Dolphin, Creature.Ghost);
             #endregion
 
             #region Characters
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Garvyn, "5-6, 8, 10-11, 14-19").BindAlignment(Alignment.CN);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Garvyn, "5-6, 8, 10-11, 14-19, 22, 24").BindAlignment(Alignment.CN);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Killian, "6");
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Brummett, "10, 12").BindAlignment(Alignment.CG);
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Charlotte, "12");
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Ralfeo, "12-13").BindAlignment(Alignment.NG);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Brummett, "10, 12, 19-22").BindAlignment(Alignment.CG);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Charlotte, "12, 23-24").BindCreatures(Creature.Ghost);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Ralfeo, "12-13, 23").BindAlignment(Alignment.NG);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Koresh, "13").BindAlignment(Alignment.CN);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Peregrine, "13").BindAlignment(Alignment.NG);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Thorvid, "13").BindAlignment(Alignment.NG);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Jacob, "21, 24");
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Basil, "21");
+
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vathan, "17").BindGroups(GroupEnum.Vistani, GroupEnum.VincenziaVistani);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Saul, "17").BindGroups(GroupEnum.Vistani, GroupEnum.VincenziaVistani);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vincenzia, "17-19").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie, GroupEnum.VincenziaVistani);
             #endregion
 
+            #region Items
+            DomainEnum.Nebligtode.AddItem(ItemEnum.ClaraTheDoll, "22-23").BindCharacters(CharacterEnum.Charlotte);
+            #endregion
+
             #region Locations
-            DomainEnum.Nebligtode.AddLocation(LocationEnum.TheEndurance, "2, 6-19, Map").BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid);
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.TheEndurance, "2, 6-19, Map").BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid, CharacterEnum.Jacob, CharacterEnum.Basil);
             DomainEnum.Nebligtode.AddLocation(LocationEnum.GrabenIsland, "2");
             DomainEnum.Nebligtode.AddLocation(LocationEnum.Todstein, "2");
             DomainEnum.Nebligtode.AddLivingDarklord(DarklordEnum.Meredoth, "2");
             DomainEnum.Nebligtode.AddSettlement(Settlement.Graben, "2");
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.EternalTorture, "25-26").BindCreatures(Creature.Ghast);
             #endregion
 
             #region Groups
             DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani, "17-19");
             DomainEnum.InsideRavenloft.AddGroup(GroupEnum.VincenziaVistani, "17-19");
+            DomainEnum.Nebligtode.AddGroup(GroupEnum.EnduranceCrew).BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid, CharacterEnum.Basil);
             #endregion
         }
     }

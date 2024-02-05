@@ -31,6 +31,7 @@
         public readonly static Group VincenziaVistani = CreateGroup("Vincenzia`s group of Vistani");
 
         public readonly static Group Meistersinger = CreateGroup("Meistersinger");
+        public readonly static Group EnduranceCrew = CreateGroup("Crew of the Endurance");
 
         public readonly static Group Boyar = CreateGroup("Boyar");
         public readonly static Group Burgomaster = CreateGroup("Burgomaster");
@@ -66,7 +67,6 @@
         public readonly static Group Shiva = CreateGroup("Religion of Shiva");
         public readonly static Group Ravana = CreateGroup("Religion of Ravana");
         public readonly static Group Yama = CreateGroup("Religion of Yama");
-
         public readonly static Group WolfGod = CreateGroup("Religion of the Wolf God");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");

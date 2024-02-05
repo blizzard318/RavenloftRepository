@@ -286,6 +286,7 @@ public partial class Factory : IDisposable
 
         #region Nebligtode
         public readonly static Location TheEndurance = CreateLocation("The Endurance", "Ship of Horror");
+        public readonly static Location EternalTorture = CreateLocation("Eternal Torture");
         public readonly static Location GrabenIsland = CreateLocation("Graben Island");
         public readonly static Location Todstein = CreateLocation("Todstein");
         #endregion
