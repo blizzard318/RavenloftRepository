@@ -498,13 +498,20 @@
         public readonly static Character Garvyn = CreateCharacter("Captain Garvyn");
         public readonly static Character Killian = CreateCharacter("Captain Killian");
         public readonly static Character Brummett = CreateCharacter("Brummett"); //1st Mate
-        public readonly static Character Charlotte = CreateCharacter("Charlotte");
+        public readonly static Character CharlotteReisland = CreateCharacter("Charlotte Reisland");
         public readonly static Character Ralfeo = CreateCharacter("Ralfeo"); //2nd Mate
         public readonly static Character Koresh = CreateCharacter("Koresh"); //Gunner
         public readonly static Character Peregrine = CreateCharacter("Peregrine"); //Navigator
         public readonly static Character Thorvid = CreateCharacter("Thorvid"); //Carpenter
         public readonly static Character Jacob = CreateCharacter("Jacob");
         public readonly static Character Basil = CreateCharacter("Basil"); //Cook
+        public readonly static Character Hugo = CreateCharacter("Hugo"); //Crewman
+        public readonly static Character MadelineStern = CreateCharacter("Madeline Stern");
+        public readonly static Character Morvan = CreateCharacter("Morvan");
+        public readonly static Character KarlReisland = CreateCharacter("Karl Reisland");
+        public readonly static Character LouisaReisland = CreateCharacter("Louisa Reisland");
+        public readonly static Character Graben = CreateCharacter("Graben");
+        public readonly static Character HorstGraben = CreateCharacter("Horst Graben");
         #endregion
 
         #region Nova Vaasa

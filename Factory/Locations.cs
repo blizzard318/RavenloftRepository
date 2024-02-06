@@ -289,6 +289,7 @@ public partial class Factory : IDisposable
         public readonly static Location EternalTorture = CreateLocation("Eternal Torture");
         public readonly static Location GrabenIsland = CreateLocation("Graben Island");
         public readonly static Location Todstein = CreateLocation("Todstein");
+        public readonly static Location MeredothChamber = CreateLocation("Meredoth Chamber");
         #endregion
 
         #region Nova Vaasa

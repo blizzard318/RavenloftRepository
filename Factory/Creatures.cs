@@ -45,6 +45,7 @@
         public readonly static Trait Salmon = CreateCreature("Salmon");
         public readonly static Trait Porpoise = CreateCreature("Porpoise");
         public readonly static Trait Dolphin = CreateCreature("Dolphin");
+        public readonly static Trait GiantStarfish = CreateCreature("Giant Starfish");
         #endregion
 
         #region Birds
@@ -279,6 +280,7 @@
         public readonly static Trait WarriorSkeleton = CreateCreature("Warrior Skeleton", "Skeleton Warrior");
         public readonly static Trait GiantSkeleton = CreateCreature("Giant Skeleton");
         public readonly static Trait FireLizardSkeleton = CreateCreature("Fire Lizard Skeleton");
+        public readonly static Trait SkeletalShark = CreateCreature("Skeletal Shark");
 
         public readonly static Trait SkeletonSteed = CreateCreature("Skeleton Steed", "Skeletal Steed");
         public readonly static Trait StrahdSteed = CreateCreature("Strahd's Skeletal Steed", "Strahd Skeleton Steed");
@@ -309,6 +311,7 @@
         public readonly static Trait Heucuva = CreateCreature("Heucuva");
         public readonly static Trait SonOfKyuss = CreateCreature("Son of Kyuss");
         public readonly static Trait DeathSkull = CreateCreature("Death Skull");
+        public readonly static Trait Lebendtod = CreateCreature("Lebendtod");
         #endregion
         #endregion
 
@@ -327,6 +330,7 @@
         public readonly static Trait StoneGolem = CreateCreature("Stone Golem");
         public readonly static Trait BoneGolem = CreateCreature("Bone Golem");
         public readonly static Trait FleshGolem = CreateCreature("Flesh Golem");
+        public readonly static Trait SnowGolem = CreateCreature("Snow Golem");
         #endregion
 
         #region Elementals

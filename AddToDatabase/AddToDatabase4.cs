@@ -45,14 +45,14 @@ internal static partial class AddToDatabase
             DomainEnum.Gundarak.AddLivingDarklord(DarklordEnum.LordGundar, "1, 8-9, 11-13, 26-27, 43, 75").BindCharacters(DarklordEnum.Dominiani).BindCreatures(Creature.Vampire).BindRelatedCreatures(Creature.Wolf);
 
             DomainEnum.Daglan.AddLivingDarklord(DarklordEnum.Radaga, "1, 3-4, 8, 11-12, 14, 46-47, 50, 53, 55-57, 81-83, 85-88, 92")
-                .BindAlignment(Alignment.NE | Alignment.LE).BindDomains(DomainEnum.Kartakass)
+                .BindAlignment(Alignment.NE | Alignment.LE).BindDomains(DomainEnum.Kartakass).BindLair(LocationEnum.TowerOfMagic)
                 .BindCreatures(Creature.Human, Creature.Wight)
                 .BindRelatedCreatures(Creature.SkeletonSteed, Creature.Quickwood, Creature.Skeleton, Creature.Goblyn, Creature.GiantSkeleton, Creature.HalfWight)
                 .BindCloseBorder("A ring of gobylns 20 creatures deep, constantly feasting on bodies of helpless victims of the border. Those who fly over this border are only temporarily safe as a detachment of goblyns will be sent to hunt them down and kill them");
 
             DomainEnum.Daglan.AddLivingDarklord(DarklordEnum.Daglan, "1, 11, 13-14, 81-85, 87, 92")
                 .BindAlignment(Alignment.CE).BindRelatedCreatures(Creature.Darkenbeast)
-                .BindCharacters(DarklordEnum.Radaga);
+                .BindCharacters(DarklordEnum.Radaga).BindLair(LocationEnum.TowerOfMagic);
             #endregion
 
             #region Characters
@@ -227,44 +227,58 @@ internal static partial class AddToDatabase
             using var ctx = CreateSource("Feast of Goblyns", releaseDate, ExtraInfo, Edition.e2, Media.module);
 
             #region Domains
-            DomainEnum.Nebligtode.Appeared().BindCreatures(Creature.SeaGull, Creature.Porpoise, Creature.Dolphin, Creature.Ghost);
+            DomainEnum.Nebligtode.Appeared().BindCreatures(Creature.SeaGull, Creature.Porpoise, Creature.Dolphin, Creature.Ghost, Creature.SkeletalShark, Creature.GiantStarfish);
+            DomainEnum.InsideRavenloft.BindCreatures(Creature.Lebendtod, Creature.SnowGolem);
             #endregion
 
             #region Characters
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Garvyn, "5-6, 8, 10-11, 14-19, 22, 24").BindAlignment(Alignment.CN);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Garvyn, "5-6, 8, 10-11, 14-19, 22, 24, 26-28, 37-39").BindAlignment(Alignment.CN);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Killian, "6");
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Brummett, "10, 12, 19-22").BindAlignment(Alignment.CG);
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Charlotte, "12, 23-24").BindCreatures(Creature.Ghost);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Brummett, "10, 12, 19-22, 26, 28").BindAlignment(Alignment.CG);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.CharlotteReisland, "12, 23-24, 28, 37-39").BindCreatures(Creature.Ghost);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Ralfeo, "12-13, 23").BindAlignment(Alignment.NG);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Koresh, "13").BindAlignment(Alignment.CN);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Peregrine, "13").BindAlignment(Alignment.NG);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Thorvid, "13").BindAlignment(Alignment.NG);
-            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Jacob, "21, 24");
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Jacob, "21, 24, 37-40");
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Basil, "21");
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Hugo, "27-28");
 
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vathan, "17").BindGroups(GroupEnum.Vistani, GroupEnum.VincenziaVistani);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Saul, "17").BindGroups(GroupEnum.Vistani, GroupEnum.VincenziaVistani);
             DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Vincenzia, "17-19").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie, GroupEnum.VincenziaVistani);
+
+            DomainEnum.Nebligtode.AddLivingDarklord(DarklordEnum.Meredoth, "35").BindLair(LocationEnum.MeredothChamber);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.MadelineStern, "28, 37-38").BindCharacters(CharacterEnum.Morvan).BindCreatures(Creature.Ghost);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Morvan, "37");
+
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.KarlReisland, "39").BindCharacters(CharacterEnum.CharlotteReisland);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.LouisaReisland, "39").BindCharacters(CharacterEnum.CharlotteReisland);
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.Graben, "2, 39-40");
+            DomainEnum.Nebligtode.AddLivingCharacter(CharacterEnum.HorstGraben, "40").BindCharacters(CharacterEnum.Jacob);
             #endregion
 
             #region Items
-            DomainEnum.Nebligtode.AddItem(ItemEnum.ClaraTheDoll, "22-23").BindCharacters(CharacterEnum.Charlotte);
+            DomainEnum.Nebligtode.AddItem(ItemEnum.ClaraTheDoll, "22-23").BindCharacters(CharacterEnum.CharlotteReisland);
             #endregion
 
             #region Locations
-            DomainEnum.Nebligtode.AddLocation(LocationEnum.TheEndurance, "2, 6-19, Map").BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid, CharacterEnum.Jacob, CharacterEnum.Basil);
-            DomainEnum.Nebligtode.AddLocation(LocationEnum.GrabenIsland, "2");
-            DomainEnum.Nebligtode.AddLocation(LocationEnum.Todstein, "2");
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.TheEndurance, "2, 6-28, 34, 37-40, Map").BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid, CharacterEnum.Jacob, CharacterEnum.Basil, CharacterEnum.Hugo, CharacterEnum.CharlotteReisland, CharacterEnum.MadelineStern);
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.GrabenIsland, "2, 39-40").BindCharacters(CharacterEnum.Graben);
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.Todstein, "2, 38-39");
             DomainEnum.Nebligtode.AddLivingDarklord(DarklordEnum.Meredoth, "2");
             DomainEnum.Nebligtode.AddSettlement(Settlement.Graben, "2");
             DomainEnum.Nebligtode.AddLocation(LocationEnum.EternalTorture, "25-26").BindCreatures(Creature.Ghast);
+            DomainEnum.Nebligtode.AddLocation(LocationEnum.MeredothChamber, "35").BindCreatures(Creature.Ghast);
             #endregion
 
             #region Groups
             DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani, "17-19");
             DomainEnum.InsideRavenloft.AddGroup(GroupEnum.VincenziaVistani, "17-19");
-            DomainEnum.Nebligtode.AddGroup(GroupEnum.EnduranceCrew).BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid, CharacterEnum.Basil);
+            DomainEnum.Nebligtode.AddGroup(GroupEnum.EnduranceCrew).BindCharacters(CharacterEnum.Garvyn, CharacterEnum.Killian, CharacterEnum.Brummett, CharacterEnum.Ralfeo, CharacterEnum.Koresh, CharacterEnum.Peregrine, CharacterEnum.Thorvid, CharacterEnum.Basil, CharacterEnum.Hugo);
             #endregion
+
+            Creature.Lebendtod.BindCreatures(Creature.Ghast);
         }
     }
 }
