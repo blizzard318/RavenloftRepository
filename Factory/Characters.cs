@@ -1,4 +1,6 @@
-﻿public partial class Factory : IDisposable
+﻿using System.IO;
+
+public partial class Factory : IDisposable
 {
     internal static class CharacterEnum
     {
@@ -220,7 +222,7 @@
         public readonly static Character StefaniaSeptow = CreateCharacter("Stefania Septow");
         public readonly static Character KristinaDilisnya = CreateCharacter("Kristina Dilisnya");
         public readonly static Character NataliaOlszanik = CreateCharacter("Natalia Olszanik");
-        public readonly static Character Lucretia = CreateCharacter("Lucretia Marzeya");
+        public readonly static Character LucretiaMarzeya = CreateCharacter("Lucretia Marzeya");
         public readonly static Character ReinholdDilisnya = CreateCharacter("Reinhold Dilisnya");
         public readonly static Character NadiaYakimov = CreateCharacter("Nadia Yakimov");
         public readonly static Character GertudeDilisnya = CreateCharacter("Gertude Dilisnya");
@@ -512,6 +514,37 @@
         public readonly static Character LouisaReisland = CreateCharacter("Louisa Reisland");
         public readonly static Character Graben = CreateCharacter("Graben");
         public readonly static Character HorstGraben = CreateCharacter("Horst Graben");
+        public readonly static Character LucretiaGraben = CreateCharacter("Lucretia Graben"); //Midwife
+        public readonly static Character MiriamBrote = CreateCharacter("Miriam Brote"); //Baker
+        public readonly static Character HarvidFleischer = CreateCharacter("Harvid Fleischer"); //Butcher
+        public readonly static Character Jeremiah = CreateCharacter("Jeremiah");
+        public readonly static Character MargaretAckerman = CreateCharacter("Margaret Ackerman");
+        public readonly static Character HiramAckerman = CreateCharacter("Hiram Ackerman");
+        public readonly static Character PieterFischer = CreateCharacter("Pieter Fischer");
+        public readonly static Character LarsStromm  = CreateCharacter("Lars Stromm");
+        public readonly static Character BarnabasVincent  = CreateCharacter("Barnabas Vincent");
+        public readonly static Character HansMueller  = CreateCharacter("Hans Mueller");
+        public readonly static Character MarcusGwynn  = CreateCharacter("Marcus Gwynn");
+        public readonly static Character VanceStellen  = CreateCharacter("Vance Stellen");
+        public readonly static Character ColinGraben  = CreateCharacter("Colin Graben");
+
+        public readonly static Character EzekielGraben  = CreateCharacter("Ezekiel Graben");
+        public readonly static Character MariettaGraben  = CreateCharacter("Marietta Graben");
+        public readonly static Character MatthiasGraben  = CreateCharacter("Matthias Graben");
+        public readonly static Character DanarGraben  = CreateCharacter("Danar Graben");
+        public readonly static Character MetanGraben  = CreateCharacter("Metan Graben");
+        public readonly static Character KuganGraben  = CreateCharacter("Kugan Graben");
+        public readonly static Character GeneelGraben  = CreateCharacter("Geneel Graben");
+        public readonly static Character MavisGraben  = CreateCharacter("Mavis Graben");
+
+        public readonly static Character DriddamGraben  = CreateCharacter("Driddam Graben");
+        public readonly static Character StymarGraben  = CreateCharacter("Stymar Graben");
+        public readonly static Character ArabyGraben  = CreateCharacter("Araby Graben");
+        public readonly static Character ElenaGraben  = CreateCharacter("Elena Graben");
+        public readonly static Character RosaleeGraben  = CreateCharacter("Rosalee Graben");
+        public readonly static Character BlaineGraben  = CreateCharacter("Blaine Graben");
+        public readonly static Character Nestor  = CreateCharacter("Nestor");
+        public readonly static Character OlsainGraben = CreateCharacter("Olsain Graben");
         #endregion
 
         #region Nova Vaasa

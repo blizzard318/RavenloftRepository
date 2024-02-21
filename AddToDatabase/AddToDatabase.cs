@@ -918,7 +918,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.NataliaOlszanik, "94").ExtraInfo = "Probably deceased.";
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.StefaniaSeptow, "94").BindCharacters(CharacterEnum.KristinaDilisnya).BindDomains(DomainEnum.Borca);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.KristinaDilisnya, "94").BindDomains(DomainEnum.Borca);
-            DomainEnum.Dorvinia.AddDeadCharacter(CharacterEnum.Lucretia, "94");
+            DomainEnum.Dorvinia.AddDeadCharacter(CharacterEnum.LucretiaMarzeya, "94");
             DomainEnum.Mordent.AddLivingCharacter(CharacterEnum.LadyEstelleWeathermayGodefroy, "97");
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Ludmilla, "104-105");
             DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.EliseVonBrandthofen, "105-107").BindCharacters(CharacterEnum.Eva);

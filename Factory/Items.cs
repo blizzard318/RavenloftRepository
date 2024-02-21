@@ -36,6 +36,8 @@
 
         public readonly static Item Borer = CreateItem("Borer");
         public readonly static Item LordsCoach = CreateItem("The Lord`s Coach");
+        public readonly static Item FoldingBoat = CreateItem("Folding Boat");
+        public readonly static Item BroomOfFlying = CreateItem("Broom of Flying");
 
         public readonly static Item Luckstone = CreateItem("Luckstone");
         public readonly static Item DeathRock = CreateItem("Death Rock");
@@ -65,6 +67,7 @@
         public readonly static Item EyesOfTheEagle = CreateItem("Eyes of the Eagle");
         public readonly static Item CandleOfInvocation = CreateItem("Candle of Invocation");
         public readonly static Item SheetOfSmallness = CreateItem("Sheet of Smallness");
+        public readonly static Item BagOfHolding = CreateItem("Bag of Holding");
 
         public readonly static Item LocketOfSealing = CreateItem("Locket of Sealing");
         public readonly static Item BracersOfDefense = CreateItem("Bracers of Defense");
@@ -81,6 +84,8 @@
         public readonly static Item NecklaceOfAdaptation = CreateItem("Necklace of Adaptation");
         public readonly static Item NecklacePrayerBeads = CreateItem("Necklace of Prayer Beads");
         public readonly static Item HelmCompreLng = CreateItem("Helm of Comprehending Languages and Reading Magic");
+        public readonly static Item SnowshoesOfVariedTracks = CreateItem("Snowshoes of Varied Tracks");
+        public readonly static Item HatOfStupid = CreateItem("Hat of Stupidity");
 
         public readonly static Item TarlVanovitchSunBlade = CreateItem("Tarl Vanovitch`s Sun Blade");
         public readonly static Item ArrowOfDirect = CreateItem("Arrow of Direction");
@@ -217,6 +222,7 @@
             public readonly static Item SecretDoor = CreateItem("Wand of Secret Door and Trap Location");
             public readonly static Item Tithion = CreateItem("Tithion's Wand of Fire");
             public readonly static Item Frost = CreateItem("Wand of Frost");
+            public readonly static Item FlameExtinguish = CreateItem("Wand of Flame Extinguishing");
         }
         internal static class Potion
         {
@@ -229,6 +235,7 @@
             public readonly static Item Dim = CreateItem("Potion of Diminution");
             public readonly static Item CSNW = CreateItem("Potion of Cure Serious Negative Wounds");
             public readonly static Item UndeadControl = CreateItem("Potion of Unddead Control");
+            public readonly static Item FireRes = CreateItem("Potion of Fire Resistance");
         }
         internal static class Elixir
         {

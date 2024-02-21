@@ -113,6 +113,9 @@
 
         #region Nebligtode
         public readonly static Location Graben = CreateSettlement("Graben");
+        public readonly static Location Seeheim = CreateSettlement("Seeheim");
+        public readonly static Location Kirchenheim = CreateSettlement("Kirchenheim");
+        public readonly static Location Meerdorf = CreateSettlement("Meerdorf");
         #endregion
 
         #region Nova Vaasa

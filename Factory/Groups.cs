@@ -77,6 +77,7 @@
         public readonly static Group Timothy = CreateGroup("Timothy Family");
         public readonly static Group VonZarovich = CreateGroup("Von Zarovich Family");
         public readonly static Group Weathermay = CreateGroup("Weathermay Family");
+        public readonly static Group Graben = CreateGroup("Graben Family");
 
         public readonly static Group Solamnia = CreateGroup("Knights of Solamnia");
         public readonly static Group RoseKnights = CreateGroup("Knights of the Rose");

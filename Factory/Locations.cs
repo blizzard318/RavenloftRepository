@@ -288,8 +288,22 @@ public partial class Factory : IDisposable
         public readonly static Location TheEndurance = CreateLocation("The Endurance", "Ship of Horror");
         public readonly static Location EternalTorture = CreateLocation("Eternal Torture");
         public readonly static Location GrabenIsland = CreateLocation("Graben Island");
+        public readonly static Location GrabenFamilyEstate = CreateLocation("Graben Family Estate");
         public readonly static Location Todstein = CreateLocation("Todstein");
         public readonly static Location MeredothChamber = CreateLocation("Meredoth Chamber");
+        public readonly static Location KnammenIsland = CreateLocation("Knammen Island");
+        public readonly static Location GrabenBakery = CreateLocation("Bakery (Graben)");
+        public readonly static Location GrabenButcher = CreateLocation("Butcher (Graben)");
+        public readonly static Location GrabenCooper = CreateLocation("Cooper (Graben)");
+        public readonly static Location GrabenCottonSpinner = CreateLocation("Cotton Spinner (Graben)");
+        public readonly static Location GrabenFishMarket = CreateLocation("Fish Market (Graben)");
+        public readonly static Location GrabenGeneralStore = CreateLocation("General Store (Graben)");
+        public readonly static Location BlackSheepInn = CreateLocation("The Black Sheep Inn");
+        public readonly static Location GrabenMill = CreateLocation("Mill (Graben)");
+        public readonly static Location GrabenWeaver = CreateLocation("Weaver (Graben)");
+        public readonly static Location GrabenWoolSpinner = CreateLocation("Wool Spinner (Graben)");
+        public readonly static Location GrabenCemetery = CreateLocation("Cemetery (Graben)");
+        public readonly static Location TodsteinMausoleums = CreateLocation("Mausoleums (Todstein)");
         #endregion
 
         #region Nova Vaasa
