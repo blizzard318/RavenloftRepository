@@ -43,6 +43,10 @@ public partial class Factory : IDisposable
         public readonly static Location TepurichForest = CreateLocation("Tepurich Forest");
         #endregion
 
+        #region Blaustein
+        public readonly static Location CastleBluebeard = CreateLocation("Castle Bluebeard", "Bluebeard`s Castle");
+        #endregion
+
         #region Borca
         public readonly static Location BoritsiEstate = CreateLocation("Boritsi Estate", "Misericordia", "Miseria Corpa");
         public readonly static Location LevkarestFerry = CreateLocation("Levkarest Ferry");
@@ -134,6 +138,7 @@ public partial class Factory : IDisposable
 
         #region HarAkir
         public readonly static Location PharaohsRest = CreateLocation("Pharaoh`s Rest");
+        public readonly static Location AnhkepotTomb = CreateLocation("Anhkepot`s Tomb");
         #endregion
 
         #region Hazlan
@@ -194,6 +199,34 @@ public partial class Factory : IDisposable
 
         #region Keening
         public readonly static Location MountLament = CreateLocation("Mount Lament");
+        public readonly static Location BansheeLair = CreateLocation("Banshee Lair");
+        public readonly static Location KryderRiver = CreateLocation("Kryder River");
+        public readonly static Location OldToll = CreateLocation("Old Toll");
+        public readonly static Location AlbiaCreek = CreateLocation("Albia Creek");
+        public readonly static Location CityOfTheDeadMarketSquare = CreateLocation("Market Square (City of the Dead)");
+        public readonly static Location CityOfTheDeadPalace = CreateLocation("Palace (City of the Dead)");
+        public readonly static Location CityOfTheDeadOldMarket = CreateLocation("Old Market (City of the Dead)");
+        public readonly static Location CityOfTheDeadBarracks = CreateLocation("Barracks (City of the Dead)");
+        public readonly static Location CityOfTheDeadArena = CreateLocation("Arena (City of the Dead)");
+        public readonly static Location CityOfTheDeadInn = CreateLocation("Inn (City of the Dead)");
+        public readonly static Location CityOfTheDeadTemple = CreateLocation("Temple (City of the Dead)");
+        public readonly static Location CityOfTheDeadMill = CreateLocation("Mill (City of the Dead)");
+        public readonly static Location CityOfTheDeadBath = CreateLocation("Bath (City of the Dead)");
+        public readonly static Location CityOfTheDeadGate = CreateLocation("Gate (City of the Dead)");
+        public readonly static Location CityOfTheDeadNewWall = CreateLocation("New Wall (City of the Dead)");
+        public readonly static Location CityOfTheDeadOldWall = CreateLocation("Old Wall (City of the Dead)");
+        public readonly static Location CityOfTheDeadBellTower = CreateLocation("Bell Tower (City of the Dead)");
+        public readonly static Location CityOfTheDeadGrainMarket = CreateLocation("Grain Market (City of the Dead)");
+        public readonly static Location CityOfTheDeadClothMarket = CreateLocation("Cloth Market (City of the Dead)");
+        public readonly static Location CityOfTheDeadNewMarketFair = CreateLocation("New Market Fair (City of the Dead)");
+        public readonly static Location CityOfTheDeadLaborersQuarter = CreateLocation("Laborer`s Quarter (City of the Dead)");
+        public readonly static Location CityOfTheDeadSeasonalHorseMarket = CreateLocation("Seasonal Horse Market (City of the Dead)");
+        public readonly static Location CityOfTheDeadResidentialDistrict = CreateLocation("Residential District (City of the Dead)");
+        public readonly static Location CityOfTheDeadTannersDistrict = CreateLocation("Tanner`s District (City of the Dead)");
+        public readonly static Location CityOfTheDeadBusinessDistrict = CreateLocation("Business District (City of the Dead)");
+        public readonly static Location CityOfTheDeadMetalworkersDistrict = CreateLocation("Metalworker`s District (City of the Dead)");
+        public readonly static Location CityOfTheDeadManorHouse = CreateLocation("Manor House (City of the Dead)");
+        public readonly static Location CityOfTheDeadAleHouse = CreateLocation("Ale House (City of the Dead)");
         #endregion
 
         #region Lamordia

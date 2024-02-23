@@ -219,7 +219,6 @@ public static class CrossAdd
     {
         entity.Creatures.Add(Source, creatures);
         Source.Creatures.UnionWith(creatures);
-
         foreach (var creature in creatures)
         {
             creature.Sources.Add(Source);
@@ -267,17 +266,30 @@ public static class CrossAdd
         }
         return Character;
     }
-    public static Character BindLanguages(this Character character, params Trait[] languages)
+    public static T BindLanguages<T>(this T entity, params Trait[] languages) where T : UseVariableName
     {
-        character.Languages.Add(Source, languages);
+        entity.Languages.Add(Source, languages);
         Source.Languages.UnionWith(languages);
         foreach (var language in languages)
         {
             language.editions |= Source.Edition;
             language.Sources.Add(Source);
-            language.Characters.Add(Source, character);
         }
-        return character;
+
+        var list = GetSetFromArray();
+        foreach (var set in list) set.Add(Source, entity);
+
+        return entity;
+
+        IEnumerable<ToTrack<T>>? GetSetFromArray()
+        {
+            var type = typeof(T);
+            if (type == typeof(Trait    )) return languages.Select(t => t.Items     ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Group    )) return languages.Select(t => t.Groups    ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Domain   )) return languages.Select(t => t.Domains   ) as IEnumerable<ToTrack<T>>;
+            if (type == typeof(Character)) return languages.Select(t => t.Characters) as IEnumerable<ToTrack<T>>;
+            throw new NotImplementedException();
+        }
     }
     public static Domain BindLanguages(this Domain domain, params Trait[] languages)
     {
@@ -294,7 +306,6 @@ public static class CrossAdd
             Ravenloftdb.DomainsPerLanguage.TryAdd(language, new());
             Ravenloftdb.DomainsPerLanguage[language].Add(domain);
         }
-
         return domain;
     }
 

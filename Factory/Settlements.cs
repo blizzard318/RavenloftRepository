@@ -81,7 +81,7 @@
         #endregion
 
         #region Har'akir
-        public readonly static Location Muhar = CreateSettlement("Muhar");
+        public readonly static Location Muhar = CreateSettlement("Muhar", "Mudar");
         #endregion
 
         #region Hazlan
@@ -96,6 +96,10 @@
         #region Kartakass
         public readonly static Location Harmonia = CreateSettlement("Harmonia");
         public readonly static Location Skald = CreateSettlement("Skald");
+        #endregion
+
+        #region Keening
+        public readonly static Location CityOfTheDead = CreateSettlement("City of the Dead");
         #endregion
 
         #region Lamordia

@@ -10,6 +10,10 @@ public partial class Factory : IDisposable
             Ravenloftdb.Characters.Add(retval);
             return retval;
         }
+        #region Arak
+        public readonly static Character Lolth = CreateCharacter("Lolth");
+        #endregion
+
         #region Arkandale
         public readonly static Character NataliaVhorishkova = CreateCharacter("Natalia Vhorishkova");
         public readonly static Character CainTimothy = CreateCharacter("Cain Timothy");
@@ -135,6 +139,17 @@ public partial class Factory : IDisposable
         #endregion
 
         #region Blaustein
+        public readonly static Character Marcella = CreateCharacter("Marcella");
+        public readonly static Character Lorel = CreateCharacter("Lorel");
+        public readonly static Character Antonia = CreateCharacter("Antonia");
+        public readonly static Character Ursula = CreateCharacter("Ursula");
+        public readonly static Character Jacinda = CreateCharacter("Jacinda");
+        public readonly static Character Marguerite = CreateCharacter("Marguerite");
+        public readonly static Character Jacqueline = CreateCharacter("Jacqueline");
+        public readonly static Character Beatrice = CreateCharacter("Beatrice");
+        public readonly static Character Camilla = CreateCharacter("Camilla");
+        public readonly static Character Matilda = CreateCharacter("Matilda");
+        public readonly static Character Lenor = CreateCharacter("Lenor");
         #endregion
 
         #region Bluetspur
@@ -286,6 +301,8 @@ public partial class Factory : IDisposable
         #region Har'Akir
         public readonly static Character Senmet = CreateCharacter("Senmet");
         public readonly static Character Trisler = CreateCharacter("Trisler");
+        public readonly static Character Ra = CreateCharacter("Ra");
+        public readonly static Character Nephyr = CreateCharacter("Nephyr");
         #endregion
 
         #region Hazlan

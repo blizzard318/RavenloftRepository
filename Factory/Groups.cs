@@ -44,8 +44,10 @@
 
         public readonly static Group HighFaithOsterton = CreateGroup("Church of the High Faith in Osterton");
 
+        public readonly static Group AbberNomad = CreateGroup("Abber Nomad");
+
         public readonly static Group TheKargat = CreateGroup("The Kargat");
-        
+
         public readonly static Group PaladinsOfTheRaven = CreateGroup("Paladins of the Raven");
 
         public readonly static Group IronCrown = CreateGroup("Servants of the Iron Crown");
@@ -55,19 +57,22 @@
 
         public readonly static Group RedWizard = CreateGroup("Red Wizard of Thay");
 
+        public readonly static Group BluebeardWives = CreateGroup("Wives of Bluebeard");
+
         public readonly static Group Zhakata = CreateGroup("Religion of Zhakata");
         public readonly static Group Lathander = CreateGroup("Religion of Lathander");
         public readonly static Group Tyr = CreateGroup("Religion of Tyr");
         public readonly static Group Milil = CreateGroup("Religion of Milil");
         public readonly static Group WeeJas = CreateGroup("Religion of Wee Jas");
         public readonly static Group Diosamblet = CreateGroup("Religion of Diosamblet");
-
+        public readonly static Group Ra = CreateGroup("Religion of Ra");
         public readonly static Group Kali = CreateGroup("Religion of Kali");
         public readonly static Group Rudra = CreateGroup("Religion of Rudra");
         public readonly static Group Shiva = CreateGroup("Religion of Shiva");
         public readonly static Group Ravana = CreateGroup("Religion of Ravana");
         public readonly static Group Yama = CreateGroup("Religion of Yama");
         public readonly static Group WolfGod = CreateGroup("Religion of the Wolf God");
+        public readonly static Group Lolth = CreateGroup("Religion of Lolth");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");
         public readonly static Group dHonaire = CreateGroup("d`Honaire Family");

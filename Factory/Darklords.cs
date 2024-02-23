@@ -9,8 +9,8 @@ public partial class Factory : IDisposable
             Ravenloftdb.Characters.Add(retval);
             return retval;
         }
-        public readonly static Darklord CountStrahd      = CreateDarklord("Count Strahd von Zarovich", "Devil Strahd");
-        public readonly static Darklord Bluebeard        = CreateDarklord("Bluebeard");
+        public readonly static Darklord CountStrahd      = CreateDarklord("Count Strahd von Zarovich");
+        public readonly static Darklord Bluebeard        = CreateDarklord("Lord Bluebeard");
         public readonly static Darklord IvanaBoritsi     = CreateDarklord("Lady Ivana Boritsi");
         public readonly static Darklord CamilleDilisnya  = CreateDarklord("Lady Camille Dilisnya");
         public readonly static Darklord IvanDilisnya     = CreateDarklord("Lord Ivan Dilisnya");
@@ -22,7 +22,7 @@ public partial class Factory : IDisposable
         public readonly static Darklord YagnoPetrovna    = CreateDarklord("Yagno Petrovna");
         public readonly static Darklord LordGundar       = CreateDarklord("Duke Gundar", "Lord Gundar");
         public readonly static Darklord StezenDPolarno   = CreateDarklord("Stezen D`Polarno");
-        public readonly static Darklord Anhktepot        = CreateDarklord("Anhktepot");
+        public readonly static Darklord Anhktepot        = CreateDarklord("Pharaoh Anhktepot");
         public readonly static Darklord Hazlik           = CreateDarklord("Hazlik");
         public readonly static Darklord GabrielleAderre  = CreateDarklord("Gabrielle Aderre");
         public readonly static Darklord HarkonLukas      = CreateDarklord("Harkon Lukas");
@@ -54,5 +54,9 @@ public partial class Factory : IDisposable
         public readonly static Darklord Easen           = CreateDarklord("Easen the Mad");
         public readonly static Darklord Sodo            = CreateDarklord("Sodo");
         public readonly static Darklord Dominiani       = CreateDarklord("Doctor Daclaud Heinfroth", "Doctor Dominiani");
+        public readonly static Darklord Ebonbane        = CreateDarklord("Ebonbane");
+        public readonly static Darklord HouseOfLament   = CreateDarklord("House of Lament");
+        public readonly static Darklord PhantomLover    = CreateDarklord("Phantom Lover", "Leederik");
+        public readonly static Darklord GregorZolnik    = CreateDarklord("Boyar Gregor Zolnik");
     }
 }

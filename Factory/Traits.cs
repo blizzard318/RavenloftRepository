@@ -46,6 +46,7 @@
         public static readonly Trait Gnome = CreateLanguage("Gnome", "Gnomish");
         public static readonly Trait Dwarf = CreateLanguage("Dwarf", "Dwarvish");
         public static readonly Trait Orc = CreateLanguage("Orc", "Orcish");
+        public static readonly Trait Kender = CreateLanguage("Kender");
 
         public static readonly Trait Balok = CreateLanguage("Balok");
 
@@ -59,6 +60,7 @@
         public static readonly Trait KuoToan = CreateLanguage("Kuo-Toan");
 
         public static readonly Trait Treant = CreateLanguage("Treant", "Treantish");
+        public static readonly Trait EvilTreant = CreateLanguage("Evil Treant");
 
         public static readonly Trait HillGiant = CreateLanguage("Hill Giant");
         public static readonly Trait MountainGiant = CreateLanguage("Mountain Giant");
@@ -67,5 +69,10 @@
 
         public static readonly Trait BurrowingMammals = CreateLanguage("Burrowing Mammals");
         public static readonly Trait DesertNomad = CreateLanguage("Desert Nomad");
+
+        public static readonly Trait AbberNomad = CreateLanguage("Abber Nomad");
+        public static readonly Trait Quevari = CreateLanguage("Quevari");
+        public static readonly Trait Ravenkin = CreateLanguage("Ravenkin");
+
     }
 }

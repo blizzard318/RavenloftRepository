@@ -8,6 +8,7 @@ internal static partial class AddToDatabase
         AddFeastOfGoblyns();
         AddShipOfHorrors();
         AddMonstrousCompendiumAppendix1();
+        AddDarklords();
         void AddFeastOfGoblyns()
         {
             var releaseDate = "01/09/1990";
@@ -360,7 +361,7 @@ internal static partial class AddToDatabase
         }
         void AddMonstrousCompendiumAppendix1()
         {
-            var releaseDate = "01/02/1991";
+            var releaseDate = "01/01/1991";
             string ExtraInfo = "<br/>&emsp;Designer: William W. Connors";
             ExtraInfo += "<br/>&emsp;Editing: C. Terry Phillips";
             ExtraInfo += "<br/>&emsp;Cover Art: Jeff Easley";
@@ -369,10 +370,213 @@ internal static partial class AddToDatabase
             ExtraInfo += "<br/>&emsp;Production: Sarah Feggestad";
             using var ctx = CreateSource("Ravenloft Monstrous Compendium Appendix I", releaseDate, ExtraInfo, Edition.e2, Media.sourcebook);
 
-            DomainEnum.InsideRavenloft.BindCreatures(Creature.Bat, Creature.LargeBat, Creature.GiantBat, Creature.HugeBat, Creature.Mobat, Creature.CarrionCrawler, Creature.Doppelganger, Creature.Drow, Creature.Gargoyle, Creature.Ghost, Creature.Ghoul, Creature.Lacedeon, Creature.Ghast, Creature.FleshGolem, Creature.ClayGolem, Creature.StoneGolem, Creature.IronGolem, Creature.Banshee, Creature.GroaningSpirit, Creature.GuardianDaemonLeast, Creature.GuardianDaemonLesser, Creature.GuardianDaemonGreater, Creature.AnnisHag, Creature.GreenHag, Creature.SeaHag, Creature.Haunt, Creature.Hellhound, Creature.Heucuva, Creature.Homunculus, Creature.Imp, Creature.Jackalwere, Creature.Lich, Creature.Demilich, Creature.Werefox, Creature.Wererat, Creature.Werewolf, Creature.MindFlayer, Creature.Mummy, Creature.Poltergeist, Creature.Rakshasa, Creature.Rat, Creature.GiantRat, Creature.Shadow, Creature.Skeleton, Creature.Spectre, Creature.Vampire, Creature.JiangShi, Creature.Wight, Creature.WillOWisp, Creature.Wolf, Creature.Worg, Creature.DireWolf, Creature.WinterWolf, Creature.Wolfwere, Creature.Wraith, Creature.Zombie, Creature.JujuZombie, Creature.CrawlingClaw, Creature.Cloaker, Creature.Darkenbeast, Creature.CrimsonDeath, Creature.Revenant, Creature.LivingWeb, Creature.UndeadBeast, Creature.UndeadBeastStahnk, Creature.UndeadBeastStahnk, Creature.Dreamshadow, Creature.Dreamwraith, Creature.Fetch, Creature.FireMinion, Creature.FireShadow, Creature.KnightHaunt, Creature.SpectralMinion, Creature.WarriorSkeleton, Creature.Wichtlin, Creature.Yaggol, Creature.CryptThing, Creature.YethHound, Creature.SonOfKyuss, Creature.Necrophidius, Creature.Raven, Creature.GiantRaven, Creature.Scarecrow, Creature.SlowShadow, Creature.Swordwraith, Creature.SoulBeckoner, Creature.SeaZombie, Creature.TigbanuaBuso, Creature.TagamalingBuso, Creature.ChuU);
+            DomainEnum.InsideRavenloft.BindCreatures(Creature.Bat, Creature.LargeBat, Creature.GiantBat, Creature.HugeBat, Creature.Mobat, Creature.CarrionCrawler, Creature.Doppelganger, Creature.Drow, Creature.Gargoyle, Creature.Ghost, Creature.Ghoul, Creature.Lacedeon, Creature.Ghast, Creature.FleshGolem, Creature.ClayGolem, Creature.StoneGolem, Creature.IronGolem, Creature.Banshee, Creature.GroaningSpirit, Creature.GuardianDaemonLeast, Creature.GuardianDaemonLesser, Creature.GuardianDaemonGreater, Creature.AnnisHag, Creature.GreenHag, Creature.SeaHag, Creature.Haunt, Creature.Hellhound, Creature.Heucuva, Creature.Homunculus, Creature.Imp, Creature.Jackalwere, Creature.Lich, Creature.Demilich, Creature.Werefox, Creature.Wererat, Creature.Werewolf, Creature.MindFlayer, Creature.Mummy, Creature.Poltergeist, Creature.Rakshasa, Creature.Rat, Creature.GiantRat, Creature.Shadow, Creature.Skeleton, Creature.Spectre, Creature.Vampire, Creature.JiangShi, Creature.Wight, Creature.WillOWisp, Creature.Wolf, Creature.Worg, Creature.DireWolf, Creature.WinterWolf, Creature.Wolfwere, Creature.Wraith, Creature.Zombie, Creature.JujuZombie, Creature.CrawlingClaw, Creature.Cloaker, Creature.Darkenbeast, Creature.CrimsonDeath, Creature.Revenant, Creature.LivingWeb, Creature.UndeadBeast, Creature.UndeadBeastStahnk, Creature.UndeadBeastStahnk, Creature.Dreamshadow, Creature.Dreamwraith, Creature.Fetch, Creature.FireMinion, Creature.FireShadow, Creature.KnightHaunt, Creature.SpectralMinion, Creature.WarriorSkeleton, Creature.Wichtlin, Creature.Yaggol, Creature.CryptThing, Creature.YethHound, Creature.SonOfKyuss, Creature.Necrophidius, Creature.Raven, Creature.GiantRaven, Creature.Scarecrow, Creature.SlowShadow, Creature.Swordwraith, Creature.SoulBeckoner, Creature.SeaZombie, Creature.TigbanuaBuso, Creature.TagamalingBuso, Creature.ChuU, Creature.ConTinh, Creature.JikiKetsuGaki, Creature.JikiNikuGaki, Creature.ShikkiGaki, Creature.ShinenGaki, Creature.GoblinRat, Creature.GoblinSpider, Creature.Hannya, Creature.FoxHengeyokai, Creature.RacoonDogHengeyokai, Creature.RatHengeyokai, Creature.HuHsien, Creature.Ikiryo, Creature.Kaluk, Creature.Krakentua, Creature.Kuei, Creature.Memedi, Creature.Gaki, Creature.Hengeyokai, Creature.Oni, Creature.CommonOni, Creature.GoZuOni, Creature.MeZuOni, Creature.GoheiPOh, Creature.StoneSpirit, Creature.YukiOnNa, Creature.AncientMariner, Creature.Spiritjam, Creature.Baatezu, Creature.Abishai, Creature.Spinagon, Creature.Barbazu, Creature.Erinyes, Creature.Hamatula, Creature.Nupperibo, Creature.PitFiend, Creature.Amnizu, Creature.Gelugon, Creature.Osyluth, Creature.Lemure, Creature.Bebilith, Creature.Bodak, Creature.Gehreleth, Creature.Gith, Creature.Githyanki, Creature.Githzerai, Creature.Hordling, Creature.NightHag, Creature.Nightmare, Creature.TanarRi, Creature.Babau, Creature.Chasme, Creature.Nabassu, Creature.Molydeus, Creature.Dretch, Creature.Manes, Creature.Rutterkin, Creature.AluFiend, Creature.Barlgura, Creature.Cambion, Creature.Succubus, Creature.Balor, Creature.Glabrezu, Creature.Hezrou, Creature.Marilith, Creature.Nalfeshnee, Creature.Vrock, Creature.Vaporighu, Creature.Yugoloth, Creature.Arcanaloth, Creature.Nycaloth, Creature.Ultroloth, Creature.Dergholoth, Creature.Hydroloth, Creature.Mezzoloth, Creature.Piscoloth, Creature.Yagnoloth, Creature.Allura, Creature.Dreamslayer, Creature.Dweomerborn, Creature.Firelich, Creature.Skullbird, Creature.SpiritWarrior, Creature.StellarUndead, Creature.SentinelBat, Creature.SkeletalBat, Creature.Bowlyn, Creature.BrokenOne, Creature.Bussengeist, Creature.DoomGuard, Creature.DopplegangerPlant, Creature.Podling, Creature.RavenloftElemental, Creature.PyreElemental, Creature.BloodElemental, Creature.MistElemental, Creature.GraveElemental, Creature.GhoulLord, Creature.Goblyn, Creature.RavenloftGolem, Creature.BoneGolem, Creature.DollGolem, Creature.GargoyleGolem, Creature.GlassGolem, Creature.MechanicalGolem, Creature.GrimReaper, Creature.AssassinImp, Creature.Impersonator, Creature.Werebat, Creature.Wereraven, Creature.MistHorror, Creature.WanderingHorror, Creature.GreaterMummy, Creature.Quevari, Creature.Quickwood, Creature.Ravenkin, Creature.RavenloftScarecrow, Creature.ShadowDemon, Creature.GiantSkeleton, Creature.Treant, Creature.AnimatedTree, Creature.UndeadTreant, Creature.Valpurgeist, Creature.Dwarf, Creature.Vampire, Creature.Elf, Creature.Gnome, Creature.Halfling, Creature.Kender, Creature.Vampyre, Creature.RedWidow, Creature.GreaterWolfwere, Creature.ZombieLord);
 
+            DarklordEnum.IvanaBoritsi.BindRelatedCreatures(Creature.Ermordenung);
+            DomainEnum.Borca.Appeared().BindCreatures(Creature.Ermordenung);
+            DomainEnum.Borca.AddLivingDarklord(DarklordEnum.IvanaBoritsi);
+
+            DomainEnum.Darkon.Appeared().AddLivingDarklord(DarklordEnum.AzalinRex);
+            DarklordEnum.AzalinRex.BindRelatedCreatures(Creature.BoneGolem, Creature.ZombieGolem);
+
+            DomainEnum.Barovia.Appeared().AddLivingDarklord(DarklordEnum.CountStrahd);
+            DomainEnum.Barovia.BindCreatures(Creature.Skeleton, Creature.Zombie, Creature.StrahdSteed);
+            DarklordEnum.CountStrahd.BindCreatures(Creature.Vampire).BindRelatedCreatures(Creature.Skeleton, Creature.Zombie, Creature.StrahdSteed);
+
+            DomainEnum.Sanguinia.Appeared().BindCreatures(Creature.DollGolem);
+
+            DarklordEnum.VladDrakov.BindRelatedCreatures(Creature.GargoyleGolem);
+            DomainEnum.Falkovnia.Appeared().BindCreatures(Creature.GargoyleGolem);
+            DomainEnum.Falkovnia.AddLivingDarklord(DarklordEnum.VladDrakov);
+
+            DarklordEnum.Easen.BindRelatedCreatures(Creature.MechanicalGolem);
+            DomainEnum.Vechor.Appeared().BindCreatures(Creature.MechanicalGolem);
+            DomainEnum.Vechor.AddLivingDarklord(DarklordEnum.Easen);
+
+            DomainEnum.NightmareLands.Appeared().BindCreatures(Creature.Human);
+            DomainEnum.NightmareLands.AddGroup(GroupEnum.AbberNomad).BindCreatures(Creature.Human);
+
+            DarklordEnum.Anhktepot.BindRelatedCreatures(Creature.GreaterMummy);
+            DomainEnum.HarAkir.Appeared().BindCreatures(Creature.GreaterMummy);
+            DomainEnum.HarAkir.AddLivingDarklord(DarklordEnum.Anhktepot);
+
+            DarklordEnum.Radaga.BindRelatedCreatures(Creature.GiantSkeleton);
+            DarklordEnum.HarkonLukas.BindRelatedCreatures(Creature.GreaterWolfwere);
+            DomainEnum.Kartakass.Appeared().BindCreatures(Creature.GiantSkeleton, Creature.GreaterWolfwere);
+            DomainEnum.Kartakass.AddLivingCharacter(DarklordEnum.Radaga);
+            DomainEnum.HarAkir.AddLivingDarklord(DarklordEnum.HarkonLukas);
+
+            Creature.Reaver.BindDomains(DomainEnum.SeaOfSorrows, DomainEnum.Lamordia, DomainEnum.Mordent, DomainEnum.Dementlieu, DomainEnum.Darkon);
+
+            DarklordEnum.LordGundar.BindCreatures(Creature.Vampire);
+            DomainEnum.Gundarak.Appeared().BindCreatures(Creature.Vampire);
+            DomainEnum.Gundarak.AddLivingCharacter(DarklordEnum.LordGundar);
+
+            DomainEnum.Sithicus.Appeared().BindCreatures(Creature.Kender, Creature.Vampire);
+            DomainEnum.Sithicus.AddLivingCharacter(DarklordEnum.LordSoth);
+
+            Creature.TigbanuaBuso.BindCreatures(Creature.TagamalingBuso);
             Creature.Vampire.BindCreatures(Creature.JiangShi);
             Creature.UndeadBeast.BindCreatures(Creature.UndeadBeastStahnk, Creature.UndeadBeastStahnk);
+            Creature.Gaki.BindCreatures(Creature.JikiKetsuGaki, Creature.JikiNikuGaki, Creature.ShikkiGaki, Creature.ShinenGaki);
+            Creature.Hag.BindCreatures(Creature.Hannya);
+            Creature.Hengeyokai.BindCreatures(Creature.GoblinRat, Creature.HuHsien, Creature.FoxHengeyokai, Creature.RacoonDogHengeyokai, Creature.RatHengeyokai);
+            Creature.Oni.BindCreatures(Creature.CommonOni, Creature.GoZuOni, Creature.MeZuOni);
+            Creature.Baatezu.BindCreatures(Creature.Abishai, Creature.Spinagon, Creature.Barbazu, Creature.Erinyes, Creature.Hamatula, Creature.Nupperibo, Creature.PitFiend, Creature.Amnizu, Creature.Gelugon, Creature.Osyluth, Creature.Lemure);
+            Creature.Gith.BindCreatures(Creature.Githyanki, Creature.Githzerai);
+            Creature.TanarRi.BindCreatures(Creature.Babau, Creature.Chasme, Creature.Nabassu, Creature.Molydeus, Creature.Dretch, Creature.Manes, Creature.Rutterkin, Creature.AluFiend, Creature.Barlgura, Creature.Cambion, Creature.Succubus, Creature.Balor, Creature.Glabrezu, Creature.Hezrou, Creature.Marilith, Creature.Nalfeshnee, Creature.Vrock);
+            Creature.Yugoloth.BindCreatures(Creature.Arcanaloth, Creature.Nycaloth, Creature.Ultroloth, Creature.Dergholoth, Creature.Hydroloth, Creature.Mezzoloth, Creature.Piscoloth, Creature.Yagnoloth);
+            Creature.DopplegangerPlant.BindCreatures(Creature.Podling);
+            Creature.RavenloftElemental.BindCreatures(Creature.PyreElemental, Creature.BloodElemental, Creature.MistElemental, Creature.GraveElemental);
+            GroupEnum.Darkling.BindCreatures(Creature.Ghast, Creature.Wraith);
+            Creature.Wraith.BindCreatures(Creature.Wight);
+            Creature.Ghast.BindCreatures(Creature.Ghoul);
+            Creature.RavenloftGolem.BindCreatures(Creature.BoneGolem, Creature.DollGolem, Creature.GargoyleGolem, Creature.GlassGolem, Creature.MechanicalGolem);
+            Creature.MistHorror.BindCreatures(Creature.WanderingHorror);
+            Creature.GreaterMummy.BindCreatures(Creature.Mummy);
+            Creature.Treant.BindCreatures(Creature.EvilTreant, Creature.UndeadTreant, Creature.AnimatedTree);
+
+            CampaignSetting.ForgottenRealms.BindCreatures(Creature.CrawlingClaw, Creature.Cloaker, Creature.Darkenbeast, Creature.CrimsonDeath, Creature.Revenant, Creature.LivingWeb, Creature.TigbanuaBuso, Creature.TagamalingBuso, Creature.ChuU, Creature.ConTinh, Creature.JikiKetsuGaki, Creature.JikiNikuGaki, Creature.ShikkiGaki, Creature.ShinenGaki, Creature.GoblinRat, Creature.GoblinSpider, Creature.Hannya, Creature.FoxHengeyokai, Creature.RacoonDogHengeyokai, Creature.RatHengeyokai, Creature.HuHsien, Creature.Ikiryo, Creature.Kaluk, Creature.Krakentua, Creature.Kuei, Creature.Memedi, Creature.Gaki, Creature.Hengeyokai, Creature.Oni, Creature.CommonOni, Creature.GoZuOni, Creature.MeZuOni, Creature.GoheiPOh, Creature.StoneSpirit, Creature.YukiOnNa);
+            CampaignSetting.Dragonlance.BindCreatures(Creature.UndeadBeast, Creature.UndeadBeastStahnk, Creature.UndeadBeastStahnk, Creature.Dreamshadow, Creature.Dreamwraith, Creature.Fetch, Creature.FireMinion, Creature.FireShadow, Creature.KnightHaunt, Creature.SpectralMinion, Creature.WarriorSkeleton, Creature.Wichtlin, Creature.Yaggol);
+            CampaignSetting.Greyhawk.BindCreatures(Creature.CryptThing, Creature.YethHound, Creature.SonOfKyuss, Creature.Necrophidius, Creature.Raven, Creature.GiantRaven, Creature.Scarecrow, Creature.SlowShadow, Creature.Swordwraith, Creature.SoulBeckoner, Creature.SeaZombie, Creature.Wereraven);
+            CampaignSetting.Spelljammer.BindCreatures(Creature.AncientMariner, Creature.Spiritjam, Creature.Allura, Creature.Dreamslayer, Creature.Dweomerborn, Creature.Firelich, Creature.Skullbird, Creature.SpiritWarrior, Creature.StellarUndead);
+
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Darkling);
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Vistani);
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.DarkPowers);
+
+            GroupEnum.AbberNomad.BindLanguages(Language.AbberNomad);
+            Creature.Quevari.BindLanguages(Language.Quevari);
+            Creature.Ravenkin.BindLanguages(Language.Ravenkin);
+            Language.Treant.BindLanguages(Language.EvilTreant);
+            Language.EvilTreant.BindCreatures(Creature.EvilTreant, Creature.UndeadTreant);
+            Creature.Dwarf.BindLanguages(Language.Dwarf);
+            Creature.Elf.BindLanguages(Language.Elf);
+            Creature.Gnome.BindLanguages(Language.Gnome);
+            Creature.Halfling.BindLanguages(Language.Halfling);
+            Creature.Kender.BindLanguages(Language.Kender);
+        }
+        void AddDarklords()
+        {
+            var releaseDate = "01/08/1991";
+            string ExtraInfo = "<br/>&emsp;Design: Andria Hayday (Banshee, Bluebeard, Hags, Headless Horsemn, House of Lament, Introduction, Phantom Lover, Recipe for Mummificiation, Tiyet, Zolnik";
+            ExtraInfo += "<br/>&emsp;Additional Design: William W. Connors (Ebonbane, Merilee, Monette), Bruce Nesmith (Anhktepot, Von Kharkov), and James Lowder (D' Polarno)";
+            ExtraInfo += "<br/>&emsp;Editing: Mile Breault";
+            ExtraInfo += "<br/>&emsp;Cover Art: Tim Hildebrandt";
+            ExtraInfo += "<br/>&emsp;Interior Art: Stephen Fabian";
+            ExtraInfo += "<br/>&emsp;Cartography: David C. Sutherland III";
+            ExtraInfo += "<br/>&emsp;Graphic Design: Roy E. Parker";
+            ExtraInfo += "<br/>&emsp;Typesetting: Tracey Zamagne";
+            ExtraInfo += "<br/>&emsp;Production: Paul Hanchette";
+            ExtraInfo += "<br/>&emsp;Invaluable Assistance: Troy Denning";
+            ExtraInfo += "<br/>&emsp;Special Thanks: Karen Boomgarden";
+            using var ctx = CreateSource("Darklords", releaseDate, ExtraInfo, Edition.e2, Media.sourcebook);
+
+            DomainEnum.HarAkir.Appeared("4, 6-11");
+            DomainEnum.HarAkir.AddLivingDarklord(DarklordEnum.Anhktepot, "2, 4, 6-11").BindGroups(GroupEnum.Ra).BindCreatures(Creature.GreaterMummy).BindRelatedCreatures(Creature.Mummy).BindLair(LocationEnum.AnhkepotTomb).BindAlignment(Alignment.CE);
+            DomainEnum.HarAkir.AddGroup(GroupEnum.Ra, "6, 9, 11");
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Ra, "6, 9").BindGroups(GroupEnum.Ra, GroupEnum.Deity);
+            DomainEnum.HarAkir.AddLivingCharacter(CharacterEnum.Nephyr, "6").BindCreatures(Creature.Mummy).BindCharacters(DarklordEnum.Anhktepot);
+            DomainEnum.HarAkir.AddSettlement(Settlement.Muhar, "8");
+            DomainEnum.HarAkir.AddLocation(LocationEnum.PharaohsRest, "8");
+            DomainEnum.HarAkir.AddLocation(LocationEnum.AnhkepotTomb, "10-11");
+
+            DomainEnum.Keening.Appeared("12-21").BindCreatures(Creature.Ghost, Creature.Wight, Creature.Zombie, Creature.Bee, Creature.CrawlingClaw, Creature.Rat);
+            DomainEnum.Keening.AddLivingDarklord(DarklordEnum.Tristessa, "2, 12-14, 20-21").BindCreatures(Creature.Banshee, Creature.Drow).BindGroups(GroupEnum.Lolth).BindLair(LocationEnum.BansheeLair).BindCloseBorder("Creates a wall of wind. No creature can fly or walk through this wall, and no magic can diminish its force.").BindAlignment(Alignment.CE);
+            DomainEnum.Keening.AddLocation(LocationEnum.MountLament, "14, 19");
+            DomainEnum.Keening.AddLocation(LocationEnum.BansheeLair, "15");
+            DomainEnum.Keening.AddLocation(LocationEnum.OldToll, "15-16");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadMarketSquare, "17-19");
+            DomainEnum.Keening.AddLocation(LocationEnum.AlbiaCreek, "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadNewWall,              "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadPalace,               "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadOldMarket,            "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadBarracks,             "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadArena,                "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadInn,                  "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadTemple,               "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadMill,                 "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadBath,                 "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadGate,                 "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadNewWall,              "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadOldWall,              "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadBellTower,            "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadGrainMarket,          "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadClothMarket,          "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadNewMarketFair,        "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadSeasonalHorseMarket,  "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadResidentialDistrict,  "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadTannersDistrict,      "18-19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadBusinessDistrict,     "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadMetalworkersDistrict, "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadManorHouse,           "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadAleHouse,             "19");
+            DomainEnum.Keening.AddLocation(LocationEnum.CityOfTheDeadLaborersQuarter,      "19");
+            DomainEnum.Keening.AddSettlement(Settlement.CityOfTheDead, "15-19").BindLocations(
+                LocationEnum.CityOfTheDeadMarketSquare,
+                LocationEnum.CityOfTheDeadNewWall,
+                LocationEnum.CityOfTheDeadPalace,
+                LocationEnum.CityOfTheDeadOldMarket,
+                LocationEnum.CityOfTheDeadBarracks,
+                LocationEnum.CityOfTheDeadArena,
+                LocationEnum.CityOfTheDeadInn,
+                LocationEnum.CityOfTheDeadTemple,
+                LocationEnum.CityOfTheDeadMill,
+                LocationEnum.CityOfTheDeadBath,
+                LocationEnum.CityOfTheDeadGate,
+                LocationEnum.CityOfTheDeadNewWall,
+                LocationEnum.CityOfTheDeadOldWall,
+                LocationEnum.CityOfTheDeadBellTower,
+                LocationEnum.CityOfTheDeadGrainMarket,
+                LocationEnum.CityOfTheDeadClothMarket,
+                LocationEnum.CityOfTheDeadNewMarketFair,
+                LocationEnum.CityOfTheDeadSeasonalHorseMarket,
+                LocationEnum.CityOfTheDeadResidentialDistrict,
+                LocationEnum.CityOfTheDeadTannersDistrict,
+                LocationEnum.CityOfTheDeadBusinessDistrict,
+                LocationEnum.CityOfTheDeadMetalworkersDistrict,
+                LocationEnum.CityOfTheDeadManorHouse,
+                LocationEnum.CityOfTheDeadAleHouse,
+                LocationEnum.CityOfTheDeadLaborersQuarter);
+            DomainEnum.Arak.Appeared("4, 12-15").BindCreatures(Creature.Drow).BindGroups(GroupEnum.Lolth);
+            DomainEnum.Arak.AddLivingCharacter(DarklordEnum.Tristessa,"2, 12-14");
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Lolth, "12-14").BindGroups(GroupEnum.Lolth, GroupEnum.Deity).BindRelatedCreatures(Creature.Drider);
+            DomainEnum.Darkon.Appeared("12, 14-15");
+            DomainEnum.Darkon.AddSettlement(Settlement.Sidnar, "15");
+            Creature.Drow.BindCreatures(Creature.Drider);
+            DomainEnum.Falkovnia.Appeared("15");
+            DomainEnum.Falkovnia.AddLocation(LocationEnum.RiverVuchar, "15");
+            DomainEnum.NovaVaasa.Appeared("15");
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Egertus, "15");
+
+            DomainEnum.Blaustein.Appeared("22-26");
+            DomainEnum.Blaustein.AddLivingDarklord(DarklordEnum.Bluebeard, "2, 22-26").BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline).BindLair(LocationEnum.CastleBluebeard).BindRelatedCreatures(Creature.Spectre).BindAlignment(Alignment.LE);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Marcella, "22-24, 27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Lorel, "25, 27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Antonia, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Ursula, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Jacinda, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Beatrice, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Camilla, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Matilda, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Lenor, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Marguerite, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLivingCharacter(CharacterEnum.Jacqueline, "27").BindCreatures(Creature.Spectre);
+            DomainEnum.Blaustein.AddLocation(LocationEnum.CastleBluebeard, "25-27").BindCreatures(Creature.Spectre).BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline);
+            GroupEnum.BluebeardWives.BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline);
+
+            DomainEnum.ShadowbornManor.AddLivingDarklord(DarklordEnum.Ebonbane, "2");
+            DomainEnum.Tepest.Appeared("4").AddGroup(GroupEnum.HagsOfTepest, "2, 4").BindCreatures(Creature.Hag);
+            DomainEnum.WindingRoad.AddLivingDarklord(DarklordEnum.HeadlessHorseman, "2");
+            DomainEnum.HouseOfLament.Appeared("2").AddLivingDarklord(DarklordEnum.HouseOfLament, "2");
+            DomainEnum.Valachan.AddLivingDarklord(DarklordEnum.UrikVonKharkov, "2");
+            DomainEnum.LeederiksTower.AddLivingDarklord(DarklordEnum.PhantomLover, "3");
+            DomainEnum.Ghastria.AddLivingDarklord(DarklordEnum.StezenDPolarno, "3");
+            DomainEnum.Sebua.Appeared("4").AddLivingDarklord(DarklordEnum.Tiyet, "3");
+            DomainEnum.Vorostokov.AddLivingDarklord(DarklordEnum.GregorZolnik, "3");
+
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Merilee, "2");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Monette, "3");
         }
     }
 }
