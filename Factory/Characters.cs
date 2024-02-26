@@ -602,6 +602,10 @@ public partial class Factory : IDisposable
         #region Sebua
         #endregion
 
+        #region Shadowborn Manor
+        public readonly static Character KateriShadowborn = CreateCharacter("Lady Kateri Shadowborn");
+        #endregion
+
         #region Sithicus
         public readonly static Character Kitiara = CreateCharacter("Kitiara");
         public readonly static Character SothSteed = CreateCharacter("Soth's Steed");

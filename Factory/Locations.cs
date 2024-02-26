@@ -353,6 +353,10 @@ public partial class Factory : IDisposable
         public readonly static Location LakeArgus = CreateLocation("Lake Argus");
         #endregion
 
+        #region Shadowborn Manor
+        public readonly static Location ShadowbornManor = CreateLocation("Shadowborn Manor");
+        #endregion
+
         #region Sithicus
         public readonly static Location NedragaardKeep = CreateLocation("Nedragaard Keep");
         #endregion

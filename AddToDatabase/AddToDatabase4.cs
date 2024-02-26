@@ -565,7 +565,12 @@ internal static partial class AddToDatabase
             DomainEnum.Blaustein.AddLocation(LocationEnum.CastleBluebeard, "25-27").BindCreatures(Creature.Spectre).BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline);
             GroupEnum.BluebeardWives.BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline);
 
-            DomainEnum.ShadowbornManor.AddLivingDarklord(DarklordEnum.Ebonbane, "2");
+            DomainEnum.ShadowbornManor.Appeared("27-31");
+            DomainEnum.ShadowbornManor.AddLivingDarklord(DarklordEnum.Ebonbane, "2, 27-31");
+            DomainEnum.ShadowbornManor.AddLivingCharacter(CharacterEnum.KateriShadowborn, "27-31").BindCreatures(Creature.Geist).BindAlignment(Alignment.LG);
+            DomainEnum.ShadowbornManor.AddLocation(LocationEnum.ShadowbornManor, "27-31");
+            DomainEnum.ShadowbornManor.AddItem(ItemEnum.HolyAvenger, "30").BindCharacters(CharacterEnum.KateriShadowborn);
+
             DomainEnum.Tepest.Appeared("4").AddGroup(GroupEnum.HagsOfTepest, "2, 4").BindCreatures(Creature.Hag);
             DomainEnum.WindingRoad.AddLivingDarklord(DarklordEnum.HeadlessHorseman, "2");
             DomainEnum.HouseOfLament.Appeared("2").AddLivingDarklord(DarklordEnum.HouseOfLament, "2");
