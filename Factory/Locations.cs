@@ -130,6 +130,17 @@ public partial class Factory : IDisposable
         public readonly static Location Outland = CreateLocation("The Outland");
         public readonly static Location YagnoPetrovnaTemple = CreateLocation("Yagno Petrovna`s Temple", "Temple of Zhakata");
         #endregion
+
+        #region Ghastria
+        public readonly static Location TheGoldWolf = CreateLocation("The Gold Wolf Inn");
+        public readonly static Location TheDarkHeart = CreateLocation("The Dark Heart Inn");
+        public readonly static Location StezenManorHouse = CreateLocation("Stezen`s Manor House");
+        public readonly static Location GarnRiver = CreateLocation("Garn River");
+        public readonly static Location GhastriaStables = CreateLocation("Stables (Ghastria)");
+        public readonly static Location GhastriaOpenAirMarket = CreateLocation("Open Air Market (Ghastria)");
+        public readonly static Location GhastriaMill = CreateLocation("Mill (Ghastria)");
+        public readonly static Location GhastriaAbandonedChapel = CreateLocation("Abandoned Chapel (Ghastria)");
+        #endregion
         
         #region Gundarak
         public readonly static Location CastleHunadora = CreateLocation("Castle Hunadora");
@@ -145,6 +156,10 @@ public partial class Factory : IDisposable
         public readonly static Location TheTables = CreateLocation("The Tables");
         public readonly static Location HazlikEstate = CreateLocation("Hazlik`s Estate", "Veneficus");
         public readonly static Location TheBoneHeap = CreateLocation("The Bone Heap");
+        #endregion
+
+        #region House of Lament
+        public readonly static Location HouseOfLament = CreateLocation("House of Lament");
         #endregion
 
         #region Kartakass
@@ -240,6 +255,14 @@ public partial class Factory : IDisposable
         public readonly static Location OuterWard = CreateLocation("Outer Ward");
         public readonly static Location RoadToAubreckerCastle = CreateLocation("Road to Aubrecker`s Castle");
         public readonly static Location AubreckerCastle = CreateLocation("Aubrecker`s Castle");
+        #endregion
+
+        #region Leederik's Tower
+        public readonly static Location LeederiksTower = CreateLocation("Leederik`s Tower");
+        #endregion
+
+        #region Lighthouse
+        public readonly static Location EyeOfMidnight = CreateLocation("Eye of Midnight");
         #endregion
 
         #region Markovia
@@ -381,6 +404,9 @@ public partial class Factory : IDisposable
         #region Tepest
         public readonly static Location TimoriRoad = CreateLocation("Timori Road");
         public readonly static Location LakeKronov = CreateLocation("Lake Kronov");
+        public readonly static Location GoblinLairs = CreateLocation("Goblin Lairs");
+        public readonly static Location HagCottage = CreateLocation("Hag Cottage");
+        public readonly static Location CauldronOfRegeneration = CreateLocation("Cauldron of Regeneration");
         #endregion
 
         #region Valachan
@@ -400,7 +426,7 @@ public partial class Factory : IDisposable
         public readonly static Location RhastikRiver = CreateLocation("Rhastik River", "River Rhastik");
         #endregion
 
-        public readonly static Location Homlack = CreateLocation("Homlack");
+        public readonly static Location WindingRoad = CreateLocation("WindingRoad");
         #region Inside Ravenloft
         public readonly static Location QuebeHauntedMansion = CreateLocation("Quebe`s Haunted Mansion");
         public readonly static Location CastleBloodmere = CreateLocation("Castle Bloodmere");

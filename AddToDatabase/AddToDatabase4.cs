@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using Mono.TextTemplating;
+using System.Text.RegularExpressions;
+using static Domain;
 using static Factory;
 
 internal static partial class AddToDatabase
@@ -481,7 +483,7 @@ internal static partial class AddToDatabase
             DomainEnum.HarAkir.AddLocation(LocationEnum.PharaohsRest, "8");
             DomainEnum.HarAkir.AddLocation(LocationEnum.AnhkepotTomb, "10-11");
 
-            DomainEnum.Keening.Appeared("12-21").BindCreatures(Creature.Ghost, Creature.Wight, Creature.Zombie, Creature.Bee, Creature.CrawlingClaw, Creature.Rat);
+            DomainEnum.Keening.Appeared("12-21, 39").BindCreatures(Creature.Ghost, Creature.Wight, Creature.Zombie, Creature.Bee, Creature.CrawlingClaw, Creature.Rat);
             DomainEnum.Keening.AddLivingDarklord(DarklordEnum.Tristessa, "2, 12-14, 20-21").BindCreatures(Creature.Banshee, Creature.Drow).BindGroups(GroupEnum.Lolth).BindLair(LocationEnum.BansheeLair).BindCloseBorder("Creates a wall of wind. No creature can fly or walk through this wall, and no magic can diminish its force.").BindAlignment(Alignment.CE);
             DomainEnum.Keening.AddLocation(LocationEnum.MountLament, "14, 19");
             DomainEnum.Keening.AddLocation(LocationEnum.BansheeLair, "15");
@@ -538,16 +540,17 @@ internal static partial class AddToDatabase
                 LocationEnum.CityOfTheDeadManorHouse,
                 LocationEnum.CityOfTheDeadAleHouse,
                 LocationEnum.CityOfTheDeadLaborersQuarter);
-            DomainEnum.Arak.Appeared("4, 12-15").BindCreatures(Creature.Drow).BindGroups(GroupEnum.Lolth);
+            DomainEnum.Arak.Appeared("4, 12-15, 39").BindCreatures(Creature.Drow).BindGroups(GroupEnum.Lolth);
             DomainEnum.Arak.AddLivingCharacter(DarklordEnum.Tristessa,"2, 12-14");
             DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Lolth, "12-14").BindGroups(GroupEnum.Lolth, GroupEnum.Deity).BindRelatedCreatures(Creature.Drider);
             DomainEnum.Darkon.Appeared("12, 14-15");
             DomainEnum.Darkon.AddSettlement(Settlement.Sidnar, "15");
             Creature.Drow.BindCreatures(Creature.Drider);
-            DomainEnum.Falkovnia.Appeared("15");
+            DomainEnum.Falkovnia.Appeared("15, 44");
+            DomainEnum.Falkovnia.AddLivingDarklord(DarklordEnum.VladDrakov, "44");
             DomainEnum.Falkovnia.AddLocation(LocationEnum.RiverVuchar, "15");
             DomainEnum.NovaVaasa.Appeared("15");
-            DomainEnum.NovaVaasa.AddSettlement(Settlement.Egertus, "15");
+            DomainEnum.NovaVaasa.AddSettlement(Settlement.Egertus, "15, 39");
 
             DomainEnum.Blaustein.Appeared("22-26");
             DomainEnum.Blaustein.AddLivingDarklord(DarklordEnum.Bluebeard, "2, 22-26").BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline).BindLair(LocationEnum.CastleBluebeard).BindRelatedCreatures(Creature.Spectre).BindAlignment(Alignment.LE);
@@ -565,23 +568,100 @@ internal static partial class AddToDatabase
             DomainEnum.Blaustein.AddLocation(LocationEnum.CastleBluebeard, "25-27").BindCreatures(Creature.Spectre).BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline);
             GroupEnum.BluebeardWives.BindCharacters(CharacterEnum.Ursula, CharacterEnum.Jacinda, CharacterEnum.Beatrice, CharacterEnum.Camilla, CharacterEnum.Matilda, CharacterEnum.Lenor, CharacterEnum.Marguerite, CharacterEnum.Jacqueline);
 
-            DomainEnum.ShadowbornManor.Appeared("27-31");
-            DomainEnum.ShadowbornManor.AddLivingDarklord(DarklordEnum.Ebonbane, "2, 27-31");
-            DomainEnum.ShadowbornManor.AddLivingCharacter(CharacterEnum.KateriShadowborn, "27-31").BindCreatures(Creature.Geist).BindAlignment(Alignment.LG);
-            DomainEnum.ShadowbornManor.AddLocation(LocationEnum.ShadowbornManor, "27-31");
+            DomainEnum.ShadowbornManor.Appeared("27-35");
+            DomainEnum.ShadowbornManor.AddLivingDarklord(DarklordEnum.Ebonbane, "2, 27-35").BindAlignment(Alignment.CE).BindCloseBorder("A mysterious circular stone wall that surrounds the house at a distance of about 100 yards. Characters trying to magically bypass the wall find that their spells and similar abilities have no effect. From within, the wall is solid and utterly invulnerable. Scaling the wall is equally impos’sible, for it seems to flow like water under those who attempt to climb it. Even the most highly skilled of thieves cannot scale it. Unlike lords of other domains, Ebonbane cannot open and close the borders of the Shadowborn estate at will.");
+            DomainEnum.ShadowbornManor.AddLivingCharacter(CharacterEnum.KateriShadowborn, "27-31, 33, 35").BindCreatures(Creature.Geist).BindAlignment(Alignment.LG);
+            DomainEnum.ShadowbornManor.AddLocation(LocationEnum.ShadowbornManor, "27-35");
             DomainEnum.ShadowbornManor.AddItem(ItemEnum.HolyAvenger, "30").BindCharacters(CharacterEnum.KateriShadowborn);
+            DomainEnum.ShadowbornManor.AddItem(ItemEnum.KeyOfEarth, "31").BindCharacters(CharacterEnum.KateriShadowborn, DarklordEnum.Ebonbane);
+            DomainEnum.ShadowbornManor.AddItem(ItemEnum.KeyOfFire, "31").BindCharacters(CharacterEnum.KateriShadowborn, DarklordEnum.Ebonbane);
+            DomainEnum.ShadowbornManor.AddItem(ItemEnum.KeyOfWater, "31").BindCharacters(CharacterEnum.KateriShadowborn, DarklordEnum.Ebonbane);
+            DomainEnum.ShadowbornManor.AddItem(ItemEnum.KeyOfAir, "31").BindCharacters(CharacterEnum.KateriShadowborn, DarklordEnum.Ebonbane);
 
-            DomainEnum.Tepest.Appeared("4").AddGroup(GroupEnum.HagsOfTepest, "2, 4").BindCreatures(Creature.Hag);
-            DomainEnum.WindingRoad.AddLivingDarklord(DarklordEnum.HeadlessHorseman, "2");
-            DomainEnum.HouseOfLament.Appeared("2").AddLivingDarklord(DarklordEnum.HouseOfLament, "2");
-            DomainEnum.Valachan.AddLivingDarklord(DarklordEnum.UrikVonKharkov, "2");
-            DomainEnum.LeederiksTower.AddLivingDarklord(DarklordEnum.PhantomLover, "3");
-            DomainEnum.Ghastria.AddLivingDarklord(DarklordEnum.StezenDPolarno, "3");
-            DomainEnum.Sebua.Appeared("4").AddLivingDarklord(DarklordEnum.Tiyet, "3");
+            DomainEnum.Tepest.Appeared("4, 36-43").BindCreatures(Creature.Wolf, Creature.Goblin);
+            DomainEnum.Tepest.AddGroup(GroupEnum.HagsOfTepest, "2, 4, 36-43").BindCreatures(Creature.Hag, Creature.SeaHag, Creature.AnnisHag, Creature.GreenHag).BindCharacters(DarklordEnum.LeticiaMindefisk, DarklordEnum.LaveedaMindefisk, DarklordEnum.LorindaMindefisk);
+            DomainEnum.Tepest.AddLivingDarklord(DarklordEnum.LeticiaMindefisk, "36-43").BindLair(LocationEnum.HagCottage).BindCreatures(Creature.Hag, Creature.SeaHag);                                                                  
+            DomainEnum.Tepest.AddLivingDarklord(DarklordEnum.LaveedaMindefisk, "36-43").BindLair(LocationEnum.HagCottage).BindCreatures(Creature.Hag, Creature.AnnisHag);                                                                
+            DomainEnum.Tepest.AddLivingDarklord(DarklordEnum.LorindaMindefisk, "36-43").BindLair(LocationEnum.HagCottage).BindCreatures(Creature.Hag, Creature.GreenHag);
+            DomainEnum.Tepest.AddDeadCharacter(CharacterEnum.RudellaMindefisk, "36-38");
+            DomainEnum.Tepest.AddDeadCharacter(CharacterEnum.HolgerMindefisk, "36-38");
+            DomainEnum.Tepest.AddLocation(LocationEnum.LakeKronov, "39-40").BindCreatures(Creature.Hag, Creature.SeaSerpent);
+            DomainEnum.Tepest.AddLocation(LocationEnum.GoblinLairs, "39").BindCreatures(Creature.Goblin);
+            DomainEnum.Tepest.AddLocation(LocationEnum.TimoriRoad, "39, 41").BindGroups(GroupEnum.HagsOfTepest).BindCharacters(DarklordEnum.LeticiaMindefisk, DarklordEnum.LaveedaMindefisk, DarklordEnum.LorindaMindefisk);
+            DomainEnum.Tepest.AddLocation(LocationEnum.HagCottage, "39, 41, 43").BindGroups(GroupEnum.HagsOfTepest).BindCharacters(DarklordEnum.LeticiaMindefisk, DarklordEnum.LaveedaMindefisk, DarklordEnum.LorindaMindefisk);
+            DomainEnum.Tepest.AddLocation(LocationEnum.CauldronOfRegeneration, "39, 43").BindGroups(GroupEnum.HagsOfTepest).BindCharacters(DarklordEnum.LeticiaMindefisk, DarklordEnum.LaveedaMindefisk, DarklordEnum.LorindaMindefisk);
+            DomainEnum.Tepest.AddLocation(LocationEnum.Balinoks, "40-41");
+            DomainEnum.Tepest.AddSettlement(Settlement.Viktal, "39");
+            DomainEnum.Tepest.AddSettlement(Settlement.Kellee, "39-40").BindCreatures(Creature.Hag);
+            DomainEnum.Tepest.AddItem(ItemEnum.HagEye, "42").BindGroups(GroupEnum.HagsOfTepest).BindCharacters(DarklordEnum.LeticiaMindefisk, DarklordEnum.LaveedaMindefisk, DarklordEnum.LorindaMindefisk);
+            DomainEnum.Tepest.AddItem(ItemEnum.ImprovedHagEye, "42").BindGroups(GroupEnum.HagsOfTepest).BindCharacters(DarklordEnum.LeticiaMindefisk, DarklordEnum.LaveedaMindefisk, DarklordEnum.LorindaMindefisk);
+            DomainEnum.GHenna.Appeared("39");
+            DomainEnum.Markovia.Appeared("39");
+
+            CampaignSetting.ForgottenRealms.BindCreatures(Creature.Maeder);
+            DomainEnum.WindingRoad.Appeared("44-47").BindCreatures(Creature.Horse, Creature.Maeder, Creature.Medusa);
+            DomainEnum.WindingRoad.AddLivingDarklord(DarklordEnum.HeadlessHorseman, "2, 44-47").BindAlignment(Alignment.CE).BindRelatedCreatures(Creature.Horse, Creature.Maeder, Creature.Medusa);
+            DomainEnum.Barovia.Appeared("44");
+            DomainEnum.Barovia.AddLivingDarklord(DarklordEnum.CountStrahd, "44");
+            DomainEnum.Borca.Appeared("44");
+            DomainEnum.Borca.AddLivingDarklord(DarklordEnum.IvanaBoritsi, "44, 76");
+            DomainEnum.Borca.AddSettlement(Settlement.Levkarest, "44");
+            DomainEnum.Borca.AddSettlement(Settlement.Sturben, "44");
+
+            DomainEnum.HouseOfLament.Appeared("2, 48-53").BindCreatures(Creature.Rat, Creature.Maggot, Creature.RotGrub, Creature.BloodElemental);
+            DomainEnum.HouseOfLament.AddLocation(LocationEnum.HouseOfLament, "48-53");
+            DomainEnum.HouseOfLament.AddLivingDarklord(DarklordEnum.HouseOfLament, "2, 48-53").BindLair(LocationEnum.HouseOfLament);
+            DomainEnum.HouseOfLament.AddLivingCharacter(CharacterEnum.LordDranzorg, "48-52");
+            DomainEnum.HouseOfLament.AddDeadCharacter(CharacterEnum.LordSilva, "45");
+            DomainEnum.HouseOfLament.AddLivingCharacter(CharacterEnum.LadyMaraSilva, "48-53");
+
+            DomainEnum.Valachan.Appeared("54-59").BindCreatures(Creature.Panther);
+            DomainEnum.Valachan.AddLivingDarklord(DarklordEnum.UrikVonKharkov, "2, 54-59").BindCharacters(CharacterEnum.Morphayus, CharacterEnum.Selena).BindCreatures(Creature.Panther, Creature.Vampire, Creature.Nosferatu).BindRelatedCreatures(Creature.Smilodon).BindAlignment(Alignment.LE);
+            DomainEnum.Valachan.AddItem(ItemEnum.CatOfFelkovic, "56, 58").BindCreatures(Creature.Smilodon);
+            DomainEnum.Valachan.AddLocation(LocationEnum.CastlePantara, "58-59").BindCreatures(Creature.Panther);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Morphayus, "54").BindGroups(GroupEnum.RedWizard).BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Selena, "54").BindCharacters(CharacterEnum.Morphayus).BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.OutsideRavenloft.AddGroup(GroupEnum.RedWizard, "54").BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.Darkon.Appeared("54");
+            DomainEnum.Darkon.AddLivingCharacter(DarklordEnum.UrikVonKharkov, "54");
+            DomainEnum.Darkon.AddGroup(GroupEnum.TheKargat, "54").BindCreatures(Creature.Vampire, Creature.Nosferatu);
+            DomainEnum.Darkon.AddSettlement(Settlement.Karg, "54");
+
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.MerileeMarkuza, "2, 60-63").BindCreatures(Creature.Vampire, Creature.Bat, Creature.Wolf).BindSetting(CampaignSetting.Dragonlance).BindAlignment(Alignment.NE);
+            DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Keesla, "60-62").BindCreatures(Creature.Vampire).BindSetting(CampaignSetting.Dragonlance);
+            DomainEnum.Lamordia.Appeared("62-63");
+            DomainEnum.Lamordia.AddLivingDarklord(DarklordEnum.Adam, "62");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.DoctorRudolphVanRichten, "63");
+            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.Claudia, "63").BindCharacters(CharacterEnum.DoctorRudolphVanRichten);
+
+            DomainEnum.TheLighthouse.Appeared("64-67").BindCreatures(Creature.Bat, Creature.Fly, Creature.Gnat);
+            DomainEnum.TheLighthouse.AddLivingDarklord(DarklordEnum.CaptainMonette, "3, 64-67").BindCreatures(Creature.Werebat, Creature.Bat).BindAlignment(Alignment.LE).BindLair(LocationEnum.EyeOfMidnight).BindCloseBorder("He can control the currents in the seas that surround his island (at will). Thus, he can make it impossible or deadly to attempt swimming or boating.");
+            DomainEnum.TheLighthouse.AddLocation(LocationEnum.EyeOfMidnight, "66-67").BindCharacters(DarklordEnum.CaptainMonette);
+
+            DomainEnum.LeederiksTower.Appeared("68-73");
+            DomainEnum.LeederiksTower.AddLivingDarklord(DarklordEnum.PhantomLover, "3, 68-73").BindCreatures(Creature.Snake, Creature.Gargoyle, Creature.Dragon, Creature.BlackDragon).BindRelatedCreatures(Creature.Zombie).BindLair(LocationEnum.LeederiksTower).BindAlignment(Alignment.LE);
+            DomainEnum.LeederiksTower.AddLocation(LocationEnum.LeederiksTower, "68-73");
+
+            DomainEnum.Ghastria.Appeared("74-79").BindCreatures(Creature.Bat, Creature.Rat, Creature.Snake, Creature.Wolf, Creature.CarrionCrawler, Creature.Ghost, Creature.Ghoul, Creature.Wight);
+            DomainEnum.Ghastria.AddLivingDarklord(DarklordEnum.StezenDPolarno, "3, 74-79").BindLair(LocationEnum.StezenManorHouse).BindCloseBorder("The borders of Ghastria are replaced by huge paintings, much like the flats used for plays. These paintings appear as panoramic, twisted landscapes, and only by walking into one does a player character discover it’s not real. The paintings rise higher than player characters can fly and deeper than they can dig. They cannot be harmed or breached in any way. The borders of Ghastria can’t be closed when Stezen is under the rejuvenating influence of the portrait").BindAlignment(Alignment.NE | Alignment.CE);
+            DomainEnum.Ghastria.AddSettlement(Settlement.EastRiding, "76-79").BindLocations(LocationEnum.TheGoldWolf, LocationEnum.TheDarkHeart, LocationEnum.StezenManorHouse, LocationEnum.GarnRiver, LocationEnum.GhastriaStables, LocationEnum.GhastriaOpenAirMarket, LocationEnum.GhastriaMill, LocationEnum.GhastriaAbandonedChapel);
+            DomainEnum.Ghastria.AddItem(ItemEnum.PaintingOfStezen, "74-77").BindCharacters(DarklordEnum.StezenDPolarno);
+            DomainEnum.Ghastria.AddLocation(LocationEnum.TheGoldWolf, "77-78");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.TheDarkHeart, "77-78");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.StezenManorHouse, "77-78");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.GarnRiver, "77");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.GhastriaStables, "77");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.GhastriaOpenAirMarket, "77-78");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.GhastriaMill, "77");
+            DomainEnum.Ghastria.AddLocation(LocationEnum.GhastriaAbandonedChapel, "77-79");
+            DomainEnum.Ghastria.AddItem(ItemEnum.RapierOfQuickness, "79").BindCharacters(DarklordEnum.StezenDPolarno);
+            DomainEnum.Sithicus.Appeared("74");
+
+            DomainEnum.Sebua.Appeared("4, 75");
+            DomainEnum.Sebua.AddLivingDarklord(DarklordEnum.Tiyet, "3, 75");
+
             DomainEnum.Vorostokov.AddLivingDarklord(DarklordEnum.GregorZolnik, "3");
 
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Merilee, "2");
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Monette, "3");
         }
     }
 }

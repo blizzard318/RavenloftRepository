@@ -75,6 +75,10 @@
         public readonly static Location Dervich = CreateSettlement("Dervich");
         #endregion
 
+        #region Ghastria
+        public readonly static Location EastRiding = CreateSettlement("East Riding");
+        #endregion
+
         #region Gundarak
         public readonly static Location Teufeldorf = CreateSettlement("Teufeldorf");
         public readonly static Location Zeidenburg = CreateSettlement("Zeidenburg");

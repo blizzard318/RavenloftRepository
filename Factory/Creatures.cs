@@ -50,6 +50,7 @@
         public readonly static Trait Dolphin = CreateCreature("Dolphin");
         public readonly static Trait GiantStarfish = CreateCreature("Giant Starfish");
         public readonly static Trait Vodyanoi = CreateCreature("Vodyanoi", "Aquatic Umber Hulk");
+        public readonly static Trait SeaSerpent = CreateCreature("Sea Serpent", "Sea Drake");
         #endregion
 
         #region Birds
@@ -199,6 +200,8 @@
         public readonly static Trait CarrionCrawler = CreateCreature("Carrion Crawler");
         public readonly static Trait GoblinSpider = CreateCreature("Goblin Spider");
         public readonly static Trait Bee = CreateCreature("Bee");
+        public readonly static Trait Fly = CreateCreature("Fly");
+        public readonly static Trait Gnat = CreateCreature("Gnat");
         #endregion
 
         public readonly static Trait Mite = CreateCreature("Mite");
@@ -233,6 +236,8 @@
         public readonly static Trait YukiOnNa = CreateCreature("Yuki-on-na");
         public readonly static Trait Quevari = CreateCreature("Quevari");
         public readonly static Trait Ravenkin = CreateCreature("Ravenkin");
+        public readonly static Trait Medusa = CreateCreature("Medusa");
+        public readonly static Trait Maeder = CreateCreature("Maeder", "Maedar");
 
         public readonly static Trait Doppelganger = CreateCreature("Doppelganger", "Doppleganger");
         public readonly static Trait InvisibleStalker = CreateCreature("Invisible Stalker");
@@ -322,6 +327,7 @@
         public readonly static Trait Dragon = CreateCreature("Dragon");
         public readonly static Trait RedDragon = CreateCreature("Red Dragon");
         public readonly static Trait GoldDragon = CreateCreature("Gold Dragon");
+        public readonly static Trait BlackDragon = CreateCreature("Black Dragon");
         public readonly static Trait ShadowDragon = CreateCreature("Shadow Dragon");
         public readonly static Trait FireLizard = CreateCreature("Fire Lizard");
         #endregion

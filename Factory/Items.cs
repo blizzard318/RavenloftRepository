@@ -16,6 +16,13 @@
         public readonly static Item DominianiCursedHelm = CreateItem("Dominiani`s Cursed Helm");
         public readonly static Item CrownOfSouls = CreateItem("Crown of Souls", "Crown of Soldiers");
         public readonly static Item ClaraTheDoll = CreateItem("Clara (Doll)");
+        public readonly static Item KeyOfEarth = CreateItem("Key of Earth");
+        public readonly static Item KeyOfFire = CreateItem("Key of Fire ");
+        public readonly static Item KeyOfWater = CreateItem("Key of Water");
+        public readonly static Item KeyOfAir = CreateItem("Key of Air");
+        public readonly static Item HagEye = CreateItem("Hag Eye");
+        public readonly static Item ImprovedHagEye = CreateItem("Improved Hag Eye");
+        public readonly static Item PaintingOfStezen = CreateItem("Painting of Stezen");
 
         public readonly static Item Apparatus = CreateItem("Apparatus"); //Mordent
         public readonly static Item SoulSearcher = CreateItem("Soul Searcher Medallion", "Soul Searcher Orb");
@@ -107,6 +114,7 @@
         public readonly static Item SwordOfArak = CreateItem("Sword of Arak");
         public readonly static Item MaceOfDisrupt = CreateItem("Mace of Disruption");
         public readonly static Item VampireSlayer = CreateItem("Vampire Slayer");
+        public readonly static Item RapierOfQuickness = CreateItem("Rapier of Quickness");
 
         internal static class Drink
         {

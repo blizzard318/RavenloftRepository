@@ -10,6 +10,7 @@ public partial class Factory : IDisposable
             Ravenloftdb.Characters.Add(retval);
             return retval;
         }
+
         #region Arak
         public readonly static Character Lolth = CreateCharacter("Lolth");
         #endregion
@@ -309,6 +310,12 @@ public partial class Factory : IDisposable
         public readonly static Character JulioMasterThief = CreateCharacter("Julio, Master Thief of Haslic", "Julio, Master Thief of Hazlan");
         #endregion
 
+        #region House of Lament
+        public readonly static Character LordDranzorg = CreateCharacter("Lord Dranzorg");
+        public readonly static Character LordSilva = CreateCharacter("Lord Silva");
+        public readonly static Character LadyMaraSilva = CreateCharacter("Mara");
+        #endregion
+
         #region Invidia
         public readonly static Character Isabella = CreateCharacter("Isabella");
         public readonly static Character Matton = CreateCharacter("Matton");
@@ -350,6 +357,7 @@ public partial class Factory : IDisposable
         public readonly static Character Eva = CreateCharacter("Eva");
         public readonly static Character BaronVonAubrecker = CreateCharacter("Baron Von Aubrecker");
         public readonly static Character EliseVonBrandthofen = CreateCharacter("Elise Von Brandthofen");
+        public readonly static Character MerileeMarkuza = CreateCharacter("Merilee Markuza");
         #endregion
 
         #region Liffe
@@ -623,8 +631,15 @@ public partial class Factory : IDisposable
         public readonly static Character LarissaSnowmane = CreateCharacter("Larissa Snowmane");
         #endregion
 
+        #region Tepest
+        public readonly static Character RudellaMindefisk = CreateCharacter("Rudella Mindefisk");
+        public readonly static Character HolgerMindefisk = CreateCharacter("Holger Mindefisk");
+        #endregion
+
         #region Valachan
         public readonly static Character Felkovic = CreateCharacter("Felkovic");
+        public readonly static Character Morphayus = CreateCharacter("Morphayus");
+        public readonly static Character Selena = CreateCharacter("Selena");
         #endregion
 
         #region Verbrek
@@ -635,6 +650,7 @@ public partial class Factory : IDisposable
         #endregion
 
         #region Inside Ravenloft
+        public readonly static Character Keesla = CreateCharacter("Keesla");
         public readonly static Character EleazerClyde = CreateCharacter("EleazerClyde");
         public readonly static Character TLaan = CreateCharacter("T`Laan", "Dorin");
         public readonly static Character MorganDarkdawn = CreateCharacter("MorganDarkdawn");
@@ -683,6 +699,7 @@ public partial class Factory : IDisposable
         public readonly static Character Vathan = CreateCharacter("Vathan");
         public readonly static Character Saul = CreateCharacter("Saul");
         public readonly static Character Vincenzia = CreateCharacter("Vincenzia");
+        public readonly static Character Claudia = CreateCharacter("Claudia");
         #endregion
     }
 }
