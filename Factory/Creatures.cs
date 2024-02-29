@@ -74,6 +74,7 @@
         public readonly static Trait Partridge = CreateCreature("Partridge");
         public readonly static Trait Ptarmigan = CreateCreature("Ptarmigan");
         public readonly static Trait Skullbird = CreateCreature("Skullbird");
+        public readonly static Trait Goose = CreateCreature("Goose");
         #endregion
 
         #region Small Mammals
@@ -116,6 +117,7 @@
         public readonly static Trait Fox = CreateCreature("Fox");
         public readonly static Trait Jackal = CreateCreature("Jackal");
         public readonly static Trait Monkey = CreateCreature("Monkey");
+        public readonly static Trait Baboon = CreateCreature("Baboon");
         public readonly static Trait Pig = CreateCreature("Pig", "Swine");
         public readonly static Trait Boar = CreateCreature("Boar");
         public readonly static Trait Hyena = CreateCreature("Hyena");
@@ -127,6 +129,7 @@
         public readonly static Trait Sheep = CreateCreature("Sheep");
         public readonly static Trait BighornSheep = CreateCreature("Bighorn Sheep");
         public readonly static Trait Horse = CreateCreature("Horse");
+        public readonly static Trait Pony = CreateCreature("Pony");
         public readonly static Trait Deer = CreateCreature("Deer");
         public readonly static Trait Goat = CreateCreature("Goat");
         public readonly static Trait MountainGoat = CreateCreature("Mountain Goat");
@@ -139,6 +142,7 @@
         public readonly static Trait Elephant = CreateCreature("Elephant");
         public readonly static Trait Mule = CreateCreature("Mule");
         public readonly static Trait Kangaroo = CreateCreature("Kangaroo");
+        public readonly static Trait Camel = CreateCreature("Camel");
         #endregion
 
         #region Cats
@@ -177,6 +181,7 @@
 
         #region Non-Mammals
         public readonly static Trait Snake = CreateCreature("Snake");
+        public readonly static Trait Asp = CreateCreature("Asp");
         public readonly static Trait Frog = CreateCreature("Frog", "Toad");
         public readonly static Trait Toad = Frog;
         public readonly static Trait GiantToad = CreateCreature("Giant Toad");
@@ -202,6 +207,8 @@
         public readonly static Trait Bee = CreateCreature("Bee");
         public readonly static Trait Fly = CreateCreature("Fly");
         public readonly static Trait Gnat = CreateCreature("Gnat");
+        public readonly static Trait Locust = CreateCreature("Locust");
+        public readonly static Trait Mosquito = CreateCreature("Mosquito");
         #endregion
 
         public readonly static Trait Mite = CreateCreature("Mite");
@@ -492,6 +499,7 @@
         #region Animal Shifters
         public readonly static Trait Werewolf = CreateCreature("Werewolf", "Lycanthrope");
         public readonly static Trait Seawolf = CreateCreature("Seawolf");
+        public readonly static Trait LoupDuNoir = CreateCreature("Loup Du Noir");
         public readonly static Trait LoupGarou = CreateCreature("Loup-Garou");
         public readonly static Trait LowlandLoupGarou = CreateCreature("Lowland Loup-Garou");
         public readonly static Trait MountainLoupGarou = CreateCreature("Mountain Loup-Garou");

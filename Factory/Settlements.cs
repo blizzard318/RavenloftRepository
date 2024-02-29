@@ -140,6 +140,11 @@
         public readonly static Location Kosova = CreateSettlement("Kosova");
         #endregion
 
+        #region Sebua
+        public readonly static Location RuinedVillage = CreateSettlement("Ruined Village");
+        public readonly static Location Anhalla = CreateSettlement("Anhalla");
+        #endregion
+
         #region Sithicus
         public readonly static Location MalErek = CreateSettlement("Mal-Erek");
         public readonly static Location Hroth = CreateSettlement("Hroth");
@@ -179,6 +184,18 @@
 
         #region Vechor
         public readonly static Location Abdok = CreateSettlement("Abdok");
+        #endregion
+
+        #region Vorostokov
+        public readonly static Location Vorostokov = CreateSettlement("Vorostokov");
+        public readonly static Location Kirova = CreateSettlement("Kirova");
+        public readonly static Location Torgov = CreateSettlement("Torgov");
+        public readonly static Location Nordvik = CreateSettlement("Nordvik");
+        public readonly static Location Kargo = CreateSettlement("Kargo");
+        public readonly static Location Voronina = CreateSettlement("Voronina");
+        public readonly static Location Oneka = CreateSettlement("Oneka");
+        public readonly static Location Novayalenk = CreateSettlement("Novayalenk");
+        public readonly static Location Siberski = CreateSettlement("Siberski");
         #endregion
 
         #region Paridon / Zherisia

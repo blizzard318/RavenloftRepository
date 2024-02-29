@@ -376,6 +376,21 @@ public partial class Factory : IDisposable
         public readonly static Location LakeArgus = CreateLocation("Lake Argus");
         #endregion
 
+        #region Sebua
+        public readonly static Location TheAbyss = CreateLocation("The Abyss");
+        public readonly static Location ValleyOfDeath = CreateLocation("Valley of Death");
+        public readonly static Location TempleOfApophis = CreateLocation("Temple of Apophis");
+        public readonly static Location RedOasis = CreateLocation("Red Oasis");
+        public readonly static Location SebuaWell = CreateLocation("Well (Sebua)");
+        public readonly static Location FetidWell = CreateLocation("Fetid Well");
+        public readonly static Location SandstoneTowers = CreateLocation("Sandstone Towers");
+        public readonly static Location SebuaDunes = CreateLocation("Dunes");
+        public readonly static Location RockyHills = CreateLocation("Rocky Hills");
+        public readonly static Location DryRiverBed = CreateLocation("Dry River Bed");
+        public readonly static Location TiyetEstate = CreateLocation("Tiyet`s Estate");
+        public readonly static Location SebuaOasis = CreateLocation("Oasis (Sebua)");
+        #endregion
+
         #region Shadowborn Manor
         public readonly static Location ShadowbornManor = CreateLocation("Shadowborn Manor");
         #endregion
@@ -422,11 +437,29 @@ public partial class Factory : IDisposable
         public readonly static Location TheCircle = CreateLocation("The Circle");
         #endregion
 
+        #region Vorostokov
+        public readonly static Location BottomlessLake = CreateLocation("Bottomless Lake");
+        public readonly static Location GregorsCave = CreateLocation("Gregor`s Cave");
+        public readonly static Location RiverTrau = CreateLocation("River Trau");
+        public readonly static Location VorostokovCarpenter = CreateLocation("Carpenter (Vorostokov)");
+        public readonly static Location VorostokovSmokehouse = CreateLocation("Smokehouse (Vorostokov)");
+        public readonly static Location VorostokovTanner = CreateLocation("Tanner (Vorostokov)");
+        public readonly static Location VorostokovFurrier = CreateLocation("Furrier (Vorostokov)");
+        public readonly static Location VorostokovTrader = CreateLocation("Trader (Vorostokov)");
+        public readonly static Location VorostokovSmithy = CreateLocation("Smithy (Vorostokov)");
+        public readonly static Location Sauna = CreateLocation("Sauna", "Communal Sweathouse");
+        public readonly static Location AlehouseMeetingHall = CreateLocation("Alehouse Meeting Hall");
+        public readonly static Location VillageGreen = CreateLocation("Village Green", "The Green");
+        public readonly static Location GregorsHome = CreateLocation("Gregor`s Home");
+        public readonly static Location MariksHome = CreateLocation("Marik`s Home");
+        #endregion
+
         #region Paridon / Zherisia
         public readonly static Location RhastikRiver = CreateLocation("Rhastik River", "River Rhastik");
         #endregion
 
-        public readonly static Location WindingRoad = CreateLocation("WindingRoad");
+        public readonly static Location WindingRoad = CreateLocation("Winding Road");
+
         #region Inside Ravenloft
         public readonly static Location QuebeHauntedMansion = CreateLocation("Quebe`s Haunted Mansion");
         public readonly static Location CastleBloodmere = CreateLocation("Castle Bloodmere");

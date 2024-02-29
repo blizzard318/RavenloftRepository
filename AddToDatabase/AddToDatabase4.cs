@@ -474,7 +474,7 @@ internal static partial class AddToDatabase
             ExtraInfo += "<br/>&emsp;Special Thanks: Karen Boomgarden";
             using var ctx = CreateSource("Darklords", releaseDate, ExtraInfo, Edition.e2, Media.sourcebook);
 
-            DomainEnum.HarAkir.Appeared("4, 6-11");
+            DomainEnum.HarAkir.Appeared("4, 6-11, 86");
             DomainEnum.HarAkir.AddLivingDarklord(DarklordEnum.Anhktepot, "2, 4, 6-11").BindGroups(GroupEnum.Ra).BindCreatures(Creature.GreaterMummy).BindRelatedCreatures(Creature.Mummy).BindLair(LocationEnum.AnhkepotTomb).BindAlignment(Alignment.CE);
             DomainEnum.HarAkir.AddGroup(GroupEnum.Ra, "6, 9, 11");
             DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Ra, "6, 9").BindGroups(GroupEnum.Ra, GroupEnum.Deity);
@@ -603,7 +603,7 @@ internal static partial class AddToDatabase
             DomainEnum.WindingRoad.AddLivingDarklord(DarklordEnum.HeadlessHorseman, "2, 44-47").BindAlignment(Alignment.CE).BindRelatedCreatures(Creature.Horse, Creature.Maeder, Creature.Medusa);
             DomainEnum.Barovia.Appeared("44");
             DomainEnum.Barovia.AddLivingDarklord(DarklordEnum.CountStrahd, "44");
-            DomainEnum.Borca.Appeared("44");
+            DomainEnum.Borca.Appeared("44").BindCreatures(Creature.Ermordenung);
             DomainEnum.Borca.AddLivingDarklord(DarklordEnum.IvanaBoritsi, "44, 76");
             DomainEnum.Borca.AddSettlement(Settlement.Levkarest, "44");
             DomainEnum.Borca.AddSettlement(Settlement.Sturben, "44");
@@ -614,6 +614,11 @@ internal static partial class AddToDatabase
             DomainEnum.HouseOfLament.AddLivingCharacter(CharacterEnum.LordDranzorg, "48-52");
             DomainEnum.HouseOfLament.AddDeadCharacter(CharacterEnum.LordSilva, "45");
             DomainEnum.HouseOfLament.AddLivingCharacter(CharacterEnum.LadyMaraSilva, "48-53");
+            DomainEnum.HouseOfLament.Inspirations.UnionWith(new[]
+            {
+                "<i>The Haunting (1963)</i> by Robert Wise",
+                "<i>The Haunting of Hill House</i> by Shirley Jackson",
+            });
 
             DomainEnum.Valachan.Appeared("54-59").BindCreatures(Creature.Panther);
             DomainEnum.Valachan.AddLivingDarklord(DarklordEnum.UrikVonKharkov, "2, 54-59").BindCharacters(CharacterEnum.Morphayus, CharacterEnum.Selena).BindCreatures(Creature.Panther, Creature.Vampire, Creature.Nosferatu).BindRelatedCreatures(Creature.Smilodon).BindAlignment(Alignment.LE);
@@ -631,8 +636,8 @@ internal static partial class AddToDatabase
             DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Keesla, "60-62").BindCreatures(Creature.Vampire).BindSetting(CampaignSetting.Dragonlance);
             DomainEnum.Lamordia.Appeared("62-63");
             DomainEnum.Lamordia.AddLivingDarklord(DarklordEnum.Adam, "62");
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.DoctorRudolphVanRichten, "63");
-            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.Claudia, "63").BindCharacters(CharacterEnum.DoctorRudolphVanRichten);
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorRudolphVanRichten, "63");
+            DomainEnum.Lamordia.AddDeadCharacter(CharacterEnum.Claudia, "63").BindCharacters(CharacterEnum.DoctorRudolphVanRichten);
 
             DomainEnum.TheLighthouse.Appeared("64-67").BindCreatures(Creature.Bat, Creature.Fly, Creature.Gnat);
             DomainEnum.TheLighthouse.AddLivingDarklord(DarklordEnum.CaptainMonette, "3, 64-67").BindCreatures(Creature.Werebat, Creature.Bat).BindAlignment(Alignment.LE).BindLair(LocationEnum.EyeOfMidnight).BindCloseBorder("He can control the currents in the seas that surround his island (at will). Thus, he can make it impossible or deadly to attempt swimming or boating.");
@@ -657,11 +662,63 @@ internal static partial class AddToDatabase
             DomainEnum.Ghastria.AddItem(ItemEnum.RapierOfQuickness, "79").BindCharacters(DarklordEnum.StezenDPolarno);
             DomainEnum.Sithicus.Appeared("74");
 
-            DomainEnum.Sebua.Appeared("4, 75");
-            DomainEnum.Sebua.AddLivingDarklord(DarklordEnum.Tiyet, "3, 75");
+            DomainEnum.Sebua.Appeared("4, 80-89").BindCreatures(Creature.Camel, Creature.Goose, Creature.Vulture, Creature.Locust, Creature.Scorpion);
+            DomainEnum.Sebua.AddLivingDarklord(DarklordEnum.Tiyet, "3, 80-89").BindCreatures(Creature.Mummy, Creature.Owl, Creature.Monkey).BindRelatedCreatures(Creature.Beetle).BindLair(LocationEnum.TiyetEstate).BindAlignment(Alignment.NE).BindCloseBorder("Create a sandstorm. The storm covers up to a square mile, and lasts up to two hours, depending on Tiyet’s wishes. She can move the sandstorm as she pleases. She requires three rounds to create the storm, but her powers are not restricted during that time. The Dark Powers augment this ability when Tiyet wishes to close the borders of Sebua, creating a storm that exists only along the boundaries of her domain.");
+            DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Khamose, "80, 82").BindCharacters(DarklordEnum.Tiyet, CharacterEnum.Nufreri);
+            DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Nufreri, "80").BindRelatedCreatures(Creature.Jackal);
+            DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Zordenahkt, "82, 84, 89").BindCharacters(DarklordEnum.Tiyet).BindRelatedCreatures(Creature.Asp, Creature.Snake);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Apophis, "82-85, 89").BindGroups(GroupEnum.Deity);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Anubis, "82").BindGroups(GroupEnum.Deity);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Osiris, "82").BindGroups(GroupEnum.Deity);
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Maat, "82").BindGroups(GroupEnum.Deity);
+            DomainEnum.Sebua.AddLocation(LocationEnum.TheAbyss, "83, 85");
+            DomainEnum.Sebua.AddLocation(LocationEnum.ValleyOfDeath, "83, 85-86, 89").BindCreatures(Creature.Bat, Creature.Beetle);
+            DomainEnum.Sebua.AddLocation(LocationEnum.TempleOfApophis, "82-83, 85, 89").BindCharacters(DarklordEnum.Tiyet, CharacterEnum.Zordenahkt, CharacterEnum.Apophis).BindCreatures(Creature.Asp);
+            DomainEnum.Sebua.AddLocation(LocationEnum.RedOasis, "83").BindCreatures(Creature.Mosquito, Creature.Bat);
+            DomainEnum.Sebua.AddLocation(LocationEnum.SebuaWell, "83");
+            DomainEnum.Sebua.AddLocation(LocationEnum.FetidWell, "83");
+            DomainEnum.Sebua.AddLocation(LocationEnum.SandstoneTowers, "83");
+            DomainEnum.Sebua.AddLocation(LocationEnum.SebuaDunes, "83");
+            DomainEnum.Sebua.AddLocation(LocationEnum.RockyHills, "83");
+            DomainEnum.Sebua.AddLocation(LocationEnum.DryRiverBed, "83");
+            DomainEnum.Sebua.AddSettlement(Settlement.RuinedVillage, "83");
+            DomainEnum.Sebua.AddLocation(LocationEnum.TiyetEstate, "83-84, 86-88").BindCreatures(Creature.Mummy, Creature.Goose, Creature.Cow, Creature.Monkey);
+            DomainEnum.Sebua.AddSettlement(Settlement.Anhalla, "83, 85-86").BindCreatures(Creature.Monkey, Creature.Baboon, Creature.Jackal, Creature.Mosquito, Creature.Bat);
+            DomainEnum.Sebua.AddLocation(LocationEnum.SebuaOasis, "83").BindCreatures(Creature.Mosquito, Creature.Bat);
+            DomainEnum.Sebua.AddItem(ItemEnum.IdolOfApophis, "84").BindCharacters(CharacterEnum.Apophis);
 
-            DomainEnum.Vorostokov.AddLivingDarklord(DarklordEnum.GregorZolnik, "3");
+            DomainEnum.Vorostokov.Appeared("90-96").BindCreatures(Creature.Wolf);
+            DomainEnum.Vorostokov.AddLivingDarklord(DarklordEnum.GregorZolnik, "3, 90-96").BindCreatures(Creature.LoupDuNoir,Creature.Wolf).BindAlignment(Alignment.CE).BindCloseBorder("If Gregor chooses to seal his border however, snowstorms and avalanches drive travelers back into Vorostokov.");
+            DomainEnum.OutsideRavenloft.AddDeadCharacter(CharacterEnum.Ireena, "92-93").BindCharacters(DarklordEnum.GregorZolnik).BindRelatedCreatures(Creature.Wolf);
+            DomainEnum.Vorostokov.AddDeadCharacter(CharacterEnum.Nicolai, "93").BindCharacters(DarklordEnum.GregorZolnik).BindRelatedCreatures(Creature.Wolf);
+            DomainEnum.Vorostokov.AddLivingCharacter(CharacterEnum.MarikMouseEater, "95");
+            DomainEnum.Vorostokov.AddLivingCharacter(CharacterEnum.AntoninaZolnik, "90, 92-93, 96").BindCharacters(DarklordEnum.GregorZolnik, CharacterEnum.NatalyaZolnik, CharacterEnum.ElenaZolnik).BindAlignment(Alignment.LE);
+            DomainEnum.Vorostokov.AddLivingCharacter(CharacterEnum.NatalyaZolnik, "90, 92-93, 96").BindCharacters(DarklordEnum.GregorZolnik, CharacterEnum.AntoninaZolnik, CharacterEnum.ElenaZolnik).BindAlignment(Alignment.LE);
+            DomainEnum.Vorostokov.AddLivingCharacter(CharacterEnum.ElenaZolnik, "90, 92-93, 96").BindCharacters(DarklordEnum.GregorZolnik, CharacterEnum.NatalyaZolnik, CharacterEnum.AntoninaZolnik).BindAlignment(Alignment.LE);
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Vorostokov, "90, 92-95").BindCharacters(DarklordEnum.GregorZolnik).BindLocations(LocationEnum.VorostokovCarpenter, LocationEnum.VorostokovSmokehouse, LocationEnum.VorostokovTanner, LocationEnum.VorostokovFurrier, LocationEnum.VorostokovTrader, LocationEnum.VorostokovSmithy, LocationEnum.Sauna, LocationEnum.AlehouseMeetingHall, LocationEnum.VillageGreen, LocationEnum.GregorsHome, LocationEnum.MariksHome);
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Kirova, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Torgov, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Nordvik, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Kargo, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Voronina, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Oneka, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Novayalenk, "95");
+            DomainEnum.Vorostokov.AddSettlement(Settlement.Siberski, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.BottomlessLake, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.GregorsCave, "95").BindCharacters(DarklordEnum.GregorZolnik);
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.RiverTrau, "95");
 
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VorostokovCarpenter, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VorostokovSmokehouse, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VorostokovTanner, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VorostokovFurrier, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VorostokovTrader, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VorostokovSmithy, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.Sauna, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.AlehouseMeetingHall, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.VillageGreen, "95");
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.GregorsHome, "95").BindCharacters(DarklordEnum.GregorZolnik, CharacterEnum.AntoninaZolnik, CharacterEnum.NatalyaZolnik, CharacterEnum.ElenaZolnik);
+            DomainEnum.Vorostokov.AddLocation(LocationEnum.MariksHome, "95").BindCharacters(CharacterEnum.MarikMouseEater);
         }
     }
 }

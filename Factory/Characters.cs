@@ -608,6 +608,13 @@ public partial class Factory : IDisposable
         #endregion
 
         #region Sebua
+        public readonly static Character Khamose = CreateCharacter("Khamose");
+        public readonly static Character Nufreri = CreateCharacter("Nufreri");
+        public readonly static Character Zordenahkt = CreateCharacter("Zordenahkt");
+        public readonly static Character Apophis = CreateCharacter("Apophis");
+        public readonly static Character Anubis = CreateCharacter("Anubis");
+        public readonly static Character Osiris = CreateCharacter("Osiris");
+        public readonly static Character Maat = CreateCharacter("Maat");
         #endregion
 
         #region Shadowborn Manor
@@ -644,6 +651,15 @@ public partial class Factory : IDisposable
 
         #region Verbrek
         public readonly static Character WolfGod = CreateCharacter("Wolf God");
+        #endregion
+
+        #region Vorostokov
+        public readonly static Character Ireena = CreateCharacter("Ireena");
+        public readonly static Character Nicolai = CreateCharacter("Nicolai");
+        public readonly static Character AntoninaZolnik = CreateCharacter("Antonina Zolnik");
+        public readonly static Character NatalyaZolnik = CreateCharacter("Natalya Zolnik");
+        public readonly static Character ElenaZolnik = CreateCharacter("Elena Zolnik");
+        public readonly static Character MarikMouseEater = CreateCharacter("Marik the Mouse-eater");
         #endregion
 
         #region Winding Road

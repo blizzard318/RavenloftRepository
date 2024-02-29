@@ -24,6 +24,8 @@
         public readonly static Item ImprovedHagEye = CreateItem("Improved Hag Eye");
         public readonly static Item PaintingOfStezen = CreateItem("Painting of Stezen");
 
+        public readonly static Item IdolOfApophis = CreateItem("Idol of Apophis");
+
         public readonly static Item Apparatus = CreateItem("Apparatus"); //Mordent
         public readonly static Item SoulSearcher = CreateItem("Soul Searcher Medallion", "Soul Searcher Orb");
         public readonly static Item MirrorOfLaw = CreateItem("Mirror Of Lawful Alignment");
