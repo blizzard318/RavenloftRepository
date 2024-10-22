@@ -2,7 +2,7 @@
 
 internal static partial class AddToDatabase
 {
-    public static void Add1()
+    public static void Add1() //Cards
     {
         AddCommanderLegendsBattleforBaldursGate();
         AddDiceMastersStrahd();

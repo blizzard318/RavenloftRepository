@@ -356,11 +356,15 @@ public partial class Factory : IDisposable
         public readonly static Character DoctorVictorMordenheim = CreateCharacter("Doctor Victor Mordenheim");
         public readonly static Character Eva = CreateCharacter("Eva");
         public readonly static Character BaronVonAubrecker = CreateCharacter("Baron Von Aubrecker");
-        public readonly static Character EliseVonBrandthofen = CreateCharacter("Elise Von Brandthofen");
+        public readonly static Character EliseVonBrandthofen = CreateCharacter("Elise Von Brandthofen", "Elise Mordenheim");
         public readonly static Character MerileeMarkuza = CreateCharacter("Merilee Markuza");
         #endregion
 
         #region Liffe
+        public readonly static Character CaptainAlecRapacion = CreateCharacter("Captain Alec Rapacion");
+        public readonly static Character Eldon = CreateCharacter("Eldon");
+        public readonly static Character Ravewood = CreateCharacter("Ravewood");
+        public readonly static Character DanteLysin = CreateCharacter("Dante Lysin");
         #endregion
 
         #region Markovia

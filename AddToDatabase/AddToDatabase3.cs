@@ -2,7 +2,7 @@
 
 internal static partial class AddToDatabase
 {
-    public static void Add3()
+    public static void Add3() //Non-Ravenloft Ravenlfot
     {
         AddMistsOfRavenloft();
         AddSpelljammerCrystalSpheres();

@@ -5,18 +5,12 @@
     font-size: 16px;
 	--bg-color: #EAEAEA;
 	--color: #1A1A1A;
-  --header:#9D9D9D;
-  --row1:white;
-  --row2:#BBBBBB;
 	color: var(--color);
 	background-color: var(--bg-color);
 }
 [data-darkmode] {
 	--bg-color: #1A1A1A;
 	--color: #EAEAEA;
-  --header:#000000;
-  --row1:#323232;
-  --row2:#626262;
 }
 
 h1, h2, h3 {

@@ -1,6 +1,4 @@
-﻿using Mono.TextTemplating;
-using System.Text.RegularExpressions;
-using static Domain;
+﻿using static Domain;
 using static Factory;
 
 internal static partial class AddToDatabase
@@ -11,6 +9,7 @@ internal static partial class AddToDatabase
         AddShipOfHorrors();
         AddMonstrousCompendiumAppendix1();
         AddDarklords();
+        AddBookOfCrypts();
         void AddFeastOfGoblyns()
         {
             var releaseDate = "01/09/1990";
@@ -461,7 +460,7 @@ internal static partial class AddToDatabase
         void AddDarklords()
         {
             var releaseDate = "01/08/1991";
-            string ExtraInfo = "<br/>&emsp;Design: Andria Hayday (Banshee, Bluebeard, Hags, Headless Horsemn, House of Lament, Introduction, Phantom Lover, Recipe for Mummificiation, Tiyet, Zolnik";
+            string ExtraInfo = "<br/>&emsp;Design: Andria Hayday (Banshee, Bluebeard, Hags, Headless Horseman, House of Lament, Introduction, Phantom Lover, Recipe for Mummificiation, Tiyet, Zolnik";
             ExtraInfo += "<br/>&emsp;Additional Design: William W. Connors (Ebonbane, Merilee, Monette), Bruce Nesmith (Anhktepot, Von Kharkov), and James Lowder (D' Polarno)";
             ExtraInfo += "<br/>&emsp;Editing: Mile Breault";
             ExtraInfo += "<br/>&emsp;Cover Art: Tim Hildebrandt";
@@ -719,6 +718,44 @@ internal static partial class AddToDatabase
             DomainEnum.Vorostokov.AddLocation(LocationEnum.VillageGreen, "95");
             DomainEnum.Vorostokov.AddLocation(LocationEnum.GregorsHome, "95").BindCharacters(DarklordEnum.GregorZolnik, CharacterEnum.AntoninaZolnik, CharacterEnum.NatalyaZolnik, CharacterEnum.ElenaZolnik);
             DomainEnum.Vorostokov.AddLocation(LocationEnum.MariksHome, "95").BindCharacters(CharacterEnum.MarikMouseEater);
+        }
+        void AddBookOfCrypts()
+        {
+            var releaseDate = "01/10/1991";
+            string ExtraInfo = "<br/>&emsp;Design: Dale 'Slade' Henson with J. Robert King";
+            ExtraInfo += "<br/>&emsp;Editing: Anne Brown, J. Robert King, Jean Rabe";
+            ExtraInfo += "<br/>&emsp;Proofreading: Anne Brown, David Wise";
+            ExtraInfo += "<br/>&emsp;Cover Art: David Dorman";
+            ExtraInfo += "<br/>&emsp;Interior Art: Laura and Kelly Freas, Stephen Fabian";
+            ExtraInfo += "<br/>&emsp;Cartography: John Knecht";
+            ExtraInfo += "<br/>&emsp;Typography: Gaye O'Keefe";
+            ExtraInfo += "<br/>&emsp;Keylining: Sarah Feggestad";
+            ExtraInfo += "<br/>&emsp;Production: Paul Hanchette";
+            ExtraInfo += "<br/>&emsp;Thanks To: James Ward, Tim B. Brown, Bruce Nesmith, Anne Brown, Andia Hayday, Newton H. Ewell, Bill Connors";
+            using var ctx = CreateSource("Book of Crypts", releaseDate, ExtraInfo, Edition.e2, Media.module);
+
+            DomainEnum.Lamordia.Appeared("4-9").BindCreatures(Creature.Jellyfish, Creature.FiddlerCrab, Creature.Spider);
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorVictorMordenheim, "4-9");
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.KatrinaVonBrandthofen, "4-5, 7-9");
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.EliseVonBrandthofen, "4-5, 7-9");
+            DomainEnum.Lamordia.AddLivingDarklord(DarklordEnum.Adam, "9");
+            DomainEnum.Lamordia.AddLocation(LocationEnum.SchlossMordenheim, "4-9").BindCreatures(Creature.Spider);
+
+            DomainEnum.Valachan.Appeared("9");
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.KatrinaVonBrandthofen);
+
+            DomainEnum.Liffe.BindCreatures(Creature.Werewolf, Creature.Spider, Creature.Fly, Creature.Earwig);
+            DomainEnum.Liffe.AddSettlement(Settlement.Moondale, "10-12")
+                .BindLocations(LocationEnum.MoondaleInn)
+                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig)
+                .BindCharacters(CharacterEnum.CaptainAlecRapacion, CharacterEnum.Eldon, CharacterEnum.Ravewood, CharacterEnum.DanteLysin);
+            DomainEnum.Liffe.AddLocation(LocationEnum.MoondaleInn, "10-11")
+                .BindCharacters(CharacterEnum.CaptainAlecRapacion, CharacterEnum.Eldon, CharacterEnum.Ravewood, CharacterEnum.DanteLysin)
+                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.CaptainAlecRapacion, "10-11");
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Eldon, "10-11");
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Ravewood, "10-11");
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.DanteLysin, "11");
         }
     }
 }

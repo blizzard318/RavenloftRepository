@@ -51,6 +51,8 @@
         public readonly static Trait GiantStarfish = CreateCreature("Giant Starfish");
         public readonly static Trait Vodyanoi = CreateCreature("Vodyanoi", "Aquatic Umber Hulk");
         public readonly static Trait SeaSerpent = CreateCreature("Sea Serpent", "Sea Drake");
+        public readonly static Trait Jellyfish = CreateCreature("Jellyfish");
+        public readonly static Trait FiddlerCrab = CreateCreature("Fiddler Crab");
         #endregion
 
         #region Birds
@@ -209,6 +211,7 @@
         public readonly static Trait Gnat = CreateCreature("Gnat");
         public readonly static Trait Locust = CreateCreature("Locust");
         public readonly static Trait Mosquito = CreateCreature("Mosquito");
+        public readonly static Trait Earwig = CreateCreature("Earwig");
         #endregion
 
         public readonly static Trait Mite = CreateCreature("Mite");

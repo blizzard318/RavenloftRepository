@@ -111,6 +111,10 @@
         public readonly static Location Neufurchtenburg = CreateSettlement("Neufurchtenburg");
         #endregion
 
+        #region Liffe
+        public readonly static Location Moondale = CreateSettlement("Moondale");
+        #endregion
+
         #region Markovia
         public readonly static Location Monastery = CreateSettlement("Monastery");
         #endregion

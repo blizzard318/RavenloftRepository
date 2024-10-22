@@ -261,6 +261,10 @@ public partial class Factory : IDisposable
         public readonly static Location LeederiksTower = CreateLocation("Leederik`s Tower");
         #endregion
 
+        #region Liffe
+        public readonly static Location MoondaleInn = CreateLocation("Moondale Inn");
+        #endregion
+
         #region Lighthouse
         public readonly static Location EyeOfMidnight = CreateLocation("Eye of Midnight");
         #endregion

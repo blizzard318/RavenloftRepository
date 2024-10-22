@@ -2,7 +2,7 @@
 
 internal static partial class AddToDatabase
 {
-    public static void Add2()
+    public static void Add2() //Novels
     {
         AddBeforeIWake();
         AddMasterOfRavenloft();
