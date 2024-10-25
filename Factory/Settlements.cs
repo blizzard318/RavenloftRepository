@@ -113,6 +113,8 @@
 
         #region Liffe
         public readonly static Location Moondale = CreateSettlement("Moondale");
+        public readonly static Location Claveria = CreateSettlement("Claveria");
+        public readonly static Location Armeikos = CreateSettlement("Armeikos");
         #endregion
 
         #region Markovia

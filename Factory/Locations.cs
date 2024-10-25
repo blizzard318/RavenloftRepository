@@ -263,6 +263,12 @@ public partial class Factory : IDisposable
 
         #region Liffe
         public readonly static Location MoondaleInn = CreateLocation("Moondale Inn");
+        public readonly static Location NeverwereManor = CreateLocation("Neverwere Manor");
+        public readonly static Location ArmeikosConstable = CreateLocation("Constable Station of Armeikos");
+        public readonly static Location HordumRiver = CreateLocation("Hordum River");
+        public readonly static Location HordumBay = CreateLocation("Hordum Bay");
+        public readonly static Location SoundOfLiffe = CreateLocation("Sound of Liffe");
+        public readonly static Location HouseOfAlisia = CreateLocation("House of Alisia");
         #endregion
 
         #region Lighthouse

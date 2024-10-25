@@ -59,6 +59,8 @@
 
         public readonly static Group BluebeardWives = CreateGroup("Wives of Bluebeard");
 
+        public readonly static Group AlecRapacionMilitia = CreateGroup("Militia of Captain Alec Rapacion");
+
         public readonly static Group Zhakata = CreateGroup("Religion of Zhakata");
         public readonly static Group Lathander = CreateGroup("Religion of Lathander");
         public readonly static Group Tyr = CreateGroup("Religion of Tyr");
@@ -73,6 +75,7 @@
         public readonly static Group Yama = CreateGroup("Religion of Yama");
         public readonly static Group WolfGod = CreateGroup("Religion of the Wolf God");
         public readonly static Group Lolth = CreateGroup("Religion of Lolth");
+        public readonly static Group Lendor = CreateGroup("Religion of Lendor");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");
         public readonly static Group dHonaire = CreateGroup("d`Honaire Family");

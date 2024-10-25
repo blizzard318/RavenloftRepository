@@ -735,27 +735,88 @@ internal static partial class AddToDatabase
             using var ctx = CreateSource("Book of Crypts", releaseDate, ExtraInfo, Edition.e2, Media.module);
 
             DomainEnum.Lamordia.Appeared("4-9").BindCreatures(Creature.Jellyfish, Creature.FiddlerCrab, Creature.Spider);
-            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorVictorMordenheim, "4-9");
-            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.KatrinaVonBrandthofen, "4-5, 7-9");
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.DoctorVictorMordenheim, "4-9").BindAlignment(Alignment.NE);
+            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.KatrinaVonBrandthofen, "4-5, 7-9").BindAlignment(Alignment.LN);
             DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.EliseVonBrandthofen, "4-5, 7-9");
             DomainEnum.Lamordia.AddLivingDarklord(DarklordEnum.Adam, "9");
             DomainEnum.Lamordia.AddLocation(LocationEnum.SchlossMordenheim, "4-9").BindCreatures(Creature.Spider);
 
-            DomainEnum.Valachan.Appeared("9");
-            DomainEnum.Lamordia.AddLivingCharacter(CharacterEnum.KatrinaVonBrandthofen);
+            DomainEnum.Valachan.Appeared("9").BindCharacters(CharacterEnum.KatrinaVonBrandthofen);
 
-            DomainEnum.Liffe.BindCreatures(Creature.Werewolf, Creature.Spider, Creature.Fly, Creature.Earwig);
-            DomainEnum.Liffe.AddSettlement(Settlement.Moondale, "10-12")
-                .BindLocations(LocationEnum.MoondaleInn)
-                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig)
+            DomainEnum.Liffe.BindGroups(GroupEnum.Lendor)
+                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig, Creature.Horse, Creature.Cow, Creature.Sheep, Creature.Nosferatu, Creature.MountainLoupGarou, Creature.Human);
+            DomainEnum.Liffe.AddSettlement(Settlement.Moondale, "10-20")
+                .BindLocations(LocationEnum.MoondaleInn).BindGroups(GroupEnum.AlecRapacionMilitia)
+                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig, Creature.Horse, Creature.Cow, Creature.Sheep, Creature.Nosferatu, Creature.MountainLoupGarou)
                 .BindCharacters(CharacterEnum.CaptainAlecRapacion, CharacterEnum.Eldon, CharacterEnum.Ravewood, CharacterEnum.DanteLysin);
-            DomainEnum.Liffe.AddLocation(LocationEnum.MoondaleInn, "10-11")
+            DomainEnum.Liffe.AddLocation(LocationEnum.MoondaleInn, "10-11, 13-15, 18-20")
+                .BindGroups(GroupEnum.AlecRapacionMilitia)
                 .BindCharacters(CharacterEnum.CaptainAlecRapacion, CharacterEnum.Eldon, CharacterEnum.Ravewood, CharacterEnum.DanteLysin)
-                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig);
-            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.CaptainAlecRapacion, "10-11");
-            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Eldon, "10-11");
-            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Ravewood, "10-11");
-            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.DanteLysin, "11");
+                .BindCreatures(Creature.Spider, Creature.Fly, Creature.Earwig, Creature.Horse, Creature.Nosferatu);
+            DomainEnum.Liffe.AddGroup(GroupEnum.AlecRapacionMilitia, "10-20").BindCharacters(CharacterEnum.CaptainAlecRapacion, CharacterEnum.Ravewood, CharacterEnum.Eldon);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.CaptainAlecRapacion, "10-20").BindCreatures(Creature.MountainLoupGarou, Creature.Human).BindAlignment(Alignment.CE);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Eldon, "10-13, 15, 20").BindAlignment(Alignment.TN);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Ravewood, "10-11, 13, 15, 20").BindAlignment(Alignment.TN);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.DanteLysin, "11, 13, 15, 18-20").BindCreatures(Creature.Nosferatu).BindAlignment(Alignment.CN);
+
+            DomainEnum.Liffe.AddSettlement(Settlement.Claveria, "21-29")
+                .BindGroups(GroupEnum.Lendor).BindLocations(LocationEnum.NeverwereManor)
+                .BindItems(ItemEnum.TalismanOfLendor, ItemEnum.LyronHarpsichordCommanding);
+            DomainEnum.Liffe.AddLocation(LocationEnum.NeverwereManor, "21-29")
+                .BindCharacters(DarklordEnum.LyronEvensong, CharacterEnum.LadyWindall, CharacterEnum.Rannow)
+                .BindItems(ItemEnum.LyronHarpsichordCommanding, ItemEnum.Book.GreatComposers, ItemEnum.Book.FormAndLineInMusic, ItemEnum.Book.PhysicalPropOfSoundProd, ItemEnum.Book.MusicalIntrumentConstruct, ItemEnum.Book.ModesInMusic, ItemEnum.Book.PoetryOfTheMasters, ItemEnum.Book.Sonnets, ItemEnum.Book.AssonanceAndAlliteration, ItemEnum.Book.AdvancesInAnatomy, ItemEnum.Book.VertebrateBiology, ItemEnum.Book.SketchingNudes, ItemEnum.Book.PortfolioOfBirds, ItemEnum.Book.PrinciplesOfPerspective, ItemEnum.Book.ArtOfArchitecture, ItemEnum.Book.TreatiseOfFreeGovern, ItemEnum.Book.DeclineOfFeudHold, ItemEnum.Book.PhilosophyOfDeath, ItemEnum.Book.StudyInDarkness, ItemEnum.Book.DiaryOfBaronLyronEvensong1, ItemEnum.Book.DiaryOfBaronLyronEvensong2, ItemEnum.Book.DiaryOfBaronLyronEvensong3, ItemEnum.Book.DiaryOfBaronLyronEvensong4, ItemEnum.Book.DiaryOfBaronLyronEvensong5, ItemEnum.Book.PoemsOfBaronLyronEvensong, ItemEnum.Book.ImbuingInstrumentsWithMagic);
+            DomainEnum.Liffe.AddLivingDarklord(DarklordEnum.LyronEvensong, "21-29").BindAlignment(Alignment.NE)
+                .BindItems(ItemEnum.LyronHarpsichordCommanding, ItemEnum.Book.DiaryOfBaronLyronEvensong1, ItemEnum.Book.DiaryOfBaronLyronEvensong2, ItemEnum.Book.DiaryOfBaronLyronEvensong3, ItemEnum.Book.DiaryOfBaronLyronEvensong4, ItemEnum.Book.DiaryOfBaronLyronEvensong5, ItemEnum.Book.PoemsOfBaronLyronEvensong)
+                .BindSetting(CampaignSetting.Dragonlance).BindCurse("He would live through a century in dark solitude, confined to his study for one hundred years for every one day he spends in Claviera. Thus, when a week passes in the outside world, Baron Claviera has lived 700 years in his study.");
+            DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Lendor, "22")
+                .BindGroups(GroupEnum.Deity, GroupEnum.Lendor)
+                .BindItems(ItemEnum.TalismanOfLendor);
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.LadyWindall, "27");
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.Rannow, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.TalismanOfLendor, "22");
+            DomainEnum.Liffe.AddItem(ItemEnum.LyronHarpsichordCommanding, "25-27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.GreatComposers, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.FormAndLineInMusic, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.PhysicalPropOfSoundProd, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.MusicalIntrumentConstruct, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.ModesInMusic, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.PoetryOfTheMasters, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.Sonnets, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.AssonanceAndAlliteration, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.AdvancesInAnatomy, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.VertebrateBiology, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.SketchingNudes, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.PortfolioOfBirds, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.PrinciplesOfPerspective, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.ArtOfArchitecture, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.TreatiseOfFreeGovern, "26");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.DeclineOfFeudHold, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.PhilosophyOfDeath, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.StudyInDarkness, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.DiaryOfBaronLyronEvensong1, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.DiaryOfBaronLyronEvensong2, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.DiaryOfBaronLyronEvensong3, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.DiaryOfBaronLyronEvensong4, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.DiaryOfBaronLyronEvensong5, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.PoemsOfBaronLyronEvensong, "27");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.ImbuingInstrumentsWithMagic, "27");
+
+            DomainEnum.Liffe.AddSettlement(Settlement.Armeikos, "30-32")
+                .BindLocations(LocationEnum.ArmeikosConstable, LocationEnum.HordumRiver, LocationEnum.HordumBay, LocationEnum.SoundOfLiffe, LocationEnum.HouseOfAlisia)
+                .BindCharacters(CharacterEnum.JovisBlackwere, CharacterEnum.EjrikSpellbender, CharacterEnum.EronNalwand, CharacterEnum.TheaGyntheos, CharacterEnum.Alisia);
+
+            DomainEnum.Liffe.AddLocation(LocationEnum.ArmeikosConstable, "30-31")
+                .BindCharacters(CharacterEnum.JovisBlackwere);
+            DomainEnum.Liffe.AddLocation(LocationEnum.HordumRiver, "31");
+            DomainEnum.Liffe.AddLocation(LocationEnum.HordumBay, "31");
+            DomainEnum.Liffe.AddLocation(LocationEnum.SoundOfLiffe, "31");
+            DomainEnum.Liffe.AddLocation(LocationEnum.HouseOfAlisia, "32");
+
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.JovisBlackwere, "30-32");
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.EjrikSpellbender, "30-32");
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.EronNalwand, "31");
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.TheaGyntheos, "31");
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.Alisia, "31-32");
         }
     }
 }

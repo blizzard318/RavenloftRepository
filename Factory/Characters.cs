@@ -364,7 +364,15 @@ public partial class Factory : IDisposable
         public readonly static Character CaptainAlecRapacion = CreateCharacter("Captain Alec Rapacion");
         public readonly static Character Eldon = CreateCharacter("Eldon");
         public readonly static Character Ravewood = CreateCharacter("Ravewood");
-        public readonly static Character DanteLysin = CreateCharacter("Dante Lysin");
+        public readonly static Character DanteLysin = CreateCharacter("Dante Lysin", "Dante Carare");
+        public readonly static Character Lendor = CreateCharacter("Lendor");
+        public readonly static Character LadyWindall = CreateCharacter("Lady Windall");
+        public readonly static Character Rannow = CreateCharacter("Rannow");
+        public readonly static Character JovisBlackwere = CreateCharacter("Captain Jovis Blackwere");
+        public readonly static Character EjrikSpellbender = CreateCharacter("Ejrik Spellbender");
+        public readonly static Character EronNalwand = CreateCharacter("Eron Nalwand");
+        public readonly static Character TheaGyntheos = CreateCharacter("Thea Gyntheos");
+        public readonly static Character Alisia = CreateCharacter("Alisia");
         #endregion
 
         #region Markovia

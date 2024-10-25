@@ -19,12 +19,15 @@
             return retval;
         }
         public readonly static Trait Human = CreateCreature("Human");
+
         public readonly static Trait Elf = CreateCreature("Elf");
         public readonly static Trait GoldenElf = CreateCreature("Golden Elf");
         public readonly static Trait HighElf = CreateCreature("High Elf");
         public readonly static Trait HalfElf = CreateCreature("Half-Elf");
+
         public readonly static Trait Dwarf = CreateCreature("Dwarf");
         public readonly static Trait HillDwarf = CreateCreature("Hill Dwarf");
+
         public readonly static Trait Halfling = CreateCreature("Halfling");
         public readonly static Trait Kender = CreateCreature("Kender");
         public readonly static Trait Gnome = CreateCreature("Gnome");
@@ -136,7 +139,7 @@
         public readonly static Trait Goat = CreateCreature("Goat");
         public readonly static Trait MountainGoat = CreateCreature("Mountain Goat");
         public readonly static Trait Ox = CreateCreature("Ox", "Oxen");
-        public readonly static Trait Cow = CreateCreature("Cow");
+        public readonly static Trait Cow = CreateCreature("Cow", "Cattle");
         public readonly static Trait Bear = CreateCreature("Bear");
         public readonly static Trait Caribou = CreateCreature("Caribou");
         public readonly static Trait Elk = CreateCreature("Elk");

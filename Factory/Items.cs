@@ -95,6 +95,7 @@
         public readonly static Item HelmCompreLng = CreateItem("Helm of Comprehending Languages and Reading Magic");
         public readonly static Item SnowshoesOfVariedTracks = CreateItem("Snowshoes of Varied Tracks");
         public readonly static Item HatOfStupid = CreateItem("Hat of Stupidity");
+        public readonly static Item TalismanOfLendor = CreateItem("Talisman of Lendor");
 
         public readonly static Item TarlVanovitchSunBlade = CreateItem("Tarl Vanovitch`s Sun Blade");
         public readonly static Item ArrowOfDirect = CreateItem("Arrow of Direction");
@@ -277,6 +278,33 @@
             public readonly static Item JournalOfVictorMordenheim = CreateItem("Journal of Victor Mordenheim");
 
             public readonly static Item LifeOrDeathAHistoryOfTCOS = CreateItem("Life or Death? A History of The Crown of Souls");
+
+            public readonly static Item GreatComposers = CreateItem("Great Composers");
+            public readonly static Item FormAndLineInMusic = CreateItem("Form and Line in Music");
+            public readonly static Item PhysicalPropOfSoundProd = CreateItem("Physical Properties of Sound Production");
+            public readonly static Item MusicalIntrumentConstruct = CreateItem("Musical Intrument Construction");
+            public readonly static Item ModesInMusic = CreateItem("Modes in Music");
+            public readonly static Item PoetryOfTheMasters = CreateItem("Poetry of the Masters");
+            public readonly static Item Sonnets = CreateItem("Sonnets");
+            public readonly static Item AssonanceAndAlliteration = CreateItem("Assonance and Alliteration in Poetry");
+            public readonly static Item AdvancesInAnatomy = CreateItem("Advances in Anatomy");
+            public readonly static Item VertebrateBiology = CreateItem("Vertebrate Biology");
+            public readonly static Item SketchingNudes = CreateItem("Sketching Nudes");
+            public readonly static Item PortfolioOfBirds = CreateItem("Portfolio of Birds");
+            public readonly static Item PrinciplesOfPerspective = CreateItem("Principles of Perspective");
+            public readonly static Item ArtOfArchitecture = CreateItem("Art of Architecture");
+            public readonly static Item TreatiseOfFreeGovern = CreateItem("Treatise of Free Government");
+            public readonly static Item DeclineOfFeudHold = CreateItem("Decline of Feudal Holdings");
+            public readonly static Item PhilosophyOfDeath = CreateItem("Philosophy of Death");
+            public readonly static Item StudyInDarkness = CreateItem("Study in Darkness");
+
+            public readonly static Item DiaryOfBaronLyronEvensong1 = CreateItem("Diary of Baron Lyron Evensong, Volume 1");
+            public readonly static Item DiaryOfBaronLyronEvensong2 = CreateItem("Diary of Baron Lyron Evensong, Volume 2");
+            public readonly static Item DiaryOfBaronLyronEvensong3 = CreateItem("Diary of Baron Lyron Evensong, Volume 3");
+            public readonly static Item DiaryOfBaronLyronEvensong4 = CreateItem("Diary of Baron Lyron Evensong, Volume 4");
+            public readonly static Item DiaryOfBaronLyronEvensong5 = CreateItem("Diary of Baron Lyron Evensong, Volume 5");
+            public readonly static Item PoemsOfBaronLyronEvensong = CreateItem("Poems of Baron Lyron Evensong");
+            public readonly static Item ImbuingInstrumentsWithMagic = CreateItem("Imbuing Instruments With Magic");
         }
     }
 }
