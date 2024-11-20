@@ -207,5 +207,9 @@
         #region Paridon / Zherisia
         public readonly static Location Paridon = CreateSettlement("Paridon");
         #endregion
+
+        #region Inside Ravenloft
+        public readonly static Location Aferdale = CreateSettlement("Aferdale");
+        #endregion
     }
 }

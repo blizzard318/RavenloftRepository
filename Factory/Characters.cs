@@ -186,6 +186,9 @@ public partial class Factory : IDisposable
         public readonly static Character LuciaRitter = CreateCharacter("Lucia Ritter");
         public readonly static Character AntonBoritsi = CreateCharacter("Anton Boritsi");
         public readonly static Character KatarinaPiechota = CreateCharacter("Katarina Piechota");
+        public readonly static Character EleniaWindalla = CreateCharacter("Elenia Windalla");
+        public readonly static Character UncleDory = CreateCharacter("Uncle Dory");
+        public readonly static Character MadameNygar = CreateCharacter("Madame Nygar");
         #endregion
 
         #region Cavitius
@@ -373,6 +376,8 @@ public partial class Factory : IDisposable
         public readonly static Character EronNalwand = CreateCharacter("Eron Nalwand");
         public readonly static Character TheaGyntheos = CreateCharacter("Thea Gyntheos");
         public readonly static Character Alisia = CreateCharacter("Alisia");
+        public readonly static Character Carl = CreateCharacter("Carl");
+        public readonly static Character SinaraDoom = CreateCharacter("Sinara Doom");
         #endregion
 
         #region Markovia
@@ -728,6 +733,7 @@ public partial class Factory : IDisposable
         public readonly static Character Saul = CreateCharacter("Saul");
         public readonly static Character Vincenzia = CreateCharacter("Vincenzia");
         public readonly static Character Claudia = CreateCharacter("Claudia");
+        public readonly static Character Malar = CreateCharacter("Malar", "The Beast Lord");
         #endregion
     }
 }

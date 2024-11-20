@@ -255,6 +255,7 @@ public static class CrossAdd
 
         return domain;
     }
+    //For like underlings, use bindCreatures for direct traits
     public static T BindRelatedCreatures<T>(this T Character, params Trait[] creatures) where T : Character
     {
         Character.RelatedCreatures.Add(Source, creatures);

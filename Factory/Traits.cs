@@ -73,6 +73,5 @@
         public static readonly Trait AbberNomad = CreateLanguage("Abber Nomad");
         public static readonly Trait Quevari = CreateLanguage("Quevari");
         public static readonly Trait Ravenkin = CreateLanguage("Ravenkin");
-
     }
 }

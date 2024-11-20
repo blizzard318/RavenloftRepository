@@ -269,6 +269,9 @@ public partial class Factory : IDisposable
         public readonly static Location HordumBay = CreateLocation("Hordum Bay");
         public readonly static Location SoundOfLiffe = CreateLocation("Sound of Liffe");
         public readonly static Location HouseOfAlisia = CreateLocation("House of Alisia");
+        public readonly static Location HouseOfEronNalwand = CreateLocation("House of Eron Nalwand");
+        public readonly static Location HouseOfTheaGyntheos = CreateLocation("House of Thea Gyntheos");
+        public readonly static Location HouseOfSinaraDoom = CreateLocation("House of Sinara Doom");
         #endregion
 
         #region Lighthouse

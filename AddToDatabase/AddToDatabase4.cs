@@ -1,5 +1,4 @@
-﻿using static Domain;
-using static Factory;
+﻿using static Factory;
 
 internal static partial class AddToDatabase
 {
@@ -801,22 +800,43 @@ internal static partial class AddToDatabase
             DomainEnum.Liffe.AddItem(ItemEnum.Book.PoemsOfBaronLyronEvensong, "27");
             DomainEnum.Liffe.AddItem(ItemEnum.Book.ImbuingInstrumentsWithMagic, "27");
 
-            DomainEnum.Liffe.AddSettlement(Settlement.Armeikos, "30-32")
-                .BindLocations(LocationEnum.ArmeikosConstable, LocationEnum.HordumRiver, LocationEnum.HordumBay, LocationEnum.SoundOfLiffe, LocationEnum.HouseOfAlisia)
-                .BindCharacters(CharacterEnum.JovisBlackwere, CharacterEnum.EjrikSpellbender, CharacterEnum.EronNalwand, CharacterEnum.TheaGyntheos, CharacterEnum.Alisia);
-
+            DomainEnum.Liffe.AddSettlement(Settlement.Armeikos, "30-39")
+                .BindLocations(LocationEnum.ArmeikosConstable, LocationEnum.HordumRiver, LocationEnum.HordumBay, LocationEnum.SoundOfLiffe, LocationEnum.HouseOfAlisia, LocationEnum.HouseOfEronNalwand, LocationEnum.HouseOfTheaGyntheos, LocationEnum.HouseOfSinaraDoom)
+                .BindCharacters(CharacterEnum.JovisBlackwere, CharacterEnum.EjrikSpellbender, CharacterEnum.EronNalwand, CharacterEnum.TheaGyntheos, CharacterEnum.Alisia, CharacterEnum.Carl, CharacterEnum.SinaraDoom);
             DomainEnum.Liffe.AddLocation(LocationEnum.ArmeikosConstable, "30-31")
                 .BindCharacters(CharacterEnum.JovisBlackwere);
             DomainEnum.Liffe.AddLocation(LocationEnum.HordumRiver, "31");
             DomainEnum.Liffe.AddLocation(LocationEnum.HordumBay, "31");
             DomainEnum.Liffe.AddLocation(LocationEnum.SoundOfLiffe, "31");
-            DomainEnum.Liffe.AddLocation(LocationEnum.HouseOfAlisia, "32");
+            DomainEnum.Liffe.AddLocation(LocationEnum.HouseOfAlisia, "32-33").BindCharacters(CharacterEnum.Alisia, CharacterEnum.Carl);
+            DomainEnum.Liffe.AddLocation(LocationEnum.HouseOfEronNalwand, "33-34").BindCharacters(CharacterEnum.EronNalwand);
+            DomainEnum.Liffe.AddLocation(LocationEnum.HouseOfTheaGyntheos, "34-37").BindCharacters(CharacterEnum.TheaGyntheos).BindItems(ItemEnum.Book.TheasDiary, ItemEnum.HeartOfEjrikSpellbender);
+            DomainEnum.Liffe.AddLocation(LocationEnum.HouseOfSinaraDoom, "36").BindCharacters(CharacterEnum.SinaraDoom);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.JovisBlackwere, "30-33, 37, 39").BindCreatures(Creature.Human).BindAlignment(Alignment.LN);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.EjrikSpellbender, "30-39").BindItems(ItemEnum.HeartOfEjrikSpellbender).BindAlignment(Alignment.NE);
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.EronNalwand, "31, 33-34");
+            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.TheaGyntheos, "31, 34-38").BindItems(ItemEnum.Book.TheasDiary);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Alisia, "31-33, 36-37").BindItems(ItemEnum.Scroll.SpeakWithDead);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.Carl, "33, 37").BindAlignment(Alignment.LN);
+            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.SinaraDoom, "35-36, 38");
+            DomainEnum.Liffe.AddItem(ItemEnum.Scroll.SpeakWithDead, "33");
+            DomainEnum.Liffe.AddItem(ItemEnum.Book.TheasDiary, "35-36");
+            DomainEnum.Liffe.AddItem(ItemEnum.HeartOfEjrikSpellbender, "36-38");
 
-            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.JovisBlackwere, "30-32");
-            DomainEnum.Liffe.AddLivingCharacter(CharacterEnum.EjrikSpellbender, "30-32");
-            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.EronNalwand, "31");
-            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.TheaGyntheos, "31");
-            DomainEnum.Liffe.AddDeadCharacter(CharacterEnum.Alisia, "31-32");
+            DomainEnum.Borca.Appeared("40-49").BindCreatures(Creature.Ermordenung, Creature.EvilTreant, Creature.DollGolem, Creature.Wolf);
+            DomainEnum.Borca.AddSettlement(Settlement.Sturben, "49").BindCharacters(CharacterEnum.EleniaWindalla);
+            DomainEnum.Borca.AddSettlement(Settlement.Levkarest, "49").BindCharacters(CharacterEnum.EleniaWindalla);
+            DomainEnum.Borca.AddLivingDarklord(DarklordEnum.IvanaBoritsi, "40, 47, 49").BindRelatedCreatures(Creature.Ermordenung);
+            DomainEnum.Borca.AddLivingCharacter(CharacterEnum.EleniaWindalla, "40-49").BindCreatures(Creature.Ermordenung).BindRelatedCreatures(Creature.EvilTreant, Creature.DollGolem, Creature.Wolf).BindItems(ItemEnum.Ring.MindShield).BindAlignment(Alignment.LE);
+            DomainEnum.Borca.AddDeadCharacter(CharacterEnum.UncleDory, "42, 44, 46").BindCharacters(CharacterEnum.EleniaWindalla).BindRelatedCreatures(Creature.EvilTreant);
+            DomainEnum.Borca.AddLivingCharacter(CharacterEnum.MadameNygar, "45-46").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie);
+            DomainEnum.Borca.AddItem(ItemEnum.Ring.MindShield, "42, 48");
+            DomainEnum.Borca.AddGroup(GroupEnum.Vistani, "44-46");
+            DomainEnum.Borca.AddGroup(GroupEnum.Raunie, "44-46");
+
+            DomainEnum.InsideRavenloft.AddSettlement(Settlement.Aferdale, "50");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malar, "50").BindGroups(GroupEnum.Deity, GroupEnum.Malar).BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Malar, "50").BindSetting(CampaignSetting.ForgottenRealms);
         }
     }
 }

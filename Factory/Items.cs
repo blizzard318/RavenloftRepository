@@ -23,6 +23,7 @@
         public readonly static Item HagEye = CreateItem("Hag Eye");
         public readonly static Item ImprovedHagEye = CreateItem("Improved Hag Eye");
         public readonly static Item PaintingOfStezen = CreateItem("Painting of Stezen");
+        public readonly static Item HeartOfEjrikSpellbender = CreateItem("Heart of Ejrik Spellbender");
 
         public readonly static Item IdolOfApophis = CreateItem("Idol of Apophis");
 
@@ -206,6 +207,7 @@
             public readonly static Item ProtDem = CreateItem("Scroll of Protection From Demons");
             public readonly static Item ProtPet = CreateItem("Scroll of Protection From Petrification");
             public readonly static Item Return = CreateItem("Scroll of Return");
+            public readonly static Item SpeakWithDead = CreateItem("Scroll of Speak With Dead");
         }
         internal static class Ring
         {
@@ -225,6 +227,7 @@
             public readonly static Item VampRegen = CreateItem("Ring of Vampiric Regeneration");
             public readonly static Item FireRes = CreateItem("Ring of Fire Resistance");
             public readonly static Item Impersonation = CreateItem("Ring of Impersonation");
+            public readonly static Item MindShield = CreateItem("Ring of Mind Shielding");
         }
         internal static class Wand
         {
@@ -305,6 +308,8 @@
             public readonly static Item DiaryOfBaronLyronEvensong5 = CreateItem("Diary of Baron Lyron Evensong, Volume 5");
             public readonly static Item PoemsOfBaronLyronEvensong = CreateItem("Poems of Baron Lyron Evensong");
             public readonly static Item ImbuingInstrumentsWithMagic = CreateItem("Imbuing Instruments With Magic");
+
+            public readonly static Item TheasDiary = CreateItem("Thea`s Diary");
         }
     }
 }
