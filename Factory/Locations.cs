@@ -488,6 +488,12 @@ public partial class Factory : IDisposable
         public readonly static Location RiverVuchar = CreateLocation("River Vuchar", "Vuchar River");
         public readonly static Location RiverMusarde = CreateLocation("River Musarde", "Musarde River");
         public readonly static Location RiverArden = CreateLocation("River Arden", "Arden River");
+        #region Aferdale
+        public readonly static Location BaggsFarm = CreateLocation("Baggs Farm");
+        public readonly static Location AferdaleCemetery = CreateLocation("Aferdale Cemetery");
+        public readonly static Location WeppesInn = CreateLocation("Weppe`s Inn");
+        public readonly static Location AdventuresRest = CreateLocation("Adventure`s Rest");
+        #endregion
         #endregion
     }
 }

@@ -734,6 +734,11 @@ public partial class Factory : IDisposable
         public readonly static Character Vincenzia = CreateCharacter("Vincenzia");
         public readonly static Character Claudia = CreateCharacter("Claudia");
         public readonly static Character Malar = CreateCharacter("Malar", "The Beast Lord");
+        public readonly static Character Malisha = CreateCharacter("Malisha");
+        public readonly static Character Abane = CreateCharacter("Abane");
+        public readonly static Character Baggs = CreateCharacter("Baggs");
+        public readonly static Character Dara = CreateCharacter("Dara");
+        public readonly static Character DanielHireman = CreateCharacter("Daniel Hireman");
         #endregion
     }
 }

@@ -834,9 +834,25 @@ internal static partial class AddToDatabase
             DomainEnum.Borca.AddGroup(GroupEnum.Vistani, "44-46");
             DomainEnum.Borca.AddGroup(GroupEnum.Raunie, "44-46");
 
-            DomainEnum.InsideRavenloft.AddSettlement(Settlement.Aferdale, "50");
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malar, "50").BindGroups(GroupEnum.Deity, GroupEnum.Malar).BindSetting(CampaignSetting.ForgottenRealms);
-            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Malar, "50").BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddSettlement(Settlement.Aferdale, "50-53")
+                .BindCreatures(Creature.Cow)
+                .BindLocations(LocationEnum.BaggsFarm, LocationEnum.AferdaleCemetery, LocationEnum.WeppesInn, LocationEnum.AdventuresRest)
+                .BindGroups(GroupEnum.Malar)
+                .BindCharacters(CharacterEnum.Malisha, CharacterEnum.Abane, CharacterEnum.Baggs);
+
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malar, "50, 52").BindGroups(GroupEnum.Deity, GroupEnum.Malar).BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malisha, "50").BindGroups(GroupEnum.Malar).BindCreatures(Creature.Illithid);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Abane, "50-51");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Baggs, "51-53");
+            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.Dara, "51-53").BindCreatures(Creature.Ghost).BindAlignment(Alignment.TN);
+            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.DanielHireman, "53");
+
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.BaggsFarm, "51-52").BindCharacters(CharacterEnum.Baggs);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleCemetery, "52");
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.WeppesInn, "52-53");
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AdventuresRest, "53");
+
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Malar, "50, 52").BindSetting(CampaignSetting.ForgottenRealms);
         }
     }
 }
