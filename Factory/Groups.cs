@@ -77,6 +77,7 @@
         public readonly static Group Lolth = CreateGroup("Religion of Lolth");
         public readonly static Group Lendor = CreateGroup("Religion of Lendor");
         public readonly static Group Malar = CreateGroup("Religion of Malar");
+        public readonly static Group Weeshy = CreateGroup("Religion of Weeshy");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");
         public readonly static Group dHonaire = CreateGroup("d`Honaire Family");

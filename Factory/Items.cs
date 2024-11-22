@@ -237,6 +237,7 @@
             public readonly static Item Tithion = CreateItem("Tithion's Wand of Fire");
             public readonly static Item Frost = CreateItem("Wand of Frost");
             public readonly static Item FlameExtinguish = CreateItem("Wand of Flame Extinguishing");
+            public readonly static Item Polymorph = CreateItem("Wand of Polymorphing");
         }
         internal static class Potion
         {

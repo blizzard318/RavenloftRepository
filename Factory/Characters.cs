@@ -214,6 +214,12 @@ public partial class Factory : IDisposable
         public readonly static Character LatislavOfDarkon = CreateCharacter("Latislav of Darkon");
         #endregion
 
+        #region Davion
+        public readonly static Character Narana = CreateCharacter("Narana");
+        public readonly static Character Augustus = CreateCharacter("Augustus");
+        public readonly static Character Boromar = CreateCharacter("Boromar");
+        #endregion
+
         #region Dementlieu
         public readonly static Character MarcelGuignol = CreateCharacter("Marcel Guignol");
         public readonly static Character Claude = CreateCharacter("Claude d`Honaire");
@@ -739,6 +745,16 @@ public partial class Factory : IDisposable
         public readonly static Character Baggs = CreateCharacter("Baggs");
         public readonly static Character Dara = CreateCharacter("Dara");
         public readonly static Character DanielHireman = CreateCharacter("Daniel Hireman");
+        public readonly static Character Dronom = CreateCharacter("Dronom");
+        public readonly static Character Waldo = CreateCharacter("Waldo");
+        public readonly static Character Weeshy = CreateCharacter("Weeshy");
+        public readonly static Character Nansen = CreateCharacter("Nansen");
+        public readonly static Character RoseSilpher = CreateCharacter("Rose Silpher");
+        public readonly static Character MarkusSilpher = CreateCharacter("Markus Silpher");
+        public readonly static Character Marinetta = CreateCharacter("Marinetta");
+        public readonly static Character Darak = CreateCharacter("Darak");
+        public readonly static Character Jarak = CreateCharacter("Jarak");
+        public readonly static Character WellisAndreman = CreateCharacter("Wellis Andreman");
         #endregion
     }
 }

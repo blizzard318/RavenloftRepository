@@ -133,8 +133,7 @@
         #region Large Mammals
         public readonly static Trait Sheep = CreateCreature("Sheep");
         public readonly static Trait BighornSheep = CreateCreature("Bighorn Sheep");
-        public readonly static Trait Horse = CreateCreature("Horse");
-        public readonly static Trait Pony = CreateCreature("Pony");
+        public readonly static Trait Horse = CreateCreature("Horse", "Pony");
         public readonly static Trait Deer = CreateCreature("Deer");
         public readonly static Trait Goat = CreateCreature("Goat");
         public readonly static Trait MountainGoat = CreateCreature("Mountain Goat");
@@ -215,6 +214,7 @@
         public readonly static Trait Locust = CreateCreature("Locust");
         public readonly static Trait Mosquito = CreateCreature("Mosquito");
         public readonly static Trait Earwig = CreateCreature("Earwig");
+        public readonly static Trait Cockroach = CreateCreature("Cockroach");
         #endregion
 
         public readonly static Trait Mite = CreateCreature("Mite");

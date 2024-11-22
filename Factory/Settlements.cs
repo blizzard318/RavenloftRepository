@@ -46,6 +46,13 @@
         public readonly static Location Sidnar = CreateSettlement("Sidnar");
         #endregion
 
+        #region Davion
+        public readonly static Location Thornewod = CreateSettlement("Thornewod");
+        public readonly static Location Pallatia = CreateSettlement("Pallatia");
+        public readonly static Location Arcanon = CreateSettlement("Arcanon");
+        public readonly static Location BoromarsKnoll = CreateSettlement("Boromar`s Knoll");
+        #endregion
+
         #region Dementlieu
         public readonly static Location PortaLucine = CreateSettlement("Port-a-Lucine");
         public readonly static Location Chateaufaux = CreateSettlement("Chateaufaux");

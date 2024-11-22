@@ -834,25 +834,59 @@ internal static partial class AddToDatabase
             DomainEnum.Borca.AddGroup(GroupEnum.Vistani, "44-46");
             DomainEnum.Borca.AddGroup(GroupEnum.Raunie, "44-46");
 
-            DomainEnum.InsideRavenloft.AddSettlement(Settlement.Aferdale, "50-53")
-                .BindCreatures(Creature.Cow)
-                .BindLocations(LocationEnum.BaggsFarm, LocationEnum.AferdaleCemetery, LocationEnum.WeppesInn, LocationEnum.AdventuresRest)
-                .BindGroups(GroupEnum.Malar)
-                .BindCharacters(CharacterEnum.Malisha, CharacterEnum.Abane, CharacterEnum.Baggs);
-
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malar, "50, 52").BindGroups(GroupEnum.Deity, GroupEnum.Malar).BindSetting(CampaignSetting.ForgottenRealms);
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malisha, "50").BindGroups(GroupEnum.Malar).BindCreatures(Creature.Illithid);
-            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Abane, "50-51");
+            DomainEnum.InsideRavenloft.AddSettlement(Settlement.Aferdale, "50-63")
+                .BindCreatures(Creature.Cow, Creature.Horse, Creature.Drow, Creature.Illithid)
+                .BindLocations(LocationEnum.BaggsFarm, LocationEnum.AferdaleCemetery, LocationEnum.WeppesInn, LocationEnum.AdventuresRest, LocationEnum.AferdaleHorseRanch, LocationEnum.AferdaleCattleRanch, LocationEnum.AferdaleMalarTemple, LocationEnum.AferdaleAlfalfaFarm, LocationEnum.AferdaleTempleOfMilil, LocationEnum.ParsedLip, LocationEnum.YearningGoblet, LocationEnum.MiddleInn, LocationEnum.WagonsRest, LocationEnum.AferdaleConstabulary, LocationEnum.AferdaleHunterGuild)
+                .BindGroups(GroupEnum.Malar, GroupEnum.Weeshy, GroupEnum.Milil)
+                .BindCharacters(CharacterEnum.Malisha, CharacterEnum.Abane, CharacterEnum.Baggs, CharacterEnum.Dara, CharacterEnum.DanielHireman, CharacterEnum.Dronom, CharacterEnum.Waldo, CharacterEnum.Nansen, CharacterEnum.RoseSilpher, CharacterEnum.MarkusSilpher, CharacterEnum.Marinetta, CharacterEnum.Darak, CharacterEnum.Jarak, CharacterEnum.WellisAndreman);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malar, "50, 52, 54-60, 62-63").BindGroups(GroupEnum.Deity, GroupEnum.Malar).BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Malisha, "50, 55-56, 58, 60-63").BindGroups(GroupEnum.Malar, GroupEnum.Weeshy).BindCreatures(Creature.Illithid).BindAlignment(Alignment.LE).BindItems(ItemEnum.Amulet.Proof, ItemEnum.BracersOfDefense, ItemEnum.Wand.Polymorph);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Abane, "50-51, 59, 62").BindGroups(GroupEnum.Milil).BindAlignment(Alignment.CG);
             DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Baggs, "51-53");
-            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.Dara, "51-53").BindCreatures(Creature.Ghost).BindAlignment(Alignment.TN);
+            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.Dara, "51-53, 59").BindCreatures(Creature.Ghost).BindAlignment(Alignment.TN);
             DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.DanielHireman, "53");
-
-            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.BaggsFarm, "51-52").BindCharacters(CharacterEnum.Baggs);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Dronom, "54").BindCreatures(Creature.Drow);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Waldo, "54").BindRelatedCreatures(Creature.Horse);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Weeshy, "56, 59").BindGroups(GroupEnum.Deity, GroupEnum.Weeshy).ExtraInfo = "Made up as fake front for Malar."; ;
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Milil, "59").BindGroups(GroupEnum.Deity, GroupEnum.Milil);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Nansen, "59-60").BindAlignment(Alignment.CN);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.RoseSilpher, "59-60");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.MarkusSilpher, "59-60");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Marinetta, "60");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Darak, "60");
+            DomainEnum.InsideRavenloft.AddDeadCharacter(CharacterEnum.Jarak, "61");
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.WellisAndreman, "61-62").BindAlignment(Alignment.NG);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.BaggsFarm, "51-52, 62").BindCharacters(CharacterEnum.Baggs);
             DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleCemetery, "52");
             DomainEnum.InsideRavenloft.AddLocation(LocationEnum.WeppesInn, "52-53");
-            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AdventuresRest, "53");
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AdventuresRest, "53-54").BindCharacters(CharacterEnum.Dronom).BindGroups(GroupEnum.Malar);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleHorseRanch, "54-55").BindCreatures(Creature.Horse).BindCharacters(CharacterEnum.Waldo);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleCattleRanch, "55").BindCreatures(Creature.Cow).BindGroups(GroupEnum.Malar);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleMalarTemple, "55-59, 62").BindGroups(GroupEnum.Malar, GroupEnum.Weeshy).BindCharacters(CharacterEnum.Malisha, CharacterEnum.Malar, CharacterEnum.Weeshy).BindItems(ItemEnum.BracersOfDefense, ItemEnum.Wand.Polymorph);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleAlfalfaFarm, "59").BindGroups(GroupEnum.Malar);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleTempleOfMilil, "59").BindGroups(GroupEnum.Milil).BindCharacters(CharacterEnum.Milil, CharacterEnum.Abane);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.ParsedLip, "59, 62-63").BindCharacters(CharacterEnum.Nansen);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.YearningGoblet, "59-60").BindCharacters(CharacterEnum.RoseSilpher, CharacterEnum.MarkusSilpher);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.MiddleInn, "60").BindCharacters(CharacterEnum.Darak).ExtraInfo = "May have cockroaches?";
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.WagonsRest, "60").BindCharacters(CharacterEnum.Marinetta);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleConstabulary, "61").BindCharacters(CharacterEnum.WellisAndreman);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.AferdaleHunterGuild, "62");
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Malar, "50, 52, 54-60, 62-63").BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Weeshy, "56, 59").ExtraInfo = "Made up as fake front for Malar.";
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.BracersOfDefense, "58, 63");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Wand.Polymorph, "58, 63");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Amulet.Proof, "63");
 
-            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.Malar, "50, 52").BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.Davion.Appeared("64-74");
+            DomainEnum.Davion.AddLivingDarklord(DarklordEnum.Davion, "64-74").BindAlignment(Alignment.CE).BindCharacters(CharacterEnum.Narana, CharacterEnum.Augustus, CharacterEnum.Boromar);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Narana, "66-67").BindAlignment(Alignment.CE);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Augustus, "67").BindAlignment(Alignment.LN);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Boromar, "67").BindAlignment(Alignment.CN);
+
+            DomainEnum.Davion.AddSettlement(Settlement.Thornewod, "64-65, 68");
+            DomainEnum.Davion.AddSettlement(Settlement.Arcanon, "67");
+            DomainEnum.Davion.AddSettlement(Settlement.Pallatia, "67");
+            DomainEnum.Davion.AddSettlement(Settlement.BoromarsKnoll, "67");
         }
     }
 }

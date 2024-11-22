@@ -53,6 +53,13 @@ public partial class Factory : IDisposable
         public readonly static Location FenBridge = CreateLocation("Fen Bridge");
         #endregion
 
+        #region Daglan
+        public readonly static Location HomlockChurch = CreateLocation("Homlock Church", "Homloch Church");
+        public readonly static Location TowerOfMagic = CreateLocation("Daglan`s Tower of Magic");
+        public readonly static Location BarrowMounds = CreateLocation("Barrow Mounds");
+        public readonly static Location HomlockCemetery = CreateLocation("Cemetery (Homlock)");
+        #endregion
+
         #region Darkon
         public readonly static Location AzalinCastle = CreateLocation("Azalin`s Castle", "Avernus");
 
@@ -74,11 +81,8 @@ public partial class Factory : IDisposable
         public readonly static Location KargatMausoleum = CreateLocation("Kargat Mausoleum");
         #endregion
 
-        #region Daglan
-        public readonly static Location HomlockChurch = CreateLocation("Homlock Church", "Homloch Church");
-        public readonly static Location TowerOfMagic = CreateLocation("Daglan`s Tower of Magic");
-        public readonly static Location BarrowMounds = CreateLocation("Barrow Mounds");
-        public readonly static Location HomlockCemetery = CreateLocation("Cemetery (Homlock)");
+        #region Davion
+
         #endregion
 
         #region Dementlieu
@@ -493,6 +497,17 @@ public partial class Factory : IDisposable
         public readonly static Location AferdaleCemetery = CreateLocation("Aferdale Cemetery");
         public readonly static Location WeppesInn = CreateLocation("Weppe`s Inn");
         public readonly static Location AdventuresRest = CreateLocation("Adventure`s Rest");
+        public readonly static Location AferdaleHorseRanch = CreateLocation("Aferdale Horse Ranch");
+        public readonly static Location AferdaleCattleRanch = CreateLocation("Aferdale Cattle Ranch");
+        public readonly static Location AferdaleMalarTemple = CreateLocation("Aferdale Temple of the Wind", "Aferdale Temple of Weeshy");
+        public readonly static Location AferdaleAlfalfaFarm = CreateLocation("Aferdale Alfalfa Farm");
+        public readonly static Location AferdaleTempleOfMilil = CreateLocation("Aferdale Temple of Milil");
+        public readonly static Location ParsedLip = CreateLocation("Parsed Lip");
+        public readonly static Location YearningGoblet = CreateLocation("Yearning Goblet");
+        public readonly static Location MiddleInn = CreateLocation("Middle Inn");
+        public readonly static Location WagonsRest = CreateLocation("Wagon`s Rest");
+        public readonly static Location AferdaleConstabulary = CreateLocation("Aferdale Constabulary", "Aferdale Jail");
+        public readonly static Location AferdaleHunterGuild = CreateLocation("Aferdale Hunter`s Guild");
         #endregion
         #endregion
     }
