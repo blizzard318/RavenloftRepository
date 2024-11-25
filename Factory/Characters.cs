@@ -149,6 +149,7 @@ public partial class Factory : IDisposable
         public readonly static Character Lara = CreateCharacter("Lara");
         public readonly static Character Keva = CreateCharacter("Keva");
         public readonly static Character Ivan = CreateCharacter("Ivan");
+        public readonly static Character Ivan2 = CreateCharacter("Ivan (2)");
         public readonly static Character Pika = CreateCharacter("Pika");
         #endregion
 
