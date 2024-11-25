@@ -11,7 +11,7 @@
         #region Barovia
         public readonly static Location Barovia = CreateSettlement("Barovia", "Village of Barovia");
         public readonly static Location Vallaki = CreateSettlement("Vallaki");
-        public readonly static Location TserPoolEncampnent = CreateSettlement("Tser Pool Encampment", "Gypsy Camp");
+        public readonly static Location TserPoolEncampment = CreateSettlement("Tser Pool Encampment", "Gypsy Camp");
         public readonly static Location Krezk = CreateSettlement("Krezk");
         public readonly static Location Immol = CreateSettlement("Immol");
         #endregion

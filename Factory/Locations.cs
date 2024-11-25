@@ -18,13 +18,13 @@ public partial class Factory : IDisposable
         #region Barovia
         public readonly static Location CastleRavenloft = CreateLocation("Castle Ravenloft", "Castle Strahd");
         public readonly static Location BaroviaChurch = CreateLocation("Church (Barovia)");
-        public readonly static Location BildrathMercantile = CreateLocation("Bildrath's Mercantile");
+        public readonly static Location BildrathMercantile = CreateLocation("Bildrath`s Mercantile");
         public readonly static Location BloodVineTavern = CreateLocation("Blood of the Vine Tavern", "Blood on the Vine Tavern");
-        public readonly static Location MaryHouse = CreateLocation("Mad Mary's Townhouse");
-        public readonly static Location BurgomasterHome = CreateLocation("Burgomaster's Home");
-        public readonly static Location BurgomasterGuestHouse = CreateLocation("Burgomaster's Guest House");
+        public readonly static Location MaryHouse = CreateLocation("Mad Mary`s Townhouse");
+        public readonly static Location BurgomasterHome = CreateLocation("Burgomaster`s Home");
+        public readonly static Location BurgomasterGuestHouse = CreateLocation("Burgomaster`s Guest House");
         public readonly static Location BaroviaCemetery = CreateLocation("Cemetery (Barovia)");
-        public readonly static Location MadamEvasTent = CreateLocation("Madam Eva's Tent");
+        public readonly static Location MadamEvasTent = CreateLocation("Madam Eva`s Tent");
         public readonly static Location OldSvalichRoad = CreateLocation("Old Svalich Road");
         public readonly static Location GatesOfBarovia = CreateLocation("Gates of Barovia");
         public readonly static Location SvalichWoods = CreateLocation("Svalich Woods");
@@ -41,6 +41,10 @@ public partial class Factory : IDisposable
         public readonly static Location MountGhakis = CreateLocation("Mount Ghakis");
         public readonly static Location LakeZarovich = CreateLocation("Lake Zarovich");
         public readonly static Location TepurichForest = CreateLocation("Tepurich Forest");
+        public readonly static Location StoneCircle = CreateLocation("The Circle", "The Stone Circle");
+        public readonly static Location WolfsDen = CreateLocation("Wolf`s Den");
+        public readonly static Location BurgomasterWay = CreateLocation("Burgomaster's Way");
+        public readonly static Location MaruschkaVardo = CreateLocation("Maruschka`s Vardo");
         #endregion
 
         #region Blaustein
@@ -82,7 +86,37 @@ public partial class Factory : IDisposable
         #endregion
 
         #region Davion
-
+        #region Arcanon
+        public readonly static Location ArcanonMagicShop = CreateLocation("Arcanon Magic Shop");
+        public readonly static Location ArcanonHall = CreateLocation("Arcanon Gathering Hall");
+        public readonly static Location ArcanonInn = CreateLocation("Arcanon Inn");
+        public readonly static Location ArcanonTavern = CreateLocation("Arcanon Tavern");
+        public readonly static Location ArcanonStore = CreateLocation("Arcanon Store");
+        #endregion
+        #region Boromars Knoll
+        public readonly static Location BoromarsTavern = CreateLocation("Boromar`s Knoll Tavern");
+        public readonly static Location BoromarsSign = CreateLocation("Boromar`s Knoll Signpost");
+        public readonly static Location BoromarsTavern2 = CreateLocation("Boromar`s Knoll Other Tavern");
+        public readonly static Location BoromarsStable = CreateLocation("Boromar`s Knoll Stable");
+        public readonly static Location BoromarsArmory = CreateLocation("Boromar`s Knoll Armory", "Boromar`s Knoll Blacksmith");
+        #endregion
+        #region Pallatia
+        public readonly static Location PallatiaInn = CreateLocation("Pallatia Inn");
+        public readonly static Location PallatiaStable = CreateLocation("Pallatia Stable");
+        public readonly static Location PallatiaBlacksmith = CreateLocation("Pallatia Blacksmith");
+        public readonly static Location PallatiaTemple = CreateLocation("Pallatia Temple of Loviatar");
+        public readonly static Location PallatiaSign = CreateLocation("Pallatia Signpost");
+        public readonly static Location PallatiaStore = CreateLocation("Pallatia Store");
+        #endregion
+        #region Thornewood
+        public readonly static Location ThornewoodTavern = CreateLocation("Thornewood Tavern");
+        public readonly static Location ThornewoodBlacksmith = CreateLocation("Thornewood Blacksmith");
+        public readonly static Location ThornewoodStable = CreateLocation("Thornewood Stable");
+        public readonly static Location ThornewoodInfirmary = CreateLocation("Thornewood Infirmary");
+        public readonly static Location ThornewoodFortune = CreateLocation("Thornewood Fortune Teller");
+        public readonly static Location ThornewoodStore = CreateLocation("Thornewood Ruined General Store");
+        public readonly static Location DavionManor = CreateLocation("Davion Manor");
+        #endregion
         #endregion
 
         #region Dementlieu
@@ -387,6 +421,10 @@ public partial class Factory : IDisposable
         public readonly static Location RenierEstate = CreateLocation("Renier Estate", "Chateau Delanuit");
         #endregion
 
+        #region Risibilos
+        public readonly static Location RisibilosCastle = CreateLocation("Risibilos Castle");
+        #endregion
+
         #region Sanguinia
         public readonly static Location MountRadu = CreateLocation("Nedragaard Keep");
         public readonly static Location CastleGuirgiu = CreateLocation("Castle Guirgiu", "Mircea`s Castle");
@@ -492,6 +530,7 @@ public partial class Factory : IDisposable
         public readonly static Location RiverVuchar = CreateLocation("River Vuchar", "Vuchar River");
         public readonly static Location RiverMusarde = CreateLocation("River Musarde", "Musarde River");
         public readonly static Location RiverArden = CreateLocation("River Arden", "Arden River");
+        public readonly static Location NightbloodCatacombs = CreateLocation("Nightblood Catacombs", "Nightblood Crypt", "Nightblood Lair");
         #region Aferdale
         public readonly static Location BaggsFarm = CreateLocation("Baggs Farm");
         public readonly static Location AferdaleCemetery = CreateLocation("Aferdale Cemetery");

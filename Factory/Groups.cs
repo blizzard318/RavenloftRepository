@@ -78,6 +78,7 @@
         public readonly static Group Lendor = CreateGroup("Religion of Lendor");
         public readonly static Group Malar = CreateGroup("Religion of Malar");
         public readonly static Group Weeshy = CreateGroup("Religion of Weeshy");
+        public readonly static Group Loviatar = CreateGroup("Religion of Loviatar");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");
         public readonly static Group dHonaire = CreateGroup("d`Honaire Family");
@@ -91,5 +92,7 @@
 
         public readonly static Group Solamnia = CreateGroup("Knights of Solamnia");
         public readonly static Group RoseKnights = CreateGroup("Knights of the Rose");
+
+        public readonly static Group FigurineWondrousPower = CreateGroup("Figurines of Wondrous Power");
     }
 }

@@ -765,7 +765,7 @@ internal static partial class AddToDatabase
                 .BindCharacters(DarklordEnum.LyronEvensong, CharacterEnum.LadyWindall, CharacterEnum.Rannow)
                 .BindItems(ItemEnum.LyronHarpsichordCommanding, ItemEnum.Book.GreatComposers, ItemEnum.Book.FormAndLineInMusic, ItemEnum.Book.PhysicalPropOfSoundProd, ItemEnum.Book.MusicalIntrumentConstruct, ItemEnum.Book.ModesInMusic, ItemEnum.Book.PoetryOfTheMasters, ItemEnum.Book.Sonnets, ItemEnum.Book.AssonanceAndAlliteration, ItemEnum.Book.AdvancesInAnatomy, ItemEnum.Book.VertebrateBiology, ItemEnum.Book.SketchingNudes, ItemEnum.Book.PortfolioOfBirds, ItemEnum.Book.PrinciplesOfPerspective, ItemEnum.Book.ArtOfArchitecture, ItemEnum.Book.TreatiseOfFreeGovern, ItemEnum.Book.DeclineOfFeudHold, ItemEnum.Book.PhilosophyOfDeath, ItemEnum.Book.StudyInDarkness, ItemEnum.Book.DiaryOfBaronLyronEvensong1, ItemEnum.Book.DiaryOfBaronLyronEvensong2, ItemEnum.Book.DiaryOfBaronLyronEvensong3, ItemEnum.Book.DiaryOfBaronLyronEvensong4, ItemEnum.Book.DiaryOfBaronLyronEvensong5, ItemEnum.Book.PoemsOfBaronLyronEvensong, ItemEnum.Book.ImbuingInstrumentsWithMagic);
             DomainEnum.Liffe.AddLivingDarklord(DarklordEnum.LyronEvensong, "21-29").BindAlignment(Alignment.NE)
-                .BindItems(ItemEnum.LyronHarpsichordCommanding, ItemEnum.Book.DiaryOfBaronLyronEvensong1, ItemEnum.Book.DiaryOfBaronLyronEvensong2, ItemEnum.Book.DiaryOfBaronLyronEvensong3, ItemEnum.Book.DiaryOfBaronLyronEvensong4, ItemEnum.Book.DiaryOfBaronLyronEvensong5, ItemEnum.Book.PoemsOfBaronLyronEvensong)
+                .BindItems(ItemEnum.LyronHarpsichordCommanding, ItemEnum.Book.DiaryOfBaronLyronEvensong1, ItemEnum.Book.DiaryOfBaronLyronEvensong2, ItemEnum.Book.DiaryOfBaronLyronEvensong3, ItemEnum.Book.DiaryOfBaronLyronEvensong4, ItemEnum.Book.DiaryOfBaronLyronEvensong5, ItemEnum.Book.PoemsOfBaronLyronEvensong).BindLair(LocationEnum.NeverwereManor)
                 .BindSetting(CampaignSetting.Dragonlance).BindCurse("He would live through a century in dark solitude, confined to his study for one hundred years for every one day he spends in Claviera. Thus, when a week passes in the outside world, Baron Claviera has lived 700 years in his study.");
             DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Lendor, "22")
                 .BindGroups(GroupEnum.Deity, GroupEnum.Lendor)
@@ -878,15 +878,98 @@ internal static partial class AddToDatabase
             DomainEnum.InsideRavenloft.AddItem(ItemEnum.Amulet.Proof, "63");
 
             DomainEnum.Davion.Appeared("64-74");
-            DomainEnum.Davion.AddLivingDarklord(DarklordEnum.Davion, "64-74").BindAlignment(Alignment.CE).BindCharacters(CharacterEnum.Narana, CharacterEnum.Augustus, CharacterEnum.Boromar);
-            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Narana, "66-67").BindAlignment(Alignment.CE);
-            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Augustus, "67").BindAlignment(Alignment.LN);
-            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Boromar, "67").BindAlignment(Alignment.CN);
+            DomainEnum.Davion.AddLivingDarklord(DarklordEnum.Davion, "64-74").BindAlignment(Alignment.CE).BindCharacters(CharacterEnum.Narana, CharacterEnum.Augustus, CharacterEnum.Boromar).BindItems(ItemEnum.Amulet.LifeProt, ItemEnum.Ring.Wishes).BindLair(LocationEnum.DavionManor);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Narana, "66-67, 70-74").BindAlignment(Alignment.CE).BindGroups(GroupEnum.Loviatar).BindItems(ItemEnum.Ring.Wishes, ItemEnum.BracersOfDefense, ItemEnum.BootsOfTheNorth);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Augustus, "67, 70, 72, 74").BindAlignment(Alignment.LN).BindItems(ItemEnum.Robe.Prot, ItemEnum.Rod.Smite);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Boromar, "67, 70-74").BindAlignment(Alignment.CN).BindItems(ItemEnum.JavelinOfLightning, ItemEnum.Defender);
+            DomainEnum.Davion.AddLivingCharacter(CharacterEnum.Loviatar, "68, 72-74").BindGroups(GroupEnum.Deity, GroupEnum.Loviatar);
+            DomainEnum.Davion.AddSettlement(Settlement.Arcanon, "67-69")
+                .BindLocations(LocationEnum.ArcanonMagicShop, LocationEnum.ArcanonHall, LocationEnum.ArcanonInn, LocationEnum.ArcanonTavern, LocationEnum.ArcanonStore)
+                .BindCharacters(CharacterEnum.Augustus);
+            DomainEnum.Davion.AddSettlement(Settlement.BoromarsKnoll, "67-69").BindCreatures(Creature.Horse)
+                .BindLocations(LocationEnum.BoromarsTavern, LocationEnum.BoromarsSign, LocationEnum.BoromarsTavern2, LocationEnum.BoromarsStable, LocationEnum.BoromarsArmory)
+                .BindCharacters(CharacterEnum.Boromar);
+            DomainEnum.Davion.AddSettlement(Settlement.Pallatia, "67-69").BindCreatures(Creature.Horse)
+                .BindLocations(LocationEnum.PallatiaInn, LocationEnum.PallatiaStable, LocationEnum.PallatiaBlacksmith, LocationEnum.PallatiaSign, LocationEnum.PallatiaStore)
+                .BindCharacters(CharacterEnum.Narana);
+            DomainEnum.Davion.AddSettlement(Settlement.Thornewod, "64-65, 68-69").BindCreatures(Creature.Horse)
+                .BindLocations(LocationEnum.ThornewoodTavern, LocationEnum.ThornewoodBlacksmith, LocationEnum.ThornewoodStable, LocationEnum.ThornewoodInfirmary, LocationEnum.ThornewoodFortune, LocationEnum.ThornewoodStore, LocationEnum.DavionManor)
+                .BindCharacters(DarklordEnum.Davion);
+            DomainEnum.Davion.AddLocation(LocationEnum.ArcanonMagicShop, "68").BindCharacters(CharacterEnum.Augustus);
+            DomainEnum.Davion.AddLocation(LocationEnum.BoromarsTavern, "68").BindCharacters(CharacterEnum.Boromar);
+            DomainEnum.Davion.AddLocation(LocationEnum.PallatiaInn, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.ThornewoodTavern, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.ArcanonHall, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.BoromarsSign, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.PallatiaStable, "68").BindCreatures(Creature.Horse);
+            DomainEnum.Davion.AddLocation(LocationEnum.ThornewoodBlacksmith, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.ArcanonInn, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.PallatiaBlacksmith, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.ThornewoodStable, "68").BindCreatures(Creature.Horse);
+            DomainEnum.Davion.AddLocation(LocationEnum.ArcanonTavern, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.BoromarsTavern2, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.PallatiaTemple, "66-68, 72").BindGroups(GroupEnum.Loviatar).BindCharacters(CharacterEnum.Narana, CharacterEnum.Loviatar);
+            DomainEnum.Davion.AddLocation(LocationEnum.ThornewoodInfirmary, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.ArcanonStore, "68");
+            DomainEnum.Davion.AddLocation(LocationEnum.BoromarsStable, "68").BindCreatures(Creature.Horse);
+            DomainEnum.Davion.AddLocation(LocationEnum.PallatiaSign, "68-69");
+            DomainEnum.Davion.AddLocation(LocationEnum.ThornewoodFortune, "69");
+            DomainEnum.Davion.AddLocation(LocationEnum.BoromarsArmory, "69").BindCharacters(CharacterEnum.Boromar);
+            DomainEnum.Davion.AddLocation(LocationEnum.PallatiaStore, "69");
+            DomainEnum.Davion.AddLocation(LocationEnum.ThornewoodStore, "69");
+            DomainEnum.Davion.AddLocation(LocationEnum.DavionManor, "69, 73").BindCharacters(DarklordEnum.Davion);
+            DomainEnum.Davion.AddItem(ItemEnum.Ring.Wishes, "71-73");
+            DomainEnum.Davion.AddItem(ItemEnum.Amulet.LifeProt, "73");
+            DomainEnum.Davion.AddItem(ItemEnum.JavelinOfLightning, "74");
+            DomainEnum.Davion.AddItem(ItemEnum.Defender, "74");
+            DomainEnum.Davion.AddItem(ItemEnum.BracersOfDefense, "74");
+            DomainEnum.Davion.AddItem(ItemEnum.BootsOfTheNorth, "74");
+            DomainEnum.Davion.AddItem(ItemEnum.Robe.Prot, "74");
+            DomainEnum.Davion.AddItem(ItemEnum.Rod.Smite, "74");
+            DomainEnum.Davion.AddGroup(GroupEnum.Loviatar, "68, 72-74");
 
-            DomainEnum.Davion.AddSettlement(Settlement.Thornewod, "64-65, 68");
-            DomainEnum.Davion.AddSettlement(Settlement.Arcanon, "67");
-            DomainEnum.Davion.AddSettlement(Settlement.Pallatia, "67");
-            DomainEnum.Davion.AddSettlement(Settlement.BoromarsKnoll, "67");
+            DomainEnum.InsideRavenloft
+                .BindCharacters(CharacterEnum.KaelNorbin, CharacterEnum.Boris, CharacterEnum.Itzak)
+                .BindCreatures(Creature.LivingWall, Creature.Wolf, Creature.Badger, Creature.Lich, Creature.Zombie, Creature.Shadow)
+                .BindItems(ItemEnum.Book.Alteration, ItemEnum.Book.Evocation, ItemEnum.Book.CorpusLibram, ItemEnum.Book.GainfulDecay, ItemEnum.Book.HistoryDeathThay, ItemEnum.Book.MachinationMortality, ItemEnum.Book.TheNecroCompanion, ItemEnum.Book.NightbloodAutoNecrography, ItemEnum.Book.CatalogueUndead, ItemEnum.Book.DeathMagicks, ItemEnum.Book.Necromancy, ItemEnum.Ring.Blink, ItemEnum.Staff.Woodlands, ItemEnum.ChimeOfHunger, ItemEnum.NightbloodPhylactery);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.KaelNorbin, "77-79").BindGroups(GroupEnum.RedWizard)
+                .BindCreatures(Creature.Lich).BindAlignment(Alignment.CE).BindSetting(CampaignSetting.ForgottenRealms)
+                .BindRelatedCreatures(Creature.LivingWall, Creature.Zombie, Creature.Shadow)
+                .BindItems(ItemEnum.Book.Alteration, ItemEnum.Book.Evocation, ItemEnum.Book.CorpusLibram, ItemEnum.Book.GainfulDecay, ItemEnum.Book.HistoryDeathThay, ItemEnum.Book.MachinationMortality, ItemEnum.Book.TheNecroCompanion, ItemEnum.Book.NightbloodAutoNecrography, ItemEnum.Book.CatalogueUndead, ItemEnum.Book.DeathMagicks, ItemEnum.Book.Necromancy, ItemEnum.Ring.Blink, ItemEnum.Staff.Woodlands, ItemEnum.ChimeOfHunger, ItemEnum.NightbloodPhylactery);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Boris, "78-79").BindAlignment(Alignment.NG).BindItems(ItemEnum.Ring.Prot);
+            DomainEnum.InsideRavenloft.AddLivingCharacter(CharacterEnum.Itzak, "78-79").BindAlignment(Alignment.CG).BindItems(ItemEnum.Ring.Prot, ItemEnum.ObsidianSteed);
+            DomainEnum.InsideRavenloft.AddLocation(LocationEnum.NightbloodCatacombs, "77-82")
+                .BindCharacters(CharacterEnum.KaelNorbin, CharacterEnum.Boris, CharacterEnum.Itzak)
+                .BindCreatures(Creature.LivingWall, Creature.Wolf, Creature.Badger, Creature.Lich, Creature.Zombie, Creature.Shadow)
+                .BindItems(ItemEnum.Book.Alteration, ItemEnum.Book.Evocation, ItemEnum.Book.CorpusLibram, ItemEnum.Book.GainfulDecay, ItemEnum.Book.HistoryDeathThay, ItemEnum.Book.MachinationMortality, ItemEnum.Book.TheNecroCompanion, ItemEnum.Book.NightbloodAutoNecrography, ItemEnum.Book.CatalogueUndead, ItemEnum.Book.DeathMagicks, ItemEnum.Book.Necromancy, ItemEnum.Ring.Blink, ItemEnum.Staff.Woodlands, ItemEnum.ChimeOfHunger, ItemEnum.NightbloodPhylactery); ;
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.Alteration, "79, 81-82");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.Evocation, "79, 81-82");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.CorpusLibram, "79").BindCreatures(Creature.Human);
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.GainfulDecay, "79");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.HistoryDeathThay, "79").BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.MachinationMortality, "79");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.TheNecroCompanion, "79-80").BindSetting(CampaignSetting.ForgottenRealms);
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.NightbloodAutoNecrography, "80");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.CatalogueUndead, "80").BindCreatures(Creature.Skeleton, Creature.Zombie, Creature.Lich, Creature.Dracolich);
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.DeathMagicks, "80");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Book.Necromancy, "80-82");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Ring.Blink, "81");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Staff.Woodlands, "81");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.ChimeOfHunger, "81");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.NightbloodPhylactery, "81");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.Ring.Prot, "82");
+            DomainEnum.InsideRavenloft.AddItem(ItemEnum.ObsidianSteed, "82").BindGroups(GroupEnum.FigurineWondrousPower);
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.RedWizard, "82");
+            DomainEnum.InsideRavenloft.AddGroup(GroupEnum.FigurineWondrousPower, "82");
+
+            DomainEnum.Risibilos.Appeared("83-91");
+            DomainEnum.Risibilos.AddLocation(LocationEnum.RisibilosCastle, "82-91").BindCharacters(DarklordEnum.KingDoerdon, DarklordEnum.JesterPuncheron);
+            DomainEnum.Risibilos.AddLivingDarklord(DarklordEnum.KingDoerdon, "85-91").BindAlignment(Alignment.CE).BindSetting(CampaignSetting.Greyhawk).BindLair(LocationEnum.RisibilosCastle);
+            DomainEnum.Risibilos.AddLivingDarklord(DarklordEnum.JesterPuncheron, "83, 85-91").BindAlignment(Alignment.CE).BindLair(LocationEnum.RisibilosCastle);
+
+            DomainEnum.InsideRavenloft.BindCreatures(Creature.BoneGolem, Creature.DollGolem, Creature.Ermordenung, Creature.LivingWall);
+            DomainEnum.Borca.BindCreatures(Creature.Ermordenung);
+            DomainEnum.Borca.AddLivingDarklord(DarklordEnum.IvanaBoritsi, "94").BindRelatedCreatures(Creature.Ermordenung);
         }
     }
 }

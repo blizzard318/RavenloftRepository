@@ -9,6 +9,7 @@
             return retval;
         }
         public readonly static Item AzalinPhylactery = CreateItem("Azalin Rex`s Phylactery");
+        public readonly static Item NightbloodPhylactery = CreateItem("Nightblood`s Phylactery");
         public readonly static Item HazlikPendant = CreateItem("Hazlik`s Pendant");
         public readonly static Item HarkonHarp = CreateItem("Harkon Lukas` Harp");
         public readonly static Item HarkonChess = CreateItem("Harkon Lukas` Chess Set");
@@ -78,6 +79,8 @@
         public readonly static Item CandleOfInvocation = CreateItem("Candle of Invocation");
         public readonly static Item SheetOfSmallness = CreateItem("Sheet of Smallness");
         public readonly static Item BagOfHolding = CreateItem("Bag of Holding");
+        public readonly static Item ChimeOfHunger = CreateItem("Chime of Hunger");
+        public readonly static Item ObsidianSteed = CreateItem("Obsidian Steed");
 
         public readonly static Item LocketOfSealing = CreateItem("Locket of Sealing");
         public readonly static Item BracersOfDefense = CreateItem("Bracers of Defense");
@@ -119,6 +122,8 @@
         public readonly static Item MaceOfDisrupt = CreateItem("Mace of Disruption");
         public readonly static Item VampireSlayer = CreateItem("Vampire Slayer");
         public readonly static Item RapierOfQuickness = CreateItem("Rapier of Quickness");
+        public readonly static Item JavelinOfLightning = CreateItem("Javelin of Lightning");
+        public readonly static Item Defender = CreateItem("Defender");
 
         internal static class Drink
         {
@@ -130,6 +135,7 @@
         {
             public readonly static Item Meekulbern = CreateItem("Meekulbern");
             public readonly static Item Ghee = CreateItem("Ghee");
+            public readonly static Item BarovianPlums = CreateItem("Barovian Plums");
         }
         internal static class Plant
         {
@@ -148,6 +154,7 @@
         {
             public readonly static Item Marion = CreateItem("Marion Robinsdottir's Robe of Blending");
             public readonly static Item Blend = CreateItem("Robe of Blending");
+            public readonly static Item Prot = CreateItem("Robe of Protection");
         }
         internal static class Brooch
         {
@@ -191,6 +198,7 @@
             public readonly static Item Mimicry = CreateItem("Staff of Mimicry");
             public readonly static Item Wither = CreateItem("Staff of Withering");
             public readonly static Item ThunderAndLightning = CreateItem("Staff of Thunder and Lightning");
+            public readonly static Item Woodlands = CreateItem("Staff of the Woodlands");
         }
         internal static class Scroll
         {
@@ -228,6 +236,8 @@
             public readonly static Item FireRes = CreateItem("Ring of Fire Resistance");
             public readonly static Item Impersonation = CreateItem("Ring of Impersonation");
             public readonly static Item MindShield = CreateItem("Ring of Mind Shielding");
+            public readonly static Item Wishes = CreateItem("Ring of Wishes");
+            public readonly static Item Blink = CreateItem("Ring of Blinking");
         }
         internal static class Wand
         {
@@ -311,6 +321,18 @@
             public readonly static Item ImbuingInstrumentsWithMagic = CreateItem("Imbuing Instruments With Magic");
 
             public readonly static Item TheasDiary = CreateItem("Thea`s Diary");
+
+            public readonly static Item Alteration = CreateItem("Alteration");
+            public readonly static Item Evocation = CreateItem("Evocation");
+            public readonly static Item CorpusLibram = CreateItem("Corpus Libram");
+            public readonly static Item GainfulDecay = CreateItem("Gainful Decay");
+            public readonly static Item HistoryDeathThay = CreateItem("History of Death in Thay");
+            public readonly static Item MachinationMortality = CreateItem("Machination of Mortality");
+            public readonly static Item TheNecroCompanion = CreateItem("The NecroCornpanion");
+            public readonly static Item NightbloodAutoNecrography = CreateItem("Nightblood: An Auto-Necrography");
+            public readonly static Item CatalogueUndead = CreateItem("Catalogue of Undead");
+            public readonly static Item DeathMagicks = CreateItem("Death Magicks");
+            public readonly static Item Necromancy = CreateItem("Necromancy");
         }
     }
 }

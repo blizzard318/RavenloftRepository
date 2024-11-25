@@ -28,7 +28,7 @@ public partial class Factory : IDisposable
         public readonly static Darklord HarkonLukas      = CreateDarklord("Harkon Lukas");
         public readonly static Darklord Klorr            = CreateDarklord("Klorr");
         public readonly static Darklord Adam             = CreateDarklord("Adam");
-        public readonly static Darklord Davion           = CreateDarklord("Davion");
+        public readonly static Darklord Davion           = CreateDarklord("Davion, Davion the Mad");
         public readonly static Darklord LyronEvensong    = CreateDarklord("Baron Lyron Evensong");
         public readonly static Darklord FrantisekMarkov  = CreateDarklord("Lord Frantisek Markov", "Frant Markov", "Diosamblet", "Master of Pain");
         public readonly static Darklord WilfredGodefroy  = CreateDarklord("Lord Wilfred Godefroy");
@@ -62,6 +62,8 @@ public partial class Factory : IDisposable
         public readonly static Darklord LeticiaMindefisk = CreateDarklord("Leticia Mindefisk");
         public readonly static Darklord LaveedaMindefisk = CreateDarklord("Laveeda Mindefisk");
         public readonly static Darklord LorindaMindefisk = CreateDarklord("Lorinda Mindefisk");
+        public readonly static Darklord JesterPuncheron  = CreateDarklord("Jester Puncheron");
+        public readonly static Darklord KingDoerdon      = CreateDarklord("King Doerdon");
         public readonly static Darklord TorrenceBleysmith = CreateDarklord("Sir Torrence Bleysmith");
     }
 }

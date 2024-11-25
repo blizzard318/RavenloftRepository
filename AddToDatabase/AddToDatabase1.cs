@@ -361,10 +361,10 @@ internal static partial class AddToDatabase
                 DomainEnum.Kartakass.AddItem(ItemEnum.Elixir.Mad, "486/750");
 
                 DomainEnum.Markovia.Appeared("487/750");
-                DomainEnum.Markovia.AddLivingCharacter(CharacterEnum.Ludmilla, "487/750").BindCreatures(Creature.Human)
+                DomainEnum.Markovia.AddLivingCharacter(CharacterEnum.LudmillaMarkov, "487/750").BindCreatures(Creature.Human)
                     .BindRelatedCreatures(Creature.Pig);
                 DomainEnum.Markovia.AddLivingDarklord(DarklordEnum.FrantisekMarkov, "487/750").BindAlignment(Alignment.LE)
-                    .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Pig).BindCharacters(CharacterEnum.Ludmilla);
+                    .BindCreatures(Creature.Human).BindRelatedCreatures(Creature.Pig).BindCharacters(CharacterEnum.LudmillaMarkov);
 
                 DomainEnum.GHenna.Appeared("488/750");
                 DomainEnum.GHenna.AddGroup(GroupEnum.Zhakata, "488/750").BindGroups(GroupEnum.Religion);

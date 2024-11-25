@@ -137,6 +137,19 @@ public partial class Factory : IDisposable
         public readonly static Character MyroslavVonZarovich = CreateCharacter("Myroslav Von Zarovich");
         public readonly static Character MarlenaLeibnik = CreateCharacter("Marlena Leibnik");
         public readonly static Character HansVonZarovich = CreateCharacter("Hans Von Zarovich");
+        public readonly static Character Anna = CreateCharacter("Anna");
+        public readonly static Character AnastasiaKartova = CreateCharacter("Anastasia Kartova");
+        public readonly static Character LudmillaKartova = CreateCharacter("Ludmilla Kartova");
+        public readonly static Character Petya = CreateCharacter("Petya");
+        public readonly static Character Yelena = CreateCharacter("Yelena");
+        public readonly static Character OlyaIvanova = CreateCharacter("Olya Ivanova");
+        public readonly static Character BurgomasterKartov = CreateCharacter("Burgomaster Boris Federovich Kartov");
+        public readonly static Character Andrei = CreateCharacter("Andrei");
+        public readonly static Character Maruschka = CreateCharacter("Maruschka");
+        public readonly static Character Lara = CreateCharacter("Lara");
+        public readonly static Character Keva = CreateCharacter("Keva");
+        public readonly static Character Ivan = CreateCharacter("Ivan");
+        public readonly static Character Pika = CreateCharacter("Pika");
         #endregion
 
         #region Blaustein
@@ -218,6 +231,7 @@ public partial class Factory : IDisposable
         public readonly static Character Narana = CreateCharacter("Narana");
         public readonly static Character Augustus = CreateCharacter("Augustus");
         public readonly static Character Boromar = CreateCharacter("Boromar");
+        public readonly static Character Loviatar = CreateCharacter("Boromar");
         #endregion
 
         #region Dementlieu
@@ -387,7 +401,7 @@ public partial class Factory : IDisposable
         #endregion
 
         #region Markovia
-        public readonly static Character Ludmilla = CreateCharacter("Ludmilla");
+        public readonly static Character LudmillaMarkov = CreateCharacter("Ludmilla Markov");
         public readonly static Character JurgenVastish = CreateCharacter("Jurgen Vastish");
         #endregion
 
@@ -755,6 +769,9 @@ public partial class Factory : IDisposable
         public readonly static Character Darak = CreateCharacter("Darak");
         public readonly static Character Jarak = CreateCharacter("Jarak");
         public readonly static Character WellisAndreman = CreateCharacter("Wellis Andreman");
+        public readonly static Character KaelNorbin = CreateCharacter("Kael Norbin", "Nightblood");
+        public readonly static Character Boris = CreateCharacter("Boris");
+        public readonly static Character Itzak = CreateCharacter("Itzak");
         #endregion
     }
 }

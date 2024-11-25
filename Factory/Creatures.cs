@@ -21,7 +21,7 @@
         public readonly static Trait Human = CreateCreature("Human");
 
         public readonly static Trait Elf = CreateCreature("Elf");
-        public readonly static Trait GoldenElf = CreateCreature("Golden Elf");
+        public readonly static Trait GoldenElf = CreateCreature("Golden Elf", "Gold Elf", "Sunrise Elf");
         public readonly static Trait HighElf = CreateCreature("High Elf");
         public readonly static Trait HalfElf = CreateCreature("Half-Elf");
 
@@ -425,7 +425,7 @@
         public readonly static Trait Vampyre = CreateCreature("Vampyre");
         public readonly static Trait Vampire = CreateCreature("Vampire", "Voishlacka", "Vroklok");
         public readonly static Trait JiangShi = CreateCreature("Jiang Shi", "Oriental Vampire");
-        public readonly static Trait Nosferatu = CreateCreature("Nosferatu");
+        public readonly static Trait Nosferatu = CreateCreature("Nosferatu", "Akara");
         public readonly static Trait Mummy = CreateCreature("Mummy");
         public readonly static Trait GreaterMummy = CreateCreature("Greater Mummy", "Anhktepot's Children");
         public readonly static Trait Ghoul = CreateCreature("Ghoul");
@@ -435,6 +435,7 @@
         public readonly static Trait Wight = CreateCreature("Wight");
         public readonly static Trait HalfWight = CreateCreature("Half-Wight");
         public readonly static Trait Lich = CreateCreature("Lich");
+        public readonly static Trait Dracolich = CreateCreature("Dracolich");
         public readonly static Trait Wichtlin = CreateCreature("Wichtlin");
         public readonly static Trait Revenant = CreateCreature("Revenant");
         public readonly static Trait DeathKnight = CreateCreature("Death Knight");
