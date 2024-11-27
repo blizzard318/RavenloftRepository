@@ -49,7 +49,7 @@ internal static partial class AddToDatabase
                 .BindCharacters(CharacterEnum.KolyanIndirovich);
             DomainEnum.Barovia.AddLocation(LocationEnum.BaroviaCemetery, "9, 11").BindCreatures(Creature.Spirit);
 
-            DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampnent, "11").BindLocations(LocationEnum.TserPool, LocationEnum.MadamEvasTent);
+            DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampment, "11").BindLocations(LocationEnum.TserPool, LocationEnum.MadamEvasTent);
             DomainEnum.Barovia.AddLocation(LocationEnum.TserPool, "11");
             DomainEnum.Barovia.AddLocation(LocationEnum.MadamEvasTent, "11");
             DomainEnum.Barovia.AddLocation(LocationEnum.RoadJunction, "11");
@@ -81,7 +81,7 @@ internal static partial class AddToDatabase
 
             #region Characters
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadamEva,"1, 6, 11, 32")
-                .BindLocations(Settlement.TserPoolEncampnent, LocationEnum.MadamEvasTent)
+                .BindLocations(Settlement.TserPoolEncampment, LocationEnum.MadamEvasTent)
                 .BindGroups(GroupEnum.Vistani, GroupEnum.Raunie)
                 .BindCreatures(Creature.Human)
                 .BindAlignment(Alignment.CN);
@@ -201,6 +201,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddItem(ItemEnum.IconOfRaven, "14");
             DomainEnum.Barovia.AddItem(ItemEnum.SymbolOfRaven, "17, 30").BindCreatures(Creature.Vampire);
             DomainEnum.Barovia.AddItem(ItemEnum.Book.TomeOfStrahd, "9, 11, 31");
+            DomainEnum.Barovia.AddItem(ItemEnum.StrahdCarriage, "11").BindCreatures(Creature.Horse);
 
             DomainEnum.Barovia.AddItem(ItemEnum.Book.EmbalmTheLostArt, "21").ExtraInfo = "Mundane Book";
             DomainEnum.Barovia.AddItem(ItemEnum.Book.LifeAmongUndead, "21").ExtraInfo = "Mundane Book";

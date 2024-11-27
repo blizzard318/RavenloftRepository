@@ -151,6 +151,7 @@ public partial class Factory : IDisposable
         public readonly static Character Ivan = CreateCharacter("Ivan");
         public readonly static Character Ivan2 = CreateCharacter("Ivan (2)");
         public readonly static Character Pika = CreateCharacter("Pika");
+        public readonly static Character Natasha = CreateCharacter("Natasha");
         #endregion
 
         #region Blaustein

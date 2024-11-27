@@ -121,11 +121,20 @@ internal static partial class AddToDatabase
             string ExtraInfo = "<br/>&emsp;Author: Christie Golden";
             using var ctx = CreateSource("Vampire of the Mists", releaseDate, ExtraInfo, Edition.e0, Media.novel); //Page 12 = 1
 
-            DomainEnum.Barovia.Appeared().BindCreatures(Creature.Horse, Creature.Wolf, Creature.Sheep, Creature.VistaChiri);
+            DomainEnum.Barovia.Appeared()
+                .BindCreatures(Creature.Horse, Creature.Wolf, Creature.Sheep, Creature.VistaChiri, Creature.Elf, Creature.GoldenElf, Creature.Squirrel, Creature.GrayFox, Creature.BrownHare, Creature.Deer);
 
-            DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "1-2, 24-25, 33, 43, 45, 48, 56").BindCreatures(Creature.Horse);
+            Creature.GrayFox.BindCreatures(Creature.Fox);
+            Creature.Rabbit.BindCreatures(Creature.Hare);
+
+            DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft)
+                .BindCharacters(DarklordEnum.CountStrahd, CharacterEnum.JanderSunstar, CharacterEnum.Natasha)
+                .BindCreatures(Creature.Horse, Creature.Vampire, Creature.Wolf)
+                .BindItems(ItemEnum.StrahdCarriage, ItemEnum.Book.CoatsOfArmsVonZarovich, ItemEnum.Book.SkinAndSteelHistoryBaalVerzi, ItemEnum.Book.LegendsFromTheCircle, ItemEnum.Book.TalesOfTheNight, ItemEnum.Book.ArtOfKalimarKandru, ItemEnum.Book.BaroviaYear15ToPresent, ItemEnum.Book.WordsOfWisdom);
             DomainEnum.Barovia.AddLocation(LocationEnum.OldSvalichRoad, "3").BindCreatures(Creature.Horse);
-            DomainEnum.Barovia.AddLocation(LocationEnum.SvalichWoods, "3").BindCreatures(Creature.Horse);
+            DomainEnum.Barovia.AddLocation(LocationEnum.SvalichWoods, "3, 83, 85")
+                .BindCreatures(Creature.Horse, Creature.Squirrel, Creature.GrayFox, Creature.BrownHare, Creature.Deer);
+            DomainEnum.Barovia.AddLocation(LocationEnum.BurgomasterHome, "26-27, 37, 63, 65-66").BindCreatures(Creature.Horse);
             DomainEnum.Barovia.AddLocation(LocationEnum.StoneCircle, "3, 28")
                 .BindCharacters(CharacterEnum.AnastasiaKartova, CharacterEnum.Petya)
                 .BindGroups(GroupEnum.HighPriestMostHoly)
@@ -139,48 +148,62 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddLocation(LocationEnum.MaruschkaVardo, "52-58")
                 .BindCharacters(CharacterEnum.Maruschka, CharacterEnum.Pika);
             DomainEnum.Barovia.AddLocation(LocationEnum.TserPool, "60");
+            DomainEnum.Barovia.AddLocation(LocationEnum.GatesOfBarovia, "71");
+            DomainEnum.Barovia.AddLocation(LocationEnum.BaroviaChurch, "82");
 
             DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampment, "39, 41, 44-61")
                 .BindLocations(LocationEnum.MaruschkaVardo)
-                .BindCharacters(CharacterEnum.Petya, CharacterEnum.Maruschka, CharacterEnum.Lara, CharacterEnum.Keva, CharacterEnum.MadamEva, CharacterEnum.Pika)
+                .BindCharacters(CharacterEnum.Petya, CharacterEnum.Maruschka, CharacterEnum.Lara, CharacterEnum.Keva, CharacterEnum.MadamEva, CharacterEnum.Pika, CharacterEnum.JanderSunstar)
                 .BindGroups(GroupEnum.Vistani, GroupEnum.Raunie);
             DomainEnum.Barovia.AddSettlement(Settlement.Barovia)
                 .BindCreatures(Creature.Wolf)
-                .BindLocations(LocationEnum.WolfsDen)
-                .BindCharacters(CharacterEnum.AnastasiaKartova, CharacterEnum.LudmillaKartova, CharacterEnum.Petya, CharacterEnum.Yelena, CharacterEnum.OlyaIvanova, CharacterEnum.BurgomasterKartov, CharacterEnum.Andrei, CharacterEnum.Ivan)
+                .BindLocations(LocationEnum.WolfsDen, LocationEnum.BurgomasterWay, LocationEnum.BurgomasterHome, LocationEnum.BaroviaChurch)
+                .BindCharacters(CharacterEnum.AnastasiaKartova, CharacterEnum.LudmillaKartova, CharacterEnum.Petya, CharacterEnum.Yelena, CharacterEnum.OlyaIvanova, CharacterEnum.BurgomasterKartov, CharacterEnum.Andrei, CharacterEnum.Ivan, CharacterEnum.Ivan2, CharacterEnum.JanderSunstar)
                 .BindGroups(GroupEnum.Burgomaster, GroupEnum.BurgomasterOfBarovia);
+            DomainEnum.Barovia.AddSettlement(Settlement.Vallaki, "81-82");
 
-            DomainEnum.Barovia.AddLivingDarklord(DarklordEnum.CountStrahd).BindRelatedCreatures(Creature.Wolf);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.JanderSunstar).BindCreatures(Creature.GoldenElf, Creature.Vampire).BindSetting(CampaignSetting.ForgottenRealms).BindRelatedCreatures(Creature.Wolf);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Anna, "1, 10-22, 27, 31, 58").BindGroups(GroupEnum.Tatyana).BindSetting(CampaignSetting.ForgottenRealms).BindDomains(DomainEnum.OutsideRavenloft);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.AnastasiaKartova, "26-29, 34, 36-38, 63-65");
+            DomainEnum.Barovia.AddLivingDarklord(DarklordEnum.CountStrahd)
+                .BindCreatures(Creature.Vampire).BindRelatedCreatures(Creature.Wolf, Creature.Horse)
+                .BindItems(ItemEnum.StrahdCarriage, ItemEnum.Book.CoatsOfArmsVonZarovich, ItemEnum.Book.SkinAndSteelHistoryBaalVerzi, ItemEnum.Book.LegendsFromTheCircle, ItemEnum.Book.TalesOfTheNight, ItemEnum.Book.ArtOfKalimarKandru, ItemEnum.Book.BaroviaYear15ToPresent, ItemEnum.Book.WordsOfWisdom);
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.JanderSunstar).BindCreatures(Creature.GoldenElf, Creature.Elf, Creature.Vampire, Creature.Bat, Creature.Wolf).BindSetting(CampaignSetting.ForgottenRealms).BindRelatedCreatures(Creature.Wolf);
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Anna, "1, 10-22, 27, 31, 58, 67-68, 71, 81-82, 90, 92").BindGroups(GroupEnum.Tatyana).BindSetting(CampaignSetting.ForgottenRealms).BindDomains(DomainEnum.OutsideRavenloft);
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.AnastasiaKartova, "26-29, 34, 36-38, 63-66");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.LudmillaKartova, "26, 63");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Petya, "27-45, 47-51, 54-57, 60-65")
                 .BindGroups(GroupEnum.Vistani).BindLanguages(Language.Vistani).BindRelatedCreatures(Creature.Horse);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Yelena, "27");
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Yelena, "27, 66");
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.OlyaIvanova, "32, 43, 49").BindCharacters(CharacterEnum.Ivan);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.BurgomasterKartov, "27-29, 33-36, 63-65").BindGroups(GroupEnum.Burgomaster, GroupEnum.BurgomasterOfBarovia).BindCharacters(CharacterEnum.AnastasiaKartova, CharacterEnum.LudmillaKartova);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Andrei, "33, 35");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Maruschka, "42, 46-58, 60-63").BindGroups(GroupEnum.Vistani).BindCharacters(CharacterEnum.Andrei).BindLanguages(Language.Vistani).BindRelatedCreatures(Creature.Horse, Creature.Crow, Creature.Raven);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Lara, "46-47").BindGroups(GroupEnum.Vistani);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Keva, "47").BindGroups(GroupEnum.Vistani);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadamEva, "47-49, 52-53, 59-62").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie);
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.MadamEva, "47-49, 52-53, 59-62, 66, 81").BindGroups(GroupEnum.Vistani, GroupEnum.Raunie);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Ivan, "32, 49");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Ivan2, "64-65");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Pika, "54").BindCharacters(CharacterEnum.Maruschka).BindCreatures(Creature.Crow, Creature.Raven).ExtraInfo = "It's a black bird";
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Natasha, "87-89, 91, 93");
 
             DomainEnum.Barovia.AddGroup(GroupEnum.HighPriestMostHoly, "1-3");
             DomainEnum.Barovia.AddGroup(GroupEnum.Tatyana).BindDomains(DomainEnum.OutsideRavenloft);
-            DomainEnum.Barovia.AddGroup(GroupEnum.Vistani, "27-65")
+            DomainEnum.Barovia.AddGroup(GroupEnum.Vistani, "27-66, 70, 76, 82-83, 86")
                 .BindLanguages(Language.Vistani)
                 .BindCreatures(Creature.VistaChiri, Creature.Horse, Creature.Dog, Creature.Goat, Creature.Chicken);
-            DomainEnum.Barovia.AddGroup(GroupEnum.Raunie, "47-49, 52-53, 59-60");
+            DomainEnum.Barovia.AddGroup(GroupEnum.Raunie, "47-49, 52-53, 59-62, 66");
             DomainEnum.Barovia.AddGroup(GroupEnum.Burgomaster, "27-29, 33-35").BindGroups(GroupEnum.BurgomasterOfBarovia);
             DomainEnum.Barovia.AddGroup(GroupEnum.BurgomasterOfBarovia, "27-29, 33-35");
 
             DomainEnum.Barovia.AddItem(ItemEnum.SymbolOfRaven, "1-2");
             DomainEnum.Barovia.AddItem(ItemEnum.Drink.Tuika, "31");
             DomainEnum.Barovia.AddItem(ItemEnum.Food.BarovianPlums, "47");
+            DomainEnum.Barovia.AddItem(ItemEnum.StrahdCarriage, "69-71, 88").BindCreatures(Creature.Horse);
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.CoatsOfArmsVonZarovich, "91");
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.SkinAndSteelHistoryBaalVerzi, "91-92");
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.LegendsFromTheCircle, "92");
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.TalesOfTheNight, "92");
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.ArtOfKalimarKandru, "92");
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.BaroviaYear15ToPresent, "92");
+            DomainEnum.Barovia.AddItem(ItemEnum.Book.WordsOfWisdom, "92-93");
         }
     }
 }

@@ -11,6 +11,8 @@
             GreatCat.ExtraInfo = BirdsOfPrey.ExtraInfo = "Other applicable animals can still qualify.";
 
             Hag.Creatures.Total.UnionWith(new[] { AnnisHag, GreenHag, SeaHag });
+
+            Hare.Creatures.Total.UnionWith(new[] { SnowshoeHare, BrownHare });
     }
         private static Trait CreateCreature(params string[] names)
         {
@@ -81,7 +83,7 @@
         public readonly static Trait Skullbird = CreateCreature("Skullbird");
         public readonly static Trait Goose = CreateCreature("Goose");
         #endregion
-
+        
         #region Small Mammals
         public readonly static Trait Bat = CreateCreature("Bat");
         public readonly static Trait VampireBat = CreateCreature("Vampire Bat");
@@ -95,7 +97,9 @@
         public readonly static Trait GiantRat = CreateCreature("Giant Rat");
         public readonly static Trait Mouse = CreateCreature("Mouse");
         public readonly static Trait Rabbit = CreateCreature("Rabbit");
+        public readonly static Trait Hare = CreateCreature("Hare");
         public readonly static Trait SnowshoeHare = CreateCreature("Snowshoe Hare");
+        public readonly static Trait BrownHare = CreateCreature("Brown Hare", "European Hare");
         public readonly static Trait Squirrel = CreateCreature("Squirrel");
         public readonly static Trait GroundSquirrel = CreateCreature("Ground Squirrel");
         public readonly static Trait Chipmunk = CreateCreature("Chipmunk");
@@ -120,6 +124,7 @@
         public readonly static Trait MistWolf = CreateCreature("Mist Wolf");
         public readonly static Trait WinterWolf = CreateCreature("Winter Wolf");
         public readonly static Trait Fox = CreateCreature("Fox");
+        public readonly static Trait GrayFox = CreateCreature("Gray Fox", "Grey Fox");
         public readonly static Trait Jackal = CreateCreature("Jackal");
         public readonly static Trait Monkey = CreateCreature("Monkey");
         public readonly static Trait Baboon = CreateCreature("Baboon");

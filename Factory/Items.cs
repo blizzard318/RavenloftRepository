@@ -38,6 +38,7 @@
         public readonly static Item IconOfRaven = CreateItem("Icon of Ravenloft");
         public readonly static Item StrahdMedallion = CreateItem("Strahd's Medallion");
         public readonly static Item StrahdCrystalBall = CreateItem("Strahd's Crystal Ball");
+        public readonly static Item StrahdCarriage = CreateItem("Strahd's Carriage");
 
         public readonly static Item SealOfLostArak = CreateItem("Seal of Lost Arak"); //Arak
         public readonly static Item StoneOfDeath = CreateItem("Stone of Death"); //Arak
@@ -333,6 +334,14 @@
             public readonly static Item CatalogueUndead = CreateItem("Catalogue of Undead");
             public readonly static Item DeathMagicks = CreateItem("Death Magicks");
             public readonly static Item Necromancy = CreateItem("Necromancy");
+
+            public readonly static Item CoatsOfArmsVonZarovich = CreateItem("Coats of Arms of the von Zarovich Line");
+            public readonly static Item SkinAndSteelHistoryBaalVerzi = CreateItem("Skin and Steel: A History of the Ba`al Verzi");
+            public readonly static Item LegendsFromTheCircle = CreateItem("Legends from the Circle");
+            public readonly static Item TalesOfTheNight = CreateItem("Tales of the Night");
+            public readonly static Item ArtOfKalimarKandru = CreateItem("The Art of Kalimar Kandru");
+            public readonly static Item BaroviaYear15ToPresent = CreateItem("Barovia: Year 15 to the Present");
+            public readonly static Item WordsOfWisdom = CreateItem("Words of Wisdom");
         }
     }
 }

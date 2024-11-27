@@ -17,13 +17,13 @@ public partial class Factory : IDisposable
 
         #region Barovia
         public readonly static Location CastleRavenloft = CreateLocation("Castle Ravenloft", "Castle Strahd");
-        public readonly static Location BaroviaChurch = CreateLocation("Church (Barovia)");
+        public readonly static Location BaroviaChurch = CreateLocation("Barovia Church");
         public readonly static Location BildrathMercantile = CreateLocation("Bildrath`s Mercantile");
         public readonly static Location BloodVineTavern = CreateLocation("Blood of the Vine Tavern", "Blood on the Vine Tavern");
         public readonly static Location MaryHouse = CreateLocation("Mad Mary`s Townhouse");
         public readonly static Location BurgomasterHome = CreateLocation("Burgomaster`s Home");
         public readonly static Location BurgomasterGuestHouse = CreateLocation("Burgomaster`s Guest House");
-        public readonly static Location BaroviaCemetery = CreateLocation("Cemetery (Barovia)");
+        public readonly static Location BaroviaCemetery = CreateLocation("Barovia Cemetery");
         public readonly static Location MadamEvasTent = CreateLocation("Madam Eva`s Tent");
         public readonly static Location OldSvalichRoad = CreateLocation("Old Svalich Road");
         public readonly static Location GatesOfBarovia = CreateLocation("Gates of Barovia");
@@ -32,7 +32,7 @@ public partial class Factory : IDisposable
         public readonly static Location IvlisRiver = RiverIvlis;
         public readonly static Location RiverLuna = CreateLocation("River Luna");
         public readonly static Location LunaRiver = RiverLuna;
-        public readonly static Location RoadJunction = CreateLocation("Road Junction (Barovia)");
+        public readonly static Location RoadJunction = CreateLocation("Barovia Road Junction");
         public readonly static Location TserFalls = CreateLocation("Tser Falls");
         public readonly static Location TserPool = CreateLocation("Tser Pool");
         public readonly static Location GatesOfRavenloft = CreateLocation("Gates of Ravenloft");
