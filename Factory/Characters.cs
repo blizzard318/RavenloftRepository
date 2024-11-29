@@ -152,6 +152,17 @@ public partial class Factory : IDisposable
         public readonly static Character Ivan2 = CreateCharacter("Ivan (2)");
         public readonly static Character Pika = CreateCharacter("Pika");
         public readonly static Character Natasha = CreateCharacter("Natasha");
+        public readonly static Character TormTheTrue = CreateCharacter("Torm the True", "Torm", "Torm the Brave", "Torm the Foolish");
+        public readonly static Character MartynPelkar = CreateCharacter("Martyn Pelkar", "Brother Martyn the Mad", "Mad Martyn", "Brother Martyn");
+        public readonly static Character HighPriestKir = CreateCharacter("Kir", "Most High Priest Kir");
+        public readonly static Character Vlad = CreateCharacter("Vlad");
+        public readonly static Character Mikhail = CreateCharacter("Mikhail");
+        public readonly static Character Irina = CreateCharacter("Irina");
+        public readonly static Character Igor = CreateCharacter("Igor");
+        public readonly static Character VladRastolnikov = CreateCharacter("Vlad Rastolnikov", "Ratty");
+        public readonly static Character KolyaKalinov = CreateCharacter("Kolya Kalinov");
+        public readonly static Character AlexiSashaPetrovich = CreateCharacter("Alexi Sasha Petrovich");
+        public readonly static Character PavelIvanovich = CreateCharacter("Pavel Ivanovich");
         #endregion
 
         #region Blaustein
@@ -713,7 +724,7 @@ public partial class Factory : IDisposable
         public readonly static Character Quebe = CreateCharacter("Quebe");
         public readonly static Character HoelgarArnutsson = CreateCharacter("Hoelgar Arnutsson");
         public readonly static Character RafeWillowand = CreateCharacter("Rafe Willowand");
-        public readonly static Character Lathander = CreateCharacter("Lathander");
+        public readonly static Character Lathander = CreateCharacter("Lathander", "Morninglord");
         public readonly static Character Almen = CreateCharacter("Almen");
         public readonly static Character Leilana = CreateCharacter("Leilana");
         public readonly static Character BrightGaelea = CreateCharacter("Bright Gaelea");

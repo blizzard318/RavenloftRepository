@@ -74,6 +74,6 @@
         public static readonly Trait Quevari = CreateLanguage("Quevari");
         public static readonly Trait Ravenkin = CreateLanguage("Ravenkin");
 
-        public static readonly Trait Vistani = CreateLanguage("Vistani");
+        public static readonly Trait Vistani = CreateLanguage("Vistani", "Patterna");
     }
 }

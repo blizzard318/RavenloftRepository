@@ -45,6 +45,9 @@ public partial class Factory : IDisposable
         public readonly static Location WolfsDen = CreateLocation("Wolf`s Den");
         public readonly static Location BurgomasterWay = CreateLocation("Burgomaster's Way");
         public readonly static Location MaruschkaVardo = CreateLocation("Maruschka`s Vardo");
+        public readonly static Location BaroviaBakery = CreateLocation("Barovia Bakery");
+        public readonly static Location BaroviaMarketStreet = CreateLocation("Barovia Market Street");
+        public readonly static Location BaroviaSeamstressShop = CreateLocation("Barovia Seamstress Shop");
         #endregion
 
         #region Blaustein
@@ -366,7 +369,7 @@ public partial class Factory : IDisposable
         public readonly static Location ArdentBay = CreateLocation("Ardent Bay");
         public readonly static Location WindwandAvenue = CreateLocation("Windwand Avenue");
         public readonly static Location GlenRoad = CreateLocation("Glen Road");
-        public readonly static Location MarketStreet = CreateLocation("Market Street");
+        public readonly static Location MordentMarketStreet = CreateLocation("Market Street");
         public readonly static Location Barracks = CreateLocation("Barracks (Mordentshire)");
         public readonly static Location Gaol = CreateLocation("Gaol (Mordentshire)");
         public readonly static Location HeatherWay = CreateLocation("Heather Way");

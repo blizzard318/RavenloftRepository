@@ -18,7 +18,7 @@ internal static partial class AddToDatabase
 
             DomainEnum.Barovia.AddLocation(LocationEnum.CastleRavenloft, "2, 7, 9").BindCharacters(DarklordEnum.CountStrahd);
             DomainEnum.Barovia.AddLocation(LocationEnum.TserPool, "8-12").BindGroups(GroupEnum.Vistani, GroupEnum.AishaVistani);
-            DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampnent, "9, 12").BindCharacters(CharacterEnum.MadamEva)
+            DomainEnum.Barovia.AddSettlement(Settlement.TserPoolEncampment, "9, 12").BindCharacters(CharacterEnum.MadamEva)
                 .BindGroups(GroupEnum.Vistani, GroupEnum.AishaVistani).BindLocations(LocationEnum.TserPool);
             DomainEnum.Barovia.AddLocation(LocationEnum.OldBonegrinder, "12");
 

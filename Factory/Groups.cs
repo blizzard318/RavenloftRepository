@@ -22,13 +22,14 @@
         public readonly static Group Religion = CreateGroup("Religion"); //Use this to hold groups
 
         public readonly static Group Vistani = CreateGroup("Vistani", "Gypsy");
-        public readonly static Group HalfVistani = CreateGroup("Half-Vistani");
+        public readonly static Group HalfVistani = CreateGroup("Half-Vistani", "Giomorgo", "Half-Gypsy");
         public readonly static Group Darkling = CreateGroup("Darkling");
         public readonly static Group Dukkar = CreateGroup("Dukkar");
         public readonly static Group Raunie = CreateGroup("Raunie");
 
         public readonly static Group AishaVistani = CreateGroup("Aisha`s group of Vistani");
         public readonly static Group VincenziaVistani = CreateGroup("Vincenzia`s group of Vistani");
+        public readonly static Group EvaVistani = CreateGroup("Eva`s group of Vistani");
 
         public readonly static Group Meistersinger = CreateGroup("Meistersinger");
         public readonly static Group EnduranceCrew = CreateGroup("Crew of the Endurance");
@@ -79,6 +80,7 @@
         public readonly static Group Malar = CreateGroup("Religion of Malar");
         public readonly static Group Weeshy = CreateGroup("Religion of Weeshy");
         public readonly static Group Loviatar = CreateGroup("Religion of Loviatar");
+        public readonly static Group TormTheTrue = CreateGroup("Religion of Torm");
 
         public readonly static Group Boritsi = CreateGroup("Boritsi Family");
         public readonly static Group dHonaire = CreateGroup("d`Honaire Family");
