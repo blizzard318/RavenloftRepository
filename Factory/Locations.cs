@@ -48,6 +48,7 @@ public partial class Factory : IDisposable
         public readonly static Location BaroviaBakery = CreateLocation("Barovia Bakery");
         public readonly static Location BaroviaMarketStreet = CreateLocation("Barovia Market Street");
         public readonly static Location BaroviaSeamstressShop = CreateLocation("Barovia Seamstress Shop");
+        public readonly static Location BaroviaPigPen = CreateLocation("Barovia Pig Pen");
         #endregion
 
         #region Blaustein

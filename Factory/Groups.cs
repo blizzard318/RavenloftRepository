@@ -34,6 +34,7 @@
         public readonly static Group Meistersinger = CreateGroup("Meistersinger");
         public readonly static Group EnduranceCrew = CreateGroup("Crew of the Endurance");
 
+        public readonly static Group LostOnes = CreateGroup("Lost Ones");
         public readonly static Group Boyar = CreateGroup("Boyar");
         public readonly static Group Burgomaster = CreateGroup("Burgomaster");
         public readonly static Group BurgomasterOfBarovia = CreateGroup("Burgomaster of Barovia");

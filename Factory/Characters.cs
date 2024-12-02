@@ -139,7 +139,7 @@ public partial class Factory : IDisposable
         public readonly static Character HansVonZarovich = CreateCharacter("Hans Von Zarovich");
         public readonly static Character Anna = CreateCharacter("Anna");
         public readonly static Character AnastasiaKartova = CreateCharacter("Anastasia Kartova");
-        public readonly static Character LudmillaKartova = CreateCharacter("Ludmilla Kartova");
+        public readonly static Character LudmillaKartova = CreateCharacter("Ludmilla Kartova", "Milla");
         public readonly static Character Petya = CreateCharacter("Petya");
         public readonly static Character Yelena = CreateCharacter("Yelena");
         public readonly static Character OlyaIvanova = CreateCharacter("Olya Ivanova");
@@ -159,10 +159,13 @@ public partial class Factory : IDisposable
         public readonly static Character Mikhail = CreateCharacter("Mikhail");
         public readonly static Character Irina = CreateCharacter("Irina");
         public readonly static Character Igor = CreateCharacter("Igor");
-        public readonly static Character VladRastolnikov = CreateCharacter("Vlad Rastolnikov", "Ratty");
+        public readonly static Character VladRastolnikov = CreateCharacter("Vladimir Rastolnikov", "Ratty");
         public readonly static Character KolyaKalinov = CreateCharacter("Kolya Kalinov");
-        public readonly static Character AlexiSashaPetrovich = CreateCharacter("Alexi Sasha Petrovich");
+        public readonly static Character AlexiSashaPetrovich = CreateCharacter("Alexi Sasha Petrovich", "Brother Sasha");
         public readonly static Character PavelIvanovich = CreateCharacter("Pavel Ivanovich");
+        public readonly static Character Cristina = CreateCharacter("Cristina");
+        public readonly static Character Leisl = CreateCharacter("Leisl", "Little Fox");
+        public readonly static Character KatrinaYakovlenaPulchenka = CreateCharacter("Katrina Yakovlena Pulchenka", "Katya", "Trina");
         #endregion
 
         #region Blaustein
