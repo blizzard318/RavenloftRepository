@@ -43,6 +43,7 @@
         public readonly static Group Tatyana = CreateGroup("Reincarnations of Tatyana");
         public readonly static Group HighPriestRavenloft = CreateGroup("High Priest of Ravenloft");
         public readonly static Group HighPriestMostHoly = CreateGroup("High Priest of the Most Holy Order");
+        public readonly static Group BaalVerzi = CreateGroup("Ba`al Verzi");
 
         public readonly static Group HighFaithOsterton = CreateGroup("Church of the High Faith in Osterton");
 
@@ -92,6 +93,7 @@
         public readonly static Group VonZarovich = CreateGroup("Von Zarovich Family");
         public readonly static Group Weathermay = CreateGroup("Weathermay Family");
         public readonly static Group Graben = CreateGroup("Graben Family");
+        public readonly static Group Kartov = CreateGroup("Kartov Family");
 
         public readonly static Group Solamnia = CreateGroup("Knights of Solamnia");
         public readonly static Group RoseKnights = CreateGroup("Knights of the Rose");

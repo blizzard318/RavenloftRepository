@@ -43,7 +43,7 @@ public partial class Factory : IDisposable
         #region Barovia
         public readonly static Character TaraKolyana = CreateCharacter("Tara Kolyana");
         public readonly static Character IreenaKolyana = CreateCharacter("Ireena Kolyana");
-        public readonly static Character Tatyana = CreateCharacter("Tatyana");
+        public readonly static Character Tatyana = CreateCharacter("Tatyana Federovna");
         public readonly static Character FatherDonavich = CreateCharacter("Father Donavich");
         public readonly static Character KingBarov = CreateCharacter("King Barov von Zarovich");
         public readonly static Character Ravenovia = CreateCharacter("Queen Ravenovia von Zarovich");
@@ -161,11 +161,18 @@ public partial class Factory : IDisposable
         public readonly static Character Igor = CreateCharacter("Igor");
         public readonly static Character VladRastolnikov = CreateCharacter("Vladimir Rastolnikov", "Ratty");
         public readonly static Character KolyaKalinov = CreateCharacter("Kolya Kalinov");
-        public readonly static Character AlexiSashaPetrovich = CreateCharacter("Alexi Sasha Petrovich", "Brother Sasha");
+        public readonly static Character AlexiSashaPetrovich = CreateCharacter("Alexi Sasha Petrovich", "Alexi Petrovich", "Brother Sasha");
         public readonly static Character PavelIvanovich = CreateCharacter("Pavel Ivanovich");
         public readonly static Character Cristina = CreateCharacter("Cristina");
         public readonly static Character Leisl = CreateCharacter("Leisl", "Little Fox");
         public readonly static Character KatrinaYakovlenaPulchenka = CreateCharacter("Katrina Yakovlena Pulchenka", "Katya", "Trina");
+        public readonly static Character Ivar = CreateCharacter("Ivar");
+        public readonly static Character BurgomasterRadavich = CreateCharacter("Burgomaster Nikolai Radavich");
+        public readonly static Character Marya = CreateCharacter("Marya");
+        public readonly static Character Shura = CreateCharacter("Shura");
+        public readonly static Character Yakov = CreateCharacter("Yakov");
+        public readonly static Character Anton = CreateCharacter("Anton");
+        public readonly static Character Marina = CreateCharacter("Marina");
         #endregion
 
         #region Blaustein

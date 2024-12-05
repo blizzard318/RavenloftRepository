@@ -39,6 +39,7 @@
         public readonly static Item StrahdMedallion = CreateItem("Strahd's Medallion");
         public readonly static Item StrahdCrystalBall = CreateItem("Strahd's Crystal Ball");
         public readonly static Item StrahdCarriage = CreateItem("Strahd's Carriage");
+        public readonly static Item HawksAndHares = CreateItem("Hawks and Hares", "Hawks & Hares");
 
         public readonly static Item SealOfLostArak = CreateItem("Seal of Lost Arak"); //Arak
         public readonly static Item StoneOfDeath = CreateItem("Stone of Death"); //Arak
@@ -82,6 +83,7 @@
         public readonly static Item BagOfHolding = CreateItem("Bag of Holding");
         public readonly static Item ChimeOfHunger = CreateItem("Chime of Hunger");
         public readonly static Item ObsidianSteed = CreateItem("Obsidian Steed");
+        public readonly static Item SunCup = CreateItem("Sun Cup");
 
         public readonly static Item LocketOfSealing = CreateItem("Locket of Sealing");
         public readonly static Item BracersOfDefense = CreateItem("Bracers of Defense");
