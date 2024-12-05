@@ -223,12 +223,12 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Igor, "123");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.VladRastolnikov, "129-130, 132, 153-154, 158-159");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.KolyaKalinov, "129-136, 152-154, 159, 165, 169");
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.AlexiSashaPetrovich, "129-136, 152-164, 168-169, 187-191, 202-207, 210-219, 221, 228-231, 260-266")
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.AlexiSashaPetrovich, "129-136, 152-164, 168-169, 187-191, 202-207, 210-219, 221, 228-231, 260-271")
                 .BindGroups(GroupEnum.HalfVistani,GroupEnum.Lathander).BindItems(ItemEnum.VialOfHolyWater);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.PavelIvanovich, "135, 157");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Cristina, "132, 153, 165, 188-190, 194-197").BindGroups(GroupEnum.Lathander);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Leisl, "165-169, 180, 213-219, 228-230").BindGroups(GroupEnum.Lathander);
-            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.KatrinaYakovlenaPulchenka, "167-169, 172-173, 176-181, 188-192, 206-208, 214-222, 229-233, 265")
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Leisl, "165-169, 180, 213-219, 228-230, 270-271").BindGroups(GroupEnum.Lathander);
+            DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.KatrinaYakovlenaPulchenka, "167-169, 172-173, 176-181, 188-192, 206-208, 214-222, 229-233, 265, 268")
                 .BindCreatures(Creature.Werewolf).BindGroups(GroupEnum.Lathander);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Ivar, "189").BindCharacters(CharacterEnum.Cristina);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.BurgomasterRadavich, "200-201")
@@ -247,7 +247,7 @@ internal static partial class AddToDatabase
 
             DomainEnum.Barovia.AddGroup(GroupEnum.HighPriestMostHoly, "1-3, 111, 249");
             DomainEnum.Barovia.AddGroup(GroupEnum.Tatyana).BindDomains(DomainEnum.OutsideRavenloft);
-            DomainEnum.Barovia.AddGroup(GroupEnum.Vistani, "27-66, 70, 76, 82-83, 86, 93, 103, 122-124, 153-154, 158-159, 166-168, 189, 191, 204-205, 220-221")
+            DomainEnum.Barovia.AddGroup(GroupEnum.Vistani, "27-66, 70, 76, 82-83, 86, 93, 103, 122-124, 153-154, 158-159, 166-168, 189, 191, 204-205, 220-221, 268")
                 .BindLanguages(Language.Vistani)
                 .BindCreatures(Creature.VistaChiri, Creature.Horse, Creature.Dog, Creature.Goat, Creature.Chicken, Creature.Sheep);
             DomainEnum.Barovia.AddGroup(GroupEnum.Raunie, "47-49, 52-53, 59-62, 66").BindGroups(GroupEnum.Vistani);
