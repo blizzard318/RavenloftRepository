@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-public partial class Factory : IDisposable
+﻿public partial class Factory : IDisposable
 {
     internal static class LocationEnum
     {
@@ -44,9 +42,9 @@ public partial class Factory : IDisposable
         public readonly static Location StoneCircle = CreateLocation("The Circle", "The Stone Circle");
         public readonly static Location WolfsDen = CreateLocation("Wolf`s Den");
         public readonly static Location BurgomasterWay = CreateLocation("Burgomaster's Way");
-        public readonly static Location MaruschkaVardo = CreateLocation("Maruschka`s Vardo");
         public readonly static Location BaroviaBakery = CreateLocation("Barovia Bakery");
         public readonly static Location BaroviaMarketStreet = CreateLocation("Barovia Market Street");
+        public readonly static Location BaroviaChurchStreet = CreateLocation("Barovia Church Street");
         public readonly static Location BaroviaSeamstressShop = CreateLocation("Barovia Seamstress Shop");
         public readonly static Location BaroviaPigPen = CreateLocation("Barovia Pig Pen");
         #endregion

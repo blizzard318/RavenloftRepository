@@ -119,7 +119,7 @@
 
         #region Medium Mammals
         public readonly static Trait Dog = CreateCreature("Dog", "Mastiff");
-        public readonly static Trait Wolf = CreateCreature("Wolf", "Grey Wolf", "Gray Wolf", "Black Wolf");
+        public readonly static Trait Wolf = CreateCreature("Wolf", "Grey Wolf", "Gray Wolf", "Black Wolf", "Gray Singer");
         public readonly static Trait DireWolf = CreateCreature("Dire Wolf");
         public readonly static Trait MistWolf = CreateCreature("Mist Wolf");
         public readonly static Trait WinterWolf = CreateCreature("Winter Wolf");

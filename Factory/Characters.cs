@@ -145,7 +145,7 @@ public partial class Factory : IDisposable
         public readonly static Character OlyaIvanova = CreateCharacter("Olya Ivanova");
         public readonly static Character BurgomasterKartov = CreateCharacter("Burgomaster Boris Federovich Kartov");
         public readonly static Character Andrei = CreateCharacter("Andrei");
-        public readonly static Character Maruschka = CreateCharacter("Maruschka");
+        public readonly static Character Maruschka = CreateCharacter("Maruschka", "Aunt `Ruschka", "Madame Maruschka");
         public readonly static Character Lara = CreateCharacter("Lara");
         public readonly static Character Keva = CreateCharacter("Keva");
         public readonly static Character Ivan = CreateCharacter("Ivan");
@@ -162,7 +162,7 @@ public partial class Factory : IDisposable
         public readonly static Character VladRastolnikov = CreateCharacter("Vladimir Rastolnikov", "Ratty");
         public readonly static Character KolyaKalinov = CreateCharacter("Kolya Kalinov");
         public readonly static Character AlexiSashaPetrovich = CreateCharacter("Alexi Sasha Petrovich", "Alexi Petrovich", "Brother Sasha");
-        public readonly static Character PavelIvanovich = CreateCharacter("Pavel Ivanovich");
+        public readonly static Character PavelIvanovich = CreateCharacter("Pavel Ivanovich", "Son of the Sun");
         public readonly static Character Cristina = CreateCharacter("Cristina");
         public readonly static Character Leisl = CreateCharacter("Leisl", "Little Fox");
         public readonly static Character KatrinaYakovlenaPulchenka = CreateCharacter("Katrina Yakovlena Pulchenka", "Katya", "Trina");
@@ -173,6 +173,10 @@ public partial class Factory : IDisposable
         public readonly static Character Yakov = CreateCharacter("Yakov");
         public readonly static Character Anton = CreateCharacter("Anton");
         public readonly static Character Marina = CreateCharacter("Marina");
+        public readonly static Character Fox = CreateCharacter("Fox");
+        public readonly static Character Giacomo = CreateCharacter("Giacomo");
+        public readonly static Character Mikhail2 = CreateCharacter("Mikhail (2)");
+        public readonly static Character Ilyana = CreateCharacter("Ilyana");
         #endregion
 
         #region Blaustein
