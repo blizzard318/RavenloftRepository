@@ -212,8 +212,7 @@ internal static partial class AddToDatabase
                 .BindGroups(GroupEnum.Lathander);
             DomainEnum.OutsideRavenloft.AddLivingCharacter(CharacterEnum.Lathander)
                 .BindGroups(GroupEnum.Deity, GroupEnum.Lathander).BindSetting(CampaignSetting.ForgottenRealms).BindItems(ItemEnum.SunCup);
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "111").BindCharacters(DarklordEnum.CountStrahd);
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.HighPriestKir, "1-3, 111, 249, 282, 289")
+            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.HighPriestKir, "1-3, 111, 249, 282, 289, 316")
                 .BindGroups(GroupEnum.HighPriestMostHoly).BindItems(ItemEnum.SymbolOfRaven);
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Vlad, "123");
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Mikhail, "123");
@@ -236,9 +235,9 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.KingBarov, "234-235, 241, 302-303").BindGroups(GroupEnum.VonZarovich);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Ravenovia, "234-235, 238, 241, 302-303").BindGroups(GroupEnum.VonZarovich);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Sturm, "235, 241-242, 303").BindGroups(GroupEnum.VonZarovich).BindCharacters(CharacterEnum.GisellaFallona);
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Sergei, "235-236, 238-245, 247, 249-256, 265, 303, 310-311")
+            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Sergei, "235-236, 238-245, 247, 249-256, 265, 303, 310-311, 321")
                 .BindGroups(GroupEnum.VonZarovich).BindCharacters(CharacterEnum.Tatyana);
-            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "236-237, 240-247, 249, 251, 254-256, 258-260, 265-266, 303, 310").BindGroups(GroupEnum.Tatyana);
+            DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Tatyana, "111, 236-237, 240-247, 249, 251, 254-256, 258-260, 265-266, 303, 310, 320-321").BindGroups(GroupEnum.Tatyana);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Yakov, "244-245");
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Anton, "253");
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.Marina, "258").BindGroups(GroupEnum.Tatyana);
@@ -248,7 +247,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddLivingCharacter(CharacterEnum.Ilyana, "276").BindGroups(GroupEnum.Vistani, GroupEnum.EvaVistani).BindCharacters(CharacterEnum.Petya, CharacterEnum.Mikhail2);
             DomainEnum.Barovia.AddDeadCharacter(CharacterEnum.GisellaFallona, "303");
 
-            DomainEnum.Barovia.AddGroup(GroupEnum.HighPriestMostHoly, "1-3, 111, 249, 282, 289");
+            DomainEnum.Barovia.AddGroup(GroupEnum.HighPriestMostHoly, "1-3, 111, 249, 282, 289, 316");
             DomainEnum.Barovia.AddGroup(GroupEnum.Tatyana).BindDomains(DomainEnum.OutsideRavenloft);
             DomainEnum.Barovia.AddGroup(GroupEnum.Vistani)
                 .BindLanguages(Language.Vistani)
@@ -264,10 +263,10 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddGroup(GroupEnum.LostOnes, "158, 170");
             DomainEnum.Barovia.AddGroup(GroupEnum.VonZarovich, "234-235, 238, 240, 242");
             DomainEnum.Barovia.AddGroup(GroupEnum.DarkPowers, "246-247");
-            DomainEnum.Barovia.AddGroup(GroupEnum.BaalVerzi, "91-92, 251-253, 297");
+            DomainEnum.Barovia.AddGroup(GroupEnum.BaalVerzi, "91-92, 251-253, 297, 319");
             DomainEnum.Barovia.AddGroup(GroupEnum.Kartov).BindCharacters(CharacterEnum.BurgomasterKartov, CharacterEnum.AnastasiaKartova, CharacterEnum.LudmillaKartova, CharacterEnum.AlexiSashaPetrovich);
 
-            DomainEnum.Barovia.AddItem(ItemEnum.SymbolOfRaven, "1-2, 120, 282, 284, 289, 307, 310-311, 314-316");
+            DomainEnum.Barovia.AddItem(ItemEnum.SymbolOfRaven, "1-2, 120, 282, 284, 289, 307, 310-311, 314-318, 320-321");
             DomainEnum.Barovia.AddItem(ItemEnum.Drink.Tuika, "31");
             DomainEnum.Barovia.AddItem(ItemEnum.Food.BarovianPlums, "47");
             DomainEnum.Barovia.AddItem(ItemEnum.StrahdCarriage, "69-71, 88, 193, 198-199").BindCreatures(Creature.Horse);
@@ -282,6 +281,7 @@ internal static partial class AddToDatabase
             DomainEnum.Barovia.AddItem(ItemEnum.VialOfHolyWater, "112, 261");
             DomainEnum.Barovia.AddItem(ItemEnum.HawksAndHares, "219-220, 222, 315");
             DomainEnum.Barovia.AddItem(ItemEnum.Book.TomeOfStrahd, "236-237");
+            //335
         }
     }
 }
